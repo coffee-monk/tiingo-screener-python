@@ -21,14 +21,14 @@ def calculate_BoS_CHoCH(df, swing_length=25):
     df = df.rename(columns={'BOS': 'BoS'}, errors='ignore')
     df = df.rename(columns={'CHOCH': 'CHoCH'}, errors='ignore')
     df = df.rename(columns={'Level': 'BoS_CHoCH_Price'}, errors='ignore')
-    df = df.rename(columns={'BrokenIndex': 'BoS_CHoCH_Candle'}, errors='ignore')
+    df = df.rename(columns={'BrokenIndex': 'BoS_CHoCH_Break_Index'}, errors='ignore')
     df = df.fillna(0)
-    
+
     return {
         'BoS': df['BoS'],
         'CHoCH': df['CHoCH'],
         'BoS_CHoCH_Price': df['BoS_CHoCH_Price'],
-        'BoS_CHoCH_Candle': df['BoS_CHoCH_Candle'] 
+        'BoS_CHoCH_Break_Index': df['BoS_CHoCH_Break_Index'] 
     }
 
 def calculate_indicator(df, **params):

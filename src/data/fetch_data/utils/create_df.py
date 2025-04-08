@@ -34,6 +34,6 @@ def create_df(data, time_period='daily'):
     df['date'] = pd.to_datetime(df['date'])
     df.set_index('date', inplace=True) 
 
-    print(df.head(10))
+    # print(df.head(10))
 
     return df

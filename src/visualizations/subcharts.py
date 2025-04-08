@@ -62,73 +62,106 @@ def subcharts(df_list, ticker='', show_volume=False):
         interval = detect_interval(df)
         df['date'] = df['date'].dt.strftime('%Y-%m-%d %H:%M:%S') # Format for display
 
-        # Fair Value Gaps (FVG) - Simplified Visualization -----------------------------------------------
+        # Fair Value Gaps (FVG) -----------------------------------------------
 
         if all(col in df.columns for col in ['FVG', 'FVG_Top', 'FVG_Bottom', 'FVG_Mitigated_Index']):
-            fvg_mask = df['FVG'] != 0
-            fvg_dates = df.loc[fvg_mask, 'date']
-            fvg_tops = df.loc[fvg_mask, 'FVG_Top']
-            fvg_bottoms = df.loc[fvg_mask, 'FVG_Bottom']
-            fvg_directions = df.loc[fvg_mask, 'FVG']
-            fvg_mitigations = df.loc[fvg_mask, 'FVG_Mitigated_Index']
-
-            # Track unmitigated FVGs to limit them
-            unmitigated_fvgs = []
+            # Get all FVG indices sorted by date (newest first)
+            fvg_indices = df[df['FVG'] != 0].index[::-1]
             
-            # First pass: Collect all unmitigated FVGs
-            for idx in df[fvg_mask].index:
-                mitigation_idx = int(df.loc[idx, 'FVG_Mitigated_Index'])
-                if mitigation_idx <= 0 or mitigation_idx >= len(df):
-                    unmitigated_fvgs.append(idx)
+            # Separate into mitigated and unmitigated
+            mitigated = []
+            unmitigated = []
             
-            # Only keep the most recent 5 unmitigated FVGs
-            if len(unmitigated_fvgs) > 5:
-                unmitigated_fvgs = unmitigated_fvgs[-5:]
-
-            # Second pass: Visualize only dashed FVG lines
-            for idx in df[fvg_mask].index:
-                start_date = df.loc[idx, 'date']
-                mitigation_idx = int(df.loc[idx, 'FVG_Mitigated_Index'])
-                
-                # Skip if this is an unmitigated FVG beyond our limit
-                if (mitigation_idx <= 0 or mitigation_idx >= len(df)) and idx not in unmitigated_fvgs:
-                    continue
-                    
-                # Determine end date
-                if mitigation_idx <= 0 or mitigation_idx >= len(df):
-                    end_date = df.iloc[-1]['date']  # Extend to last candle for unmitigated FVGs
+            for idx in fvg_indices:
+                mit_idx = int(df.loc[idx, 'FVG_Mitigated_Index'])
+                if 0 < mit_idx < len(df):
+                    mitigated.append(idx)
                 else:
-                    end_date = df.loc[mitigation_idx, 'date']  # Use mitigation candle
+                    unmitigated.append(idx)
+            
+            # Take limited number of most recent mitigated and unmitigated
+            show_indices = mitigated[:20] + unmitigated[:10]
+            
+            for idx in show_indices:
+                mit_idx = int(df.loc[idx, 'FVG_Mitigated_Index'])
+                level = 'FVG_Top' if df.loc[idx, 'FVG'] == 1 else 'FVG_Bottom'
+                color = 'rgba(39,157,130,0.5)' if df.loc[idx, 'FVG'] == 1 else 'rgba(200,97,100,0.5)'
+                end_date = (df.loc[mit_idx, 'date'] if 0 < mit_idx < len(df) 
+                           else df.iloc[-1]['date'])
+                
+                subchart.create_line(
+                    price_line=False,
+                    price_label=False,
+                    color=color,
+                    width=2,
+                    style='dashed'
+                ).set(pd.DataFrame({
+                    'date': [df.loc[idx, 'date'], end_date],
+                    'value': [df.loc[idx, level]] * 2
+                }))
 
-                # Color based on FVG direction
-                color = 'rgba(39,157,130,255)' if df.loc[idx, 'FVG'] == 1 else 'rgba(200,97,100,255)'
+        # Order Blocks (OB) ---------------------------------------------------
 
-                # Create only the relevant dashed line
-                if df.loc[idx, 'FVG'] == 1:  # Bullish FVG - show top line only
-                    line = subchart.create_line(
-                        price_line=False,
-                        price_label=False,
-                        color=color,
-                        width=1,
-                        style='dashed'
-                    )
-                    line.set(pd.DataFrame({
-                        'date': [start_date, end_date],
-                        'value': [df.loc[idx, 'FVG_Top'], df.loc[idx, 'FVG_Top']]
-                    }))
-                else:  # Bearish FVG - show bottom line only
-                    line = subchart.create_line(
-                        price_line=False,
-                        price_label=False,
-                        color=color,
-                        width=1,
-                        style='dashed'
-                    )
-                    line.set(pd.DataFrame({
-                        'date': [start_date, end_date],
-                        'value': [df.loc[idx, 'FVG_Bottom'], df.loc[idx, 'FVG_Bottom']]
-                    }))
- 
+        if all(col in df.columns for col in ['OB', 'OB_Top', 'OB_Bottom']):
+            for idx in df[df['OB'] != 0].index:
+                start_date = df.loc[idx, 'date']
+                
+                # Calculate midpoint between top and bottom
+                midpoint = (df.loc[idx, 'OB_Top'] + df.loc[idx, 'OB_Bottom']) / 2
+                
+                # Determine end date
+                end_date = (df.loc[mitigation_idx, 'date'] if 'OB_Mitigated_Index' in df.columns 
+                           and 0 < (mitigation_idx := int(df.loc[idx, 'OB_Mitigated_Index'])) < len(df)
+                           else df.iloc[-1]['date'])
+                
+                # Draw single wider midpoint line
+                subchart.create_line(
+                    price_line=False,
+                    price_label=False,
+                    color='rgba(39,157,130,0.4)' if df.loc[idx, 'OB'] == 1 else 'rgba(200,97,100,0.4)',
+                    width=10,  # Wider line
+                    style='solid'
+                ).set(pd.DataFrame({
+                    'date': [start_date, end_date],
+                    'value': [midpoint, midpoint]
+                }))
+
+        # BoS/CHoCH Visualization ---------------------------------------------
+
+        if all(col in df.columns for col in ['BoS', 'CHoCH', 'BoS_CHoCH_Price', 'BoS_CHoCH_Break_Index']):
+            # Get most recent 10 BoS/CHoCH events (combined)
+            events = df[(df['BoS'] != 0) | (df['CHoCH'] != 0)].index[-25:]
+            
+            for idx in events:
+                start_date = df.loc[idx, 'date']
+                break_idx = int(df.loc[idx, 'BoS_CHoCH_Break_Index'])
+                price = df.loc[idx, 'BoS_CHoCH_Price']
+                
+                # Determine end date
+                end_date = df.loc[break_idx, 'date'] if 0 < break_idx < len(df) else df.iloc[-1, 'date']
+                    
+                # Determine color and style based on event type and direction
+                if df.loc[idx, 'BoS'] != 0:  # Break of Structure
+                    color = 'rgba(39,157,130,0.75)' if df.loc[idx, 'BoS'] > 0 else 'rgba(200,97,100,0.75)'
+                    style = 'solid'
+                    width = 1  # Thinner lines for BoS
+                else:  # Change of Character
+                    color = 'rgba(39,157,130,0.75)' if df.loc[idx, 'CHoCH'] > 0 else 'rgba(200,97,100,0.75)'
+                    style = 'solid'  # Changed from dashed to solid for better visibility
+                    width = 1  # Thicker lines for CHoCH
+                    
+                # Create the line
+                subchart.create_line(
+                    price_line=False,
+                    price_label=False,
+                    color=color,
+                    width=width,
+                    style=style
+                ).set(pd.DataFrame({
+                    'date': [start_date, end_date],
+                    'value': [price, price]
+                }))
+
         # Peaks, Valleys, Gaps, aVWAPs ----------------------------------------
 
         # Dynamically find key points based on available columns
@@ -178,7 +211,8 @@ def subcharts(df_list, ticker='', show_volume=False):
             'supertrend_active': '#000000'  # black for reverse-active band
         }
  
-        # Plot Supertrend bands if columns exist
+        # Plot Supertrend bands if columns exist ------------------------------
+
         if all(col in df.columns for col in ['Supertrend_Upper', 'Supertrend_Lower', 'Supertrend_Direction']):
             # Upper band (resistance in downtrend)
             upper_line = subchart.create_line(
@@ -212,7 +246,8 @@ def subcharts(df_list, ticker='', show_volume=False):
             )
             active_line.set(df[['date']].assign(value=active_supertrend))
  
-        # Plot all SMA_* columns as blue lines
+        # Plot Simple Moving Average (SMA) ------------------------------------
+
         sma_cols = [col for col in df.columns if col.startswith('SMA_')]
         for sma_col in sma_cols:
             sma_line = subchart.create_line(
@@ -247,7 +282,8 @@ def subcharts(df_list, ticker='', show_volume=False):
                                               color=line_colors['avg'], width=10.0)
                 avg_line.set(df[['date', 'aVWAP_avg']].rename(columns={'aVWAP_avg': 'value'}))
 
-        # Format + add chart elements
+        # Format + Set Chart ==================================================
+
         subchart.fit()
         subchart.topbar.button('max', 'FULLSCREEN', align='left', separator=True, func=lambda c=subchart: on_max(c, charts))
         subchart.topbar.textbox('ticker', f"{ticker}")
@@ -256,7 +292,8 @@ def subcharts(df_list, ticker='', show_volume=False):
         subchart.price_line(True, False)
         subchart.price_scale(scale_margin_top=0.05, scale_margin_bottom=0.05)
         subchart.volume_config(up_color=line_colors['peaks'], down_color=line_colors['peaks'], scale_margin_bottom=0.0, scale_margin_top=1.0)
-        if show_volume!=True: df = df.drop(columns=['volume'])
+        # if show_volume!=True: df = df.drop(columns=['volume'])
+        if not show_volume: df = df.drop(columns=['volume']) 
         
         subchart.set(df)
 

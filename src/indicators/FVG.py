@@ -24,6 +24,7 @@ def calculate_fvg(df):
 
     print(df.columns)
     print(df.head(10))
+    print(df[df['FVG']==1|-1])
 
     return {
         'FVG': df['FVG'],
