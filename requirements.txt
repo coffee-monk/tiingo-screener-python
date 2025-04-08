@@ -7,11 +7,13 @@ fonttools==4.56.0
 idna==3.10
 kiwisolver==1.4.8
 lightweight-charts==2.1
+llvmlite==0.41.1
 matplotlib==3.10.1
 mplfinance==0.12.10b0
-numpy==2.2.3
+numba==0.58.1
+numpy==1.24.3
 packaging==24.2
-pandas==2.2.3
+pandas==2.0.2
 pillow==11.1.0
 proxy-tools==0.1.0
 pycairo==1.27.0
@@ -33,6 +35,7 @@ pywebview==5.4
 QtPy==2.4.3
 requests==2.32.3
 six==1.17.0
+smartmoneyconcepts==0.0.26
 ta==0.11.0
 tiingo==0.15.6
 typing_extensions==4.13.0
