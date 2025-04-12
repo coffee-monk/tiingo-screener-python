@@ -188,9 +188,7 @@ def subcharts(df_list, ticker='', show_volume=False):
                     'value': [level, level]  # Constant price level
                 }))
 
-        # Peaks, Valleys, Gaps, aVWAPs ----------------------------------------
-
-        # Plot aVWAP Channel --------------------------------------------------
+        # Plot aVWAP Channel (peaks/valleys, gapsup/gapsdown, avg) ------------
 
         avwap_cols = [col for col in df.columns if col.startswith('aVWAP_') and not col.endswith('_avg')]
         

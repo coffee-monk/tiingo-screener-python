@@ -34,7 +34,7 @@ df1 = fetch_data(time_period='h',
 
 # Indicators ------------------------------------
 
-df1 = get_indicators(df1, ['aVWAP_Channel'], {'peaks_valleys': {'window_size': 200}})
+df1 = get_indicators(df1, ['aVWAP_Channel'], {'aVWAP_Channel': {'window_size': 200}})
 # df2 = get_indicators(df2, ['BoS_CHoCH', 'FVG', 'OB'], {'peaks_valleys': {'window_size': 50}})
 # df3 = get_indicators(df3, ['BoS_CHoCH', 'FVG', 'OB'], {'peaks_valleys': {'window_size': 150}})
 # df4 = get_indicators(df4, ['BoS_CHoCH', 'FVG', 'OB'], {'peaks_valleys': {'window_size': 120}})
