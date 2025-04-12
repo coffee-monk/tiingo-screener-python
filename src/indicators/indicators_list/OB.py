@@ -25,10 +25,6 @@ def calculate_ob(df, swing_length=25):
     df = df.rename(columns={'MitigatedIndex': 'OB_Mitigated_Index'}, errors='ignore')
     df = df.fillna(0)
 
-    # print(df.columns)
-    # print(df.head(10))
-    # print(df[df['OB']==1|-1])
-    
     return {
         'OB': df['OB'],
         'OB_Top': df['OB_Top'],

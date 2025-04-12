@@ -20,7 +20,7 @@ def get_indicators(df, indicator_names, indicator_params=None):
 
     for indicator_name in indicator_names:
         # Dynamically import the indicator module
-        module = importlib.import_module(f"src.indicators.{indicator_name}")
+        module = importlib.import_module(f"src.indicators.indicators_list.{indicator_name}")
         
         # Get parameters for the current indicator (if any)
         params = indicator_params.get(indicator_name, {})

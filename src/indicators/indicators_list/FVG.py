@@ -22,10 +22,6 @@ def calculate_fvg(df):
     df = df.rename(columns={'MitigatedIndex': 'FVG_Mitigated_Index'}, errors='ignore')
     df = df.fillna(0)
 
-    print(df.columns)
-    print(df.head(10))
-    print(df[df['FVG']==1|-1])
-
     return {
         'FVG': df['FVG'],
         'FVG_Top': df['FVG_Top'],

@@ -4,15 +4,6 @@ from lightweight_charts import Chart
 from src.visualizations.utils.detect_interval import detect_interval
 import time
 
-def calculate_avwap(df, anchor_index):
-    """Calculate anchored VWAP (same as before)"""
-    df_anchored = df.iloc[anchor_index:].copy()
-    df_anchored['cumulative_volume'] = df_anchored['volume'].cumsum()
-    df_anchored['cumulative_volume_price'] = (df_anchored['volume'] * 
-        (df_anchored['high'] + df_anchored['low'] + df_anchored['close']) / 3).cumsum()
-    df_anchored['avwap'] = df_anchored['cumulative_volume_price'] / df_anchored['cumulative_volume']
-    return df_anchored['avwap']
-
 def on_max(target_chart, charts):
     """
     Handle the maximize/restore button click event
@@ -44,6 +35,19 @@ def subcharts(df_list, ticker='', show_volume=False):
         main_chart.create_subchart(width=0.5, height=0.5, position='left'),
         main_chart.create_subchart(width=0.5, height=0.5, position='right')
     ]
+
+    # Price line colors
+    alpha = 0.25
+    line_colors = {
+        'aVWAP': f"rgba(255,165,0,{alpha})",
+        'peaks': f"rgba(255,165,0,{alpha})",
+        'gaps': f"rgba(100,100,100,{alpha}-0.25)",
+        'avg': f"rgba(255,165,0,{alpha})",
+        'sma': '#87CEEB',  # Sky blue for SMAs
+        'supertrend_upper': '#D2042D',  # Red for upper band
+        'supertrend_lower': '#0BDA51',  # Green for lower band
+        'supertrend_active': '#000000'  # black for reverse-active band
+    }
 
     for i, (df, subchart) in enumerate(zip(df_list, charts)):
         # Rename columns and ensure datetime format
@@ -162,55 +166,55 @@ def subcharts(df_list, ticker='', show_volume=False):
                     'value': [price, price]
                 }))
 
+        # Liquidity Level Visualization ---------------------------------------
+
+        if all(col in df.columns for col in ['Liquidity', 'Liquidity_Level']):
+            # Get all liquidity events (both bullish and bearish)
+            liquidity_events = df[df['Liquidity'] != 0]
+            
+            for idx in liquidity_events.index:
+                level = df.loc[idx, 'Liquidity_Level']
+                direction = df.loc[idx, 'Liquidity']
+                
+                # Create horizontal line spanning full chart
+                subchart.create_line(
+                    price_line=False,
+                    price_label=False,
+                    color='rgba(255,255,0,0.25)',
+                    width=1,
+                    style='solid'
+                ).set(pd.DataFrame({
+                    'date': [df.iloc[0]['date'], df.iloc[-1]['date']],  # Full chart width
+                    'value': [level, level]  # Constant price level
+                }))
+
         # Peaks, Valleys, Gaps, aVWAPs ----------------------------------------
 
-        # Dynamically find key points based on available columns
-        anchor_points = []
-       
-        # Check for and add peaks if column exists
-        if 'Peaks' in df.columns:
-            peaks = df[df['Peaks'] == 1].index.tolist()
-            anchor_points.extend(peaks)
-       
-        # Check for and add valleys if column exists
-        if 'Valleys' in df.columns:
-            valleys = df[df['Valleys'] == 1].index.tolist()
-            anchor_points.extend(valleys)
-       
-        # Check for and add gaps if columns exist
-        if 'Gap_Up' in df.columns:
-            gaps_up = df[df['Gap_Up'] == 1].index.tolist()
-            anchor_points.extend(gaps_up)
-        if 'Gap_Down' in df.columns:
-            gaps_down = df[df['Gap_Down'] == 1].index.tolist()
-            anchor_points.extend(gaps_down)
+        # Plot aVWAP Channel --------------------------------------------------
 
-        # Calculate aVWAPs only if we have anchor points
-        avwap_columns = {}
-        if anchor_points:
-            avwap_columns = {
-                f'avwap_{i}': calculate_avwap(df, i)
-                for i in anchor_points
-            }
-            df = pd.concat([df, pd.DataFrame(avwap_columns)], axis=1)
-           
-            # Calculate average only if we have aVWAP columns
-            avwap_cols = [c for c in df.columns if c.startswith('avwap_')]
-            if avwap_cols:
-                df['aVWAP_avg'] = df[avwap_cols].mean(axis=1)
+        avwap_cols = [col for col in df.columns if col.startswith('aVWAP_') and not col.endswith('_avg')]
+        
+        if avwap_cols:
+            # Plot all aVWAP lines
+            for col in avwap_cols:
+                avwap_line = subchart.create_line(
+                    price_line=False,
+                    price_label=False,
+                    color=line_colors['aVWAP'],
+                    width=1
+                )
+                avwap_line.set(df[['date', col]].rename(columns={col: 'value'}))
+            
+            # Plot average line if it exists
+            if 'aVWAP_avg' in df.columns:
+                avg_line = subchart.create_line(
+                    price_line=False,
+                    price_label=False,
+                    color=line_colors['aVWAP'],
+                    width=2  # Slightly thicker for average line
+                )
+                avg_line.set(df[['date', 'aVWAP_avg']].rename(columns={'aVWAP_avg': 'value'}))
 
-        # Price line colors
-        alpha = 0.5
-        line_colors = {
-            'peaks': f"rgba(255,165,0,{alpha})",
-            'gaps': f"rgba(100,100,100,{alpha}-0.25)",
-            'avg': f"rgba(255,165,0,{alpha})",
-            'sma': '#87CEEB',  # Sky blue for SMAs
-            'supertrend_upper': '#D2042D',  # Red for upper band
-            'supertrend_lower': '#0BDA51',  # Green for lower band
-            'supertrend_active': '#000000'  # black for reverse-active band
-        }
- 
         # Plot Supertrend bands if columns exist ------------------------------
 
         if all(col in df.columns for col in ['Supertrend_Upper', 'Supertrend_Lower', 'Supertrend_Direction']):
@@ -258,30 +262,6 @@ def subcharts(df_list, ticker='', show_volume=False):
             )
             sma_line.set(df[['date', sma_col]].rename(columns={sma_col: 'value'}))
  
-        # Plot aVWAP lines if we have anchor points
-        if anchor_points:
-            for idx in anchor_points:
-                # Determine line color based on which marker was found
-                if 'Peaks' in df.columns and idx in peaks:
-                    color = line_colors['peaks']
-                elif 'Valleys' in df.columns and idx in valleys:
-                    color = line_colors['peaks']  # same as peaks
-                elif ('Gap_Up' in df.columns and idx in gaps_up) or \
-                     ('Gap_Down' in df.columns and idx in gaps_down):
-                    color = line_colors['gaps']
-                else:
-                    continue
-                   
-                avwap_line = subchart.create_line(price_line=False, price_label=False, 
-                                                color=color)
-                avwap_line.set(df[['date', f'avwap_{idx}']].rename(columns={f'avwap_{idx}': 'value'}))
- 
-            # Plot average line if it exists
-            if 'aVWAP_avg' in df.columns:
-                avg_line = subchart.create_line(price_line=False, price_label=False,
-                                              color=line_colors['avg'], width=10.0)
-                avg_line.set(df[['date', 'aVWAP_avg']].rename(columns={'aVWAP_avg': 'value'}))
-
         # Format + Set Chart ==================================================
 
         subchart.fit()
@@ -292,9 +272,11 @@ def subcharts(df_list, ticker='', show_volume=False):
         subchart.price_line(True, False)
         subchart.price_scale(scale_margin_top=0.05, scale_margin_bottom=0.05)
         subchart.volume_config(up_color=line_colors['peaks'], down_color=line_colors['peaks'], scale_margin_bottom=0.0, scale_margin_top=1.0)
-        # if show_volume!=True: df = df.drop(columns=['volume'])
         if not show_volume: df = df.drop(columns=['volume']) 
         
+        # print(df.columns)
+        # print(df.head(10))
+        # print(df.tail(10))
         subchart.set(df)
 
     main_chart.show(block=True)
