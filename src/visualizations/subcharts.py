@@ -1,3 +1,4 @@
+import sys
 import pandas as pd
 import numpy as np
 from lightweight_charts import Chart
@@ -270,6 +271,7 @@ def subcharts(df_list, ticker='', show_volume=False):
         subchart.hotkey(None, '3', lambda key='3': maximize_minimize_hotkey(charts, key))
         subchart.hotkey(None, '4', lambda key='4': maximize_minimize_hotkey(charts, key))
         subchart.hotkey(None, ' ', lambda key=' ': maximize_minimize_hotkey(charts, key)) # ' ' = spacebar
+        subchart.hotkey('ctrl', 'c', lambda: sys.exit(0)) # exit python app
         
         # print(df.columns)
         # print(df.head(10))
@@ -286,8 +288,8 @@ def maximize_minimize_button(target_chart, charts):
     if button.value == 'MINIMIZE':
 
         # Reset all charts to normal size
-        dimensions = get_default_chart_dimensions()
-        for chart, (width, height) in zip(charts, dimensions[len(charts)]):
+        default_chart_dimensions = get_default_chart_dimensions()
+        for chart, (width, height) in zip(charts, default_chart_dimensions[len(charts)]):
             chart.resize(width, height)
             chart.fit()
         button.set('FULLSCREEN')
@@ -302,8 +304,8 @@ def maximize_minimize_hotkey(charts, key):
         """Maximize the specified chart (1-4) or reset all (space)"""
         if key == ' ':
             # Reset all charts to normal size
-            dimensions = get_default_chart_dimensions()
-            for chart, (width, height) in zip(charts, dimensions[len(charts)]):
+            default_chart_dimensions = get_default_chart_dimensions()
+            for chart, (width, height) in zip(charts, default_chart_dimensions[len(charts)]):
                 chart.resize(width, height)
                 chart.fit()
             for chart in charts:

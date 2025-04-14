@@ -29,4 +29,3 @@ def calculate_liquidity(df, swing_length=25, range_percent=0.1):
 
 def calculate_indicator(df, **params):
     return calculate_liquidity(df, **params)
-
