@@ -12,7 +12,7 @@ API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
 ticker = 'SPY' ; start_date = '2022-08-13'
 # ticker = 'QQQ' ; start_date = '2023-08-27'
 
-df1 = fetch_data(time_period='d',
+df1 = fetch_data(time_period='w',
                 ticker=ticker,
                 start_date=start_date,
                 api_key=API_KEY)
