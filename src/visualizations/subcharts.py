@@ -4,44 +4,20 @@ from lightweight_charts import Chart
 from src.visualizations.utils.detect_interval import detect_interval
 import time
 
-def on_max(target_chart, charts):
-    """
-    Handle the maximize/restore button click event
-    """
-    button = target_chart.topbar['max']
-    if button.value == 'MINIMIZE':
-        [c.resize(0.5, 0.5) for c in charts]
-        button.set('FULLSCREEN')
-    else:
-        for chart in charts:
-            width, height = (1.0, 1.0) if chart == target_chart else (0.0, 0.0)
-            chart.resize(width, height)
-            chart.fit()
-        button.set('MINIMIZE')
-
 def subcharts(df_list, ticker='', show_volume=False):
     """
     Visualize 4 different DataFrames with automatic interval detection.
     Now includes both Upper and Lower Supertrend bands, SMA, peaks/valleys/gap columns.
     """
-    if len(df_list) != 4:
-        raise ValueError("The input must be a list of exactly 4 DataFrames.")
 
-    # Create main chart and subcharts
-    main_chart = Chart(inner_width=0.5, inner_height=0.5, maximize=True)
-    charts = [
-        main_chart,
-        main_chart.create_subchart(width=0.5, height=0.5, position='left'),
-        main_chart.create_subchart(width=0.5, height=0.5, position='left'),
-        main_chart.create_subchart(width=0.5, height=0.5, position='right')
-    ]
+    main_chart, charts = get_chart_layout(df_list)
 
     # Price line colors
-    alpha = 0.25
+    alpha = 0.5
     line_colors = {
         'aVWAP': f"rgba(255,165,0,{alpha})",
         'peaks': f"rgba(255,165,0,{alpha})",
-        'gaps': f"rgba(100,100,100,{alpha}-0.25)",
+        'gaps': f"rgba(100,100,100,{alpha})",
         'avg': f"rgba(255,165,0,{alpha})",
         'sma': '#87CEEB',  # Sky blue for SMAs
         'supertrend_upper': '#D2042D',  # Red for upper band
@@ -181,37 +157,52 @@ def subcharts(df_list, ticker='', show_volume=False):
                     price_line=False,
                     price_label=False,
                     color='rgba(255,255,0,0.25)',
-                    width=1,
+                    width=3,
                     style='solid'
                 ).set(pd.DataFrame({
                     'date': [df.iloc[0]['date'], df.iloc[-1]['date']],  # Full chart width
                     'value': [level, level]  # Constant price level
                 }))
 
-        # Plot aVWAP Channel (peaks/valleys, gapsup/gapsdown, avg) ------------
-
-        avwap_cols = [col for col in df.columns if col.startswith('aVWAP_') and not col.endswith('_avg')]
+        # Plot aVWAP Channel (peaks/valleys, gaps, avg, gaps_avg) ------------
         
-        if avwap_cols:
-            # Plot all aVWAP lines
-            for col in avwap_cols:
-                avwap_line = subchart.create_line(
-                    price_line=False,
-                    price_label=False,
-                    color=line_colors['aVWAP'],
-                    width=1
-                )
-                avwap_line.set(df[['date', col]].rename(columns={col: 'value'}))
-            
-            # Plot average line if it exists
-            if 'aVWAP_avg' in df.columns:
-                avg_line = subchart.create_line(
-                    price_line=False,
-                    price_label=False,
-                    color=line_colors['aVWAP'],
-                    width=2  # Slightly thicker for average line
-                )
-                avg_line.set(df[['date', 'aVWAP_avg']].rename(columns={'aVWAP_avg': 'value'}))
+        # Plot individual aVWAP lines (from peaks/valleys)
+        avwap_cols = [col for col in df.columns if col.startswith('aVWAP_') and not col.endswith('_avg')]
+        for col in avwap_cols:
+            subchart.create_line(
+                price_line=False,
+                price_label=False,
+                color=line_colors['aVWAP'],
+                width=1
+            ).set(df[['date', col]].rename(columns={col: 'value'}))
+        
+        # Plot individual Gap_aVWAP lines (from gaps)
+        gap_avwap_cols = [col for col in df.columns if col.startswith('Gap_aVWAP_') and not col.endswith('_avg')]
+        for col in gap_avwap_cols:
+            subchart.create_line(
+                price_line=False,
+                price_label=False,
+                color=line_colors['gaps'],
+                width=1
+            ).set(df[['date', col]].rename(columns={col: 'value'}))
+        
+        # Plot averages if they exist
+
+        if 'aVWAP_avg' in df.columns:
+            subchart.create_line(
+                price_line=False,
+                price_label=False,
+                color=line_colors['aVWAP'],
+                width=6  # Thicker line for average
+            ).set(df[['date', 'aVWAP_avg']].rename(columns={'aVWAP_avg': 'value'}))
+        
+        if 'Gap_aVWAP_avg' in df.columns:
+            subchart.create_line(
+                price_line=False,
+                price_label=False,
+                color=line_colors['gaps'],
+                width=6  
+            ).set(df[['date', 'Gap_aVWAP_avg']].rename(columns={'Gap_aVWAP_avg': 'value'}))
 
         # Plot Supertrend bands if columns exist ------------------------------
 
@@ -262,8 +253,9 @@ def subcharts(df_list, ticker='', show_volume=False):
  
         # Format + Set Chart ==================================================
 
+        # Chart Layout
         subchart.fit()
-        subchart.topbar.button('max', 'FULLSCREEN', align='left', separator=True, func=lambda c=subchart: on_max(c, charts))
+        subchart.topbar.button('max', 'FULLSCREEN', align='left', separator=True, func=lambda c=subchart: maximize_minimize_button(c, charts))
         subchart.topbar.textbox('ticker', f"{ticker}")
         subchart.topbar.textbox('interval', f"{interval}")
         subchart.grid(False, False)
@@ -271,6 +263,13 @@ def subcharts(df_list, ticker='', show_volume=False):
         subchart.price_scale(scale_margin_top=0.05, scale_margin_bottom=0.05)
         subchart.volume_config(up_color=line_colors['peaks'], down_color=line_colors['peaks'], scale_margin_bottom=0.0, scale_margin_top=1.0)
         if not show_volume: df = df.drop(columns=['volume']) 
+
+        # Hotkeys
+        subchart.hotkey(None, '1', lambda key='1': maximize_minimize_hotkey(charts, key))
+        subchart.hotkey(None, '2', lambda key='2': maximize_minimize_hotkey(charts, key))
+        subchart.hotkey(None, '3', lambda key='3': maximize_minimize_hotkey(charts, key))
+        subchart.hotkey(None, '4', lambda key='4': maximize_minimize_hotkey(charts, key))
+        subchart.hotkey(None, ' ', lambda key=' ': maximize_minimize_hotkey(charts, key)) # ' ' = spacebar
         
         # print(df.columns)
         # print(df.head(10))
@@ -278,3 +277,84 @@ def subcharts(df_list, ticker='', show_volume=False):
         subchart.set(df)
 
     main_chart.show(block=True)
+
+def maximize_minimize_button(target_chart, charts):
+    """
+    Handle the maximize/restore button click event
+    """
+    button = target_chart.topbar['max']
+    if button.value == 'MINIMIZE':
+
+        # Reset all charts to normal size
+        dimensions = get_default_chart_dimensions()
+        for chart, (width, height) in zip(charts, dimensions[len(charts)]):
+            chart.resize(width, height)
+            chart.fit()
+        button.set('FULLSCREEN')
+    else:
+        for chart in charts:
+            width, height = (1.0, 1.0) if chart == target_chart else (0.0, 0.0)
+            chart.resize(width, height)
+            chart.fit()
+        button.set('MINIMIZE')
+
+def maximize_minimize_hotkey(charts, key):
+        """Maximize the specified chart (1-4) or reset all (space)"""
+        if key == ' ':
+            # Reset all charts to normal size
+            dimensions = get_default_chart_dimensions()
+            for chart, (width, height) in zip(charts, dimensions[len(charts)]):
+                chart.resize(width, height)
+                chart.fit()
+            for chart in charts:
+                chart.topbar['max'].set('FULLSCREEN')
+        elif key in ('1', '2', '3', '4'):
+            idx = int(key) - 1
+            # Maximize selected chart, minimize others
+            for i, chart in enumerate(charts):
+                width, height = (1.0, 1.0) if i == idx else (0.0, 0.0)
+                chart.resize(width, height)
+                chart.fit()
+                # Update button text
+                chart.topbar['max'].set('MINIMIZE' if i == idx else 'FULLSCREEN')
+
+def get_chart_layout(df_list):
+    # Validate input
+    num_charts = len(df_list)
+    if num_charts < 1 or num_charts > 4:
+        raise ValueError("Input must contain 1-4 DataFrames")
+    # Create charts and layout based on number of DataFrames
+    if num_charts == 1:
+        main_chart = Chart(inner_width=1.0, inner_height=1.0, maximize=True)
+        charts = [main_chart]
+    elif num_charts == 2:
+        main_chart = Chart(inner_width=1.0, inner_height=0.5, maximize=True)
+        charts = [
+            main_chart,
+            main_chart.create_subchart(width=1.0, height=0.5, position='right')
+        ]
+    elif num_charts == 3:
+        main_chart = Chart(inner_width=1.0, inner_height=0.5, maximize=True)
+        charts = [
+            main_chart,
+            main_chart.create_subchart(width=0.5, height=0.5, position='left'),
+            main_chart.create_subchart(width=0.5, height=0.5, position='right')
+        ]
+    elif num_charts == 4:
+        main_chart = Chart(inner_width=0.5, inner_height=0.5, maximize=True)
+        charts = [
+            main_chart,
+            main_chart.create_subchart(width=0.5, height=0.5, position='left'),
+            main_chart.create_subchart(width=0.5, height=0.5, position='left'),
+            main_chart.create_subchart(width=0.5, height=0.5, position='right')
+        ]
+    
+    return main_chart, charts
+
+def get_default_chart_dimensions():
+    return {
+        1: [(1.0, 1.0)],
+        2: [(0.5, 1.0), (0.5, 1.0)],
+        3: [(1.0, 0.5), (0.5, 0.5), (0.5, 0.5)],
+        4: [(0.5, 0.5)] * 4
+    }

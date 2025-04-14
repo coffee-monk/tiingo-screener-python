@@ -8,8 +8,6 @@ def calculate_peaks_valleys(df, window_size=25, **params):
     valleys = valleys.apply(lambda x: 1.0 if x == 1.0 else 0.0)
     peaks = peaks.apply(lambda x: 1.0 if x == 1.0 else 0.0)
 
-    print(peaks)
-
     return {
         'Valleys': valleys,
         'Peaks': peaks
