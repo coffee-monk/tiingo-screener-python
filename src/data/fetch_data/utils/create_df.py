@@ -1,4 +1,3 @@
-from pprint import pprint
 import pandas as pd
 from datetime import datetime
 
@@ -33,7 +32,5 @@ def create_df(data, time_period='daily'):
 
     df['date'] = pd.to_datetime(df['date'])
     df.set_index('date', inplace=True) 
-
-    # print(df.head(10))
 
     return df

@@ -10,7 +10,7 @@ def calculate_avwap(df, anchor_index):
         (df_anchored['High'] + df_anchored['Low'] + df_anchored['Close']) / 3).cumsum()
     return df_anchored['cumulative_volume_price'] / df_anchored['cumulative_volume']
 
-def calculate_avwap_channel(df, peaks_valleys=True, aVWAP_avg=True, gaps=False, gaps_avg=True, window_size=100):
+def calculate_avwap_channel(df, peaks_valleys=True, aVWAP_avg=True, gaps=False, gaps_avg=False, window_size=200):
     # Get indicators based on parameters
     aVWAP_anchors = []
     if peaks_valleys or aVWAP_avg:

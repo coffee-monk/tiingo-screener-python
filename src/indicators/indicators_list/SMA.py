@@ -1,16 +1,16 @@
 import pandas as pd
 
-def calculate_simple_moving_averages(df, sma_lengths=[50, 200], **params):
+def calculate_simple_moving_averages(df, periods=[50, 200], **params):
     sma_dict = {}
     
-    for length in sma_lengths:
-        # Validate length size
-        if not isinstance(length, int) or length <= 0:
-            raise ValueError(f"length size must be positive integer, got {length}")
+    for period in periods:
+        # Validate period size
+        if not isinstance(period, int) or period <= 0:
+            raise ValueError(f"period size must be positive integer, got {period}")
             
         # Calculate SMA and store in dictionary
-        col_name = f'SMA_{length}'
-        sma_dict[col_name] = df['Close'].rolling(window=length).mean()
+        col_name = f'SMA_{period}'
+        sma_dict[col_name] = df['Close'].rolling(window=period).mean()
     
     return sma_dict
 

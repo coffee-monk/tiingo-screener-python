@@ -10,8 +10,7 @@ def get_indicators(df, indicator_names, indicator_params=None):
 
     # Create a clean copy to work with
     result_df = df.copy()
-    
-    # Collect all indicator data first
+
     all_indicators = {}
     
     for indicator_name in indicator_names:
@@ -32,5 +31,7 @@ def get_indicators(df, indicator_names, indicator_params=None):
     if all_indicators:
         indicators_df = pd.DataFrame(all_indicators)
         result_df = pd.concat([result_df, indicators_df], axis=1).copy()
-    
+     
+    result_df.attrs['time_period'] = df.attrs['time_period']
+
     return result_df

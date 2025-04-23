@@ -1,1 +1,0 @@
-# tiingo-screener-python

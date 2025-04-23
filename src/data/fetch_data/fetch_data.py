@@ -27,28 +27,28 @@ def fetch_data(time_period='daily', ticker='BTCUSD', start_date=None, end_date=N
 
     # Define time period configurations
     time_period_config = {
-        'daily': {'frequency': 'daily', 'timedelta': None},
-        '1day': {'frequency': 'daily', 'timedelta': None},
-        'd': {'frequency': 'daily', 'timedelta': None},
-        'weekly': {'frequency': 'weekly', 'timedelta': None},
-        '1week': {'frequency': 'weekly', 'timedelta': None},
-        'w': {'frequency': 'weekly', 'timedelta': None},
-        'hourly': {'resampleFreq': '1hour', 'timedelta': timedelta(hours=2000)},
-        '1hour': {'resampleFreq': '1hour', 'timedelta': timedelta(hours=2000)},
-        'h': {'resampleFreq': '1hour', 'timedelta': timedelta(hours=2000)},
-        '4hour': {'resampleFreq': '4hour', 'timedelta': timedelta(hours=4000)},
-        '4h': {'resampleFreq': '4hour', 'timedelta': timedelta(hours=4000)},
-        'minute': {'resampleFreq': '1min', 'timedelta': timedelta(hours=100)},
-        '1min': {'resampleFreq': '1min', 'timedelta': timedelta(hours=100)},
-        'min': {'resampleFreq': '1min', 'timedelta': timedelta(hours=100)},
-        '1m': {'resampleFreq': '1min', 'timedelta': timedelta(hours=100)},
-        'm': {'resampleFreq': '1min', 'timedelta': timedelta(hours=100)},
-        '5minutes': {'resampleFreq': '5min', 'timedelta': timedelta(hours=1000)},
-        '5min': {'resampleFreq': '5min', 'timedelta': timedelta(hours=1000)},
-        '5m': {'resampleFreq': '5min', 'timedelta': timedelta(hours=1000)},
-        '15minutes': {'resampleFreq': '15min', 'timedelta': timedelta(hours=1000)},
-        '15min': {'resampleFreq': '15min', 'timedelta': timedelta(hours=1000)},
-        '15m': {'resampleFreq': '15min', 'timedelta': timedelta(hours=1000)},
+        'daily':     {   'frequency':  'daily', 'timedelta': None},
+        '1day':      {   'frequency':  'daily', 'timedelta': None},
+        'd':         {   'frequency':  'daily', 'timedelta': None},
+        'weekly':    {   'frequency': 'weekly', 'timedelta': None},
+        '1week':     {   'frequency': 'weekly', 'timedelta': None},
+        'w':         {   'frequency': 'weekly', 'timedelta': None},
+        'hourly':    {'resampleFreq':  '1hour', 'timedelta': timedelta(hours=2000)},
+        '1hour':     {'resampleFreq':  '1hour', 'timedelta': timedelta(hours=2000)},
+        'h':         {'resampleFreq':  '1hour', 'timedelta': timedelta(hours=2000)},
+        '4hour':     {'resampleFreq':  '4hour', 'timedelta': timedelta(hours=4000)},
+        '4h':        {'resampleFreq':  '4hour', 'timedelta': timedelta(hours=4000)},
+        'minute':    {'resampleFreq':   '1min', 'timedelta': timedelta(hours=100)},
+        '1min':      {'resampleFreq':   '1min', 'timedelta': timedelta(hours=100)},
+        'min':       {'resampleFreq':   '1min', 'timedelta': timedelta(hours=100)},
+        '1m':        {'resampleFreq':   '1min', 'timedelta': timedelta(hours=100)},
+        'm':         {'resampleFreq':   '1min', 'timedelta': timedelta(hours=100)},
+        '5minutes':  {'resampleFreq':   '5min', 'timedelta': timedelta(hours=1000)},
+        '5min':      {'resampleFreq':   '5min', 'timedelta': timedelta(hours=1000)},
+        '5m':        {'resampleFreq':   '5min', 'timedelta': timedelta(hours=1000)},
+        '15minutes': {'resampleFreq':  '15min', 'timedelta': timedelta(hours=1000)},
+        '15min':     {'resampleFreq':  '15min', 'timedelta': timedelta(hours=1000)},
+        '15m':       {'resampleFreq':  '15min', 'timedelta': timedelta(hours=1000)},
     }
 
     # Get the configuration for the specified time period
@@ -62,23 +62,45 @@ def fetch_data(time_period='daily', ticker='BTCUSD', start_date=None, end_date=N
     elif start_date is None:
         start_date = '2024-01-01'  # Default start date
 
-    # Fetch data
-    if 'frequency' in config:
-        # Use TiingoClient for daily/weekly data
-        data = client.get_ticker_price(ticker, startDate=start_date, endDate=end_date, frequency=config['frequency'])
-    else:
-        # Use requests.get() for intraday data
-        api_url = f"https://api.tiingo.com/iex/{ticker}/prices"
-        params = {
-            'startDate': start_date,
-            'endDate': end_date,
-            'resampleFreq': config['resampleFreq'],
-            'columns': 'open,high,low,close,volume',
-            'token': api_key
-        }
-        response = requests.get(api_url, headers=headers, params=params)
-        data = response.json()
+    # Fetch data (Tiingo API) -------------------------------------------------
 
-    # Create and return DataFrame
-    df = create_df(data, time_period)
+    # fetch daily/weekly data
+    if 'frequency' in config:
+        data = client.get_ticker_price(ticker, startDate=start_date, endDate=end_date, frequency=config['frequency'])
+        df = create_df(data, config['frequency'])
+        df.attrs['time_period'] = config['frequency']
+
+    else:
+        # fetch intraday stock data
+        try:
+            api_url = f"https://api.tiingo.com/iex/{ticker}/prices"
+            params = {
+                'startDate': start_date,
+                'endDate': end_date,
+                'resampleFreq': config['resampleFreq'],
+                'columns': 'open,high,low,close,volume',
+                'token': api_key
+            }
+            response = requests.get(api_url, headers=headers, params=params)
+            data = response.json()
+            df = create_df(data, config['resampleFreq'])
+            df.attrs['time_period'] = config['resampleFreq']
+
+        # fetch intraday crypto data
+        except ValueError:
+            api_url = f"https://api.tiingo.com/tiingo/crypto/prices"
+            params = {
+                'tickers': {ticker},
+                'startDate': start_date,
+                'endDate': end_date,
+                'resampleFreq': config['resampleFreq'],
+                'columns': 'open,high,low,close,volume',
+                'token': api_key
+            }
+            response = requests.get(api_url, headers=headers, params=params)
+            data = response.json()
+            data = data[0]['priceData']
+            df = create_df(data, config['resampleFreq'])
+            df.attrs['time_period'] = config['resampleFreq']
+
     return df

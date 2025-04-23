@@ -1,7 +1,7 @@
 import pandas as pd
 from smartmoneyconcepts import smc
 
-def calculate_ob(df, swing_length=25):
+def calculate_ob(df, periods=25):
 
     df = df.rename(columns={
         'Open': 'open',
@@ -11,7 +11,7 @@ def calculate_ob(df, swing_length=25):
         'Volume': 'volume'
     }).copy()
 
-    swing_highs_lows = smc.swing_highs_lows(df, swing_length=swing_length)
+    swing_highs_lows = smc.swing_highs_lows(df, swing_length=periods)
 
     result = smc.ob(df, swing_highs_lows, close_mitigation=False)
     result.index = df.index # to preserve the datetime index
@@ -33,7 +33,4 @@ def calculate_ob(df, swing_length=25):
     }
 
 def calculate_indicator(df, **params):
-    """
-    Wrapper function to calculate Fair Value Gaps (FVG).
-    """
     return calculate_ob(df, **params)
