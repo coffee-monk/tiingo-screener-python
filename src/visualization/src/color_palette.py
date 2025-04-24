@@ -22,6 +22,7 @@ def get_color_palette():
         'red_trans_3': f"rgba(239, 83, 80, 0.75)",
 
         'orange': f"rgba(255, 165, 0, 1.0)",
+        'orange_volume': f"rgba(255, 165, 0, 0.5)",
         'orange_aVWAP': f"rgba(255, 165, 0, 0.6)",
         'orange_liquidity': f"rgba(255, 165, 0, 0.8)",
 

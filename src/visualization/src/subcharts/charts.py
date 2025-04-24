@@ -3,7 +3,7 @@ from lightweight_charts import Chart
 from src.visualization.src.color_palette import get_color_palette
 
 
-def _prepare_dataframe(df, show_volume):
+def prepare_dataframe(df, show_volume):
     # Rename columns and ensure datetime format
     df = df.rename(columns={
         'Open': 'open',
@@ -12,7 +12,6 @@ def _prepare_dataframe(df, show_volume):
         'High': 'high',
         'Volume': 'volume'
     }).copy()
-
     # Get dataframe metadata
     df = df.reset_index()
     df['date'] = pd.to_datetime(df['date'])
@@ -23,7 +22,7 @@ def _prepare_dataframe(df, show_volume):
     return df, interval
 
 
-def _configure_base_chart(df, chart):
+def configure_base_chart(df, chart):
     df = df.copy()
     # Apply base configuration to all charts.
     colors = get_color_palette()
@@ -39,9 +38,13 @@ def _configure_base_chart(df, chart):
     chart.grid(False, False)
     chart.price_line(True, False)
     chart.price_scale(scale_margin_top=0.05, scale_margin_bottom=0.05)
+    chart.volume_config(scale_margin_bottom=0.1, 
+                        scale_margin_top=0.8,
+                        up_color=colors['orange_volume'],
+                        down_color=colors['orange_volume'])
 
 
-def _get_charts(df_list):
+def get_charts(df_list):
     # Validate input
     num_charts = len(df_list)
     if num_charts < 1 or num_charts > 4:
@@ -74,7 +77,7 @@ def _get_charts(df_list):
     return main_chart, charts
 
 
-def _add_ui_elements(chart, charts, ticker, interval):
+def add_ui_elements(chart, charts, ticker, interval):
     """
     Add UI elements like buttons and hotkeys.
     """
@@ -82,13 +85,13 @@ def _add_ui_elements(chart, charts, ticker, interval):
     chart.topbar.textbox('ticker', ticker)
     chart.topbar.textbox('interval', interval)
     chart.topbar.button('max', 'FULLSCREEN', align='left', separator=True, 
-                       func=lambda c=chart: maximize_minimize_button(c, charts))
+                       func=lambda c=chart: _maximize_minimize_button(c, charts))
     
     # Hotkeys
-    chart.hotkey(None, ' ', lambda key=' ': maximize_minimize_hotkey(charts, key))
+    chart.hotkey(None, ' ', lambda key=' ': _maximize_minimize_hotkey(charts, key))
     chart.hotkey('ctrl', 'c', lambda: sys.exit(0))
     for i in range(1, len(charts) + 1):
-        chart.hotkey(None, str(i), lambda key=str(i): maximize_minimize_hotkey(charts, key))
+        chart.hotkey(None, str(i), lambda key=str(i): _maximize_minimize_hotkey(charts, key))
 
 
 def _maximize_minimize_button(target_chart, charts):

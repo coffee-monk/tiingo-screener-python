@@ -3,7 +3,8 @@ from src.visualization.src.color_palette import get_color_palette
 
 colors = get_color_palette()
 
-def _add_visualizations(subchart, df):
+
+def add_visualizations(subchart, df):
     """
     Add visualization layers to the subchart if input data is present
     """
@@ -20,14 +21,12 @@ def _add_visualizations(subchart, df):
 def _FVG_visualization(subchart, df):
     if all(col in df.columns for col in ['FVG', 'FVG_Top', 'FVG_Bottom', 'FVG_Mitigated_Index']):
         fvg_indices = df[df['FVG'] != 0].index
-                
         for idx in fvg_indices:
             mit_idx = int(df.loc[idx, 'FVG_Mitigated_Index'])
             level = 'FVG_Top' if df.loc[idx, 'FVG'] == 1 else 'FVG_Bottom'
             color = 'rgba(39,157,130,0.5)' if df.loc[idx, 'FVG'] == 1 else 'rgba(200,97,100,0.5)'
             end_date = (df.loc[mit_idx, 'date'] if 0 < mit_idx < len(df) 
                        else df.iloc[-1]['date'])
-            
             subchart.create_line(
                 price_line=False,
                 price_label=False,
@@ -44,15 +43,12 @@ def _OB_visualization(subchart, df):
     if all(col in df.columns for col in ['OB', 'OB_Top', 'OB_Bottom']):
         for idx in df[df['OB'] != 0].index:
             start_date = df.loc[idx, 'date']
-            
             # Calculate midpoint between top and bottom
             midpoint = (df.loc[idx, 'OB_Top'] + df.loc[idx, 'OB_Bottom']) / 2
-            
             # Determine end date
             end_date = (df.loc[mitigation_idx, 'date'] if 'OB_Mitigated_Index' in df.columns 
                        and 0 < (mitigation_idx := int(df.loc[idx, 'OB_Mitigated_Index'])) < len(df)
                        else df.iloc[-1]['date'])
-            
             # Draw single wider midpoint line
             subchart.create_line(
                 price_line=False,
@@ -70,7 +66,6 @@ def _BoS_CHoCH_visualization(subchart, df):
     if all(col in df.columns for col in ['BoS', 'CHoCH', 'BoS_CHoCH_Price', 'BoS_CHoCH_Break_Index']):
         # Get most recent 10 BoS/CHoCH events (combined)
         events = df[(df['BoS'] != 0) | (df['CHoCH'] != 0)].index[-25:]
-        
         for idx in events:
             start_date = df.loc[idx, 'date']
             break_idx = int(df.loc[idx, 'BoS_CHoCH_Break_Index'])
@@ -88,7 +83,6 @@ def _BoS_CHoCH_visualization(subchart, df):
                 color = 'rgba(39,157,130,0.75)' if df.loc[idx, 'CHoCH'] > 0 else 'rgba(200,97,100,0.75)'
                 style = 'solid'  # Changed from dashed to solid for better visibility
                 width = 1  # Thicker lines for CHoCH
-                
             # Create the line
             subchart.create_line(
                 price_line=False,
@@ -128,13 +122,11 @@ def _banker_RSI_visualization(subchart, df):
     if 'banker_RSI' in df.columns:
         # Color configuration
         color_rules = [
-            (0, 0, colors['black']),
-            (1, 5, colors['teal']),
+            (0, 5, colors['teal_trans_3']),
             (5, 10, colors['teal']),
-            (10, 15, colors['teal']),
-            (15, 20, colors['aqua'])
+            (10, 15, colors['aqua']),
+            (15, 20, colors['neon'])
         ]
-        
         # Create the histogram
         rsi_hist = subchart.create_histogram(
             color='rgba(100, 100, 100, 0.4)',  # Default neutral color
@@ -143,14 +135,12 @@ def _banker_RSI_visualization(subchart, df):
             scale_margin_top=0.95,
             scale_margin_bottom=0.0
         )
-        
         # Prepare data with color column
         hist_data = pd.DataFrame({
             'time': df['date'],
             'value': df['banker_RSI'],
             'color': 'rgba(100, 100, 100, 0.4)'  # Initialize with default
         })
-        
         # Apply color rules
         for low, high, color in color_rules:
             mask = (hist_data['value'] >= low) & (hist_data['value'] <= high)
@@ -170,7 +160,6 @@ def _aVWAP_visualization(subchart, df):
             color=colors['orange_aVWAP'],
             width=1
         ).set(df[['date', col]].rename(columns={col: 'value'}))
-
     # Plot individual Gap_aVWAP lines (from gaps)
     gap_avwap_cols = [col for col in df.columns if col.startswith('Gap_aVWAP_') and not col.endswith('_avg')]
     for col in gap_avwap_cols:
@@ -180,7 +169,6 @@ def _aVWAP_visualization(subchart, df):
             color=colors['gray'],
             width=1
         ).set(df[['date', col]].rename(columns={col: 'value'}))
-
     # Plot averages if they exist
     if 'aVWAP_avg' in df.columns:
         subchart.create_line(
@@ -189,7 +177,6 @@ def _aVWAP_visualization(subchart, df):
             color=colors['orange_aVWAP'],
             width=6  # Thicker line for average
         ).set(df[['date', 'aVWAP_avg']].rename(columns={'aVWAP_avg': 'value'}))
-
     if 'Gap_aVWAP_avg' in df.columns:
         subchart.create_line(
             price_line=False,
