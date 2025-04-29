@@ -24,8 +24,11 @@ def prepare_dataframe(df, show_volume):
 
 def configure_base_chart(df, chart):
     df = df.copy()
-    # Apply base configuration to all charts.
     colors = get_color_palette()
+    scale_margin_bottom = 0.15 if 'volume' in df.columns else 0.05
+    if 'volume' in df.columns: scale_margin_bottom = 0.2 if 'banker_RSI' in df.columns else 0.15
+    else: scale_margin_bottom = 0.1 if 'banker_RSI' in df.columns else 0.05
+    # Apply base configuration to all charts.
     chart.fit()
     chart.candle_style(
         up_color=colors['teal'], 
@@ -37,9 +40,10 @@ def configure_base_chart(df, chart):
     )
     chart.grid(False, False)
     chart.price_line(True, False)
-    chart.price_scale(scale_margin_top=0.05, scale_margin_bottom=0.05)
-    chart.volume_config(scale_margin_bottom=0.1, 
-                        scale_margin_top=0.8,
+    chart.price_scale(scale_margin_top=0.05, 
+                      scale_margin_bottom=scale_margin_bottom)
+    chart.volume_config(scale_margin_bottom=0.0, 
+                        scale_margin_top=0.9,
                         up_color=colors['orange_volume'],
                         down_color=colors['orange_volume'])
 

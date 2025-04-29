@@ -18,8 +18,7 @@ def fetch_data(time_period='daily', ticker='BTCUSD', start_date=None, end_date=N
         pd.DataFrame: DataFrame containing the fetched data.
     """
     # Set default end_date to today if not provided
-    if end_date is None:
-        end_date = datetime.now().date()
+    if not end_date: end_date = datetime.now().date()
 
     # Initialize Tiingo client
     client = TiingoClient({'api_key': api_key, 'session': True})
@@ -27,28 +26,28 @@ def fetch_data(time_period='daily', ticker='BTCUSD', start_date=None, end_date=N
 
     # Define time period configurations
     time_period_config = {
-        'daily':     {   'frequency':  'daily', 'timedelta': None},
-        '1day':      {   'frequency':  'daily', 'timedelta': None},
-        'd':         {   'frequency':  'daily', 'timedelta': None},
-        'weekly':    {   'frequency': 'weekly', 'timedelta': None},
-        '1week':     {   'frequency': 'weekly', 'timedelta': None},
-        'w':         {   'frequency': 'weekly', 'timedelta': None},
-        'hourly':    {'resampleFreq':  '1hour', 'timedelta': timedelta(hours=2000)},
-        '1hour':     {'resampleFreq':  '1hour', 'timedelta': timedelta(hours=2000)},
-        'h':         {'resampleFreq':  '1hour', 'timedelta': timedelta(hours=2000)},
-        '4hour':     {'resampleFreq':  '4hour', 'timedelta': timedelta(hours=4000)},
-        '4h':        {'resampleFreq':  '4hour', 'timedelta': timedelta(hours=4000)},
-        'minute':    {'resampleFreq':   '1min', 'timedelta': timedelta(hours=100)},
-        '1min':      {'resampleFreq':   '1min', 'timedelta': timedelta(hours=100)},
-        'min':       {'resampleFreq':   '1min', 'timedelta': timedelta(hours=100)},
-        '1m':        {'resampleFreq':   '1min', 'timedelta': timedelta(hours=100)},
-        'm':         {'resampleFreq':   '1min', 'timedelta': timedelta(hours=100)},
-        '5minutes':  {'resampleFreq':   '5min', 'timedelta': timedelta(hours=1000)},
-        '5min':      {'resampleFreq':   '5min', 'timedelta': timedelta(hours=1000)},
-        '5m':        {'resampleFreq':   '5min', 'timedelta': timedelta(hours=1000)},
-        '15minutes': {'resampleFreq':  '15min', 'timedelta': timedelta(hours=1000)},
-        '15min':     {'resampleFreq':  '15min', 'timedelta': timedelta(hours=1000)},
-        '15m':       {'resampleFreq':  '15min', 'timedelta': timedelta(hours=1000)},
+        'daily':     {   'frequency':  'daily', 'default_timedelta': None},
+        '1day':      {   'frequency':  'daily', 'default_timedelta': None},
+        'd':         {   'frequency':  'daily', 'default_timedelta': None},
+        'weekly':    {   'frequency': 'weekly', 'default_timedelta': None},
+        '1week':     {   'frequency': 'weekly', 'default_timedelta': None},
+        'w':         {   'frequency': 'weekly', 'default_timedelta': None},
+        'hourly':    {'resampleFreq':  '1hour', 'default_timedelta': timedelta(hours=15000)},
+        '1hour':     {'resampleFreq':  '1hour', 'default_timedelta': timedelta(hours=15000)},
+        'h':         {'resampleFreq':  '1hour', 'default_timedelta': timedelta(hours=15000)},
+        '4hour':     {'resampleFreq':  '4hour', 'default_timedelta': timedelta(hours=15000)},
+        '4h':        {'resampleFreq':  '4hour', 'default_timedelta': timedelta(hours=15000)},
+        'minute':    {'resampleFreq':   '1min', 'default_timedelta': timedelta(hours=500)},
+        '1min':      {'resampleFreq':   '1min', 'default_timedelta': timedelta(hours=500)},
+        'min':       {'resampleFreq':   '1min', 'default_timedelta': timedelta(hours=500)},
+        '1m':        {'resampleFreq':   '1min', 'default_timedelta': timedelta(hours=500)},
+        'm':         {'resampleFreq':   '1min', 'default_timedelta': timedelta(hours=100)},
+        '5minutes':  {'resampleFreq':   '5min', 'default_timedelta': timedelta(hours=1000)},
+        '5min':      {'resampleFreq':   '5min', 'default_timedelta': timedelta(hours=1000)},
+        '5m':        {'resampleFreq':   '5min', 'default_timedelta': timedelta(hours=1000)},
+        '15minutes': {'resampleFreq':  '15min', 'default_timedelta': timedelta(hours=3000)},
+        '15min':     {'resampleFreq':  '15min', 'default_timedelta': timedelta(hours=3000)},
+        '15m':       {'resampleFreq':  '15min', 'default_timedelta': timedelta(hours=3000)},
     }
 
     # Get the configuration for the specified time period
@@ -57,10 +56,10 @@ def fetch_data(time_period='daily', ticker='BTCUSD', start_date=None, end_date=N
         raise ValueError(f"Unsupported time period: {time_period}")
 
     # Calculate start_date if not provided
-    if start_date is None and config['timedelta']:
-        start_date = (datetime.now() - config['timedelta']).strftime('%Y-%m-%d')
-    elif start_date is None:
-        start_date = '2024-01-01'  # Default start date
+    if start_date == None and config['default_timedelta']:
+        start_date = (datetime.now() - config['default_timedelta']).strftime('%Y-%m-%d')
+    elif start_date == None:
+        start_date = '2022-01-01'  # Default start date
 
     # Fetch data (Tiingo API) -------------------------------------------------
 

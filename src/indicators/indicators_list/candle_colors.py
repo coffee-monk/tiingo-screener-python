@@ -2,16 +2,16 @@ import pandas as pd
 from src.indicators.get_indicators import get_indicators
 from src.visualization.src.color_palette import get_color_palette
 
-def calculate_candle_colors(df, default_color='banker_RSI'):
+def calculate_candle_colors(df, color='QQEMOD'):
     colors = get_color_palette()
     
     # Get indicators - now includes all QQEMOD outputs
-    df = get_indicators(df, ['zscore', 'RSI', 'QQEMOD', 'banker_RSI'])
+    df = get_indicators(df, ['ZScore', 'RSI', 'QQEMOD', 'banker_RSI', 'WAE'])
     
     def map_zscore(zscore):
-        if          zscore <= -3.0: return colors['red_dark']
+        if          zscore <= -3.0: return colors['magenta']
         elif -3.0 < zscore <= -2.5: return colors['red_dark']
-        elif -2.5 < zscore <= -2.0: return colors['red_dark']
+        elif -2.5 < zscore <= -2.0: return colors['red']
         elif -2.0 < zscore <= -1.5: return colors['red']
         elif -1.5 < zscore <= -1.0: return colors['red_trans_3']
         elif -1.0 < zscore <= -0.5: return colors['red_trans_2']
@@ -19,10 +19,11 @@ def calculate_candle_colors(df, default_color='banker_RSI'):
         elif    0 < zscore <=  0.5: return colors['teal_trans_1'] 
         elif  0.5 < zscore <=  1.0: return colors['teal_trans_2']
         elif  1.0 < zscore <=  1.5: return colors['teal_trans_3']
-        elif  1.5 < zscore <=  2.0: return colors['teal']
-        elif  2.0 < zscore <=  2.5: return colors['aqua']
-        elif  2.5 < zscore <=  3.0: return colors['aqua']
-        else:                       return colors['aqua']
+        elif  1.5 < zscore <=  2.0: return colors['teal_trans_3']
+        elif  2.0 < zscore <=  2.5: return colors['teal']
+        elif  2.5 < zscore <=  3.0: return colors['teal']
+        elif  3.0 < zscore:         return colors['neon']
+        else:                       return colors['black']
 
     def map_banker_RSI(banker_RSI):
         if    15 <= banker_RSI <=   20: return colors['neon']
@@ -54,14 +55,34 @@ def calculate_candle_colors(df, default_color='banker_RSI'):
         elif df['QQE2_Below_Threshold']: return colors['red_trans_1']  
         else: return colors['black'] 
 
+    def map_WAE(row):
+        direction = row['WAE_Direction']
+        momentum = row['WAE_Momentum']
+        is_exploding = row['WAE_Upper'] > df['WAE_Upper'].mean()
+        # Bearish signals
+        if direction < 0:
+            if    momentum > 3.0: return colors['red_dark']     if is_exploding else colors['red']
+            elif  momentum > 2.0: return colors['red_dark']     if is_exploding else colors['red_trans_3']
+            elif  momentum > 1.0: return colors['red_dark']     if is_exploding else colors['red_trans_3']
+            elif  momentum > 0.5: return colors['red_trans_2']
+            else:                 return colors['black']
+        # Bullish signals
+        else:
+            if    momentum > 3.0: return colors['aqua']         if is_exploding else colors['teal']
+            elif  momentum > 2.0: return colors['aqua']         if is_exploding else colors['teal_trans_3']
+            elif  momentum > 1.0: return colors['aqua']         if is_exploding else colors['teal_trans_3']
+            elif  momentum > 0.5: return colors['teal_trans_2']
+            else:                 return colors['black']
+
     # Apply mappings
     df['RSI_color']        = df['RSI'].apply(map_RSI)
     df['ZScore_color']     = df['ZScore'].apply(map_zscore)
     df['banker_RSI_color'] = df['banker_RSI'].apply(map_banker_RSI)
     df['QQEMOD_color']     = df.apply(map_QQEMOD, axis=1)
+    df['WAE_color']        = df.apply(map_WAE, axis=1)
     
     return {
-        'color': df[f"{default_color}_color"],
+        'color': df[f"{color}_color"],
         # 'RSI_color': df['RSI_color'],
         # 'ZScore_color': df['ZScore_color'],
         # 'QQEMOD_color': df['QQEMOD_color']

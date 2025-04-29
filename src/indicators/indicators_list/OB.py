@@ -19,16 +19,16 @@ def calculate_ob(df, periods=25):
     df = pd.concat([df, result], axis=1)
     
     df = df.drop(columns=['Percentage'], errors='ignore')
-    df = df.rename(columns={'Top': 'OB_Top'}, errors='ignore')
-    df = df.rename(columns={'Bottom': 'OB_Bottom'}, errors='ignore')
+    df = df.rename(columns={'Top': 'OB_High'}, errors='ignore')
+    df = df.rename(columns={'Bottom': 'OB_Low'}, errors='ignore')
     df = df.rename(columns={'OBVolume': 'OB_Volume'}, errors='ignore')
     df = df.rename(columns={'MitigatedIndex': 'OB_Mitigated_Index'}, errors='ignore')
     df = df.fillna(0)
 
     return {
         'OB': df['OB'],
-        'OB_Top': df['OB_Top'],
-        'OB_Bottom': df['OB_Bottom'],
+        'OB_High': df['OB_High'],
+        'OB_Low': df['OB_Low'],
         'OB_Mitigated_Index': df['OB_Mitigated_Index'] 
     }
 
