@@ -30,14 +30,10 @@ def calculate_rsi_divergence(df: pd.DataFrame,
     
     # 3. Detect divergences
     results.update({
-        'RSI_Regular_Bullish': _detect_bullish_divergence(
-            df['Close'], results['RSI'], price_valleys, rsi_valleys, lookback),
-        'RSI_Regular_Bearish': _detect_bearish_divergence(
-            df['Close'], results['RSI'], price_peaks, rsi_peaks, lookback),
-        'RSI_Hidden_Bullish': _detect_hidden_bullish_divergence(
-            df['Close'], results['RSI'], price_valleys, rsi_valleys, lookback),
-        'RSI_Hidden_Bearish': _detect_hidden_bearish_divergence(
-            df['Close'], results['RSI'], price_peaks, rsi_peaks, lookback)
+        'RSI_Regular_Bullish': _detect_bullish_divergence( df['Close'], results['RSI'], price_valleys, rsi_valleys, lookback),
+        'RSI_Regular_Bearish': _detect_bearish_divergence( df['Close'], results['RSI'], price_peaks, rsi_peaks, lookback),
+        'RSI_Hidden_Bullish':  _detect_hidden_bullish_divergence( df['Close'], results['RSI'], price_valleys, rsi_valleys, lookback),
+        'RSI_Hidden_Bearish':  _detect_hidden_bearish_divergence( df['Close'], results['RSI'], price_peaks, rsi_peaks, lookback)
     })
     
     return results
@@ -91,3 +87,6 @@ def _detect_hidden_bearish_divergence(price: pd.Series, rsi: pd.Series,
     return (price_peaks & 
             (price < price.shift(lookback)) & 
             (rsi > rsi.shift(lookback)))
+
+def calculate_indicator(df, **params):
+    return calculate_rsi_divergence(df, **params)

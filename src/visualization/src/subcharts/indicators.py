@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from src.visualization.src.color_palette import get_color_palette
 
 colors = get_color_palette()
@@ -17,8 +18,9 @@ def add_visualizations(subchart, df):
     _aVWAP_visualization(subchart, df)
     _supertrend_visualization(subchart, df)
     _SMA_visualization(subchart, df)
-    _rsi_divergence_visualization(subchart, df)
 
+    # Includes Regular/Hidden divergences for RSI, MACD, OBV, Volume, etc
+    _combined_divergence_visualization(subchart, df)
 
 def _FVG_visualization(subchart, df):
     if all(col in df.columns for col in ['FVG', 'FVG_High', 'FVG_Low', 'FVG_Mitigated_Index']):
@@ -179,14 +181,26 @@ def _aVWAP_visualization(subchart, df):
             width=1
         ).set(df[['date', col]].rename(columns={col: 'value'}))
     
-    # Plot gap aVWAPs (gray)
-    gap_cols = [col for col in df.columns if col.startswith('Gap_aVWAP_')]
+    # Plot gap up aVWAPs (gray)
+    gap_cols = [col for col in df.columns if col.startswith('Gap_Up_aVWAP_')]
     for col in gap_cols:
         subchart.create_line(
             price_line=False,
             price_label=False,
-            color=colors['gray'],
-            width=1
+            color=colors['teal_trans_2'],
+            width=1,
+            style='dotted'
+        ).set(df[['date', col]].rename(columns={col: 'value'}))
+
+    # Plot gap down aVWAPs (gray)
+    gap_cols = [col for col in df.columns if col.startswith('Gap_Down_aVWAP_')]
+    for col in gap_cols:
+        subchart.create_line(
+            price_line=False,
+            price_label=False,
+            color=colors['red_trans_2'],
+            width=1,
+            style='dotted'
         ).set(df[['date', col]].rename(columns={col: 'value'}))
 
     # Order Blocks (OB) Bullish + Bearish
@@ -223,9 +237,25 @@ def _aVWAP_visualization(subchart, df):
         subchart.create_line(
             price_line=False,
             price_label=False,
-            color=colors['gray'],
-            width=4
+            color=colors['orange_aVWAP'],
+            width=5
         ).set(df[['date', 'OB_avg']].rename(columns={'OB_avg': 'value'}))
+
+    if 'Gaps_avg' in df.columns:
+        subchart.create_line(
+            price_line=False,
+            price_label=False,
+            color=colors['gray'],
+            width=5
+        ).set(df[['date', 'Gaps_avg']].rename(columns={'Gaps_avg': 'value'}))
+
+    if 'All_avg' in df.columns:
+        subchart.create_line(
+            price_line=False,
+            price_label=False,
+            color=colors['orange_aVWAP'],
+            width=5
+        ).set(df[['date', 'All_avg']].rename(columns={'All_avg': 'value'}))
 
 
 def _supertrend_visualization(subchart, df):
@@ -234,7 +264,7 @@ def _supertrend_visualization(subchart, df):
         upper_line = subchart.create_line(
             price_line=False,
             price_label=False,
-            color=colors['red'],
+            color=colors['orange'],
             width=1.0,
         )
         upper_line.set(df[['date', 'Supertrend_Upper']].rename(columns={'Supertrend_Upper': 'value'}))
@@ -243,7 +273,7 @@ def _supertrend_visualization(subchart, df):
         lower_line = subchart.create_line(
             price_line=False,
             price_label=False,
-            color=colors['teal'],
+            color=colors['orange'],
             width=1.0,
         )
         lower_line.set(df[['date', 'Supertrend_Lower']].rename(columns={'Supertrend_Lower': 'value'}))
@@ -278,6 +308,7 @@ def _SMA_visualization(subchart, df):
                     7 if period <= 200 else 9 )
         ).set(df[['date', sma_col]].rename(columns={sma_col: 'value'}))
 
+# Divergences -----------------------------------------------------------------
 
 def _rsi_divergence_visualization(subchart, df):
     """Visualizes all RSI divergences using explicit 'date' column"""
@@ -286,18 +317,17 @@ def _rsi_divergence_visualization(subchart, df):
     
     if not all(col in df.columns for col in required_cols):
         return
-    
-    # Initialize marker containers
-    bullish_markers = []
-    bearish_markers = []
+
+    # Initialize markers
+    markers = []
     
     # Combine all bullish signals (regular + hidden)
     bull_mask = df['RSI_Regular_Bullish'] | df['RSI_Hidden_Bullish']
     for _, row in df[bull_mask].iterrows():
-        bullish_markers.append({
+        markers.append({
             'time': row['date'],
             'position': 'below',
-            'shape': 'arrow_up',
+            'shape': 'square',
             'color': colors['teal'],
             'text': ''
         })
@@ -305,16 +335,392 @@ def _rsi_divergence_visualization(subchart, df):
     # Combine all bearish signals (regular + hidden)
     bear_mask = df['RSI_Regular_Bearish'] | df['RSI_Hidden_Bearish']
     for _, row in df[bear_mask].iterrows():
-        bearish_markers.append({
+        markers.append({
             'time': row['date'],
             'position': 'above',
-            'shape': 'arrow_down',
+            'shape': 'square',
             'color': colors['red'],
             'text': ''
         })
     
-    # Add all markers (sorted chronologically)
-    if bullish_markers:
-        subchart.marker_list(sorted(bullish_markers, key=lambda x: x['time']))
-    if bearish_markers:
-        subchart.marker_list(sorted(bearish_markers, key=lambda x: x['time']))
+    # Add sorted markers
+    if markers:
+        subchart.marker_list(sorted(markers, key=lambda x: x['time']))
+
+
+def _macd_divergence_visualization(subchart, df):
+    """Visualizes MACD divergences with explicit date column"""
+    required_cols = ['date', 'MACD_Regular_Bullish', 'MACD_Regular_Bearish',
+                    'MACD_Hidden_Bullish', 'MACD_Hidden_Bearish']
+    
+    if not all(col in df.columns for col in required_cols):
+        return
+    
+    # Initialize markers
+    markers = []
+    
+    # Bullish signals (both regular and hidden)
+    bull_mask = df['MACD_Regular_Bullish'] | df['MACD_Hidden_Bullish']
+    for _, row in df[bull_mask].iterrows():
+        markers.append({
+            'time': row['date'],
+            'position': 'below',
+            'shape': 'square',
+            'color': colors['teal'],
+            'text': ''
+        })
+    
+    # Bearish signals (both regular and hidden)
+    bear_mask = df['MACD_Regular_Bearish'] | df['MACD_Hidden_Bearish']
+    for _, row in df[bear_mask].iterrows():
+        markers.append({
+            'time': row['date'],
+            'position': 'above',
+            'shape': 'square',
+            'color': colors['red'],
+            'text': ''
+        })
+    
+    # Add sorted markers
+    if markers:
+        subchart.marker_list(sorted(markers, key=lambda x: x['time']))
+
+
+def _obv_divergence_visualization(subchart, df):
+    """Visualizes OBV divergences with explicit date column"""
+    required_cols = ['date', 'OBV_Regular_Bullish', 'OBV_Regular_Bearish',
+                    'OBV_Hidden_Bullish', 'OBV_Hidden_Bearish']
+    
+    if not all(col in df.columns for col in required_cols):
+        return
+    
+    # Initialize markers
+    markers = []
+    
+    # Bullish signals (both regular and hidden)
+    bull_mask = df['OBV_Regular_Bullish'] | df['OBV_Hidden_Bullish']
+    for _, row in df[bull_mask].iterrows():
+        markers.append({
+            'time': row['date'],
+            'position': 'below',
+            'shape': 'square',
+            'color': colors['teal'],  # Light green
+            'text': ''
+        })
+    
+    # Bearish signals (both regular and hidden)
+    bear_mask = df['OBV_Regular_Bearish'] | df['OBV_Hidden_Bearish']
+    for _, row in df[bear_mask].iterrows():
+        markers.append({
+            'time': row['date'],
+            'position': 'above',
+            'shape': 'square',
+            'color': colors['red'],  # Light red
+            'text': ''
+        })
+    
+    # Add sorted markers
+    if markers:
+        subchart.marker_list(sorted(markers, key=lambda x: x['time']))
+
+
+def _fischer_divergence_visualization(subchart, df):
+    """Visualizes Fisher Transform divergences with purple/gold markers"""
+    required_cols = ['date', 'Fisher_Regular_Bullish', 'Fisher_Regular_Bearish',
+                    'Fisher_Hidden_Bullish', 'Fisher_Hidden_Bearish']
+    
+    if not all(col in df.columns for col in required_cols):
+        return
+    
+    # Initialize markers
+    markers = []
+    
+    # Bullish signals (both regular and hidden)
+    bull_mask = df['Fisher_Regular_Bullish'] | df['Fisher_Hidden_Bullish']
+    for _, row in df[bull_mask].iterrows():
+        markers.append({
+            'time': row['date'],
+            'position': 'below',
+            'shape': 'square',
+            'color': colors['teal'],
+            'text': ''
+        })
+    
+    # Bearish signals (both regular and hidden)
+    bear_mask = df['Fisher_Regular_Bearish'] | df['Fisher_Hidden_Bearish']
+    for _, row in df[bear_mask].iterrows():
+        markers.append({
+            'time': row['date'],
+            'position': 'above',
+            'shape': 'square',
+            'color': colors['red'],
+            'text': ''
+        })
+    
+    # Add sorted markers
+    if markers:
+        subchart.marker_list(sorted(markers, key=lambda x: x['time']))
+
+
+def _vortex_divergence_visualization(subchart, df):
+    """Visualizes Vortex divergences with explicit date column"""
+    required_cols = ['date', 'VI_Regular_Bullish', 'VI_Regular_Bearish',
+                    'VI_Hidden_Bullish', 'VI_Hidden_Bearish']
+    
+    if not all(col in df.columns for col in required_cols):
+        return
+    
+    # Initialize markers
+    markers = []
+    
+    # Bullish signals (both regular and hidden)
+    bull_mask = df['VI_Regular_Bullish'] | df['VI_Hidden_Bullish']
+    for _, row in df[bull_mask].iterrows():
+        markers.append({
+            'time': row['date'],
+            'position': 'below',
+            'shape': 'square',
+            'color': colors['teal'],  # Consistent with OBV
+            'text': ''
+        })
+    
+    # Bearish signals (both regular and hidden)
+    bear_mask = df['VI_Regular_Bearish'] | df['VI_Hidden_Bearish']
+    for _, row in df[bear_mask].iterrows():
+        markers.append({
+            'time': row['date'],
+            'position': 'above',
+            'shape': 'square',
+            'color': colors['red'],  # Consistent with OBV
+            'text': ''
+        })
+    
+    # Add sorted markers (critical for clean rendering)
+    if markers:
+        subchart.marker_list(sorted(markers, key=lambda x: x['time']))
+
+
+def _momentum_divergence_visualization(subchart, df):
+    """Visualizes Momentum divergences with explicit date column"""
+    required_cols = ['date', 'Momo_Regular_Bullish', 'Momo_Regular_Bearish',
+                    'Momo_Hidden_Bullish', 'Momo_Hidden_Bearish']
+    
+    if not all(col in df.columns for col in required_cols):
+        return
+    
+    # Initialize markers
+    markers = []
+    
+    # Bullish signals (both regular and hidden)
+    bull_mask = df['Momo_Regular_Bullish'] | df['Momo_Hidden_Bullish']
+    for _, row in df[bull_mask].iterrows():
+        markers.append({
+            'time': row['date'],
+            'position': 'below',
+            'shape': 'square',
+            'color': colors['teal'],  # Matching OBV/Vortex style
+            'text': ''
+        })
+    
+    # Bearish signals (both regular and hidden)
+    bear_mask = df['Momo_Regular_Bearish'] | df['Momo_Hidden_Bearish']
+    for _, row in df[bear_mask].iterrows():
+        markers.append({
+            'time': row['date'],
+            'position': 'above',
+            'shape': 'square',
+            'color': colors['red'],  # Matching OBV/Vortex style
+            'text': ''
+        })
+    
+    # Add sorted markers to prevent rendering artifacts
+    if markers:
+        subchart.marker_list(sorted(markers, key=lambda x: x['time']))
+
+
+def _volume_divergence_visualization(subchart, df):
+    """Visualizes volume divergences using square markers"""
+    required_cols = ['date', 'Vol_Regular_Bullish', 'Vol_Regular_Bearish',
+                    'Vol_Hidden_Bullish', 'Vol_Hidden_Bearish']
+    
+    if not all(col in df.columns for col in required_cols):
+        return
+    
+    markers = []
+    
+    # Bullish signals - blue squares below price
+    bull_mask = df['Vol_Regular_Bullish'] | df['Vol_Hidden_Bullish']
+    for _, row in df[bull_mask].iterrows():
+        markers.append({
+            'time': row['date'],
+            'position': 'below',
+            'shape': 'square',
+            'color': colors['teal'],            
+            'text': ''
+        })
+    
+    # Bearish signals - orange squares above price
+    bear_mask = df['Vol_Regular_Bearish'] | df['Vol_Hidden_Bearish']
+    for _, row in df[bear_mask].iterrows():
+        markers.append({
+            'time': row['date'],
+            'position': 'above',
+            'shape': 'square',
+            'color': colors['red'],            
+            'text': ''
+        })
+    
+    if markers:
+        subchart.marker_list(sorted(markers, key=lambda x: x['time']))
+
+
+def _atr_divergence_visualization(subchart, df):
+    """Visualizes ATR divergences with diamond markers"""
+    required_cols = ['date', 'ATR_Regular_Bullish', 'ATR_Regular_Bearish',
+                    'ATR_Hidden_Bullish', 'ATR_Hidden_Bearish']
+    
+    if not all(col in df.columns for col in required_cols):
+        return
+    
+    markers = []
+    
+    # Bullish signals (both regular and hidden)
+    bull_mask = df['ATR_Regular_Bullish'] | df['ATR_Hidden_Bullish']
+    for _, row in df[bull_mask].iterrows():
+        markers.append({
+            'time': row['date'],
+            'position': 'below',
+            'shape': 'square',
+            'color': colors['teal'],
+            'text': ''
+        })
+    
+    # Bearish signals (both regular and hidden)
+    bear_mask = df['ATR_Regular_Bearish'] | df['ATR_Hidden_Bearish']
+    for _, row in df[bear_mask].iterrows():
+        markers.append({
+            'time': row['date'],
+            'position': 'above',
+            'shape': 'square',
+            'color': colors['red'],
+            'text': ''
+        })
+    
+    # Add sorted markers
+    if markers:
+        subchart.marker_list(sorted(markers, key=lambda x: x['time']))
+
+
+
+
+def _combined_divergence_visualization(subchart, df):
+    """Combined visualization for all divergence types in one marker pass"""
+    # Define all divergence types with their config
+    divergence_types = [
+        {
+            'name': 'RSI',
+            'bull_cols': ['RSI_Regular_Bullish', 'RSI_Hidden_Bullish'],
+            'bear_cols': ['RSI_Regular_Bearish', 'RSI_Hidden_Bearish'],
+            'bull_shape': 'square', # arrow_up
+            'bear_shape': 'square', # arrow_down
+            'bull_color': colors['teal'],
+            'bear_color': colors['red']
+        },
+        {
+            'name': 'MACD',
+            'bull_cols': ['MACD_Regular_Bullish', 'MACD_Hidden_Bullish'],
+            'bear_cols': ['MACD_Regular_Bearish', 'MACD_Hidden_Bearish'],
+            'bull_shape': 'square',
+            'bear_shape': 'square',
+            'bull_color': colors['teal'],
+            'bear_color': colors['red']
+        },
+        {
+            'name': 'OBV',
+            'bull_cols': ['OBV_Regular_Bullish', 'OBV_Hidden_Bullish'],
+            'bear_cols': ['OBV_Regular_Bearish', 'OBV_Hidden_Bearish'],
+            'bull_shape': 'square',
+            'bear_shape': 'square',
+            'bull_color': colors['teal'],
+            'bear_color': colors['red']
+        },
+        {
+            'name': 'Fisher',
+            'bull_cols': ['Fisher_Regular_Bullish', 'Fisher_Hidden_Bullish'],
+            'bear_cols': ['Fisher_Regular_Bearish', 'Fisher_Hidden_Bearish'],
+            'bull_shape': 'square',
+            'bear_shape': 'square',
+            'bull_color': colors['teal'],
+            'bear_color': colors['red']
+        },
+        {
+            'name': 'Vortex',
+            'bull_cols': ['VI_Regular_Bullish', 'VI_Hidden_Bullish'],
+            'bear_cols': ['VI_Regular_Bearish', 'VI_Hidden_Bearish'],
+            'bull_shape': 'square',
+            'bear_shape': 'square',
+            'bull_color': colors['teal'],
+            'bear_color': colors['red']
+        },
+        {
+            'name': 'Momentum',
+            'bull_cols': ['Momo_Regular_Bullish', 'Momo_Hidden_Bullish'],
+            'bear_cols': ['Momo_Regular_Bearish', 'Momo_Hidden_Bearish'],
+            'bull_shape': 'square',
+            'bear_shape': 'square',
+            'bull_color': colors['teal'],
+            'bear_color': colors['red']
+        },
+        {
+            'name': 'Volume',
+            'bull_cols': ['Vol_Regular_Bullish', 'Vol_Hidden_Bullish'],
+            'bear_cols': ['Vol_Regular_Bearish', 'Vol_Hidden_Bearish'],
+            'bull_shape': 'square',
+            'bear_shape': 'square',
+            'bull_color': colors['teal'],
+            'bear_color': colors['red']
+        },
+        {
+            'name': 'ATR',
+            'bull_cols': ['ATR_Regular_Bullish', 'ATR_Hidden_Bullish'],
+            'bear_cols': ['ATR_Regular_Bearish', 'ATR_Hidden_Bearish'],
+            'bull_shape': 'square',
+            'bear_shape': 'square',
+            'bull_color': colors['teal'],
+            'bear_color': colors['red']
+        }
+    ]
+
+    markers = []
+    
+    for div in divergence_types:
+        # Check if required columns exist
+        required_cols = div['bull_cols'] + div['bear_cols'] + ['date']
+        if not all(col in df.columns for col in required_cols):
+            continue
+        
+        # Process bullish signals
+        bull_mask = df[div['bull_cols']].any(axis=1)
+        for _, row in df[bull_mask].iterrows():
+            markers.append({
+                'time': row['date'],
+                'position': 'below',
+                'shape': div['bull_shape'],
+                'color': div['bull_color'],
+                'text': ''
+            })
+        
+        # Process bearish signals
+        bear_mask = df[div['bear_cols']].any(axis=1)
+        for _, row in df[bear_mask].iterrows():
+            markers.append({
+                'time': row['date'],
+                'position': 'above',
+                'shape': div['bear_shape'],
+                'color': div['bear_color'],
+                'text': ''
+            })
+    
+    # Add all markers in one pass (sorted chronologically)
+    if markers:
+        subchart.marker_list(sorted(markers, key=lambda x: x['time']))
