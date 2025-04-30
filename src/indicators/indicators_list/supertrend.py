@@ -83,14 +83,4 @@ def calculate_supertrend(df, period=10, multiplier=3, **params):
     }
 
 def calculate_indicator(df, **params):
-    """
-    Wrapper function for Supertrend calculation.
-    
-    Parameters:
-        df (pd.DataFrame): Input DataFrame with OHLC data
-        **params: Parameters for Supertrend calculation
-        
-    Returns:
-        dict: Dictionary with Supertrend values and directions
-    """
     return calculate_supertrend(df, **params)

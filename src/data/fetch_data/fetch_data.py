@@ -100,6 +100,7 @@ def fetch_data(time_period='daily', ticker='BTCUSD', start_date=None, end_date=N
             data = response.json()
             data = data[0]['priceData']
             df = create_df(data, config['resampleFreq'])
+            df = df.drop(columns=['volumeNotional', 'tradesDone'])
             df.attrs['time_period'] = config['resampleFreq']
 
     return df

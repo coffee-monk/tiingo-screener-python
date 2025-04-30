@@ -12,7 +12,7 @@ API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
 ticker = 'BTCUSD' ; start_date = '2025-01-01'
 # ticker = 'SPY' ; start_date = '2023-08-27'
 
-df1 = fetch_data(time_period='h',
+df1 = fetch_data(time_period='d',
                  ticker=ticker,
                  # start_date=start_date,
                  api_key=API_KEY)
@@ -34,21 +34,22 @@ df1 = fetch_data(time_period='h',
 
 # Indicators ------------------------------------
 
-df1 = get_indicators(df1, ['aVWAP', 'candle_colors', 'liquidity', 'banker_RSI',
-                           # 'supertrend',
-                           # 'divergence_RSI',
-                           # 'divergence_MACD',
-                           # 'divergence_Momentum',
-                           'divergence_ATR', 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
-                           ], 
-                           {
-                           'divergence_ATR':    {'period': 80, 'lookback': 30},
-                           'divergence_OBV':    {'period': 100, 'lookback': 40},
-                           'divergence_Volume': {'period': 100, 'lookback': 40},
-                           'divergence_Fisher': {'period': 100, 'lookback': 40},
-                           'divergence_Vortex': {'period': 100, 'lookback': 40},
-                           }
-                           )
+df1 = get_indicators(df1, ['divergence_Stochastic'])
+# df1 = get_indicators(df1, ['aVWAP', 'candle_colors', 'liquidity', 'banker_RSI',
+#                            # 'supertrend',
+#                            # 'divergence_RSI',
+#                            # 'divergence_MACD',
+#                            # 'divergence_Momentum',
+#                            'divergence_ATR', 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+#                            ], 
+#                            {
+#                            'divergence_ATR':    {'period': 80, 'lookback': 30},
+#                            'divergence_OBV':    {'period': 100, 'lookback': 40},
+#                            'divergence_Volume': {'period': 100, 'lookback': 40},
+#                            'divergence_Fisher': {'period': 100, 'lookback': 40},
+#                            'divergence_Vortex': {'period': 100, 'lookback': 40},
+#                            }
+#                            )
 
 # df2 = get_indicators(df2, ['aVWAP',
 #                            'candle_colors',
