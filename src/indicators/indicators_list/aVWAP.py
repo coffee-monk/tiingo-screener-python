@@ -4,15 +4,15 @@ from src.indicators.get_indicators import get_indicators
 
 
 def calculate_avwap_channel(df, 
-                            peaks_valleys=True, 
+                            peaks_valleys=False, 
                             peaks_valleys_avg=False, 
                             gaps=False, 
                             gaps_avg=False, 
                             OB=False, 
-                            OB_avg=False, 
+                            OB_avg=True, 
                             All_avg=False,
                             periods=25,
-                            avg_lookback=3, 
+                            avg_lookback=1, 
                             ):
 
     # Get indicators based on input parameters --------------------------------

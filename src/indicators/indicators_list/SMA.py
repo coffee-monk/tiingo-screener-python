@@ -1,6 +1,6 @@
 import pandas as pd
 
-def calculate_simple_moving_averages(df, periods=[50, 200], **params):
+def calculate_simple_moving_averages(df, periods=[200], **params):
     sma_dict = {}
     
     for period in periods:

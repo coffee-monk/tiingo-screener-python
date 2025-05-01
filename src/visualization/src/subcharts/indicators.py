@@ -79,14 +79,16 @@ def _BoS_CHoCH_visualization(subchart, df):
             end_date = df.loc[break_idx, 'date'] if 0 < break_idx < len(df) else df.iloc[-1, 'date']
                 
             # Determine color and style based on event type and direction
-            if df.loc[idx, 'BoS'] != 0:  # Break of Structure
-                color = 'rgba(39,157,130,0.75)' if df.loc[idx, 'BoS'] > 0 else 'rgba(200,97,100,0.75)'
+            # Break of Structure
+            if df.loc[idx, 'BoS'] != 0:
+                color = colors['teal_trans_3'] if df.loc[idx, 'BoS'] > 0 else colors['red_trans_3']
                 style = 'solid'
                 width = 1  # Thinner lines for BoS
-            else:  # Change of Character
-                color = 'rgba(39,157,130,0.75)' if df.loc[idx, 'CHoCH'] > 0 else 'rgba(200,97,100,0.75)'
+            # Change of Character
+            else:  
+                color = colors['teal_trans_3'] if df.loc[idx, 'CHoCH'] > 0 else colors['red_trans_3']
                 style = 'solid'  # Changed from dashed to solid for better visibility
-                width = 1  # Thicker lines for CHoCH
+                width = 3  # Thicker lines for CHoCH
             # Create the line
             subchart.create_line(
                 price_line=False,
@@ -330,6 +332,24 @@ def _combined_divergence_visualization(subchart, df):
             'bear_cols': ['Stochastic_Regular_Bearish', 'Stochastic_Hidden_Bearish'],
             'bull_shape': 'square', # arrow_up
             'bear_shape': 'square', # arrow_down
+            'bull_color': colors['teal'],
+            'bear_color': colors['red']
+        },
+        {
+            'name': 'MFI',
+            'bull_cols': ['MFI_Regular_Bullish', 'MFI_Hidden_Bullish'],
+            'bear_cols': ['MFI_Regular_Bearish', 'MFI_Hidden_Bearish'],
+            'bull_shape': 'square',
+            'bear_shape': 'square',
+            'bull_color': colors['teal'],
+            'bear_color': colors['red']
+        },
+        {
+            'name': 'Fractal',
+            'bull_cols': ['Fractal_Bullish'],
+            'bear_cols': ['Fractal_Bearish'],
+            'bull_shape': 'square',
+            'bear_shape': 'square',
             'bull_color': colors['teal'],
             'bear_color': colors['red']
         },

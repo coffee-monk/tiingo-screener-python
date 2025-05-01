@@ -4,15 +4,10 @@ from src.indicators.get_indicators import get_indicators
 
 def calculate_zscore_probability(df, lookback=75, aVWAP_avg=True):
 
-    if aVWAP_avg:
-        df = get_indicators(df, ['aVWAP'], {'aVWAP': {'peaks_valleys': False,
-                                                      'peaks_valleys_avg': True,
-                                                      'gaps': False,
-                                                      'gaps_avg': False,
-                                                      'OB': False,
-                                                      'OB_avg': False}})
+    if aVWAP_avg and 'OB_avg' in df.columns:
+        df = get_indicators(df, ['aVWAP'])
         # Calculate rolling StdDev of price deviations from aVWAP mean
-        aVWAP_mean = df['Peaks_Valleys_avg']
+        aVWAP_mean = df['OB_avg']
         price_deviation = df['Close'] - aVWAP_mean
         aVWAP_std = price_deviation.rolling(window=lookback).std()
         z_score = (df['Close'] - aVWAP_mean) / aVWAP_std

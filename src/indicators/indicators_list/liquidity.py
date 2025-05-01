@@ -17,7 +17,6 @@ def calculate_liquidity(df, swing_length=25, range_percent=0.1):
     result.index = df.index # to preserve the datetime index
     
     df = pd.concat([df, result], axis=1)
-    
     df = df.drop(columns=['End', 'Swept'], errors='ignore')
     df = df.rename(columns={'Level': 'Liquidity_Level'}, errors='ignore')
     df = df.fillna(0)
