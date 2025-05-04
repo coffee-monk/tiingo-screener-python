@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
+import pandas as pd
 import requests
 from tiingo import TiingoClient
-from src.data.fetch_data.utils.create_df import create_df
 
-def fetch_data(time_period='daily', ticker='BTCUSD', start_date=None, end_date=None, api_key='Tiingo-API-Key'):
+def fetch_ticker(time_period='daily', ticker='BTCUSD', start_date=None, end_date=None, api_key='Tiingo-API-Key'):
     """
     Fetch historical price data for a given ticker and time period.
 
@@ -27,12 +27,15 @@ def fetch_data(time_period='daily', ticker='BTCUSD', start_date=None, end_date=N
     # Define time period configurations
     time_period_config = {
         'daily':     {   'frequency':  'daily', 'default_timedelta': None},
+        'day':       {   'frequency':  'daily', 'default_timedelta': None},
         '1day':      {   'frequency':  'daily', 'default_timedelta': None},
         'd':         {   'frequency':  'daily', 'default_timedelta': None},
         'weekly':    {   'frequency': 'weekly', 'default_timedelta': None},
         '1week':     {   'frequency': 'weekly', 'default_timedelta': None},
+        'week':      {   'frequency': 'weekly', 'default_timedelta': None},
         'w':         {   'frequency': 'weekly', 'default_timedelta': None},
         'hourly':    {'resampleFreq':  '1hour', 'default_timedelta': timedelta(hours=15000)},
+        'hour':      {'resampleFreq':  '1hour', 'default_timedelta': timedelta(hours=15000)},
         '1hour':     {'resampleFreq':  '1hour', 'default_timedelta': timedelta(hours=15000)},
         'h':         {'resampleFreq':  '1hour', 'default_timedelta': timedelta(hours=15000)},
         '4hour':     {'resampleFreq':  '4hour', 'default_timedelta': timedelta(hours=15000)},
@@ -102,5 +105,39 @@ def fetch_data(time_period='daily', ticker='BTCUSD', start_date=None, end_date=N
             df = create_df(data, config['resampleFreq'])
             df = df.drop(columns=['volumeNotional', 'tradesDone'])
             df.attrs['time_period'] = config['resampleFreq']
+
+    return df
+
+def create_df(data, time_period='daily'):
+
+    df = pd.DataFrame(data)
+
+    match time_period:
+
+        case 'daily'|'1day'|'d'|'weekly'|'1week'|'w':
+
+            df.rename(columns={
+                'adjLow': 'Low',
+                'adjHigh': 'High',
+                'adjClose': 'Close',
+                'adjOpen': 'Open',
+                'adjVolume': 'Volume'
+            }, inplace=True)
+
+            columns_to_drop = ['close', 'high', 'low', 'open', 'volume', 'splitFactor', 'divCash']
+            df = df.drop(columns=columns_to_drop)
+
+        case 'hourly'|'1hour'|'h'|'4hour'|'4h'|'15minutes'|'15min'|'15m'|'5minutes'|'5min'|'5m'|'min'|'m'|'minute'|'1min'|'1m':
+
+            df.rename(columns={
+                'low': 'Low',
+                'high': 'High',
+                'close': 'Close',
+                'open': 'Open',
+                'volume': 'Volume',
+            }, inplace=True)
+
+    df['date'] = pd.to_datetime(df['date'])
+    df.set_index('date', inplace=True) 
 
     return df

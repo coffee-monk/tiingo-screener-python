@@ -62,12 +62,12 @@ def calculate_candle_colors(df, indicator_color='ZScore'):
         momentum = row['WAE_Momentum']
         is_exploding = row['WAE_Upper'] > df['WAE_Upper'].mean()
         if direction < 0:
-            if momentum > 3.0: return colors['red_dark'] if is_exploding else colors['red']
+            if   momentum > 3.0: return colors['red_dark'] if is_exploding else colors['red']
             elif momentum > 2.0: return colors['red_dark'] if is_exploding else colors['red_trans_3']
             elif momentum > 1.0: return colors['red_dark'] if is_exploding else colors['red_trans_3']
             elif momentum > 0.5: return colors['red_trans_2']
         else:
-            if momentum > 3.0: return colors['aqua'] if is_exploding else colors['teal']
+            if   momentum > 3.0: return colors['aqua'] if is_exploding else colors['teal']
             elif momentum > 2.0: return colors['aqua'] if is_exploding else colors['teal_trans_3']
             elif momentum > 1.0: return colors['aqua'] if is_exploding else colors['teal_trans_3']
             elif momentum > 0.5: return colors['teal_trans_2']

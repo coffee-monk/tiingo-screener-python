@@ -1,7 +1,7 @@
 import importlib
 import pandas as pd
 
-def get_indicators(df, indicator_names, indicator_params=None):
+def get_indicators(df, indicator_list, indicator_params=None):
     """
     Calculate and add indicators to the DataFrame without fragmentation.
     """
@@ -13,9 +13,9 @@ def get_indicators(df, indicator_names, indicator_params=None):
 
     all_indicators = {}
     
-    for indicator_name in indicator_names:
-        module = importlib.import_module(f"src.indicators.indicators_list.{indicator_name}")
-        params = indicator_params.get(indicator_name, {})
+    for indicator in indicator_list:
+        module = importlib.import_module(f"src.indicators.indicators_list.{indicator}")
+        params = indicator_params.get(indicator, {})
         indicator_values = module.calculate_indicator(result_df, **params)
         
         if isinstance(indicator_values, pd.DataFrame):
@@ -25,7 +25,7 @@ def get_indicators(df, indicator_names, indicator_params=None):
             # Collect dictionary items for bulk addition
             all_indicators.update(indicator_values)
         else:
-            all_indicators[indicator_name] = indicator_values
+            all_indicators[indicator] = indicator_values
     
     # Add all collected indicators at once
     if all_indicators:
