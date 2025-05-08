@@ -34,21 +34,21 @@ params = {
 
 # Example Code ----------------------------------------------------------------
 
-df1 = fetch_ticker(timeframe='week', ticker='A', api_key=API_KEY)
-df2 = fetch_ticker(timeframe='daily', ticker='A', api_key=API_KEY)
-df3 = fetch_ticker(timeframe='hour', ticker='A', api_key=API_KEY)
-df4 = fetch_ticker(timeframe='15min', ticker='A', api_key=API_KEY)
-subcharts([df1, df2, df3, df4], ticker='A', show_volume=False)
+# df1 = fetch_ticker(timeframe='weekly', ticker='A', api_key=API_KEY)
+# df2 = fetch_ticker(timeframe='daily', ticker='A', api_key=API_KEY)
+# df3 = fetch_ticker(timeframe='4hour', ticker='A', api_key=API_KEY)
+# df4 = fetch_ticker(timeframe='hour', ticker='A', api_key=API_KEY)
+# subcharts([df1, df2, df3, df4], ticker='A', show_volume=False)
 
 # fetch_tickers(['week', 'day', 'hour', '15min'], api_key=API_KEY)
 
 # run_indicators(indicator_list, params)
 
-# run_scanner('A')
+# run_scanner()
 
 # run_scanner({
-#             'hour': 'banker_RSI', 
-#             '15min': 'banker_RSI', 
+#             'day': 'banker_RSI', 
+#             'week': 'banker_RSI', 
 #             })
 
 # subcharts_data('A')
