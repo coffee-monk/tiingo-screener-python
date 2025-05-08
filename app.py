@@ -4,10 +4,12 @@ from datetime import datetime
 from src.indicators.get_indicators import get_indicators
 from src.indicators.run_indicators import run_indicators
 from src.fetch_data.fetch_tickers import fetch_tickers
+from src.fetch_data.fetch_ticker import fetch_ticker
+from src.scanner.scanner import run_scanner
+from src.visualization.subcharts import subcharts
+from src.visualization.subcharts_data import subcharts_data
 
 API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
-
-TIMEFRAMES = ['week', 'day', 'hour', '15min']
 
 indicator_list = [
     'aVWAP', 
@@ -30,6 +32,25 @@ params = {
     'divergence_Vortex': {'period': 100, 'lookback': 40},
 }
 
-# fetch_tickers(TIMEFRAMES, API_KEY=API_KEY)
+# Example Code ----------------------------------------------------------------
 
-run_indicators(indicator_list)
+df1 = fetch_ticker(timeframe='week', ticker='A', api_key=API_KEY)
+df2 = fetch_ticker(timeframe='daily', ticker='A', api_key=API_KEY)
+df3 = fetch_ticker(timeframe='hour', ticker='A', api_key=API_KEY)
+df4 = fetch_ticker(timeframe='15min', ticker='A', api_key=API_KEY)
+subcharts([df1, df2, df3, df4], ticker='A', show_volume=False)
+
+# fetch_tickers(['week', 'day', 'hour', '15min'], api_key=API_KEY)
+
+# run_indicators(indicator_list, params)
+
+# run_scanner('A')
+
+# run_scanner({
+#             'hour': 'banker_RSI', 
+#             '15min': 'banker_RSI', 
+#             })
+
+# subcharts_data('A')
+
+# subcharts([df1, df2, df3, df4])

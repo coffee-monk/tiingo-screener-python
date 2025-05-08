@@ -3,12 +3,12 @@ import pandas as pd
 import requests
 from tiingo import TiingoClient
 
-def fetch_ticker(time_period='daily', ticker='BTCUSD', start_date=None, end_date=None, api_key='Tiingo-API-Key'):
+def fetch_ticker(timeframe='daily', ticker='BTCUSD', start_date=None, end_date=None, api_key='Tiingo-API-Key'):
     """
     Fetch historical price data for a given ticker and time period.
 
     Parameters:
-        time_period (str): Time period for the data (e.g., 'daily', 'hourly', '1min').
+        timeframe (str): Time period for the data (e.g., 'daily', 'hourly', '1min').
         ticker (str): Ticker symbol (e.g., 'BTCUSD').
         start_date (str): Start date in 'YYYY-MM-DD' format.
         end_date (str): End date in 'YYYY-MM-DD' format.
@@ -25,7 +25,7 @@ def fetch_ticker(time_period='daily', ticker='BTCUSD', start_date=None, end_date
     headers = {'Content-Type': 'application/json'}
 
     # Define time period configurations
-    time_period_config = {
+    timeframe_config = {
         'daily':     {   'frequency':  'daily', 'default_timedelta': None},
         'day':       {   'frequency':  'daily', 'default_timedelta': None},
         '1day':      {   'frequency':  'daily', 'default_timedelta': None},
@@ -54,9 +54,9 @@ def fetch_ticker(time_period='daily', ticker='BTCUSD', start_date=None, end_date
     }
 
     # Get the configuration for the specified time period
-    config = time_period_config.get(time_period.lower())
+    config = timeframe_config.get(timeframe.lower())
     if not config:
-        raise ValueError(f"Unsupported time period: {time_period}")
+        raise ValueError(f"Unsupported time period: {timeframe}")
 
     # Calculate start_date if not provided
     if start_date == None and config['default_timedelta']:
@@ -70,7 +70,7 @@ def fetch_ticker(time_period='daily', ticker='BTCUSD', start_date=None, end_date
     if 'frequency' in config:
         data = client.get_ticker_price(ticker, startDate=start_date, endDate=end_date, frequency=config['frequency'])
         df = create_df(data, config['frequency'])
-        df.attrs['time_period'] = config['frequency']
+        df.attrs['timeframe'] = config['frequency']
 
     else:
         # fetch intraday stock data
@@ -86,7 +86,7 @@ def fetch_ticker(time_period='daily', ticker='BTCUSD', start_date=None, end_date
             response = requests.get(api_url, headers=headers, params=params)
             data = response.json()
             df = create_df(data, config['resampleFreq'])
-            df.attrs['time_period'] = config['resampleFreq']
+            df.attrs['timeframe'] = config['resampleFreq']
 
         # fetch intraday crypto data
         except ValueError:
@@ -104,15 +104,15 @@ def fetch_ticker(time_period='daily', ticker='BTCUSD', start_date=None, end_date
             data = data[0]['priceData']
             df = create_df(data, config['resampleFreq'])
             df = df.drop(columns=['volumeNotional', 'tradesDone'])
-            df.attrs['time_period'] = config['resampleFreq']
+            df.attrs['timeframe'] = config['resampleFreq']
 
     return df
 
-def create_df(data, time_period='daily'):
+def create_df(data, timeframe='daily'):
 
     df = pd.DataFrame(data)
 
-    match time_period:
+    match timeframe:
 
         case 'daily'|'1day'|'d'|'weekly'|'1week'|'w':
 

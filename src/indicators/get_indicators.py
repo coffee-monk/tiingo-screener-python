@@ -32,6 +32,6 @@ def get_indicators(df, indicator_list, indicator_params=None):
         indicators_df = pd.DataFrame(all_indicators)
         result_df = pd.concat([result_df, indicators_df], axis=1).copy()
      
-    result_df.attrs['time_period'] = df.attrs['time_period']
+    result_df.attrs['timeframe'] = df.attrs['timeframe']
 
     return result_df

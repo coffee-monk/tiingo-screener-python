@@ -16,7 +16,7 @@ def prepare_dataframe(df, show_volume):
     df = df.reset_index()
     df['date'] = pd.to_datetime(df['date'])
     start_date = df['date'].iloc[0].strftime('%Y-%m-%d') if not df.empty else 'N/A'
-    interval = df.attrs['time_period']
+    interval = df.attrs['timeframe']
     df['date'] = df['date'].dt.strftime('%Y-%m-%d %H:%M:%S') # format dates for display
     if not show_volume: df = df.drop(columns=['volume']) # include/remove volume column for vis
     return df, interval

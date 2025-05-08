@@ -13,7 +13,9 @@ def run_indicators(indicator_list, params=None):
 
     ticker_data = load_ticker(INPUT_DIR)
     total_files = len(ticker_data)
-    print(f"Loaded {total_files} datasets. Processing...")
+    print(f"Input directory: {INPUT_DIR}")
+    print(f"Output directory: {OUTPUT_DIR}")
+    print(f"\nLoaded {total_files} datasets. Processing...")
 
     processed_count = 0
     for key, data in ticker_data.items():
@@ -33,7 +35,7 @@ def run_indicators(indicator_list, params=None):
             output_dir=OUTPUT_DIR
         )
     
-    print(f"\nAll files processed. Results saved to: {OUTPUT_DIR}")
+    print(f"\n\nAll files processed.")
 
 # Helper Functions ------------------------------------------------------------
 
@@ -51,7 +53,7 @@ def load_ticker(input_dir):
                 parse_dates=["date"],
                 index_col="date"
             )
-            df.attrs = {"time_period": timeframe}
+            df.attrs = {"timeframe": timeframe}
             
             ticker_data[f"{ticker}_{timeframe}"] = {
                 "df": df,
@@ -65,8 +67,7 @@ def load_ticker(input_dir):
 def save_ticker(df, ticker, timeframe, date_stamp, output_dir):
     """Save one processed ticker immediately."""
     os.makedirs(output_dir, exist_ok=True)
-    filename = f"{ticker}_{timeframe}_indicators_{date_stamp}.csv"
+    filename = f"{ticker}_{timeframe}_{date_stamp}.csv"
     filepath = os.path.join(output_dir, filename)
     
-    # Save with index (datetime) as a column
     df.to_csv(filepath, index=True, index_label="date")  

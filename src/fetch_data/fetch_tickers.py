@@ -5,32 +5,34 @@ from datetime import datetime
 from src.fetch_data.fetch_ticker import fetch_ticker
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent
-DATE_STAMP = datetime.now().strftime("%d%m%y")
-OUTPUT_DIR = PROJECT_ROOT / "data/tickers"
-
-print(f"Output directory: {OUTPUT_DIR}")
-print(f"Using date format: {DATE_STAMP}")
+DATE_STAMP = datetime.now().strftime('%d%m%y')
+OUTPUT_DIR = PROJECT_ROOT / 'data/tickers'
+INPUT_FILE = PROJECT_ROOT / 'src/fetch_data/ticker_lists/nasdaq_tickers.csv'
 
 def fetch_tickers(
-                 TIMEFRAMES=['day'], 
+                 timeframes=['day'], 
                  start_date=None,
                  end_date=None,
-                 API_KEY='Tiingo_API_Key'
+                 api_key='Tiingo_API_Key'
                  ):
 
     """Fetch raw ticker data for given timeframes without indicators."""
+
+    print(f"Today's Date: {DATE_STAMP} (Format: DDMMYY)")
+    print(f"Input Tickers: {INPUT_FILE}")
+    print(f"Output directory: {OUTPUT_DIR}")
     
     # Load ticker list
-    df_stock_list = load_tickers()
+    df_stock_list = load_tickers(INPUT_FILE)
     total_tickers = len(df_stock_list['Ticker'].unique())
-    print(f"\nLoaded {total_tickers} tickers | Date: {DATE_STAMP}")
+    print(f"\nLoaded {total_tickers} Tickers: {DATE_STAMP}")
     
     # Process each ticker
     processed_count = 0
     for ticker in df_stock_list['Ticker'].unique():
         processed_count += 1
         print(f"\rFetching {processed_count}/{total_tickers}: {ticker.ljust(6)}", end="")
-        process_ticker(ticker, TIMEFRAMES, API_KEY)
+        process_ticker(ticker, timeframes, api_key)
     
     print("\n\nData fetch complete!")
     print(f"Raw data saved with date format: {DATE_STAMP}")
@@ -38,14 +40,14 @@ def fetch_tickers(
 
 # Ticker Handling -----------------------------------------------------------==
 
-def process_ticker(ticker, TIMEFRAMES, API_KEY, save_to_disk=True):
+def process_ticker(ticker, timeframes, api_key, save_to_disk=True):
     """Fetch and save raw ticker data for all specified timeframes."""
     results = {}
     
-    for timeframe in TIMEFRAMES:
+    for timeframe in timeframes:
         try:
             # Fetch raw data (no indicators applied)
-            df = fetch_ticker(timeframe, ticker, api_key=API_KEY)
+            df = fetch_ticker(timeframe, ticker, api_key=api_key)
             results[timeframe] = df
             
             if save_to_disk:
@@ -59,18 +61,11 @@ def process_ticker(ticker, TIMEFRAMES, API_KEY, save_to_disk=True):
             
     return results
 
-def load_tickers():
-
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    project_root = os.path.dirname(current_dir)
-
-    csv_path = os.path.join(project_root, 'fetch_data', 'ticker_lists', 'nasdaq_tickers.csv')
-
-    print(csv_path)
+def load_tickers(csv_path):
 
     df = pd.read_csv(csv_path)
 
-    # Clean data - convert numeric columns, handle missing values
+    # Clean data - convert numeric columns and handle missing values
     numeric_cols = ['Last Sale', 'Net Change', '% Change', 'Market Cap', 'Volume']
     for col in numeric_cols:
         df[col] = df[col].replace('[\$,%]', '', regex=True).astype(float)
