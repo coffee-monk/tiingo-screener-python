@@ -83,7 +83,10 @@ def _multi_criteria_scan(criteria_list):
     return _process_results(all_results, f"multi-criteria {criteria_list} scan")
 
 def _advanced_scan(timeframe_criteria, logic):
-    """Criteria applied to specific timeframes"""
+    """Criteria applied to specific timeframes. Only passes if ALL timeframes:
+       1. Exist in the data
+       2. Meet their criteria
+    """
     criteria_funcs = {}
     for timeframe, criteria_name in timeframe_criteria.items():
         if isinstance(criteria_name, list):  # Multiple criteria for one timeframe
@@ -97,6 +100,7 @@ def _advanced_scan(timeframe_criteria, logic):
                 return pd.DataFrame()
             criteria_funcs[timeframe] = func
 
+    # Group files by ticker and track available timeframes
     ticker_files = {}
     for file in _get_data_files():
         ticker, timeframe = _parse_filename(file)
@@ -106,28 +110,37 @@ def _advanced_scan(timeframe_criteria, logic):
     for ticker, files in ticker_files.items():
         signals = {}
         results = {}
-      
-        for timeframe, criteria in criteria_funcs.items():
+        missing_timeframes = []
+
+        # Check for missing timeframes first
+        for timeframe in criteria_funcs.keys():
             if timeframe not in files:
-                continue
-              
+                missing_timeframes.append(timeframe)
+
+        # Skip if any timeframe is missing
+        if missing_timeframes:
+            print(f"Skipping {ticker}: Missing timeframes {missing_timeframes}")
+            continue
+
+        # Now test criteria for all timeframes
+        for timeframe, criteria in criteria_funcs.items():
             df = _load_indicator_file(INPUT_DIR / files[timeframe])
-          
-            if isinstance(criteria, list):  # Multiple criteria for timeframe
+
+            if isinstance(criteria, list):  # Multi-criteria for this timeframe
                 passed_all = True
                 timeframe_results = None
-              
+
                 for criteria_func in criteria:
                     res = criteria_func(df)
                     if res.empty:
                         passed_all = False
                         break
-                      
+
                     if timeframe_results is None:
                         timeframe_results = res.copy()
                     else:
                         timeframe_results = timeframe_results[timeframe_results.index.isin(res.index)]
-              
+
                 if passed_all and timeframe_results is not None:
                     timeframe_results['Ticker'] = ticker
                     timeframe_results['Timeframe'] = timeframe
@@ -135,6 +148,7 @@ def _advanced_scan(timeframe_criteria, logic):
                     results[timeframe] = timeframe_results
                 else:
                     signals[timeframe] = False
+
             else:  # Single criteria
                 res = criteria(df)
                 if not res.empty:
@@ -144,11 +158,11 @@ def _advanced_scan(timeframe_criteria, logic):
                     results[timeframe] = res
                 else:
                     signals[timeframe] = False
-      
-        if (logic == 'AND' and all(signals.values())) or \
-           (logic == 'OR' and any(signals.values())):
+
+        # Only save if ALL timeframes passed (and none were missing)
+        if all(signals.values()):
             all_results.extend(results.values())
-  
+
     return _process_results(all_results, "advanced scan")
 
 def _load_criteria(criteria_name):

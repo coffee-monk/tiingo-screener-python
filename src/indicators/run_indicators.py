@@ -23,7 +23,7 @@ def run_indicators(indicator_list, params=None):
         ticker = data["ticker"]
         timeframe = data["timeframe"]
         
-        print(f"\rProcessing {processed_count}/{total_files}: {ticker.ljust(6)}", end="")       
+        print(f"\rProcessing {processed_count}/{total_files}: {str(ticker).strip().ljust(6)}", end="")       
 
         df_with_indicators = get_indicators(data["df"], indicator_list, params)
         

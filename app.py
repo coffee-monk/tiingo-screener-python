@@ -15,8 +15,10 @@ indicator_list = [
     'aVWAP', 
     'candle_colors', 
     'liquidity', 
+    'ZScore', 
     'banker_RSI', 
     'SMA',
+    'OB',
     'divergence_ATR', 
     'divergence_Vortex', 
     'divergence_Fisher', 
@@ -25,6 +27,7 @@ indicator_list = [
 ]
 
 params = {
+    'SMA': {'periods': [50, 100, 150, 200]},
     'divergence_ATR':    {'period':  80, 'lookback': 30},
     'divergence_OBV':    {'period': 100, 'lookback': 40},
     'divergence_Volume': {'period': 100, 'lookback': 40},
@@ -34,23 +37,36 @@ params = {
 
 # Example Code ----------------------------------------------------------------
 
-# df1 = fetch_ticker(timeframe='weekly', ticker='A', api_key=API_KEY)
-# df2 = fetch_ticker(timeframe='daily', ticker='A', api_key=API_KEY)
-# df3 = fetch_ticker(timeframe='4hour', ticker='A', api_key=API_KEY)
-# df4 = fetch_ticker(timeframe='hour', ticker='A', api_key=API_KEY)
-# subcharts([df1, df2, df3, df4], ticker='A', show_volume=False)
+ticker = 'CRDL'
+
+# df1 = fetch_ticker(timeframe='weekly', ticker=ticker, api_key=API_KEY)
+# df2 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
+# df3 = fetch_ticker(timeframe='4hour', ticker=ticker, api_key=API_KEY)
+# df4 = fetch_ticker(timeframe='hour', ticker=ticker, api_key=API_KEY)
+#
+# df1 = get_indicators(df1, indicator_list, params)
+# df2 = get_indicators(df2, indicator_list, params)
+# df3 = get_indicators(df3, indicator_list, params)
+# df4 = get_indicators(df4, indicator_list, params)
+#
+# print(df2.columns)
+# print('\n')
+# print(df2.head(10))
+# print(df2.tail(10))
+#
+# subcharts([df1, df2, df3, df4], ticker=ticker, show_volume=False)
 
 # fetch_tickers(['week', 'day', 'hour', '15min'], api_key=API_KEY)
 
 # run_indicators(indicator_list, params)
 
-# run_scanner()
+# run_scanner('OB_aVWAP_bullish')
 
 # run_scanner({
-#             'day': 'banker_RSI', 
+#             'day': 'OB_aVWAP_bullish', 
 #             'week': 'banker_RSI', 
 #             })
 
-# subcharts_data('A')
-
 # subcharts([df1, df2, df3, df4])
+
+subcharts_data('ABT') # timeframe order

@@ -31,7 +31,8 @@ def fetch_tickers(
     processed_count = 0
     for ticker in df_stock_list['Ticker'].unique():
         processed_count += 1
-        print(f"\rFetching {processed_count}/{total_tickers}: {ticker.ljust(6)}", end="")
+        # print(f"\rFetching {processed_count}/{total_tickers}: {ticker.ljust(6)}", end="")
+        print(f"\rFetching {processed_count}/{total_tickers}: {str(ticker).strip().ljust(6)}", end="")
         process_ticker(ticker, timeframes, api_key)
     
     print("\n\nData fetch complete!")

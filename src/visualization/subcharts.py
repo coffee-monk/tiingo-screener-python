@@ -6,7 +6,7 @@ from src.visualization.src.subcharts.charts import (
     add_ui_elements
 )
 
-TIMEFRAME_ORDER = [ 'weekly', 'daily', '4hour', '1hour', '15min', '5min', '1min' ]
+TIMEFRAME_ORDER = [ 'weekly', 'week', 'daily', 'day', '4hour', 'hourly', '1hour', '15min', '5min', '1min' ]
 
 def subcharts(df_list, ticker='', show_volume=False):
     """
