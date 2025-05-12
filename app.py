@@ -19,7 +19,7 @@ indicator_list = [
     'banker_RSI', 
     'SMA',
     'OB',
-    'divergence_ATR', 
+    # 'divergence_ATR', 
     'divergence_Vortex', 
     'divergence_Fisher', 
     'divergence_OBV', 
@@ -27,8 +27,8 @@ indicator_list = [
 ]
 
 params = {
-    'SMA': {'periods': [50, 100, 150, 200]},
-    'divergence_ATR':    {'period':  80, 'lookback': 30},
+    'SMA': {'periods': [50, 200]},
+    # 'divergence_ATR':    {'period':  80, 'lookback': 30},
     'divergence_OBV':    {'period': 100, 'lookback': 40},
     'divergence_Volume': {'period': 100, 'lookback': 40},
     'divergence_Fisher': {'period': 100, 'lookback': 40},
@@ -37,7 +37,7 @@ params = {
 
 # Example Code ----------------------------------------------------------------
 
-ticker = 'CRDL'
+ticker = 'SOFI'
 
 # df1 = fetch_ticker(timeframe='weekly', ticker=ticker, api_key=API_KEY)
 # df2 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
@@ -69,4 +69,4 @@ ticker = 'CRDL'
 
 # subcharts([df1, df2, df3, df4])
 
-subcharts_data('ABT') # timeframe order
+subcharts_data('GAU')

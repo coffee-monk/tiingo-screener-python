@@ -7,7 +7,8 @@ from src.fetch_data.fetch_ticker import fetch_ticker
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 DATE_STAMP = datetime.now().strftime('%d%m%y')
 OUTPUT_DIR = PROJECT_ROOT / 'data/tickers'
-INPUT_FILE = PROJECT_ROOT / 'src/fetch_data/ticker_lists/nasdaq_tickers.csv'
+# INPUT_FILE = PROJECT_ROOT / 'src/fetch_data/ticker_lists/nasdaq_tickers.csv'
+INPUT_FILE = PROJECT_ROOT / 'src/fetch_data/ticker_lists/tsx.csv'
 
 def fetch_tickers(
                  timeframes=['day'], 
@@ -69,6 +70,9 @@ def load_tickers(csv_path):
     # Clean data - convert numeric columns and handle missing values
     numeric_cols = ['Last Sale', 'Net Change', '% Change', 'Market Cap', 'Volume']
     for col in numeric_cols:
-        df[col] = df[col].replace('[\$,%]', '', regex=True).astype(float)
+        try: df[col] = df[col].replace('[\$,%]', '', regex=True).astype(float)
+        except Exception as e:
+            print(f"\nError fetching csv: {str(e)}")
+            continue
 
     return df
