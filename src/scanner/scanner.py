@@ -179,15 +179,28 @@ def _get_data_files():
     return [f for f in os.listdir(INPUT_DIR) if f.endswith(".csv")]
 
 def _process_results(results, scan_type):
-    """Helper to process and save results"""
-    if results:
-        final_results = pd.concat(results)
-        _save_scan_results(final_results, OUTPUT_DIR, SCAN_DATE)
-        print(f"\nResults: {scan_type} found {len(final_results)} setups")
-        return final_results
-    else:
+    """Process results with reordered columns (Ticker, Timeframe first, date last)"""
+    if not results:
         print(f"\nResults: {scan_type} found no setups")
         return pd.DataFrame()
+    
+    final_results = pd.concat(results)
+    
+    # Create new DataFrame with just the columns we want
+    minimal_results = pd.DataFrame({
+        'Ticker': final_results['Ticker'],
+        'Timeframe': final_results['Timeframe']
+    })
+    
+    _save_scan_results(minimal_results, OUTPUT_DIR, SCAN_DATE)
+    print(f"\nResults: {scan_type} found {len(minimal_results)} setups")
+    return minimal_results
+
+def _save_scan_results(df, output_dir, scan_date):
+    """Save with reordered columns and no index"""
+    filename = f"scan_results_{scan_date}.csv"
+    filepath = output_dir / filename
+    df.to_csv(filepath, index=False)  # No additional index column
 
 def _parse_filename(filename):
     parts = filename.split("_")

@@ -16,29 +16,30 @@ indicator_list = [
     'candle_colors', 
     'liquidity', 
     'ZScore', 
+    'QQEMOD',
     'banker_RSI', 
-    'SMA',
+    # 'SMA',
     'OB',
     # 'divergence_ATR', 
-    'divergence_Vortex', 
-    'divergence_Fisher', 
-    'divergence_OBV', 
-    'divergence_Volume'
+    # 'divergence_Vortex', 
+    # 'divergence_Fisher', 
+    # 'divergence_OBV', 
+    # 'divergence_Volume'
 ]
 
 params = {
-    'SMA': {'periods': [50, 200]},
+    # 'SMA': {'periods': [50, 200]},
     # 'divergence_ATR':    {'period':  80, 'lookback': 30},
-    'divergence_OBV':    {'period': 100, 'lookback': 40},
-    'divergence_Volume': {'period': 100, 'lookback': 40},
-    'divergence_Fisher': {'period': 100, 'lookback': 40},
-    'divergence_Vortex': {'period': 100, 'lookback': 40},
+    # 'divergence_OBV':    {'period': 100, 'lookback': 40},
+    # 'divergence_Volume': {'period': 100, 'lookback': 40},
+    # 'divergence_Fisher': {'period': 100, 'lookback': 40},
+    # 'divergence_Vortex': {'period': 100, 'lookback': 40},
 }
 
 # Example Code ----------------------------------------------------------------
 
-ticker = 'SOFI'
-
+# ticker = 'SPY'
+#
 # df1 = fetch_ticker(timeframe='weekly', ticker=ticker, api_key=API_KEY)
 # df2 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
 # df3 = fetch_ticker(timeframe='4hour', ticker=ticker, api_key=API_KEY)
@@ -49,10 +50,10 @@ ticker = 'SOFI'
 # df3 = get_indicators(df3, indicator_list, params)
 # df4 = get_indicators(df4, indicator_list, params)
 #
-# print(df2.columns)
+# print(df1.columns)
 # print('\n')
-# print(df2.head(10))
-# print(df2.tail(10))
+# print(df1.head(10))
+# print(df1.tail(10))
 #
 # subcharts([df1, df2, df3, df4], ticker=ticker, show_volume=False)
 
@@ -60,13 +61,16 @@ ticker = 'SOFI'
 
 # run_indicators(indicator_list, params)
 
-# run_scanner('OB_aVWAP_bullish')
+# run_scanner('OB_bullish')
 
 # run_scanner({
-#             'day': 'OB_aVWAP_bullish', 
-#             'week': 'banker_RSI', 
+#             'day': 'ZScore_oversold', 
+#             # 'hour': 'banker_RSI', 
 #             })
 
 # subcharts([df1, df2, df3, df4])
 
-subcharts_data('GAU')
+subcharts_data(
+               'BHC', 
+               data_folder='indicators'
+               )

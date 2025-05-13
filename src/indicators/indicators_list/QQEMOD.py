@@ -163,21 +163,21 @@ def calculate_qqemod(
     return {
         # QQEMOD
         'QQEMOD': rsi_ma,
-        'QQE_Pct': qqe_pct,
+        # 'QQE_Pct': qqe_pct,
 
-        # QQE1 Components
+        # -- QQE1 Components --
         'QQE1_Value': fast_atr_rsi_tl - 50,  # Centered around 0
-        'QQE1_RSI_MA': rsi_ma,
-        'QQE1_Trend': trend,
-        'QQE1_UpperBB': upper_bb,
-        'QQE1_LowerBB': lower_bb,
+        # 'QQE1_RSI_MA': rsi_ma,
+        # 'QQE1_Trend': trend,
+        # 'QQE1_UpperBB': upper_bb,
+        # 'QQE1_LowerBB': lower_bb,
         
-        # QQE2 Components
-        'QQE2_Value': rsi_ma2 - 50,  # Centered around 0
-        'QQE2_RSI_MA': rsi_ma2,
-        'QQE2_Trend': trend2,
+        # -- QQE2 Components --
+        # 'QQE2_Value': rsi_ma2 - 50,  # Centered around 0
+        # 'QQE2_RSI_MA': rsi_ma2,
+        # 'QQE2_Trend': trend2,
         
-        # Derived Values
+        # -- Derived Values --
         'QQE1_Above_Upper': (rsi_ma - 50) > upper_bb,
         'QQE1_Below_Lower': (rsi_ma - 50) < lower_bb,
         'QQE2_Above_Threshold': (rsi_ma2 - 50) > threshold2,

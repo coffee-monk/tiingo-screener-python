@@ -58,9 +58,7 @@ def subcharts_data(ticker: str = "A",
             print("No valid data loaded")
             return
            
-        timeframes_used = [df.attrs['timeframe'] for df in dfs]
-        title = f"{ticker} ({' + '.join(timeframes_used)})"
-        subcharts(dfs, ticker=title, show_volume=show_volume)
+        subcharts(dfs, ticker=ticker, show_volume=show_volume)
 
 def get_most_recent_scanner_file() -> Optional[Path]:
     """Find the most recent scanner results file"""
