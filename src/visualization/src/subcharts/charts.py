@@ -1,6 +1,11 @@
 import pandas as pd
+from pathlib import Path
 from lightweight_charts import Chart
 from src.visualization.src.color_palette import get_color_palette
+from src.visualization.src.subcharts.indicators import add_visualizations
+
+PROJECT_ROOT = Path(__file__).parent.parent.parent.parent.parent
+DATA_ROOT = PROJECT_ROOT / "data" / "indicators"
 
 
 def prepare_dataframe(df, show_volume):
@@ -16,18 +21,18 @@ def prepare_dataframe(df, show_volume):
     df = df.reset_index()
     df['date'] = pd.to_datetime(df['date'])
     start_date = df['date'].iloc[0].strftime('%Y-%m-%d') if not df.empty else 'N/A'
-    interval = df.attrs['timeframe']
+    timeframe = df.attrs['timeframe']
     df['date'] = df['date'].dt.strftime('%Y-%m-%d %H:%M:%S') # format dates for display
     if not show_volume: df = df.drop(columns=['volume']) # include/remove volume column for vis
-    return df, interval
+    return df, timeframe
 
 
-def configure_base_chart(df, chart):
+def configure_base_chart(df, chart, include_banker_RSI=True):
     df = df.copy()
     colors = get_color_palette()
     scale_margin_bottom = 0.15 if 'volume' in df.columns else 0.05
     if 'volume' in df.columns: scale_margin_bottom = 0.2 if 'banker_RSI' in df.columns else 0.15
-    else: scale_margin_bottom = 0.1 if 'banker_RSI' in df.columns else 0.05
+    else: scale_margin_bottom = 0.1 if 'banker_RSI' in df.columns and include_banker_RSI else 0.05
     # Apply base configuration to all charts.
     chart.fit()
     chart.candle_style(
@@ -81,21 +86,49 @@ def get_charts(df_list):
     return main_chart, charts
 
 
-def add_ui_elements(chart, charts, ticker, interval):
+def add_ui_elements(chart, charts, ticker, timeframe):
     """
     Add UI elements like buttons and hotkeys.
     """
-    # Topbar elements
-    chart.topbar.textbox('ticker', ticker)
-    chart.topbar.textbox('interval', interval)
-    chart.topbar.button('max', 'FULLSCREEN', align='left', separator=True, 
-                       func=lambda c=chart: _maximize_minimize_button(c, charts))
-    
-    # Hotkeys
-    chart.hotkey(None, ' ', lambda key=' ': _maximize_minimize_hotkey(charts, key))
-    chart.hotkey('ctrl', 'c', lambda: sys.exit(0))
-    for i in range(1, len(charts) + 1):
-        chart.hotkey(None, str(i), lambda key=str(i): _maximize_minimize_hotkey(charts, key))
+    try:
+        if chart.topbar is not None:
+           chart.topbar['ticker'].set(ticker)
+           chart.topbar['timeframe'].set(timeframe)
+    except KeyError:
+        i = int(chart.name)
+        chart.topbar.textbox('ticker', ticker)
+        chart.topbar.textbox('timeframe', timeframe)
+        if len(charts) > 1:
+            chart.topbar.button('max', 'FULLSCREEN', align='left', separator=True, 
+                               func=lambda c=chart: _maximize_minimize_button(c, charts))
+        
+        # Hotkeys
+        chart.hotkey(None, ' ', lambda key=' ': _maximize_minimize_hotkey(charts, key))
+        chart.hotkey('ctrl', 'c', lambda: sys.exit(1))
+        chart.events.search += _on_search
+        chart.hotkey(None, str(1+i), lambda key=str(1+i): _maximize_minimize_hotkey(charts, key))
+        chart.hotkey(None, str(i+6), lambda key=i: _load_timeframe_csv(charts, key))
+
+
+def _maximize_minimize_hotkey(charts, key):
+        """Maximize the specified chart (1-4) or reset all (space)"""
+        if key == ' ':
+            # Reset all charts to normal size
+            default_chart_dimensions = _get_default_chart_dimensions()
+            for chart, (width, height) in zip(charts, default_chart_dimensions[len(charts)]):
+                chart.resize(width, height)
+                chart.fit()
+            for chart in charts:
+                chart.topbar['max'].set('FULLSCREEN')
+        elif key in ('1', '2', '3', '4'):
+            idx = int(key) - 1
+            # Maximize selected chart, minimize others
+            for i, chart in enumerate(charts):
+                width, height = (1.0, 1.0) if i == idx else (0.0, 0.0)
+                chart.resize(width, height)
+                chart.fit()
+                # Update button text
+                chart.topbar['max'].set('MINIMIZE' if i == idx else 'FULLSCREEN')
 
 
 def _maximize_minimize_button(target_chart, charts):
@@ -144,3 +177,103 @@ def _get_default_chart_dimensions():
         3: [(1.0, 0.5), (0.5, 0.5), (0.5, 0.5)],
         4: [(0.5, 0.5)] * 4
     }
+
+
+def _on_search(chart, input_ticker):
+    print(f"Searching for ticker: {input_ticker}")
+    
+    try:
+        # Get current timeframe from chart
+        current_timeframe = chart.topbar['timeframe'].value
+        
+        # Search for files matching both ticker and current timeframe
+        matching_files = sorted(DATA_ROOT.glob(f"{input_ticker}_{current_timeframe}_*.csv"), reverse=True)
+        
+        if not matching_files:
+            print(f"No {current_timeframe} data found for {input_ticker}")
+            return  # Keep current chart as is
+        
+        # Load the most recent matching file
+        selected_file = matching_files[0]
+        print(f"Loading data from: {selected_file}")
+        
+        try:
+            df = pd.read_csv(selected_file)
+            df = df.rename(columns={
+                'Open': 'open',
+                'Close': 'close', 
+                'Low': 'low',
+                'High': 'high'
+            }).copy()
+            
+            # Set timeframe attribute (should match current_timeframe)
+            df.attrs['timeframe'] = current_timeframe
+            
+            # Update chart
+            lines = chart.lines()
+            for line in lines: line.hide_data()
+            chart.clear_markers()
+            configure_base_chart(df, chart, False)
+            add_ui_elements(chart, [chart], input_ticker, current_timeframe)
+            add_visualizations(chart, df, False)
+            chart.set(None)
+            chart.set(df)
+            chart.fit()
+            
+        except Exception as e:
+            print(f"Error loading data: {e}")
+            
+    except KeyError:
+        print("Could not determine current timeframe from chart")
+    except Exception as e:
+        print(f"Error during search: {e}")
+
+
+def _load_timeframe_csv(charts, key):
+    # Get current values from topbar
+    chart = charts[int(key)-6]
+    ticker = chart.topbar['ticker'].value
+    current_timeframe = chart.topbar['timeframe'].value
+
+    # Define all possible timeframes in preferred order
+    timeframe_order = ['weekly', 'daily', '4hour', '1hour', '30min', '15min', '5min', '1min']
+    
+    # Find available timeframes for this ticker
+    available_timeframes = []
+    for tf in timeframe_order:
+        if list(DATA_ROOT.glob(f"{ticker}_{tf}_*.csv")):
+            available_timeframes.append(tf)
+    
+    if not available_timeframes:
+        print(f"No timeframe data found for {ticker}")
+        return
+
+    # Find current position in AVAILABLE timeframes
+    try:
+        current_index = available_timeframes.index(current_timeframe)
+    except ValueError:
+        current_index = -1  # Current timeframe not available
+        
+    next_index = (current_index + 1) % len(available_timeframes)
+    next_timeframe = available_timeframes[next_index]
+    
+    # Load the most recent file for this timeframe
+    matching_files = sorted(DATA_ROOT.glob(f"{ticker}_{next_timeframe}_*.csv"), reverse=True)
+    selected_file = matching_files[0]
+    print(f"Loading {ticker} {next_timeframe} data from: {selected_file}")
+    
+    # Update chart
+    df = pd.read_csv(selected_file).rename(columns={
+        'Open': 'open', 'Close': 'close', 'Low': 'low', 'High': 'high'
+    }).copy()
+    df.attrs['timeframe'] = next_timeframe
+    
+    lines = chart.lines()
+    # for line in lines: line.hide_data()
+    for line in lines: line.set(pd.DataFrame())
+    chart.clear_markers()
+    configure_base_chart(df, chart, False)
+    add_ui_elements(chart, [chart], ticker, next_timeframe)
+    add_visualizations(chart, df, False)
+    chart.set(df)
+    chart.fit()

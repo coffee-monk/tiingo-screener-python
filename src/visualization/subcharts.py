@@ -1,3 +1,5 @@
+import pandas as pd
+from pathlib import Path
 from src.visualization.src.subcharts.indicators import add_visualizations
 from src.visualization.src.subcharts.charts import (
     get_charts,
@@ -6,7 +8,12 @@ from src.visualization.src.subcharts.charts import (
     add_ui_elements
 )
 
-TIMEFRAME_ORDER = [ 'weekly', 'week', 'daily', 'day', '4hour', 'hourly', '1hour', 'hour', '15min', '5min', '1min' ]
+TIMEFRAME_ORDER = [ 'weekly', 'week', 'daily', 'day', '4hour', 'hourly', '4hour', '1hour', 'hour', '15min', '5min', '1min' ]
+
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+DATA_ROOT = PROJECT_ROOT / "data" / "indicators"
+print(DATA_ROOT)
+
 
 def subcharts(df_list, ticker='', show_volume=False):
     """
@@ -25,11 +32,14 @@ def subcharts(df_list, ticker='', show_volume=False):
 
     main_chart, subcharts = get_charts(df_list)
 
+
     for i, (df, subchart) in enumerate(zip(df_list, subcharts)):
-        df, interval = prepare_dataframe(df, show_volume)
+        subchart.name = str(i)
+        df, timeframe = prepare_dataframe(df, show_volume)
         configure_base_chart(df, subchart)
-        add_ui_elements(subchart, subcharts, ticker, interval)
+        add_ui_elements(subchart, subcharts, ticker, timeframe)
         add_visualizations(subchart, df)
         subchart.set(df)
+
 
     main_chart.show(block=True)

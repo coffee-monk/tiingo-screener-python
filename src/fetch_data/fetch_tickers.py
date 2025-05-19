@@ -7,11 +7,10 @@ from src.fetch_data.fetch_ticker import fetch_ticker
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 DATE_STAMP = datetime.now().strftime('%d%m%y')
 OUTPUT_DIR = PROJECT_ROOT / 'data/tickers'
-# INPUT_FILE = PROJECT_ROOT / 'src/fetch_data/ticker_lists/nasdaq_tickers.csv'
-INPUT_FILE = PROJECT_ROOT / 'src/fetch_data/ticker_lists/tsx.csv'
+INPUT_FILE = PROJECT_ROOT / 'src/fetch_data/ticker_lists/tsx.csv' # nasdaq_tickers.csv
 
 def fetch_tickers(
-                 timeframes=['day'], 
+                 timeframes=['weekly', 'daily', 'hourly', '5min'], 
                  start_date=None,
                  end_date=None,
                  api_key='Tiingo_API_Key'
@@ -32,7 +31,6 @@ def fetch_tickers(
     processed_count = 0
     for ticker in df_stock_list['Ticker'].unique():
         processed_count += 1
-        # print(f"\rFetching {processed_count}/{total_tickers}: {ticker.ljust(6)}", end="")
         print(f"\rFetching {processed_count}/{total_tickers}: {str(ticker).strip().ljust(6)}", end="")
         process_ticker(ticker, timeframes, api_key)
     
@@ -40,7 +38,7 @@ def fetch_tickers(
     print(f"Raw data saved with date format: {DATE_STAMP}")
     print(f"Files formatted as: TICKER_TIMEFRAME_{DATE_STAMP}.csv")
 
-# Ticker Handling -----------------------------------------------------------==
+# Ticker Handling -------------------------------------------------------------
 
 def process_ticker(ticker, timeframes, api_key, save_to_disk=True):
     """Fetch and save raw ticker data for all specified timeframes."""

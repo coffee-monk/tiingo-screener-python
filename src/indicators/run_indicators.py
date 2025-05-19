@@ -11,14 +11,14 @@ OUTPUT_DIR = PROJECT_ROOT / "data/indicators"
 def run_indicators(indicator_list, params=None):
     """Process and save each ticker immediately after calculation."""
 
-    ticker_data = load_ticker(INPUT_DIR)
-    total_files = len(ticker_data)
+    tickers_data = load_tickers(INPUT_DIR)
+    total_files = len(tickers_data)
     print(f"Input directory: {INPUT_DIR}")
     print(f"Output directory: {OUTPUT_DIR}")
     print(f"\nLoaded {total_files} datasets. Processing...")
 
     processed_count = 0
-    for key, data in ticker_data.items():
+    for key, data in tickers_data.items():
         processed_count += 1
         ticker = data["ticker"]
         timeframe = data["timeframe"]
@@ -39,9 +39,9 @@ def run_indicators(indicator_list, params=None):
 
 # Helper Functions ------------------------------------------------------------
 
-def load_ticker(input_dir):
+def load_tickers(input_dir):
     """Load CSVs with datetime index and metadata."""
-    ticker_data = {}
+    tickers_data = {}
     for file in os.listdir(input_dir):
         if file.endswith(".csv"):
             parts = file.split("_")
@@ -55,13 +55,13 @@ def load_ticker(input_dir):
             )
             df.attrs = {"timeframe": timeframe}
             
-            ticker_data[f"{ticker}_{timeframe}"] = {
+            tickers_data[f"{ticker}_{timeframe}"] = {
                 "df": df,
                 "ticker": ticker,
                 "timeframe": timeframe,
                 "date_stamp": date_stamp
             }
-    return ticker_data
+    return tickers_data
 
 
 def save_ticker(df, ticker, timeframe, date_stamp, output_dir):
