@@ -180,7 +180,8 @@ def _maximize_minimize_hotkey(charts, key):
                 chart.resize(width, height)
                 chart.fit()
             for chart in charts:
-                chart.topbar['max'].set('FULLSCREEN')
+                try: chart.topbar['max'].set('FULLSCREEN') 
+                except KeyError: pass
         elif key in ('1', '2', '3', '4'):
             idx = int(key) - 1
             # Maximize selected chart, minimize others
@@ -189,7 +190,8 @@ def _maximize_minimize_hotkey(charts, key):
                 chart.resize(width, height)
                 chart.fit()
                 # Update button text
-                chart.topbar['max'].set('MINIMIZE' if i == idx else 'FULLSCREEN')
+                try: chart.topbar['max'].set('MINIMIZE' if i == idx else 'FULLSCREEN')
+                except KeyError: pass
 
 
 def _maximize_minimize_button(target_chart, charts):
@@ -208,27 +210,6 @@ def _maximize_minimize_button(target_chart, charts):
             chart.resize(width, height)
             chart.fit()
         button.set('MINIMIZE')
-
-
-def _maximize_minimize_hotkey(charts, key):
-        """Maximize the specified chart (1-4) or reset all (space)"""
-        if key == ' ':
-            # Reset all charts to normal size
-            default_chart_dimensions = _get_default_chart_dimensions()
-            for chart, (width, height) in zip(charts, default_chart_dimensions[len(charts)]):
-                chart.resize(width, height)
-                chart.fit()
-            for chart in charts:
-                chart.topbar['max'].set('FULLSCREEN')
-        elif key in ('1', '2', '3', '4'):
-            idx = int(key) - 1
-            # Maximize selected chart, minimize others
-            for i, chart in enumerate(charts):
-                width, height = (1.0, 1.0) if i == idx else (0.0, 0.0)
-                chart.resize(width, height)
-                chart.fit()
-                # Update button text
-                chart.topbar['max'].set('MINIMIZE' if i == idx else 'FULLSCREEN')
 
 
 def _get_default_chart_dimensions():
