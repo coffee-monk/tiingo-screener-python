@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from pathlib import Path
 from lightweight_charts import Chart
 from src.visualization.src.color_palette import get_color_palette
@@ -8,23 +9,83 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent.parent.parent
 DATA_ROOT = PROJECT_ROOT / "data" / "indicators"
 
 
-def prepare_dataframe(df, show_volume):
-    # Rename columns and ensure datetime format
+def prepare_dataframe(df, show_volume, padding_ratio=0.25):
+    """
+    Prepare dataframe with dynamic padding based on chart length.
+    Adds padding candles equal to 25% (or custom ratio) of current candle count.
+    
+    Args:
+        df: Input DataFrame
+        show_volume: Whether to include volume column
+        padding_ratio: Fraction of current candles to add as padding (default 0.25 = 25%)
+    """
+    df = df.copy()
+    
+    # Rename columns
     df = df.rename(columns={
         'Open': 'open',
-        'Close': 'close',
+        'Close': 'close', 
         'Low': 'low',
         'High': 'high',
         'Volume': 'volume'
-    }).copy()
-    # Get dataframe metadata
+    })
+    
+    # Store original timeframe
+    timeframe = df.attrs['timeframe']
+    
+    # Reset index and convert date
     df = df.reset_index()
     df['date'] = pd.to_datetime(df['date'])
-    start_date = df['date'].iloc[0].strftime('%Y-%m-%d') if not df.empty else 'N/A'
-    timeframe = df.attrs['timeframe']
-    df['date'] = df['date'].dt.strftime('%Y-%m-%d %H:%M:%S') # format dates for display
-    if not show_volume: df = df.drop(columns=['volume']) # include/remove volume column for vis
+    
+    # Calculate dynamic padding length (25% of current candles, rounded up)
+    if padding_ratio > 0 and len(df) > 0:
+        padding_candles = max(5, int(len(df) * padding_ratio))  # Minimum 5 candles
+        last_candle = df.iloc[-1].copy()
+        last_date = last_candle['date']
+        
+        # Convert timeframe to pandas frequency
+        tf = str(timeframe).lower()
+        tf_mapping = {
+            '1min': '1min', '5min': '5min', '15min': '15min', '30min': '30min',
+            '1h': '1H', '1hour': '1H', '4h': '4H', '4hour': '4H',
+            'd': '1D', 'day': '1D', 'daily': '1D',
+            'w': '1W', 'week': '1W', 'weekly': '1W'
+        }
+        freq = tf_mapping.get(tf, '1D')
+        
+        # Generate future dates
+        future_dates = pd.date_range(
+            start=last_date + pd.Timedelta(freq),
+            periods=padding_candles,
+            freq=freq
+        )
+        
+        # Create invisible padding candles
+        future_df = pd.DataFrame({
+            'date': future_dates,
+            'open': np.nan,
+            'high': np.nan,
+            'low': np.nan,
+            'close': np.nan,
+            'volume': 0
+        })
+        
+        # Carry forward indicators
+        indicator_cols = [c for c in df.columns if c.startswith(('aVWAP','OB'))]
+        for col in indicator_cols:
+            future_df[col] = last_candle.get(col, np.nan)
+        
+        df = pd.concat([df, future_df], ignore_index=True)
+    
+    # Format dates for display
+    df['date'] = df['date'].dt.strftime('%Y-%m-%d %H:%M:%S')
+    
+    # Handle volume column
+    if not show_volume and 'volume' in df.columns:
+        df = df.drop(columns=['volume'])
+    
     return df, timeframe
+
 
 
 def configure_base_chart(df, chart):
