@@ -27,12 +27,12 @@ def prepare_dataframe(df, show_volume):
     return df, timeframe
 
 
-def configure_base_chart(df, chart, include_banker_RSI=True):
+def configure_base_chart(df, chart):
     df = df.copy()
     colors = get_color_palette()
     scale_margin_bottom = 0.15 if 'volume' in df.columns else 0.05
     if 'volume' in df.columns: scale_margin_bottom = 0.2 if 'banker_RSI' in df.columns else 0.15
-    else: scale_margin_bottom = 0.1 if 'banker_RSI' in df.columns and include_banker_RSI else 0.05
+    else: scale_margin_bottom = 0.1 if 'banker_RSI' in df.columns else 0.05
     # Apply base configuration to all charts.
     chart.fit()
     chart.candle_style(

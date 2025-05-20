@@ -26,7 +26,7 @@ def subcharts(df_list, ticker='', show_volume=False):
         key=lambda x: (
             TIMEFRAME_ORDER.index(x.attrs['timeframe']) 
             if x.attrs.get('timeframe') in TIMEFRAME_ORDER 
-            else float('inf')  # Unknown timeframes go last
+            else float('inf')
         )
     )
 

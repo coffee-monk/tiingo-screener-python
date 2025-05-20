@@ -4,19 +4,18 @@ from src.indicators.get_indicators import get_indicators
 
 
 def calculate_avwap_channel(df, 
-                            peaks_valleys=False, 
+                            peaks_valleys=True, 
                             peaks_valleys_avg=False, 
                             gaps=False, 
                             gaps_avg=False, 
                             OB=False, 
-                            OB_avg=True, 
+                            OB_avg=False, 
                             All_avg=False,
                             periods=25,
-                            avg_lookback=1, 
-                            ):
+                            avg_lookback=1,
+                            max_aVWAPs=None): # None to show all aVWAPs
 
     # Get indicators based on input parameters --------------------------------
-
     aVWAP_anchors = []
     if peaks_valleys or peaks_valleys_avg or All_avg: aVWAP_anchors.append('peaks_valleys')
     if gaps or gaps_avg or All_avg: aVWAP_anchors.append('gaps')
@@ -35,39 +34,46 @@ def calculate_avwap_channel(df,
     df['date'] = pd.to_datetime(df['date'])
 
     # Initialize separate dictionaries for peaks/valleys and gaps -------------
-
     peaks_valleys_aVWAPs = {}
     gaps_aVWAPs = {}
     OB_aVWAPs = {}
 
-    # Calculate peaks/valleys/gaps-up/gaps-down aVWAPs ------------------------
+    # Modified anchor point processing with limit -----------------------------
+    def process_anchors(indices, prefix, storage_dict):
+        if not indices:
+            return
+        
+        # Sort indices descending (newest first)
+        sorted_indices = sorted(indices, reverse=True)
+        
+        # Apply limit if specified
+        if max_aVWAPs is not None and max_aVWAPs is not "All":
+            sorted_indices = sorted_indices[:max_aVWAPs]
+        
+        for i in sorted_indices:
+            storage_dict[f'{prefix}_{i}'] = calculate_avwap(df, i)
 
+    # Calculate peaks/valleys/gaps-up/gaps-down aVWAPs -----------------------
     if peaks_valleys or peaks_valleys_avg or All_avg:
         peaks_indices = df[df['Peaks'] == 1].index.tolist() if 'Peaks' in df.columns else []
         valleys_indices = df[df['Valleys'] == 1].index.tolist() if 'Valleys' in df.columns else []
-
-        for i in peaks_indices:
-            peaks_valleys_aVWAPs[f'aVWAP_peak_{i}'] = calculate_avwap(df, i)
-        for i in valleys_indices:
-            peaks_valleys_aVWAPs[f'aVWAP_valley_{i}'] = calculate_avwap(df, i)
+        
+        process_anchors(peaks_indices, 'aVWAP_peak', peaks_valleys_aVWAPs)
+        process_anchors(valleys_indices, 'aVWAP_valley', peaks_valleys_aVWAPs)
 
     if gaps or gaps_avg or All_avg:
         gap_up_indices = df[df['Gap_Up'] == 1].index.tolist() if 'Gap_Up' in df.columns else []
         gap_down_indices = df[df['Gap_Down'] == 1].index.tolist() if 'Gap_Down' in df.columns else []
-
-        for i in gap_up_indices:
-            gaps_aVWAPs[f'Gap_Up_aVWAP_{i}'] = calculate_avwap(df, i)
-        for i in gap_down_indices:
-            gaps_aVWAPs[f'Gap_Down_aVWAP_{i}'] = calculate_avwap(df, i)
+        
+        process_anchors(gap_up_indices, 'Gap_Up_aVWAP', gaps_aVWAPs)
+        process_anchors(gap_down_indices, 'Gap_Down_aVWAP', gaps_aVWAPs)
 
     if OB or OB_avg or All_avg:
-        OB_bull_indices = df[df['OB'] == 1].index.tolist()  if 'OB' in df.columns else []
+        OB_bull_indices = df[df['OB'] == 1].index.tolist() if 'OB' in df.columns else []
         OB_bear_indices = df[df['OB'] == -1].index.tolist() if 'OB' in df.columns else []
-
-        for i in OB_bull_indices:
-            OB_aVWAPs[f'aVWAP_OB_bull_{i}'] = calculate_avwap(df, i)
-        for i in OB_bear_indices:
-            OB_aVWAPs[f'aVWAP_OB_bear_{i}'] = calculate_avwap(df, i)
+        
+        process_anchors(OB_bull_indices, 'aVWAP_OB_bull', OB_aVWAPs)
+        process_anchors(OB_bear_indices, 'aVWAP_OB_bear', OB_aVWAPs)
 
     all_aVWAPs = {**peaks_valleys_aVWAPs, **gaps_aVWAPs, **OB_aVWAPs} # Combine all aVWAPs
 
@@ -78,19 +84,20 @@ def calculate_avwap_channel(df,
     df = pd.concat([df, pd.DataFrame(all_aVWAPs)], axis=1) 
 
     # Calculate averages if requested -----------------------------------------
+    if peaks_valleys_avg and peaks_valleys_aVWAPs: 
+        df['Peaks_Valleys_avg'] = calculate_rolling_aVWAP_avg(df, peaks_valleys_aVWAPs, avg_lookback)
 
-    if peaks_valleys_avg and peaks_valleys_aVWAPs: df['Peaks_Valleys_avg'] = calculate_rolling_aVWAP_avg(df, peaks_valleys_aVWAPs, avg_lookback)
+    if gaps_avg and gaps_aVWAPs:                   
+        df['Gaps_avg'] = calculate_rolling_aVWAP_avg(df, gaps_aVWAPs, avg_lookback)
 
-    if gaps_avg and gaps_aVWAPs:                   df['Gaps_avg'] = calculate_rolling_aVWAP_avg(df, gaps_aVWAPs, avg_lookback)
-
-    if OB_avg and OB_aVWAPs:                       df['OB_avg'] = calculate_rolling_aVWAP_avg(df, OB_aVWAPs, avg_lookback)
+    if OB_avg and OB_aVWAPs:                       
+        df['OB_avg'] = calculate_rolling_aVWAP_avg(df, OB_aVWAPs, avg_lookback)
 
     # Calculate average from all aVWAPs
     if (peaks_valleys_avg or gaps_avg or OB_avg or All_avg) and (peaks_valleys_aVWAPs or gaps_aVWAPs or OB_aVWAPs):
         df['All_avg'] = calculate_rolling_aVWAP_avg(df, all_aVWAPs, avg_lookback)
 
-    # Format dataframe --------------------------------------------------------
-
+    # Format dataframe -------------------------------------------------------
     cols_to_drop = ['Open', 'Close', 'High', 'Low', 'Volume']
     if peaks_valleys:
         cols_to_drop.extend(['Valleys', 'Peaks'])
@@ -100,8 +107,7 @@ def calculate_avwap_channel(df,
     df = df.drop(columns=[col for col in cols_to_drop if col in df.columns])
     df.set_index('date', inplace=True)
 
-    # Create final results dictionary -----------------------------------------
-
+    # Create final results dictionary ----------------------------------------
     result_dict = {}
 
     if peaks_valleys and peaks_valleys_aVWAPs:
@@ -135,8 +141,7 @@ def calculate_avwap_channel(df,
 def calculate_indicator(df, **params):
     return calculate_avwap_channel(df, **params)
 
-# Utils -----------------------------------------------------------------------
-
+# Utils ----------------------------------------------------------------------
 def calculate_avwap(df, anchor_index):
     """Calculate anchored VWAP from anchor point"""
     df_anchored = df.iloc[anchor_index:].copy()
