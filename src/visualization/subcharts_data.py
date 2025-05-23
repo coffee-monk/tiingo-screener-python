@@ -8,8 +8,8 @@ SUPPORTED_FOLDERS = ["tickers", "indicators", "scanner"]
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 DATA_ROOT = PROJECT_ROOT / "data"
 
-def subcharts_data(ticker: str = "A", 
-                  data_folder: str = "scanner",  # tickers, indicators, scanner
+def subcharts_data(ticker: str = "AAPL",
+                  data_folder: str = "indicators",  # tickers, indicators, scanner
                   timeframes: Optional[List[str]] = None,
                   show_volume: bool = False):
     """
@@ -108,7 +108,7 @@ def load_single_dataframe(file: Path) -> pd.DataFrame:
     df.attrs['filepath'] = str(file)
     return df
 
-def find_ticker_files(ticker: str, 
+def find_ticker_files(ticker: str,
                      folder: str = "tickers", 
                      timeframes: Optional[List[str]] = None) -> List[Path]:
     """

@@ -15,10 +15,12 @@ DATA_ROOT = PROJECT_ROOT / "data" / "indicators"
 print(DATA_ROOT)
 
 
-def subcharts(df_list, ticker='', show_volume=False):
+def subcharts(df_list, ticker='', show_volume=False, csv_loader='scanner'):
     """
     Visualize 1-4 DataFrames with automatic timeframe ordering.
     DataFrames are now sorted from largest to smallest timeframe (weekly → daily → 15min etc).
+    Modes: 'scanner', 'indicators'
+        - 
     """
     # Sort DataFrames by timeframe priority
     df_list = sorted(
@@ -37,7 +39,7 @@ def subcharts(df_list, ticker='', show_volume=False):
         subchart.name = str(i)
         df, timeframe = prepare_dataframe(df, show_volume)
         configure_base_chart(df, subchart)
-        add_ui_elements(subchart, subcharts, ticker, timeframe)
+        add_ui_elements(subchart, subcharts, ticker, timeframe, csv_loader)
         add_visualizations(subchart, df)
         subchart.set(df)
 

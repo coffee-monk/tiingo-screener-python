@@ -87,7 +87,6 @@ def prepare_dataframe(df, show_volume, padding_ratio=0.25):
     return df, timeframe
 
 
-
 def configure_base_chart(df, chart):
     df = df.copy()
     colors = get_color_palette()
@@ -147,7 +146,15 @@ def get_charts(df_list):
     return main_chart, charts
 
 
-def add_ui_elements(chart, charts, ticker, timeframe):
+KEY_MAPPINGS = {
+    '-': 0,
+    '=': 1,
+    '[': 2,
+    ']': 3,
+}
+
+
+def add_ui_elements(chart, charts, ticker, timeframe, csv_loader):
     """
     Add UI elements like buttons and hotkeys.
     """
@@ -169,6 +176,10 @@ def add_ui_elements(chart, charts, ticker, timeframe):
         chart.events.search += _on_search
         chart.hotkey(None, str(1+i), lambda key=str(1+i): _maximize_minimize_hotkey(charts, key))
         chart.hotkey(None, str(i+6), lambda key=i: _load_timeframe_csv(charts, key))
+        if i == 0: chart.hotkey(None, '-', lambda key='-': _load_ticker_csv(charts, key, csv_loader))
+        if i == 1: chart.hotkey(None, '=', lambda key='=': _load_ticker_csv(charts, key, csv_loader))
+        if i == 2: chart.hotkey(None, '[', lambda key='[': _load_ticker_csv(charts, key, csv_loader))
+        if i == 3: chart.hotkey(None, ']', lambda key=']': _load_ticker_csv(charts, key, csv_loader))
 
 
 def _maximize_minimize_hotkey(charts, key):
@@ -255,7 +266,7 @@ def _on_search(chart, input_ticker):
             lines = chart.lines()
             for line in lines: line.hide_data()
             chart.clear_markers()
-            configure_base_chart(df, chart, False)
+            configure_base_chart(df, chart)
             add_ui_elements(chart, [chart], input_ticker, current_timeframe)
             add_visualizations(chart, df, False)
             chart.set(None)
@@ -273,6 +284,7 @@ def _on_search(chart, input_ticker):
 
 def _load_timeframe_csv(charts, key):
     # Get current values from topbar
+    print(key)
     chart = charts[int(key)-6]
     ticker = chart.topbar['ticker'].value
     current_timeframe = chart.topbar['timeframe'].value
@@ -314,8 +326,126 @@ def _load_timeframe_csv(charts, key):
     # for line in lines: line.hide_data()
     for line in lines: line.set(pd.DataFrame())
     chart.clear_markers()
-    configure_base_chart(df, chart, False)
+    configure_base_chart(df, chart)
     add_ui_elements(chart, [chart], ticker, next_timeframe)
     add_visualizations(chart, df, False)
     chart.set(df)
     chart.fit()
+
+
+def _load_ticker_csv(charts, key, mode='indicators'):
+    """
+    Cycle through tickers with two modes:
+    - 'indicators': Default mode (cycles all tickers with indicator data)
+    - 'scanner': Cycles only tickers that appeared in scanner results
+    
+    Args:
+        charts: List of chart objects
+        key: Hotkey pressed (maps to chart index)
+        mode: 'indicators' or 'scanner' (data source)
+    """
+    # Key to chart index mapping
+    KEY_MAPPINGS = {'-': 0, '=': 1, '[': 2, ']': 3}
+    
+    try:
+        chart_index = KEY_MAPPINGS[key]
+        chart = charts[chart_index]
+    except (KeyError, IndexError) as e:
+        print(f"Invalid key or chart index: {e}")
+        return
+
+    # Get current values from chart
+    current_ticker = chart.topbar['ticker'].value
+    timeframe = chart.topbar['timeframe'].value
+    
+    if mode == 'scanner':
+        # SCANNER MODE: Get tickers from scan results
+        scanner_file = get_most_recent_scanner_file()
+        if not scanner_file:
+            print("No scanner results found - falling back to indicators mode")
+            mode = 'indicators'  # Fallback to default mode
+        else:
+            try:
+                scanner_df = pd.read_csv(scanner_file)
+                timeframe_tickers = scanner_df[scanner_df['Timeframe'] == timeframe]['Ticker'].unique()
+                
+                if len(timeframe_tickers) == 0:
+                    print(f"No tickers in scanner for {timeframe} - falling back")
+                    mode = 'indicators'
+                else:
+                    available_tickers = sorted(timeframe_tickers)
+            except Exception as e:
+                print(f"Scanner error: {e} - falling back")
+                mode = 'indicators'
+    
+    if mode == 'indicators':
+        # DEFAULT MODE: Get all tickers with indicator data
+        ticker_files = sorted(DATA_ROOT.glob(f"*_{timeframe}_*.csv"))
+        available_tickers = sorted(list({f.name.split('_')[0] for f in ticker_files}))
+        
+        if not available_tickers:
+            print(f"No tickers available for {timeframe} timeframe")
+            return
+
+    # Find current position and get next ticker
+    try:
+        current_index = available_tickers.index(current_ticker)
+        next_index = (current_index + 1) % len(available_tickers)
+    except ValueError:
+        next_index = 0  # Current ticker not in list
+    
+    next_ticker = available_tickers[next_index]
+    
+    # Load the data file
+    if mode == 'scanner':
+        print(f"Loading scanner ticker {next_ticker} ({timeframe})")
+    else:
+        print(f"Loading indicator ticker {next_ticker} ({timeframe})")
+    
+    indicator_file = find_indicator_file(next_ticker, timeframe)
+    if not indicator_file:
+        print(f"No data found for {next_ticker} {timeframe}")
+        return
+        
+    # Update chart
+    try:
+        df = pd.read_csv(indicator_file).rename(columns={
+            'Open': 'open', 'Close': 'close', 'Low': 'low', 'High': 'high'
+        }).copy()
+        df.attrs['timeframe'] = timeframe
+        
+        # Clear existing elements
+        for line in chart.lines():
+            line.set(pd.DataFrame())
+        chart.clear_markers()
+        
+        # Reconfigure chart
+        show_volume = 'volume' in df.columns
+        prepared_df, _ = prepare_dataframe(df, show_volume)
+        configure_base_chart(prepared_df, chart)
+        add_ui_elements(chart, charts, next_ticker, timeframe)
+        add_visualizations(chart, prepared_df)
+        chart.set(prepared_df)
+        chart.fit()
+        
+    except Exception as e:
+        print(f"Error loading {next_ticker}: {str(e)}")
+
+# Required helper functions
+def get_most_recent_scanner_file():
+    """Find newest scanner file in scanner/ folder"""
+    scanner_path = DATA_ROOT.parent / "scanner"
+    if not scanner_path.exists():
+        return None
+        
+    scan_files = sorted(
+        scanner_path.glob("scan_results_*.csv"),
+        key=lambda x: x.stem.split('_')[-1],  # Sort by date in filename
+        reverse=True
+    )
+    return scan_files[0] if scan_files else None
+
+def find_indicator_file(ticker, timeframe):
+    """Find newest indicator file for ticker+timeframe"""
+    files = sorted(DATA_ROOT.glob(f"{ticker}_{timeframe}_*.csv"), reverse=True)
+    return files[0] if files else None
