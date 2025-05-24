@@ -3,6 +3,7 @@ import pandas as pd
 from pathlib import Path
 from datetime import datetime
 import importlib
+import requests
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 INPUT_DIR = PROJECT_ROOT / "data/indicators"
@@ -10,7 +11,7 @@ OUTPUT_DIR = PROJECT_ROOT / "data/scanner"
 CRITERIA_DIR = PROJECT_ROOT / "scanner/criteria"
 SCAN_DATE = datetime.now().strftime("%d%m%y")
 
-def run_scanner(criteria='banker_RSI', logic='AND'):
+def run_scanner(criteria='banker_RSI', logic='AND', api_key='Tiingo API Key'):
     """Ultimate flexible scanner with single criteria parameter:
   
     1. String:  run_scanner('RSI') → Single criteria all files
@@ -25,13 +26,13 @@ def run_scanner(criteria='banker_RSI', logic='AND'):
     print(f"Output directory: {OUTPUT_DIR}")
 
     if isinstance(criteria, dict):
-        return _advanced_scan(criteria, logic)
+        return _advanced_scan(criteria, logic, api_key)
     elif isinstance(criteria, list):
-        return _multi_criteria_scan(criteria)
+        return _multi_criteria_scan(criteria, api_key)
     else:
-        return _simple_scan(criteria)
+        return _simple_scan(criteria, api_key)
 
-def _simple_scan(criteria):
+def _simple_scan(criteria, api_key='Tiingo API Key'):
     """Single criteria applied to all files"""
     criteria_func = _load_criteria(criteria)
     if not criteria_func:
@@ -48,9 +49,9 @@ def _simple_scan(criteria):
             results['Timeframe'] = timeframe
             all_results.append(results)
   
-    return _process_results(all_results, f"'{criteria}' scan")
+    return _process_results(all_results, f"'{criteria}' scan", api_key)
 
-def _multi_criteria_scan(criteria_list):
+def _multi_criteria_scan(criteria_list, api_key='Tiingo API Key'):
     """Multiple criteria (ALL must pass) for all files"""
     criteria_funcs = [_load_criteria(c) for c in criteria_list]
     if not all(criteria_funcs):
@@ -80,9 +81,9 @@ def _multi_criteria_scan(criteria_list):
             combined_results['Timeframe'] = timeframe
             all_results.append(combined_results)
   
-    return _process_results(all_results, f"multi-criteria {criteria_list} scan")
+    return _process_results(all_results, f"multi-criteria {criteria_list} scan", api_key)
 
-def _advanced_scan(timeframe_criteria, logic):
+def _advanced_scan(timeframe_criteria, logic, api_key='Tiingo API Key'):
     """Criteria applied to specific timeframes. Only passes if ALL timeframes:
        1. Exist in the data
        2. Meet their criteria
@@ -163,7 +164,7 @@ def _advanced_scan(timeframe_criteria, logic):
         if all(signals.values()):
             all_results.extend(results.values())
 
-    return _process_results(all_results, "advanced scan")
+    return _process_results(all_results, "advanced scan", api_key)
 
 def _load_criteria(criteria_name):
     """Helper to load criteria function"""
@@ -178,7 +179,7 @@ def _get_data_files():
     """Helper to get all data files"""
     return [f for f in os.listdir(INPUT_DIR) if f.endswith(".csv")]
 
-def _process_results(results, scan_type):
+def _process_results(results, scan_type, api_key='Tiingo API Key'):
     """Process results with reordered columns (Ticker, Timeframe first, date last)"""
     if not results:
         print(f"\nResults: {scan_type} found no setups")
@@ -191,7 +192,10 @@ def _process_results(results, scan_type):
         'Ticker': final_results['Ticker'],
         'Timeframe': final_results['Timeframe']
     })
-    
+
+    minimal_results = _attach_fundamentals_to_scanner(minimal_results, api_key)
+    print(minimal_results)
+
     _save_scan_results(minimal_results, OUTPUT_DIR, SCAN_DATE)
     print(f"\nResults: {scan_type} found {len(minimal_results)} setups")
     return minimal_results
@@ -214,3 +218,52 @@ def _save_scan_results(df, output_dir, scan_date):
     filename = f"scan_results_{scan_date}.csv"
     filepath = output_dir / filename
     df.to_csv(filepath, index=True, index_label='date')
+
+def _attach_fundamentals_to_scanner(scanner_df, api_key):
+    """
+    Simplified version that:
+    1. Gets latest fundamentals for each ticker
+    2. Merges all fundamental metrics in one operation
+    3. Preserves error handling
+    """
+    if 'Ticker' not in scanner_df.columns:
+        return scanner_df
+
+    # Define the fundamental metrics we want to fetch
+    fundamental_metrics = [
+        'marketCap', 
+        'enterpriseVal', 
+        'peRatio',
+        'pbRatio', 
+        'trailingPEG1Y'
+    ]
+
+    # Create a DataFrame to store all fundamentals
+    fundamentals = pd.DataFrame(index=scanner_df['Ticker'].unique())
+
+    # Fetch data for each ticker
+    for ticker in fundamentals.index:
+        try:
+            response = requests.get(
+                f"https://api.tiingo.com/tiingo/fundamentals/{ticker}/daily?token={api_key}",
+                headers={'Content-Type': 'application/json'}
+            )
+            response.raise_for_status()
+            
+            if fund_data := response.json():
+                # Get most recent data point
+                latest = pd.DataFrame(fund_data).iloc[-1]
+                # Store all requested metrics
+                for metric in fundamental_metrics:
+                    fundamentals.loc[ticker, metric] = latest.get(metric)
+            else:
+                print(f"No data found for {ticker}")
+                
+        except Exception as e:
+            print(f"Error fetching {ticker}: {str(e)}")
+
+    # Merge fundamentals with scanner data
+    for metric in fundamental_metrics:
+        scanner_df[metric] = scanner_df['Ticker'].map(fundamentals[metric])
+
+    return scanner_df

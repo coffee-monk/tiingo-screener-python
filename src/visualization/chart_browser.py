@@ -61,11 +61,11 @@ def load_timeframe(chart, direction):
     except ValueError:
         current_index = -1  # Current timeframe not available
         
-    # Calculate next timeframe (with wrap-around)
-    print('\n')
-    print(current_index)
-    print(direction)
-    print('\n')
+    # # Calculate next timeframe (with wrap-around)
+    # print('\n')
+    # print(current_index)
+    # print(direction)
+    # print('\n')
 
     next_index = (current_index + 1) % len(available_timeframes)
     next_timeframe = available_timeframes[next_index]
@@ -91,5 +91,3 @@ def load_timeframe(chart, direction):
     chart.set(None)
     chart.set(df)
     chart.fit()
-
-
