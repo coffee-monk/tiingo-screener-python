@@ -194,7 +194,6 @@ def _process_results(results, scan_type, api_key='Tiingo API Key'):
     })
 
     minimal_results = _attach_fundamentals_to_scanner(minimal_results, api_key)
-    print(minimal_results)
 
     _save_scan_results(minimal_results, OUTPUT_DIR, SCAN_DATE)
     print(f"\nResults: {scan_type} found {len(minimal_results)} setups")
@@ -219,51 +218,161 @@ def _save_scan_results(df, output_dir, scan_date):
     filepath = output_dir / filename
     df.to_csv(filepath, index=True, index_label='date')
 
+# def _attach_fundamentals_to_scanner(scanner_df, api_key):
+#     """
+#     Simplified version that:
+#     1. Gets latest fundamentals for each ticker
+#     2. Merges all fundamental metrics in one operation
+#     3. Preserves error handling
+#     """
+#     if 'Ticker' not in scanner_df.columns:
+#         return scanner_df
+#
+#     # Define the fundamental metrics we want to fetch
+#     fundamental_metrics = [
+#         'marketCap', 
+#         'enterpriseVal', 
+#         'peRatio',
+#         'pbRatio', 
+#         'trailingPEG1Y'
+#     ]
+#
+#     # Create a DataFrame to store all fundamentals
+#     fundamentals = pd.DataFrame(index=scanner_df['Ticker'].unique())
+#
+#     # Fetch data for each ticker
+#     for ticker in fundamentals.index:
+#         try:
+#             response = requests.get(
+#                 f"https://api.tiingo.com/tiingo/fundamentals/{ticker}/daily?token={api_key}",
+#                 headers={'Content-Type': 'application/json'}
+#             )
+#             response.raise_for_status()
+#            
+#             if fund_data := response.json():
+#                 # Get most recent data point
+#                 latest = pd.DataFrame(fund_data).iloc[-1]
+#                 # Store all requested metrics
+#                 for metric in fundamental_metrics:
+#                     fundamentals.loc[ticker, metric] = latest.get(metric)
+#             else:
+#                 print(f"No data found for {ticker}")
+#                
+#         except Exception as e:
+#             print(f"Error fetching {ticker}: {str(e)}")
+#
+#     # Merge fundamentals with scanner data
+#     for metric in fundamental_metrics:
+#         scanner_df[metric] = scanner_df['Ticker'].map(fundamentals[metric])
+#
+#     return scanner_df
+
+# def _attach_fundamentals_to_scanner(scanner_df, api_key):
+#     """
+#     Final optimized version with:
+#     1. Human-readable formatting
+#     2. Clean CSV output (empty values instead of N/A)
+#     3. Original column names only
+#     4. Preserved precision for calculations
+#     """
+#     if 'Ticker' not in scanner_df.columns:
+#         return scanner_df
+#
+#     # Configuration for number formatting
+#     format_config = {
+#         'marketCap': {'format': '${:,.2f}B', 'divisor': 1e9},
+#         'enterpriseVal': {'format': '${:,.2f}B', 'divisor': 1e9},
+#         'peRatio': {'format': '{:.2f}', 'divisor': 1},
+#         'pbRatio': {'format': '{:.2f}', 'divisor': 1},
+#         'trailingPEG1Y': {'format': '{:.2f}', 'divisor': 1}
+#     }
+#
+#     # Fetch fundamentals data
+#     fundamentals = {}
+#     for ticker in scanner_df['Ticker'].unique():
+#         try:
+#             response = requests.get(
+#                 f"https://api.tiingo.com/tiingo/fundamentals/{ticker}/daily?token={api_key}",
+#                 headers={'Content-Type': 'application/json'}
+#             )
+#             response.raise_for_status()
+#             if fund_data := response.json():
+#                 latest = pd.DataFrame(fund_data).iloc[-1]
+#                 fundamentals[ticker] = latest.to_dict()
+#         except Exception as e:
+#             print(f"Error fetching {ticker}: {str(e)}")
+#
+#     # Apply formatting directly to original columns
+#     for metric, config in format_config.items():
+#         if metric in fundamentals.get(next(iter(fundamentals), {}):
+#             # Store original values
+#             scanner_df[metric] = scanner_df['Ticker'].map(
+#                 lambda x: fundamentals.get(x, {}).get(metric)
+#            
+#             # Format display values
+#             scanner_df[metric] = scanner_df[metric].apply(
+#                 lambda x: config['format'].format(x/config['divisor']) 
+#                 if pd.notnull(x) else None
+#             )
+#
+#     return scanner_df
+
+
+
+
 def _attach_fundamentals_to_scanner(scanner_df, api_key):
     """
-    Simplified version that:
-    1. Gets latest fundamentals for each ticker
-    2. Merges all fundamental metrics in one operation
-    3. Preserves error handling
+    Attaches fundamentals data to scanner DataFrame with:
+    - Human-readable formatting
+    - Empty values for missing data
+    - Original column names only
+    - Single API call per ticker
     """
     if 'Ticker' not in scanner_df.columns:
         return scanner_df
 
-    # Define the fundamental metrics we want to fetch
-    fundamental_metrics = [
-        'marketCap', 
-        'enterpriseVal', 
-        'peRatio',
-        'pbRatio', 
-        'trailingPEG1Y'
-    ]
+    # Configuration for number formatting
+    format_config = {
+        'marketCap': {'format': '${:,.2f}B', 'divisor': 1e9},
+        'enterpriseVal': {'format': '${:,.2f}B', 'divisor': 1e9},
+        'peRatio': {'format': '{:.2f}', 'divisor': 1},
+        'pbRatio': {'format': '{:.2f}', 'divisor': 1},
+        'trailingPEG1Y': {'format': '{:.2f}', 'divisor': 1}
+    }
 
-    # Create a DataFrame to store all fundamentals
-    fundamentals = pd.DataFrame(index=scanner_df['Ticker'].unique())
-
-    # Fetch data for each ticker
-    for ticker in fundamentals.index:
+    # Fetch fundamentals for all unique tickers
+    fundamentals = {}
+    for ticker in scanner_df['Ticker'].unique():
         try:
             response = requests.get(
                 f"https://api.tiingo.com/tiingo/fundamentals/{ticker}/daily?token={api_key}",
-                headers={'Content-Type': 'application/json'}
+                headers={'Content-Type': 'application/json'},
+                timeout=10
             )
             response.raise_for_status()
+            fund_data = response.json()
             
-            if fund_data := response.json():
-                # Get most recent data point
+            if fund_data:
                 latest = pd.DataFrame(fund_data).iloc[-1]
-                # Store all requested metrics
-                for metric in fundamental_metrics:
-                    fundamentals.loc[ticker, metric] = latest.get(metric)
-            else:
-                print(f"No data found for {ticker}")
-                
+                fundamentals[ticker] = {
+                    metric: latest.get(metric) 
+                    for metric in format_config.keys()
+                }
         except Exception as e:
             print(f"Error fetching {ticker}: {str(e)}")
+            continue
 
-    # Merge fundamentals with scanner data
-    for metric in fundamental_metrics:
-        scanner_df[metric] = scanner_df['Ticker'].map(fundamentals[metric])
+    # Apply formatting to each metric
+    for metric, config in format_config.items():
+        # Create series with original values
+        values = scanner_df['Ticker'].map(
+            lambda x: fundamentals.get(x, {}).get(metric)
+        )
+        
+        # Format non-null values
+        scanner_df[metric] = values.apply(
+            lambda x: config['format'].format(x/config['divisor']) 
+            if pd.notnull(x) else None
+        )
 
     return scanner_df
