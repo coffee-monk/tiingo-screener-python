@@ -14,10 +14,10 @@ API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
 
 indicator_list = [
     'aVWAP', 
-    # 'candle_colors', 
+    'candle_colors', 
     # 'liquidity', 
     # 'BoS_CHoCH', 
-    # 'ZScore', 
+    'ZScore', 
     # 'QQEMOD',
     # 'banker_RSI', 
     # 'SMA',
@@ -30,26 +30,28 @@ indicator_list = [
 ]
 
 params = {
-        'aVWAP': { 
-                  'peaks_valleys': False,
-                  'peaks_valleys_avg': True,
-                  'peaks_valleys_params': { 'periods': 30, 'max_aVWAPs': None },
-                  'OB': True,
-                  'OB_avg': False,
-                  'OB_params': { 'periods': 20, 'max_aVWAPs': None },
-                  'gaps': False,
-                  'gaps_avg': False,
-                  'gaps_params': { 'max_aVWAPs': 10 },
-                  'avg_lookback': 20,
-                  'keep_OB_column': True,
-                 }
-    # 'aVWAP': {'OB_avg': True,
-    #           'max_aVWAPs': 20},
-    # 'aVWAP': {'peaks_valleys_avg': True,
-    #           'max_aVWAPs': 20},
-    # 'ZScore': {'centreline': 'peaks_valleys_avg'},
-    # 'SMA': {'periods': [200]},
-    # 'candle_colors': {'indicator_color': 'QQEMOD'},
+    'aVWAP': { 
+              'peaks_valleys': False,
+              'peaks_valleys_avg': True,
+              'peaks_valleys_params': { 'periods': 20, 'max_aVWAPs': None },
+              'OB': False,
+              'OB_avg': False,
+              'OB_params': { 'periods': 20, 'max_aVWAPs': None },
+              'gaps': False,
+              'gaps_avg': False,
+              'gaps_params': { 'max_aVWAPs': 10 },
+              'avg_lookback': 20,
+              'keep_OB_column': False,
+             },
+    'ZScore': {
+              'centreline': 'peaks_valleys_avg', 
+              'peaks_valleys_params': { 'periods': 20, 'max_aVWAPs': None }, 
+              # 'gaps_params': { 'max_aVWAPs': 10 }, 
+              'std_lookback': 75,
+              'avg_lookback': 20,
+              },
+    'SMA': {'periods': [200]},
+    # 'candle_colors': {'indicator_color': 'ZScore'},
     # 'divergence_ATR':    {'period':  80, 'lookback': 30},
     # 'divergence_OBV':    {'period': 100, 'lookback': 40},
     # 'divergence_Volume': {'period': 100, 'lookback': 40},
@@ -59,7 +61,7 @@ params = {
 
 # Example Code ---------------------------------------------------------------
 
-ticker = 'AAPL'
+ticker = 'BTCUSD'
 
 df1 = fetch_ticker(timeframe='hour', ticker=ticker, api_key=API_KEY)
 # df2 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
@@ -71,11 +73,11 @@ df1 = get_indicators(df1, indicator_list, params)
 # df3 = get_indicators(df3, indicator_list, params)
 # df4 = get_indicators(df4, indicator_list, params)
 
-print(df1.columns)
-print('\n')
-print(df1.head(10))
-print(df1.tail(10))
-print('\n')
+# print(df1.columns)
+# print('\n')
+# print(df1.head(10))
+# print(df1.tail(10))
+# print('\n')
 
 subcharts([df1], ticker=ticker, show_volume=False)
 

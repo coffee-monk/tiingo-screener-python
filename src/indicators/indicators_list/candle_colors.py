@@ -2,12 +2,25 @@ import pandas as pd
 from src.indicators.get_indicators import get_indicators
 from src.visualization.src.color_palette import get_color_palette
 
-def calculate_candle_colors(df, indicator_color='WAE'):
+def calculate_candle_colors(df, indicator_color='QQEMOD'):
 
     # Indicator Color Options: 'ZScore', 'RSI', 'QQEMOD', 'banker_RSI', 'WAE', 'supertrend'
 
-    df = get_indicators(df, [indicator_color])
-    # df = get_indicators(df, [indicator_color.split('_')[0]])
+    # Get indicator data ------------------------------------------------------
+
+    params = {
+        'ZScore': {
+                  'centreline': 'peaks_valleys_avg', 
+                  'peaks_valleys_params': { 'periods': 20, 'max_aVWAPs': None }, 
+                  # 'gaps_params': { 'max_aVWAPs': 10 }, 
+                  'std_lookback': 75,
+                  'avg_lookback': 20,
+                  },
+    }
+
+    df = get_indicators(df, [indicator_color], params)
+
+    # Get colors from indicator data ------------------------------------------
 
     colors = get_color_palette()
 
