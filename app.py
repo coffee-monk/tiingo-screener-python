@@ -19,7 +19,7 @@ indicator_list = [
     # 'BoS_CHoCH', 
     'ZScore', 
     # 'QQEMOD',
-    # 'banker_RSI', 
+    'banker_RSI', 
     # 'SMA',
     # 'OB',
     # 'divergence_ATR', 
@@ -34,14 +34,14 @@ params = {
               'peaks_valleys': False,
               'peaks_valleys_avg': True,
               'peaks_valleys_params': { 'periods': 20, 'max_aVWAPs': None },
-              'OB': False,
+              'OB': True,
               'OB_avg': False,
-              'OB_params': { 'periods': 20, 'max_aVWAPs': None },
+              'OB_params': { 'periods': 20, 'max_aVWAPs': 1 },
               'gaps': False,
               'gaps_avg': False,
               'gaps_params': { 'max_aVWAPs': 10 },
               'avg_lookback': 20,
-              'keep_OB_column': False,
+              'keep_OB_column': True,
              },
     'ZScore': {
               'centreline': 'peaks_valleys_avg', 
@@ -50,8 +50,8 @@ params = {
               'std_lookback': 75,
               'avg_lookback': 20,
               },
-    'SMA': {'periods': [200]},
-    # 'candle_colors': {'indicator_color': 'ZScore'},
+    'candle_colors': {'indicator_color': 'supertrend'},
+    # 'SMA': {'periods': [200]},
     # 'divergence_ATR':    {'period':  80, 'lookback': 30},
     # 'divergence_OBV':    {'period': 100, 'lookback': 40},
     # 'divergence_Volume': {'period': 100, 'lookback': 40},
@@ -63,7 +63,7 @@ params = {
 
 ticker = 'BTCUSD'
 
-df1 = fetch_ticker(timeframe='hour', ticker=ticker, api_key=API_KEY)
+df1 = fetch_ticker(timeframe='hourly', ticker=ticker, api_key=API_KEY)
 # df2 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
 # df3 = fetch_ticker(timeframe='hour', ticker=ticker, api_key=API_KEY)
 # df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)

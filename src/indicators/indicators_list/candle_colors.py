@@ -2,7 +2,7 @@ import pandas as pd
 from src.indicators.get_indicators import get_indicators
 from src.visualization.src.color_palette import get_color_palette
 
-def calculate_candle_colors(df, indicator_color='QQEMOD'):
+def calculate_candle_colors(df, indicator_color='supertrend'):
 
     # Indicator Color Options: 'ZScore', 'RSI', 'QQEMOD', 'banker_RSI', 'WAE', 'supertrend'
 
