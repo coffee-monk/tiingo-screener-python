@@ -96,18 +96,14 @@ def calculate_zscore_probability(df,
     config = centreline_config[centreline]
     df = get_indicators(df, [config['indicator']], {config['indicator']: config['params']})
     
-    print('\n')
-    print(df.columns)
-    print(df.head(10))
-    print(df.tail(10))
-    print('\n')
-
-    # Calculate Z-Score
-    mean_line = df[config['mean_col']]
-    price_deviation = df['Close'] - mean_line
-    z_score = price_deviation / price_deviation.rolling(std_lookback).std()
-
-    return {'ZScore': z_score}
+    try:
+        # Calculate Z-Score
+        mean_line = df[config['mean_col']]
+        price_deviation = df['Close'] - mean_line
+        z_score = price_deviation / price_deviation.rolling(std_lookback).std()
+        return {'ZScore': z_score}
+    except KeyError:
+        pass
 
 def calculate_indicator(df, **params):
     return calculate_zscore_probability(df, **params)

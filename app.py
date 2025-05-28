@@ -23,10 +23,10 @@ indicator_list = [
     # 'SMA',
     # 'OB',
     # 'divergence_ATR', 
-    # 'divergence_Vortex', 
-    # 'divergence_Fisher', 
-    # 'divergence_OBV', 
-    # 'divergence_Volume'
+    'divergence_Vortex',
+    'divergence_Fisher',
+    'divergence_OBV',
+    'divergence_Volume'
 ]
 
 params = {
@@ -50,20 +50,20 @@ params = {
               'std_lookback': 75,
               'avg_lookback': 20,
               },
-    'candle_colors': {'indicator_color': 'supertrend'},
+    'candle_colors': {'indicator_color': 'QQEMOD'},
     # 'SMA': {'periods': [200]},
     # 'divergence_ATR':    {'period':  80, 'lookback': 30},
-    # 'divergence_OBV':    {'period': 100, 'lookback': 40},
-    # 'divergence_Volume': {'period': 100, 'lookback': 40},
-    # 'divergence_Fisher': {'period': 100, 'lookback': 40},
-    # 'divergence_Vortex': {'period': 100, 'lookback': 40},
+    'divergence_OBV':    {'period': 100, 'lookback': 40},
+    'divergence_Volume': {'period': 100, 'lookback': 40},
+    'divergence_Fisher': {'period': 100, 'lookback': 40},
+    'divergence_Vortex': {'period': 100, 'lookback': 40},
 }
 
 # Example Code ---------------------------------------------------------------
 
-ticker = 'BTCUSD'
+ticker = 'BITF'
 
-df1 = fetch_ticker(timeframe='hourly', ticker=ticker, api_key=API_KEY)
+df1 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
 # df2 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
 # df3 = fetch_ticker(timeframe='hour', ticker=ticker, api_key=API_KEY)
 # df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
@@ -79,7 +79,7 @@ df1 = get_indicators(df1, indicator_list, params)
 # print(df1.tail(10))
 # print('\n')
 
-subcharts([df1], ticker=ticker, show_volume=False)
+subcharts([df1], ticker=ticker, show_volume=False, csv_loader='indicators')
 
 # fetch_tickers(['weekly', 'daily', '1hour', '5min'], api_key=API_KEY)
 
