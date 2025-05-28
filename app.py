@@ -24,10 +24,10 @@ indicator_list = [
     # 'SMA',
     # 'OB',
     # 'divergence_ATR', 
-    # 'divergence_Vortex', 
-    # 'divergence_Fisher', 
-    # 'divergence_OBV', 
-    # 'divergence_Volume'
+    'divergence_Vortex',
+    'divergence_Fisher',
+    'divergence_OBV',
+    'divergence_Volume'
 ]
 
 params = {
@@ -51,6 +51,7 @@ params = {
               'std_lookback': 75,
               'avg_lookback': 20,
               },
+<<<<<<< HEAD
     'StDev': {
               'centreline': 'peaks_valleys_avg', 
               'peaks_valleys_params': { 'periods': 20, 'max_aVWAPs': None }, 
@@ -59,17 +60,22 @@ params = {
               'avg_lookback': 20,
               },
     'candle_colors': {'indicator_color': 'StDev'},
+=======
+>>>>>>> 83b7f1417c12b41963c9175a7ff4f27cb1e7bc2a
     # 'SMA': {'periods': [200]},
     # 'divergence_ATR':    {'period':  80, 'lookback': 30},
-    # 'divergence_OBV':    {'period': 100, 'lookback': 40},
-    # 'divergence_Volume': {'period': 100, 'lookback': 40},
-    # 'divergence_Fisher': {'period': 100, 'lookback': 40},
-    # 'divergence_Vortex': {'period': 100, 'lookback': 40},
+    'divergence_OBV':    {'period': 100, 'lookback': 40},
+    'divergence_Volume': {'period': 100, 'lookback': 40},
+    'divergence_Fisher': {'period': 100, 'lookback': 40},
+    'divergence_Vortex': {'period': 100, 'lookback': 40},
 }
 
 # Example Code ---------------------------------------------------------------
 
+<<<<<<< HEAD
 ticker = 'SOFI'
+=======
+>>>>>>> 83b7f1417c12b41963c9175a7ff4f27cb1e7bc2a
 
 df1 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
 # df2 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
@@ -87,7 +93,7 @@ print(df1.head(10))
 print(df1.tail(10))
 print('\n')
 
-subcharts([df1], ticker=ticker, show_volume=False)
+subcharts([df1], ticker=ticker, show_volume=False, csv_loader='indicators')
 
 # fetch_tickers(['weekly', 'daily', '1hour', '5min'], api_key=API_KEY)
 

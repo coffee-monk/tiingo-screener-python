@@ -175,7 +175,7 @@ def add_ui_elements(chart, charts, ticker, timeframe, csv_loader):
         chart.hotkey('ctrl', 'c', lambda: sys.exit(1))
         chart.events.search += _on_search
         chart.hotkey(None, str(1+i), lambda key=str(1+i): _maximize_minimize_hotkey(charts, key))
-        chart.hotkey(None, str(i+6), lambda key=i: _load_timeframe_csv(charts, key))
+        chart.hotkey(None, str(i+6), lambda key=i: _load_timeframe_csv(charts, key, csv_loader))
         if i == 0: chart.hotkey(None, '-', lambda key='-': _load_ticker_csv(charts, key, csv_loader))
         if i == 1: chart.hotkey(None, '=', lambda key='=': _load_ticker_csv(charts, key, csv_loader))
         if i == 2: chart.hotkey(None, '[', lambda key='[': _load_ticker_csv(charts, key, csv_loader))
@@ -267,7 +267,7 @@ def _on_search(chart, input_ticker):
             for line in lines: line.hide_data()
             chart.clear_markers()
             configure_base_chart(df, chart)
-            add_ui_elements(chart, [chart], input_ticker, current_timeframe)
+            add_ui_elements(chart, [chart], input_ticker, current_timeframe, csv_loader)
             add_visualizations(chart, df, False)
             chart.set(None)
             chart.set(df)
@@ -282,7 +282,7 @@ def _on_search(chart, input_ticker):
         print(f"Error during search: {e}")
 
 
-def _load_timeframe_csv(charts, key):
+def _load_timeframe_csv(charts, key, csv_loader):
     # Get current values from topbar
     print(key)
     chart = charts[int(key)-6]
@@ -327,22 +327,22 @@ def _load_timeframe_csv(charts, key):
     for line in lines: line.set(pd.DataFrame())
     chart.clear_markers()
     configure_base_chart(df, chart)
-    add_ui_elements(chart, [chart], ticker, next_timeframe)
+    add_ui_elements(chart, [chart], ticker, next_timeframe, csv_loader)
     add_visualizations(chart, df, False)
     chart.set(df)
     chart.fit()
 
 
-def _load_ticker_csv(charts, key, mode='indicators'):
+def _load_ticker_csv(charts, key, csv_loader='indicators'):
     """
-    Cycle through tickers with two modes:
-    - 'indicators': Default mode (cycles all tickers with indicator data)
+    Cycle through tickers with two csv_loaders:
+    - 'indicators': Default csv_loader (cycles all tickers with indicator data)
     - 'scanner': Cycles only tickers that appeared in scanner results
     
     Args:
         charts: List of chart objects
         key: Hotkey pressed (maps to chart index)
-        mode: 'indicators' or 'scanner' (data source)
+        csv_loader: 'indicators' or 'scanner' (data source)
     """
     # Key to chart index mapping
     KEY_MAPPINGS = {'-': 0, '=': 1, '[': 2, ']': 3}
@@ -358,12 +358,12 @@ def _load_ticker_csv(charts, key, mode='indicators'):
     current_ticker = chart.topbar['ticker'].value
     timeframe = chart.topbar['timeframe'].value
     
-    if mode == 'scanner':
-        # SCANNER MODE: Get tickers from scan results
+    if csv_loader == 'scanner':
+        # SCANNER csv_loader: Get tickers from scan results
         scanner_file = get_most_recent_scanner_file()
         if not scanner_file:
-            print("No scanner results found - falling back to indicators mode")
-            mode = 'indicators'  # Fallback to default mode
+            print("No scanner results found - falling back to indicators csv_loader")
+            csv_loader = 'indicators'  # Fallback to default csv_loader
         else:
             try:
                 scanner_df = pd.read_csv(scanner_file)
@@ -371,15 +371,15 @@ def _load_ticker_csv(charts, key, mode='indicators'):
                 
                 if len(timeframe_tickers) == 0:
                     print(f"No tickers in scanner for {timeframe} - falling back")
-                    mode = 'indicators'
+                    csv_loader = 'indicators'
                 else:
                     available_tickers = sorted(timeframe_tickers)
             except Exception as e:
                 print(f"Scanner error: {e} - falling back")
-                mode = 'indicators'
+                csv_loader = 'indicators'
     
-    if mode == 'indicators':
-        # DEFAULT MODE: Get all tickers with indicator data
+    if csv_loader == 'indicators':
+        # DEFAULT csv_loader: Get all tickers with indicator data
         ticker_files = sorted(DATA_ROOT.glob(f"*_{timeframe}_*.csv"))
         available_tickers = sorted(list({f.name.split('_')[0] for f in ticker_files}))
         
@@ -397,7 +397,7 @@ def _load_ticker_csv(charts, key, mode='indicators'):
     next_ticker = available_tickers[next_index]
     
     # Load the data file
-    if mode == 'scanner':
+    if csv_loader == 'scanner':
         print(f"Loading scanner ticker {next_ticker} ({timeframe})")
     else:
         print(f"Loading indicator ticker {next_ticker} ({timeframe})")
@@ -423,7 +423,7 @@ def _load_ticker_csv(charts, key, mode='indicators'):
         show_volume = 'volume' in df.columns
         prepared_df, _ = prepare_dataframe(df, show_volume)
         configure_base_chart(prepared_df, chart)
-        add_ui_elements(chart, charts, next_ticker, timeframe)
+        add_ui_elements(chart, charts, next_ticker, timeframe, csv_loader)
         add_visualizations(chart, prepared_df)
         chart.set(prepared_df)
         chart.fit()
