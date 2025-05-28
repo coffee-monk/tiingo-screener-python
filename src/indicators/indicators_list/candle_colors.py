@@ -4,7 +4,7 @@ from src.visualization.src.color_palette import get_color_palette
 
 def calculate_candle_colors(df, indicator_color='supertrend'):
 
-    # Indicator Color Options: 'ZScore', 'RSI', 'QQEMOD', 'banker_RSI', 'WAE', 'supertrend'
+    # Indicator Color Options: 'ZScore', 'StDev', 'RSI', 'QQEMOD', 'banker_RSI', 'WAE', 'supertrend'
 
     # Get indicator data ------------------------------------------------------
 
@@ -16,15 +16,22 @@ def calculate_candle_colors(df, indicator_color='supertrend'):
                   'std_lookback': 75,
                   'avg_lookback': 20,
                   },
+        'StDev': {
+                  'centreline': 'peaks_valleys_avg', 
+                  'peaks_valleys_params': { 'periods': 20, 'max_aVWAPs': None }, 
+                  # 'gaps_params': { 'max_aVWAPs': 10 }, 
+                  'std_lookback': 75,
+                  'avg_lookback': 20,
+                  },
     }
 
     df = get_indicators(df, [indicator_color], params)
 
-    # Get colors from indicator data ------------------------------------------
-
+    # Get colors from indicator data
     colors = get_color_palette()
 
-    # Define color mapping functions
+    # Define color mapping functions ------------------------------------------
+
     def map_zscore(zscore):
         if          zscore <= -3.0: return colors['magenta']
         elif -3.0 < zscore <= -2.5: return colors['red_dark']
@@ -41,6 +48,32 @@ def calculate_candle_colors(df, indicator_color='supertrend'):
         elif  2.5 < zscore <=  3.0: return colors['teal']
         elif  3.0 < zscore:         return colors['neon']
         return colors['black']
+
+    def map_stdev(row):
+        close = row['Close']
+        mean = row['StDev_Mean']
+        stdev = row['StDev']
+        
+        devs = (close - mean) / stdev  # Signed value
+        print(f"Devs: {devs:.2f}")  # Debugging with formatted float
+        
+        # Positive deviations (bullish)
+        if          devs >= 3.0: return colors['neon']  # Extreme bullish
+        elif 2.5 <= devs <  3.0: return colors['neon']
+        elif 2.0 <= devs <  2.5: return colors['neon']
+        elif 1.5 <= devs <  2.0: return colors['aqua'] 
+        elif 1.0 <= devs <  1.5: return colors['teal']
+        elif 0.5 <= devs <  1.0: return colors['teal_trans_1']
+        elif 0.0 <= devs <  0.5: return colors['black']  # Neutral bullish
+        
+        # Negative deviations (bearish)
+        elif        devs <= -3.0: return colors['magenta']  # Extreme bearish
+        elif -3.0 < devs <= -2.5: return colors['magenta']
+        elif -2.5 < devs <= -2.0: return colors['magenta']
+        elif -2.0 < devs <= -1.5: return colors['red_dark']
+        elif -1.5 < devs <= -1.0: return colors['red']
+        elif -1.0 < devs <= -0.5: return colors['red_trans_1']
+        elif -0.5 < devs  <  0.0: return colors['black']  # Neutral bearish
 
     def map_banker_RSI(banker_RSI):
         if    15 <= banker_RSI <=   20: return colors['neon']
@@ -95,6 +128,7 @@ def calculate_candle_colors(df, indicator_color='supertrend'):
         'ZScore': lambda df: df['ZScore'].apply(map_zscore),
         'RSI': lambda df: df['RSI'].apply(map_RSI),
         'banker_RSI': lambda df: df['banker_RSI'].apply(map_banker_RSI),
+        'StDev': lambda df: df.apply(map_stdev, axis=1),
         'QQEMOD': lambda df: df.apply(map_QQEMOD, axis=1),
         'WAE': lambda df: df.apply(map_WAE, axis=1),
         'supertrend': lambda df: df.apply(map_supertrend, axis=1),
