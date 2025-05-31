@@ -53,11 +53,8 @@ def calculate_candle_colors(df, indicator_color='supertrend'):
         close = row['Close']
         mean = row['StDev_Mean']
         stdev = row['StDev']
-        
         devs = (close - mean) / stdev  # Signed value
-        print(f"Devs: {devs:.2f}")  # Debugging with formatted float
         
-        # Positive deviations (bullish)
         if          devs >= 3.0: return colors['neon']  # Extreme bullish
         elif 2.5 <= devs <  3.0: return colors['neon']
         elif 2.0 <= devs <  2.5: return colors['neon']
@@ -66,7 +63,6 @@ def calculate_candle_colors(df, indicator_color='supertrend'):
         elif 0.5 <= devs <  1.0: return colors['teal_trans_1']
         elif 0.0 <= devs <  0.5: return colors['black']  # Neutral bullish
         
-        # Negative deviations (bearish)
         elif        devs <= -3.0: return colors['magenta']  # Extreme bearish
         elif -3.0 < devs <= -2.5: return colors['magenta']
         elif -2.5 < devs <= -2.0: return colors['magenta']

@@ -2,7 +2,7 @@ import pandas as pd
 
 def ZScore_oversold(df):
     """
-    Checks if the most recent ZScore is below -2 (indicating potential oversold condition).
+    Checks if the most recent ZScore is oversold
     
     Parameters:
         df (pd.DataFrame): Must contain 'ZScore' column.
@@ -15,7 +15,7 @@ def ZScore_oversold(df):
         return pd.DataFrame()
     
     # Get the most recent ZScore value
-    latest_row = df.iloc[-1]
+    latest_row = df.iloc[-2]
     
     # Check if ZScore is below -2
     if latest_row['ZScore'] < -2:

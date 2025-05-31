@@ -20,14 +20,14 @@ indicator_list = [
     # 'ZScore', 
     'StDev', 
     # 'QQEMOD',
-    # 'banker_RSI', 
+    'banker_RSI', 
     # 'SMA',
-    # 'OB',
+    'OB',
     # 'divergence_ATR', 
-    'divergence_Vortex',
-    'divergence_Fisher',
-    'divergence_OBV',
-    'divergence_Volume'
+    # 'divergence_Vortex',
+    # 'divergence_Fisher',
+    # 'divergence_OBV',
+    # 'divergence_Volume'
 ]
 
 params = {
@@ -37,7 +37,7 @@ params = {
               'peaks_valleys_params': { 'periods': 20, 'max_aVWAPs': None },
               'OB': True,
               'OB_avg': False,
-              'OB_params': { 'periods': 20, 'max_aVWAPs': 1 },
+              'OB_params': { 'periods': 20, 'max_aVWAPs': 5 },
               'gaps': False,
               'gaps_avg': False,
               'gaps_params': { 'max_aVWAPs': 10 },
@@ -51,7 +51,6 @@ params = {
               'std_lookback': 75,
               'avg_lookback': 20,
               },
-<<<<<<< HEAD
     'StDev': {
               'centreline': 'peaks_valleys_avg', 
               'peaks_valleys_params': { 'periods': 20, 'max_aVWAPs': None }, 
@@ -59,9 +58,7 @@ params = {
               'std_lookback': 75,
               'avg_lookback': 20,
               },
-    'candle_colors': {'indicator_color': 'StDev'},
-=======
->>>>>>> 83b7f1417c12b41963c9175a7ff4f27cb1e7bc2a
+    'candle_colors': {'indicator_color': 'banker_RSI'},
     # 'SMA': {'periods': [200]},
     # 'divergence_ATR':    {'period':  80, 'lookback': 30},
     'divergence_OBV':    {'period': 100, 'lookback': 40},
@@ -72,14 +69,11 @@ params = {
 
 # Example Code ---------------------------------------------------------------
 
-<<<<<<< HEAD
-ticker = 'SOFI'
-=======
->>>>>>> 83b7f1417c12b41963c9175a7ff4f27cb1e7bc2a
+ticker = 'IE'
 
-df1 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
+df1 = fetch_ticker(timeframe='hourly', ticker=ticker, api_key=API_KEY)
 # df2 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
-# df3 = fetch_ticker(timeframe='hour', ticker=ticker, api_key=API_KEY)
+# df1 = fetch_ticker(timeframe='hour', ticker=ticker, api_key=API_KEY)
 # df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
 df1 = get_indicators(df1, indicator_list, params)
@@ -93,13 +87,13 @@ print(df1.head(10))
 print(df1.tail(10))
 print('\n')
 
-subcharts([df1], ticker=ticker, show_volume=False, csv_loader='indicators')
+subcharts([df1], ticker=ticker, show_volume=False, show_banker_RSI=False, csv_loader='scanner')
 
 # fetch_tickers(['weekly', 'daily', '1hour', '5min'], api_key=API_KEY)
 
 # run_indicators(indicator_list, params)
 
-# run_scanner('banker_RSI', api_key=API_KEY)
+# run_scanner(['OB_bullish', 'banker_RSI'], API_KEY)
 
 # run_scanner({
 #             'day': 'ZScore_oversold', 

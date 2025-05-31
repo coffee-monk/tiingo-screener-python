@@ -346,7 +346,7 @@ def _load_ticker_csv(charts, key, csv_loader='indicators'):
     """
     # Key to chart index mapping
     KEY_MAPPINGS = {'-': 0, '=': 1, '[': 2, ']': 3}
-    
+
     try:
         chart_index = KEY_MAPPINGS[key]
         chart = charts[chart_index]
@@ -418,13 +418,13 @@ def _load_ticker_csv(charts, key, csv_loader='indicators'):
         for line in chart.lines():
             line.set(pd.DataFrame())
         chart.clear_markers()
-        
+
         # Reconfigure chart
         show_volume = 'volume' in df.columns
         prepared_df, _ = prepare_dataframe(df, show_volume)
         configure_base_chart(prepared_df, chart)
         add_ui_elements(chart, charts, next_ticker, timeframe, csv_loader)
-        add_visualizations(chart, prepared_df)
+        add_visualizations(chart, prepared_df, False)
         chart.set(prepared_df)
         chart.fit()
         

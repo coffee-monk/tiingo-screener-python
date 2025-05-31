@@ -5,7 +5,7 @@ from src.visualization.src.color_palette import get_color_palette
 colors = get_color_palette()
 
 
-def add_visualizations(subchart, df, include_banker_RSI=True):
+def add_visualizations(subchart, df, show_banker_RSI):
     """
     Add visualization layers to subchart if input df column data is present
     """
@@ -17,7 +17,7 @@ def add_visualizations(subchart, df, include_banker_RSI=True):
     _aVWAP_visualization(subchart, df)
     _supertrend_visualization(subchart, df)
     _SMA_visualization(subchart, df)
-    if include_banker_RSI: _banker_RSI_visualization(subchart, df)
+    if show_banker_RSI: _banker_RSI_visualization(subchart, df)
 
     # Includes Regular/Hidden divergences for RSI, MACD, OBV, Volume, etc
     _combined_divergence_visualization(subchart, df)
@@ -160,8 +160,6 @@ def _banker_RSI_visualization(subchart, df):
         
         # Set the histogram data
         rsi_hist.set(hist_data)
-        print('\n')
-        # rsi_hist.update(df['banker_RSI']) 
 
 
 def _aVWAP_visualization(subchart, df):

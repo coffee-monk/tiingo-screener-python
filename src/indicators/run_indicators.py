@@ -25,15 +25,19 @@ def run_indicators(indicator_list, params=None):
         
         print(f"\rProcessing {processed_count}/{total_files}: {str(ticker).strip().ljust(6)}", end="")       
 
-        df_with_indicators = get_indicators(data["df"], indicator_list, params)
-        
-        save_ticker(
-            df=df_with_indicators,
-            ticker=ticker,
-            timeframe=timeframe,
-            date_stamp=data["date_stamp"],
-            output_dir=OUTPUT_DIR
-        )
+        try:
+            df_with_indicators = get_indicators(data["df"], indicator_list, params)
+            
+            save_ticker(
+                df=df_with_indicators,
+                ticker=ticker,
+                timeframe=timeframe,
+                date_stamp=data["date_stamp"],
+                output_dir=OUTPUT_DIR
+            )
+
+        except KeyError:
+            pass
     
     print(f"\n\nAll files processed.")
 

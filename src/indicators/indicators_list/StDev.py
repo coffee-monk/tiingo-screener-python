@@ -46,7 +46,7 @@ def calculate_stdev_bands(df,
     default_lookbacks = {
         'peaks_valleys_avg': 20,
         'OB_avg': 1,
-        'gaps_avg': 10
+        'gaps_avg': 20
     }
     
     final_lookback = (avg_lookback if avg_lookback is not None 
@@ -101,6 +101,8 @@ def calculate_stdev_bands(df,
 
     # Calculate Bollinger-style metrics
     price_std = df['Close'].rolling(window=stdev_lookback).std()
+
+    zscore = (df['Close'] - mean_line) / price_std
     
     return {
         'StDev': price_std,
@@ -108,7 +110,8 @@ def calculate_stdev_bands(df,
         # 'LowerBand_1': mean_line - price_std,
         # 'UpperBand_2': mean_line + (2 * price_std),
         # 'LowerBand_2': mean_line - (2 * price_std),
-        'StDev_Mean': mean_line
+        'StDev_Mean': mean_line,
+        'StdDev_ZScore': zscore,
     }
 
 def calculate_indicator(df, **params):
