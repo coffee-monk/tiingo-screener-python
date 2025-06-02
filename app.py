@@ -19,15 +19,15 @@ indicator_list = [
     # 'BoS_CHoCH', 
     # 'ZScore', 
     'StDev', 
-    # 'QQEMOD',
-    'banker_RSI', 
-    # 'SMA',
+    'QQEMOD',
+    # 'banker_RSI', 
+    'SMA',
     'OB',
     # 'divergence_ATR', 
-    # 'divergence_Vortex',
-    # 'divergence_Fisher',
-    # 'divergence_OBV',
-    # 'divergence_Volume'
+    'divergence_Vortex',
+    'divergence_Fisher',
+    'divergence_OBV',
+    'divergence_Volume'
 ]
 
 params = {
@@ -69,33 +69,30 @@ params = {
 
 # Example Code ---------------------------------------------------------------
 
-ticker = 'IE'
+ticker = 'ELD'
 
-df1 = fetch_ticker(timeframe='hourly', ticker=ticker, api_key=API_KEY)
-# df2 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
-# df1 = fetch_ticker(timeframe='hour', ticker=ticker, api_key=API_KEY)
+df1 = fetch_ticker(timeframe='weekly', ticker=ticker, api_key=API_KEY)
+df2 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
+# df3 = fetch_ticker(timeframe='hour', ticker=ticker, api_key=API_KEY)
 # df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
 df1 = get_indicators(df1, indicator_list, params)
-# df2 = get_indicators(df2, indicator_list, params)
+df2 = get_indicators(df2, indicator_list, params)
 # df3 = get_indicators(df3, indicator_list, params)
 # df4 = get_indicators(df4, indicator_list, params)
 
-print(df1.columns)
-print('\n')
-print(df1.head(10))
-print(df1.tail(10))
-print('\n')
+# print(df1.columns)
+# print('\n')
+# print(df1.head(10))
+# print(df1.tail(10))
+# print('\n')
 
-subcharts([df1], ticker=ticker, show_volume=False, show_banker_RSI=False, csv_loader='scanner')
+subcharts([df1, df2], ticker=ticker, show_volume=False, show_banker_RSI=False, csv_loader='scanner')
 
-# fetch_tickers(['weekly', 'daily', '1hour', '5min'], api_key=API_KEY)
+# fetch_tickers(['weekly', 'daily', 'hourly'], api_key=API_KEY)
 
 # run_indicators(indicator_list, params)
 
 # run_scanner(['OB_bullish', 'banker_RSI'], API_KEY)
 
-# run_scanner({
-#             'day': 'ZScore_oversold', 
-#             # 'hour': 'banker_RSI', 
-#             })
+# run_scanner({ 'weekly': ['OB_bullish', 'banker_RSI'], 'daily': ['OB_bullish', 'banker_RSI'] })
