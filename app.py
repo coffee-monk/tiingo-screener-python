@@ -74,12 +74,12 @@ ticker = 'SII'
 df1 = fetch_ticker(timeframe='weekly', ticker=ticker, api_key=API_KEY)
 df2 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
 df3 = fetch_ticker(timeframe='hourly', ticker=ticker, api_key=API_KEY)
-# df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
+df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
 df1 = get_indicators(df1, indicator_list, params)
 df2 = get_indicators(df2, indicator_list, params)
 df3 = get_indicators(df3, indicator_list, params)
-# df4 = get_indicators(df4, indicator_list, params)
+df4 = get_indicators(df4, indicator_list, params)
 
 # print(df1.columns)
 # print('\n')
@@ -87,7 +87,7 @@ df3 = get_indicators(df3, indicator_list, params)
 # print(df1.tail(10))
 # print('\n')
 
-subcharts([df1], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
+subcharts([df1, df2, df3, df4], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
 
 # fetch_tickers(['weekly', 'daily', 'hourly'], api_key=API_KEY)
 
