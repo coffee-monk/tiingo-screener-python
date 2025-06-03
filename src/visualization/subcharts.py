@@ -39,7 +39,7 @@ def subcharts(df_list, ticker='', show_volume=False, show_banker_RSI=True, csv_l
         subchart.name = str(i)
         df, timeframe = prepare_dataframe(df, show_volume)
         configure_base_chart(df, subchart)
-        add_ui_elements(subchart, subcharts, ticker, timeframe, csv_loader)
+        add_ui_elements(subchart, subcharts, ticker, timeframe, csv_loader, show_volume)
         add_visualizations(subchart, df, show_banker_RSI)
         subchart.set(df)
 

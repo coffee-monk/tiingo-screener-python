@@ -154,7 +154,7 @@ KEY_MAPPINGS = {
 }
 
 
-def add_ui_elements(chart, charts, ticker, timeframe, csv_loader):
+def add_ui_elements(chart, charts, ticker, timeframe, csv_loader, show_volume=False):
     """
     Add UI elements like buttons and hotkeys.
     """
@@ -175,11 +175,11 @@ def add_ui_elements(chart, charts, ticker, timeframe, csv_loader):
         chart.hotkey('ctrl', 'c', lambda: sys.exit(1))
         chart.events.search += _on_search
         chart.hotkey(None, str(1+i), lambda key=str(1+i): _maximize_minimize_hotkey(charts, key))
-        chart.hotkey(None, str(i+6), lambda key=i: _load_timeframe_csv(charts, key, csv_loader))
-        if i == 0: chart.hotkey(None, '-', lambda key='-': _load_ticker_csv(charts, key, csv_loader))
-        if i == 1: chart.hotkey(None, '=', lambda key='=': _load_ticker_csv(charts, key, csv_loader))
-        if i == 2: chart.hotkey(None, '[', lambda key='[': _load_ticker_csv(charts, key, csv_loader))
-        if i == 3: chart.hotkey(None, ']', lambda key=']': _load_ticker_csv(charts, key, csv_loader))
+        chart.hotkey(None, str(i+6), lambda key=i: _load_timeframe_csv(charts, key, csv_loader, show_volume))
+        if i == 0: chart.hotkey(None, '-', lambda key='-': _load_ticker_csv(charts, key, csv_loader, show_volume))
+        if i == 1: chart.hotkey(None, '=', lambda key='=': _load_ticker_csv(charts, key, csv_loader, show_volume))
+        if i == 2: chart.hotkey(None, '[', lambda key='[': _load_ticker_csv(charts, key, csv_loader, show_volume))
+        if i == 3: chart.hotkey(None, ']', lambda key=']': _load_ticker_csv(charts, key, csv_loader, show_volume))
 
 
 def _maximize_minimize_hotkey(charts, key):
@@ -282,7 +282,7 @@ def _on_search(chart, input_ticker):
         print(f"Error during search: {e}")
 
 
-def _load_timeframe_csv(charts, key, csv_loader):
+def _load_timeframe_csv(charts, key, csv_loader, show_volume=False):
     # Get current values from topbar
     print(key)
     chart = charts[int(key)-6]
@@ -327,13 +327,13 @@ def _load_timeframe_csv(charts, key, csv_loader):
     for line in lines: line.set(pd.DataFrame())
     chart.clear_markers()
     configure_base_chart(df, chart)
-    add_ui_elements(chart, [chart], ticker, next_timeframe, csv_loader)
+    add_ui_elements(chart, [chart], ticker, next_timeframe, csv_loader, show_volume)
     add_visualizations(chart, df, False)
     chart.set(df)
     chart.fit()
 
 
-def _load_ticker_csv(charts, key, csv_loader='indicators'):
+def _load_ticker_csv(charts, key, csv_loader='indicators', show_volume=False):
     """
     Cycle through tickers with two csv_loaders:
     - 'indicators': Default csv_loader (cycles all tickers with indicator data)
@@ -420,10 +420,11 @@ def _load_ticker_csv(charts, key, csv_loader='indicators'):
         chart.clear_markers()
 
         # Reconfigure chart
-        show_volume = 'volume' in df.columns
+        print(df.head(10))
+        print(df.columns)
         prepared_df, _ = prepare_dataframe(df, show_volume)
         configure_base_chart(prepared_df, chart)
-        add_ui_elements(chart, charts, next_ticker, timeframe, csv_loader)
+        add_ui_elements(chart, charts, next_ticker, timeframe, csv_loader, show_volume)
         add_visualizations(chart, prepared_df, False)
         chart.set(prepared_df)
         chart.fit()
