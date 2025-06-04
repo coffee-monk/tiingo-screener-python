@@ -832,6 +832,7 @@ def _load_ticker_csv(charts, key, csv_loader='indicators', show_volume=False):
         else:
             try:
                 scanner_df = pd.read_csv(scanner_file)
+                scanner_df = scanner_df[scanner_df['Ticker'].notna() & (scanner_df['Ticker'] != 'nan')] # filter out 'nan' lines
                 timeframe_tickers = scanner_df[scanner_df['Timeframe'] == timeframe]['Ticker'].unique()
                
                 if len(timeframe_tickers) == 0:

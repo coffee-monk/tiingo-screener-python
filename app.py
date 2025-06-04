@@ -62,14 +62,14 @@ params = {
     # 'SMA': {'periods': [200]},
     # 'divergence_ATR':    {'period':  80, 'lookback': 30},
     'divergence_OBV':    {'period': 100, 'lookback': 40},
-    'divergence_Volume': {'period': 100, 'lookback': 40},
+    'scanner_dfdivergence_Volume': {'period': 100, 'lookback': 40},
     'divergence_Fisher': {'period': 100, 'lookback': 40},
     'divergence_Vortex': {'period': 100, 'lookback': 40},
 }
 
 # Example Code ---------------------------------------------------------------
 
-ticker = 'LIF'
+ticker = 'FT'
 
 df1 = fetch_ticker(timeframe='1hour', ticker=ticker, api_key=API_KEY)
 # df2 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
@@ -99,7 +99,7 @@ subcharts([df1], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loa
 #             { 
 #              'weekly': ['OB_bullish', 'banker_RSI'], 
 #              'daily':  ['OB_bullish', 'banker_RSI'],
-#              'hourly': ['banker_RSI'], 
+#              '1hour': ['banker_RSI'], 
 #             }, 
 #             logic='AND'
 #            )
