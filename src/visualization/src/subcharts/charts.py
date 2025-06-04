@@ -916,14 +916,3 @@ def find_indicator_file(ticker, timeframe):
     """Find newest indicator file for ticker+timeframe"""
     files = sorted(DATA_ROOT.glob(f"{ticker}_{timeframe}_*.csv"), reverse=True)
     return files[0] if files else None
-
-
-
-
-
-
-
-
-
-
-

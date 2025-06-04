@@ -93,7 +93,7 @@ subcharts([df1], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loa
 
 # run_indicators(indicator_list, params)
 
-run_scanner(['StDev'])
+# run_scanner(['StDev'])
 
 # run_scanner(
 #             { 
