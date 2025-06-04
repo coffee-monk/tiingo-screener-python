@@ -476,14 +476,14 @@ def prepare_dataframe(df, show_volume, padding_ratio=0.25):
     """
     Prepare dataframe with dynamic padding based on chart length.
     Adds padding candles equal to 25% (or custom ratio) of current candle count.
-    
+   
     Args:
         df: Input DataFrame
         show_volume: Whether to include volume column
         padding_ratio: Fraction of current candles to add as padding (default 0.25 = 25%)
     """
     df = df.copy()
-    
+   
     # Rename columns
     df = df.rename(columns={
         'Open': 'open',
@@ -492,20 +492,20 @@ def prepare_dataframe(df, show_volume, padding_ratio=0.25):
         'High': 'high',
         'Volume': 'volume'
     })
-    
+   
     # Store original timeframe
     timeframe = df.attrs['timeframe']
-    
+   
     # Reset index and convert date
     df = df.reset_index()
     df['date'] = pd.to_datetime(df['date'])
-    
+   
     # Calculate dynamic padding length (25% of current candles, rounded up)
     if padding_ratio > 0 and len(df) > 0:
         padding_candles = max(5, int(len(df) * padding_ratio))  # Minimum 5 candles
         last_candle = df.iloc[-1].copy()
         last_date = last_candle['date']
-        
+       
         # Convert timeframe to pandas frequency
         tf = str(timeframe).lower()
         tf_mapping = {
@@ -515,14 +515,14 @@ def prepare_dataframe(df, show_volume, padding_ratio=0.25):
             'w': '1W', 'week': '1W', 'weekly': '1W'
         }
         freq = tf_mapping.get(tf, '1D')
-        
+       
         # Generate future dates
         future_dates = pd.date_range(
             start=last_date + pd.Timedelta(freq),
             periods=padding_candles,
             freq=freq
         )
-        
+       
         # Create invisible padding candles
         future_df = pd.DataFrame({
             'date': future_dates,
@@ -532,21 +532,21 @@ def prepare_dataframe(df, show_volume, padding_ratio=0.25):
             'close': np.nan,
             'volume': 0
         })
-        
+       
         # Carry forward indicators
         indicator_cols = [c for c in df.columns if c.startswith(('aVWAP','OB'))]
         for col in indicator_cols:
             future_df[col] = last_candle.get(col, np.nan)
-        
+       
         df = pd.concat([df, future_df], ignore_index=True)
-    
+   
     # Format dates for display
     df['date'] = df['date'].dt.strftime('%Y-%m-%d %H:%M:%S')
-    
+   
     # Handle volume column
     if not show_volume and 'volume' in df.columns:
         df = df.drop(columns=['volume'])
-    
+   
     return df, timeframe
 
 
@@ -581,7 +581,7 @@ def get_charts(df_list):
     num_charts = len(df_list)
     if num_charts < 1 or num_charts > 4:
         raise ValueError("Input must contain 1-4 DataFrames")
-    
+   
     # Create charts and layout based on number of DataFrames
     if num_charts == 1:
         main_chart = Chart(inner_width=1.0, inner_height=1.0, maximize=True)
@@ -634,7 +634,7 @@ def add_ui_elements(chart, charts, ticker, timeframe, csv_loader, show_volume=Fa
         if len(charts) > 1:
             chart.topbar.button('max', 'FULLSCREEN', align='left', separator=True, 
                                func=lambda c=chart: _maximize_minimize_button(c, charts))
-        
+       
         # Hotkeys
         chart.hotkey(None, ' ', lambda key=' ': _maximize_minimize_hotkey(charts, key))
         chart.hotkey('ctrl', 'c', lambda: sys.exit(1))
@@ -699,22 +699,22 @@ def _get_default_chart_dimensions():
 
 def _on_search(chart, input_ticker):
     print(f"Searching for ticker: {input_ticker}")
-    
+   
     try:
         # Get current timeframe from chart
         current_timeframe = chart.topbar['timeframe'].value
-        
+       
         # Search for files matching both ticker and current timeframe
         matching_files = sorted(DATA_ROOT.glob(f"{input_ticker}_{current_timeframe}_*.csv"), reverse=True)
-        
+       
         if not matching_files:
             print(f"No {current_timeframe} data found for {input_ticker}")
             return  # Keep current chart as is
-        
+       
         # Load the most recent matching file
         selected_file = matching_files[0]
         print(f"Loading data from: {selected_file}")
-        
+       
         try:
             df = pd.read_csv(selected_file)
             df = df.rename(columns={
@@ -723,10 +723,10 @@ def _on_search(chart, input_ticker):
                 'Low': 'low',
                 'High': 'high'
             }).copy()
-            
+           
             # Set timeframe attribute (should match current_timeframe)
             df.attrs['timeframe'] = current_timeframe
-            
+           
             # Update chart
             lines = chart.lines()
             for line in lines: line.hide_data()
@@ -737,10 +737,10 @@ def _on_search(chart, input_ticker):
             chart.set(None)
             chart.set(df)
             chart.fit()
-            
+           
         except Exception as e:
             print(f"Error loading data: {e}")
-            
+           
     except KeyError:
         print("Could not determine current timeframe from chart")
     except Exception as e:
@@ -756,13 +756,13 @@ def _load_timeframe_csv(charts, key, csv_loader, show_volume=False):
 
     # Define all possible timeframes in preferred order
     timeframe_order = ['weekly', 'daily', '4hour', '1hour', '30min', '15min', '5min', '1min']
-    
+   
     # Find available timeframes for this ticker
     available_timeframes = []
     for tf in timeframe_order:
         if list(DATA_ROOT.glob(f"{ticker}_{tf}_*.csv")):
             available_timeframes.append(tf)
-    
+   
     if not available_timeframes:
         print(f"No timeframe data found for {ticker}")
         return
@@ -772,21 +772,21 @@ def _load_timeframe_csv(charts, key, csv_loader, show_volume=False):
         current_index = available_timeframes.index(current_timeframe)
     except ValueError:
         current_index = -1  # Current timeframe not available
-        
+       
     next_index = (current_index + 1) % len(available_timeframes)
     next_timeframe = available_timeframes[next_index]
-    
+   
     # Load the most recent file for this timeframe
     matching_files = sorted(DATA_ROOT.glob(f"{ticker}_{next_timeframe}_*.csv"), reverse=True)
     selected_file = matching_files[0]
     print(f"Loading {ticker} {next_timeframe} data from: {selected_file}")
-    
+   
     # Update chart
     df = pd.read_csv(selected_file).rename(columns={
         'Open': 'open', 'Close': 'close', 'Low': 'low', 'High': 'high'
     }).copy()
     df.attrs['timeframe'] = next_timeframe
-    
+   
     lines = chart.lines()
     # for line in lines: line.hide_data()
     for line in lines: line.set(pd.DataFrame())
@@ -803,7 +803,7 @@ def _load_ticker_csv(charts, key, csv_loader='indicators', show_volume=False):
     Cycle through tickers with two csv_loaders:
     - 'indicators': Default csv_loader (cycles all tickers with indicator data)
     - 'scanner': Cycles only tickers that appeared in scanner results
-    
+   
     Args:
         charts: List of chart objects
         key: Hotkey pressed (maps to chart index)
@@ -822,7 +822,7 @@ def _load_ticker_csv(charts, key, csv_loader='indicators', show_volume=False):
     # Get current values from chart
     current_ticker = chart.topbar['ticker'].value
     timeframe = chart.topbar['timeframe'].value
-    
+   
     if csv_loader == 'scanner':
         # SCANNER csv_loader: Get tickers from scan results
         scanner_file = get_most_recent_scanner_file()
@@ -833,7 +833,7 @@ def _load_ticker_csv(charts, key, csv_loader='indicators', show_volume=False):
             try:
                 scanner_df = pd.read_csv(scanner_file)
                 timeframe_tickers = scanner_df[scanner_df['Timeframe'] == timeframe]['Ticker'].unique()
-                
+               
                 if len(timeframe_tickers) == 0:
                     print(f"No tickers in scanner for {timeframe} - falling back")
                     csv_loader = 'indicators'
@@ -842,12 +842,12 @@ def _load_ticker_csv(charts, key, csv_loader='indicators', show_volume=False):
             except Exception as e:
                 print(f"Scanner error: {e} - falling back")
                 csv_loader = 'indicators'
-    
+   
     if csv_loader == 'indicators':
         # DEFAULT csv_loader: Get all tickers with indicator data
         ticker_files = sorted(DATA_ROOT.glob(f"*_{timeframe}_*.csv"))
         available_tickers = sorted(list({f.name.split('_')[0] for f in ticker_files}))
-        
+       
         if not available_tickers:
             print(f"No tickers available for {timeframe} timeframe")
             return
@@ -858,27 +858,27 @@ def _load_ticker_csv(charts, key, csv_loader='indicators', show_volume=False):
         next_index = (current_index + 1) % len(available_tickers)
     except ValueError:
         next_index = 0  # Current ticker not in list
-    
+   
     next_ticker = available_tickers[next_index]
-    
+   
     # Load the data file
     if csv_loader == 'scanner':
         print(f"Loading scanner ticker {next_ticker} ({timeframe})")
     else:
         print(f"Loading indicator ticker {next_ticker} ({timeframe})")
-    
+   
     indicator_file = find_indicator_file(next_ticker, timeframe)
     if not indicator_file:
         print(f"No data found for {next_ticker} {timeframe}")
         return
-        
+       
     # Update chart
     try:
         df = pd.read_csv(indicator_file).rename(columns={
             'Open': 'open', 'Close': 'close', 'Low': 'low', 'High': 'high'
         }).copy()
         df.attrs['timeframe'] = timeframe
-        
+       
         # Clear existing elements
         for line in chart.lines():
             line.set(pd.DataFrame())
@@ -893,7 +893,7 @@ def _load_ticker_csv(charts, key, csv_loader='indicators', show_volume=False):
         add_visualizations(chart, prepared_df, False)
         chart.set(prepared_df)
         chart.fit()
-        
+       
     except Exception as e:
         print(f"Error loading {next_ticker}: {str(e)}")
 
@@ -903,7 +903,7 @@ def get_most_recent_scanner_file():
     scanner_path = DATA_ROOT.parent / "scanner"
     if not scanner_path.exists():
         return None
-        
+       
     scan_files = sorted(
         scanner_path.glob("scan_results_*.csv"),
         key=lambda x: x.stem.split('_')[-1],  # Sort by date in filename
@@ -916,3 +916,14 @@ def find_indicator_file(ticker, timeframe):
     """Find newest indicator file for ticker+timeframe"""
     files = sorted(DATA_ROOT.glob(f"{ticker}_{timeframe}_*.csv"), reverse=True)
     return files[0] if files else None
+
+
+
+
+
+
+
+
+
+
+

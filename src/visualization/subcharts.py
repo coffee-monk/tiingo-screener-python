@@ -8,7 +8,7 @@ from src.visualization.src.subcharts.charts import (
     add_ui_elements
 )
 
-TIMEFRAME_ORDER = [ 'weekly', 'week', 'daily', 'day', '4hour', 'hourly', '4hour', '1hour', 'hour', '15min', '5min', '1min' ]
+TIMEFRAME_ORDER = [ 'weekly', 'week', 'daily', 'day', '4hour', '4hour', 'hourly', '1hour', 'hour', '15min', '5min', '1min' ]
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 DATA_ROOT = PROJECT_ROOT / "data" / "indicators"
