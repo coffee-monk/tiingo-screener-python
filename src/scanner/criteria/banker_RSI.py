@@ -1,6 +1,6 @@
 import pandas as pd
 
-def banker_RSI(df, threshold=0):
+def banker_RSI(df, threshold=15):
     """
     banker RSI (Loken) is active, ie has value greater than 0
     params:
