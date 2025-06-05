@@ -62,16 +62,16 @@ params = {
     # 'SMA': {'periods': [200]},
     # 'divergence_ATR':    {'period':  80, 'lookback': 30},
     'divergence_OBV':    {'period': 100, 'lookback': 40},
-    'scanner_dfdivergence_Volume': {'period': 100, 'lookback': 40},
+    'divergence_Volume': {'period': 100, 'lookback': 40},
     'divergence_Fisher': {'period': 100, 'lookback': 40},
     'divergence_Vortex': {'period': 100, 'lookback': 40},
 }
 
 # Example Code ---------------------------------------------------------------
 
-ticker = 'FT'
+ticker = 'BK'
 
-df1 = fetch_ticker(timeframe='1hour', ticker=ticker, api_key=API_KEY)
+df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
 # df2 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
 # df3 = fetch_ticker(timeframe='hourly', ticker=ticker, api_key=API_KEY)
 # df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
@@ -93,13 +93,13 @@ subcharts([df1], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loa
 
 # run_indicators(indicator_list, params)
 
-# run_scanner(['StDev'])
+# run_scanner(['OB_bullish', 'OB_bearish_resistance'])
 
 # run_scanner(
 #             { 
 #              'weekly': ['OB_bullish', 'banker_RSI'], 
 #              'daily':  ['OB_bullish', 'banker_RSI'],
-#              '1hour': ['banker_RSI'], 
+#              'hourly': ['banker_RSI'], 
 #             }, 
 #             logic='AND'
 #            )

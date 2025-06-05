@@ -1,8 +1,12 @@
 import pandas as pd
 
-def banker_RSI(df):
-    """banker RSI (Loken) is active, ie has value greater than 0"""
+def banker_RSI(df, threshold=0):
+    """
+    banker RSI (Loken) is active, ie has value greater than 0
+    params:
+        - threshold: threshold values with active range between 0-20
+    """
     latest = df.iloc[-1] # last row
-    if latest['banker_RSI'] > 0:
+    if latest['banker_RSI'] > threshold:
         return df.iloc[-1:].copy() # Return as 1-row dataframe
     return pd.DataFrame()
