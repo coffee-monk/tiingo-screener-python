@@ -13,15 +13,16 @@ from src.visualization.chart_browser import chart_browser
 API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
 
 indicator_list = [
-    'aVWAP', 
+    # 'aVWAP', 
     # 'candle_colors', 
     # 'liquidity', 
     # 'BoS_CHoCH', 
     # 'ZScore', 
     # 'StDev', 
-    # 'QQEMOD',
+    'QQEMOD',
     # 'banker_RSI', 
     # 'SMA',
+    # 'supertrend',
     # 'OB',
     # 'divergence_ATR', 
     # 'divergence_Vortex',
@@ -69,9 +70,9 @@ params = {
 
 # Example Code ---------------------------------------------------------------
 
-ticker = 'PSK'
+ticker = 'BNE'
 
-df1 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
+df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
 # df2 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
 # df3 = fetch_ticker(timeframe='hourly', ticker=ticker, api_key=API_KEY)
 # df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
@@ -85,7 +86,6 @@ df1 = get_indicators(df1, indicator_list, params)
 # print('\n')
 # print(df1.head(10))
 # print(df1.tail(10))
-# print('\n')
 
 subcharts([df1], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
 
@@ -93,7 +93,7 @@ subcharts([df1], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loa
 
 # run_indicators(indicator_list, params)
 
-# run_scanner(['OB_bearish_above_aVWAP'])
+# run_scanner(['QQEMOD_overbought'])
 
 # run_scanner(
 #             { 
