@@ -76,6 +76,7 @@ def calculate_candle_colors(df, indicator_color='QQEMOD'):
         elif  11 <= banker_RSI <= 14.9: return colors['aqua']
         elif 5.1 <= banker_RSI <=   10: return colors['teal']
         elif 0.1 <= banker_RSI <=    5: return colors['teal_trans_3']
+        elif 0.0 <= banker_RSI <=    0.1: return colors['black']
         return colors['black']
 
     def map_RSI(RSI):
