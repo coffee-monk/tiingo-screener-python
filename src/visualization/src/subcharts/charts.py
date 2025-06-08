@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
+import os
 from pathlib import Path
+from datetime import datetime
 from lightweight_charts import Chart
 from src.visualization.src.color_palette import get_color_palette
 from src.visualization.src.subcharts.indicators import add_visualizations
@@ -155,7 +157,6 @@ KEY_MAPPINGS = {
     ']': 3,
 }
 
-
 def add_ui_elements(chart, charts, ticker, timeframe, csv_loader, show_volume=False):
     """
     Add UI elements like buttons and hotkeys.
@@ -177,11 +178,18 @@ def add_ui_elements(chart, charts, ticker, timeframe, csv_loader, show_volume=Fa
         chart.hotkey('ctrl', 'c', lambda: sys.exit(1))
         chart.events.search += _on_search
         chart.hotkey(None, str(1+i), lambda key=str(1+i): _maximize_minimize_hotkey(charts, key))
+        # charts hotkeys
         chart.hotkey(None, str(i+6), lambda key=i: _load_timeframe_csv(charts, key, csv_loader, show_volume))
+        # tickers hotkeys
         if i == 0: chart.hotkey(None, '-', lambda key='-': _load_ticker_csv(charts, key, csv_loader, show_volume))
         if i == 1: chart.hotkey(None, '=', lambda key='=': _load_ticker_csv(charts, key, csv_loader, show_volume))
         if i == 2: chart.hotkey(None, '[', lambda key='[': _load_ticker_csv(charts, key, csv_loader, show_volume))
         if i == 3: chart.hotkey(None, ']', lambda key=']': _load_ticker_csv(charts, key, csv_loader, show_volume))
+        # screenshot hotkeys
+        if i == 0: chart.hotkey(None, '_', lambda key='_': _take_screenshot(charts, key))
+        if i == 1: chart.hotkey(None, '+', lambda key='+': _take_screenshot(charts, key))
+        if i == 2: chart.hotkey(None, '{', lambda key='{': _take_screenshot(charts, key))
+        if i == 3: chart.hotkey(None, '}', lambda key='}': _take_screenshot(charts, key))
 
 
 def _maximize_minimize_hotkey(charts, key):
@@ -450,3 +458,50 @@ def find_indicator_file(ticker, timeframe):
     """Find newest indicator file for ticker+timeframe"""
     files = sorted(DATA_ROOT.glob(f"{ticker}_{timeframe}_*.csv"), reverse=True)
     return files[0] if files else None
+
+
+SCREENSHOT_KEY_MAPPINGS = {
+    '_': 0,  # Shift + - (underscore)
+    '+': 1,  # Shift + = (plus)
+    '{': 2,  # Shift + [ (left curly brace)
+    '}': 3   # Shift + ] (right curly brace)
+}
+
+def _take_screenshot(charts, key, screenshot_dir=None):
+    """
+    Take a screenshot of the specified chart and save it to the screenshots folder.
+    
+    Args:
+        charts: List of chart objects
+        key: Hotkey pressed (maps to chart index)
+        screenshot_dir: Optional custom directory to save screenshots
+    """
+    try:
+        chart_index = SCREENSHOT_KEY_MAPPINGS[key]
+        chart = charts[chart_index]
+    except (KeyError, IndexError) as e:
+        print(f"Invalid key or chart index: {e}")
+        return
+    
+    # Create screenshots directory if it doesn't exist
+    if screenshot_dir is None:
+        screenshot_dir = Path.cwd() / 'data' / 'screenshots'
+    screenshot_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Get current ticker and timeframe for filename
+    ticker = chart.topbar['ticker'].value
+    timeframe = chart.topbar['timeframe'].value
+    timestamp = datetime.now().strftime('%d%m%y_%H%M%S')
+    
+    # Create filename
+    filename = f"{ticker}_{timeframe}_{timestamp}.png"
+    filepath = screenshot_dir / filename
+    
+    # Take and save screenshot
+    try:
+        img = chart.screenshot()
+        with open(filepath, 'wb') as f:
+            f.write(img)
+        print(f"Screenshot saved to: {filepath}")
+    except Exception as e:
+        print(f"Failed to take screenshot: {e}")
