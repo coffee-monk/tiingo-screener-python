@@ -1,6 +1,6 @@
 import pandas as pd
 
-def StDev(df, threshold=4, mode='overbought'):
+def StDev(df, threshold=2, mode='oversold'):
     """
     Checks if the most recent price is overbought or oversold based on StDev bands
     

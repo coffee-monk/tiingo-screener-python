@@ -1,7 +1,7 @@
 import pandas as pd
 from pathlib import Path
-from src.visualization.src.subcharts.indicators import add_visualizations
-from src.visualization.src.subcharts.charts import (
+from src.visualization.src.indicators import add_visualizations
+from src.visualization.src.charts import (
     get_charts,
     prepare_dataframe, 
     configure_base_chart, 

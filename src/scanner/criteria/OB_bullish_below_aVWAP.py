@@ -16,7 +16,7 @@ def OB_bullish_below_aVWAP(df):
                      else empty DataFrame
     """
     latest = df.iloc[-1]  # Last row (current candle)
-    
+
     # Find most recent bullish OB (search backward)
     for i in range(len(df)-1, -1, -1):
         if df['OB'].iloc[i] == 1:

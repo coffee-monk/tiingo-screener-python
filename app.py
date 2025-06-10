@@ -11,28 +11,28 @@ from src.visualization.subcharts import subcharts
 API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
 
 indicator_list = [
-    # 'aVWAP', 
+    'aVWAP', 
     'candle_colors', 
-    # 'liquidity', 
+    'liquidity', 
     # 'BoS_CHoCH', 
     # 'ZScore', 
-    # 'StDev', 
-    # 'QQEMOD',
-    # 'banker_RSI', 
+    'StDev', 
+    'QQEMOD',
+    'banker_RSI', 
     # 'SMA',
     # 'supertrend',
-    # 'OB',
+    'OB',
     # 'divergence_ATR', 
-    # 'divergence_Vortex',
-    # 'divergence_Fisher',
-    # 'divergence_OBV',
-    # 'divergence_Volume'
+    'divergence_Vortex',
+    'divergence_Fisher',
+    'divergence_OBV',
+    'divergence_Volume'
 ]
 
 params = {
     'aVWAP': { 
               'peaks_valleys': False,
-              'peaks_valleys_avg': False,
+              'peaks_valleys_avg': True,
               'peaks_valleys_params': { 'periods': 20, 'max_aVWAPs': None },
               'OB': True,
               'OB_avg': False,
@@ -68,37 +68,37 @@ params = {
 
 # Example Code ---------------------------------------------------------------
 
-ticker = 'ESI'
+ticker = 'SLS'
 
-df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
-df2 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
-df3 = fetch_ticker(timeframe='hourly', ticker=ticker, api_key=API_KEY)
-df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
+df1 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
+# df2 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
+# df3 = fetch_ticker(timeframe='hourly', ticker=ticker, api_key=API_KEY)
+# df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
 df1 = get_indicators(df1, indicator_list, params)
-df2 = get_indicators(df2, indicator_list, params)
-df3 = get_indicators(df3, indicator_list, params)
-df4 = get_indicators(df4, indicator_list, params)
+# df2 = get_indicators(df2, indicator_list, params)
+# df3 = get_indicators(df3, indicator_list, params)
+# df4 = get_indicators(df4, indicator_list, params)
 
 # print(df1.columns)
 # print('\n')
 # print(df1.head(10))
 # print(df1.tail(10))
 
-subcharts([df1, df2, df3, df4], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
+subcharts([df1], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
 
 # fetch_tickers(['weekly', 'daily', '1hour'], api_key=API_KEY)
 
 # run_indicators(indicator_list, params)
 
-# run_scanner(['div_vortex_bullish'])
+# run_scanner(['StDev', 'OB_bullish_below_aVWAP'])
 # run_scanner(['QQEMOD_overbought'])
 
 # run_scanner(
 #             { 
-#              'weekly': ['OB_bullish', 'banker_RSI'], 
-#              'daily':  ['OB_bullish', 'banker_RSI'],
-#              'hourly': ['banker_RSI'], 
+#              # 'weekly': ['OB_bullish'], 
+#              'daily':  ['OB_bullish'],
+#              '1hour': ['OB_bullish_below_aVWAP'], 
 #             }, 
 #             logic='AND'
 #            )
