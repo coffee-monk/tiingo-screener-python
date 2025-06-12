@@ -13,12 +13,12 @@ API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
 indicator_list = [
     'aVWAP', 
     'candle_colors', 
-    'liquidity', 
+    # 'liquidity', 
     # 'BoS_CHoCH', 
     # 'ZScore', 
     'StDev', 
-    'QQEMOD',
-    'banker_RSI', 
+    # 'QQEMOD',
+    # 'banker_RSI', 
     # 'SMA',
     # 'supertrend',
     'OB',
@@ -68,9 +68,9 @@ params = {
 
 # Example Code ---------------------------------------------------------------
 
-ticker = 'SLS'
+ticker = 'PLTR'
 
-df1 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
+df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
 # df2 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
 # df3 = fetch_ticker(timeframe='hourly', ticker=ticker, api_key=API_KEY)
 # df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)

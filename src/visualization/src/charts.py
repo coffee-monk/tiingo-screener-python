@@ -5,7 +5,7 @@ from pathlib import Path
 from datetime import datetime
 from lightweight_charts import Chart
 from src.visualization.src.color_palette import get_color_palette
-from src.visualization.src.subcharts.indicators import add_visualizations
+from src.visualization.src.indicators import add_visualizations
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent.parent.parent
 DATA_ROOT = PROJECT_ROOT / "data" / "indicators"
