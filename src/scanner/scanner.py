@@ -86,8 +86,76 @@ def _multi_criteria_scan(criteria_list, api_key=None):
     
     return _process_results(all_results, f"multi-criteria {criteria_list} scan", api_key)
 
-def _advanced_scan(timeframe_criteria, logic='AND', api_key=None):
+# def _advanced_scan(timeframe_criteria, logic='AND', api_key=None):
+#
+#     """Enhanced timeframe scanner with proper multi-timeframe support"""
+#     # Validate and load criteria functions
+#     timeframe_configs = {}
+#     for timeframe, criteria_spec in timeframe_criteria.items():
+#         if isinstance(criteria_spec, (list, tuple)):
+#             criteria_list = criteria_spec
+#         else:
+#             criteria_list = [criteria_spec]
+#            
+#         funcs = [_load_criteria(c) for c in criteria_list]
+#         if not all(funcs):
+#             return pd.DataFrame()
+#         timeframe_configs[timeframe] = funcs
+#
+#     # Group files by ticker
+#     ticker_files = {}
+#     for file in _get_data_files():
+#         ticker, timeframe = _parse_filename(file)
+#         ticker_files.setdefault(ticker, {})[timeframe] = file
+#
+#     all_results = []
+#     for ticker, files in ticker_files.items():
+#         timeframe_signals = {}
+#         timeframe_results = {}
+#         missing_timeframes = []
+#
+#         # Check for missing timeframes
+#         for timeframe in timeframe_configs.keys():
+#             if timeframe not in files:
+#                 missing_timeframes.append(timeframe)
+#
+#         if missing_timeframes:
+#             print(f"Skipping {ticker}: Missing timeframes {missing_timeframes}")
+#             continue
+#
+#         # Check criteria for each timeframe
+#         for timeframe, criteria_funcs in timeframe_configs.items():
+#             df = _load_indicator_file(INPUT_DIR / files[timeframe])
+#            
+#             passed_all = True
+#             for criteria_func in criteria_funcs:
+#                 results = criteria_func(df)
+#                 if results.empty:
+#                     passed_all = False
+#                     break
+#            
+#             timeframe_signals[timeframe] = passed_all
+#             if passed_all:
+#                 # Take the most recent data point
+#                 last_row = df.iloc[[-1]].copy()
+#                 last_row['Ticker'] = ticker
+#                 last_row['Timeframe'] = timeframe
+#                 timeframe_results[timeframe] = last_row
+#
+#         # Apply logic between timeframes
+#         if logic == 'AND' and all(timeframe_signals.values()):
+#             combined = pd.concat(timeframe_results.values())
+#             all_results.append(combined)
+#                
+#         elif logic == 'OR' and any(timeframe_signals.values()):
+#             for timeframe, passed in timeframe_signals.items():
+#                 if passed:
+#                     all_results.append(timeframe_results[timeframe])
+#
+#     return _process_results(all_results, "advanced scan", api_key)
 
+
+def _advanced_scan(timeframe_criteria, logic='AND', api_key=None):
     """Enhanced timeframe scanner with proper multi-timeframe support"""
     # Validate and load criteria functions
     timeframe_configs = {}
@@ -148,9 +216,25 @@ def _advanced_scan(timeframe_criteria, logic='AND', api_key=None):
             all_results.append(combined)
                 
         elif logic == 'OR' and any(timeframe_signals.values()):
-            for timeframe, passed in timeframe_signals.items():
+            # Combine all passing timeframes
+            combined = pd.concat([timeframe_results[tf] for tf in timeframe_signals if timeframe_signals[tf]])
+            
+            # Create single result row with all passing timeframes noted
+            result_row = {
+                'date': combined.iloc[0]['date'],
+                'Ticker': ticker,
+                'Timeframe': '|'.join([tf for tf, passed in timeframe_signals.items() if passed]),
+                'Close': combined.iloc[0]['Close']
+            }
+            
+            # Add criteria data from all passing timeframes
+            for tf, passed in timeframe_signals.items():
                 if passed:
-                    all_results.append(timeframe_results[timeframe])
+                    for col in timeframe_results[tf].columns:
+                        if col not in ['date', 'Ticker', 'Timeframe', 'Close']:
+                            result_row[f'{tf}_{col}'] = timeframe_results[tf][col].iloc[0]
+            
+            all_results.append(pd.DataFrame(result_row, index=[0]))
 
     return _process_results(all_results, "advanced scan", api_key)
 

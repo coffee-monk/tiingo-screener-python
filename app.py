@@ -19,9 +19,10 @@ indicator_list = [
     # 'StDev', 
     # 'QQEMOD',
     # 'banker_RSI', 
-    'SMA',
+    # 'SMA',
     # 'supertrend',
     # 'OB',
+    'TTM_squeeze',
     # 'divergence_ATR', 
     # 'divergence_Vortex',
     # 'divergence_Fisher',
@@ -40,7 +41,7 @@ params = {
               'gaps': False,
               'gaps_avg': False,
               'gaps_params': { 'max_aVWAPs': 10 },
-              'avg_lookback': 21,
+              'avg_lookback': 5,
               'keep_OB_column': True,
              },
     'ZScore': {
@@ -55,7 +56,7 @@ params = {
               'peaks_valleys_params': { 'periods': 20, 'max_aVWAPs': None }, 
               # 'gaps_params': { 'max_aVWAPs': 10 }, 
               'std_lookback': 75,
-              'avg_lookback': 20,
+              'avg_lookback': 21,
               },
     'candle_colors': {'indicator_color': 'banker_RSI'},
     'SMA': {'periods': [21]},
@@ -68,9 +69,9 @@ params = {
 
 # Example Code ---------------------------------------------------------------
 
-ticker = 'AC'
+ticker = 'BR'
 
-df1 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
+df1 = fetch_ticker(timeframe='weekly', ticker=ticker, api_key=API_KEY)
 # df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
 # df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
 # df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
@@ -82,7 +83,7 @@ df1 = get_indicators(df1, indicator_list, params)
 
 # print(df1.columns)
 # print('\n')
-# print(df1.head(10))
+# print(df1.head(10)
 # print(df1.tail(10))
 
 subcharts([df1], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
@@ -90,8 +91,9 @@ subcharts([df1], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loa
 # fetch_tickers(['weekly', 'daily', '1hour'], api_key=API_KEY)
 
 # run_indicators(indicator_list, params, "weekly")
+# run_indicators(indicator_list, params)
 
-# run_scanner(['StDev', 'OB_bullish_below_aVWAP'])
+# run_scanner(['TTM_squeeze'])
 # run_scanner(['QQEMOD_overbought'])
 
 # run_scanner(

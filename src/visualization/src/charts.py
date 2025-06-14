@@ -7,7 +7,7 @@ from lightweight_charts import Chart
 from src.visualization.src.color_palette import get_color_palette
 from src.visualization.src.indicators import add_visualizations
 
-PROJECT_ROOT = Path(__file__).parent.parent.parent.parent.parent
+PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
 DATA_ROOT = PROJECT_ROOT / "data" / "indicators"
 
 
