@@ -5,7 +5,7 @@ def calculate_ttm_squeeze(
     bb_length=20,
     bb_std_dev=2.0,
     kc_length=20,
-    kc_mult=1.0,
+    kc_mult=1.5,
     use_true_range=True
 ):
     """
