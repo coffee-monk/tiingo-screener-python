@@ -12,7 +12,6 @@ TIMEFRAME_ORDER = [ 'weekly', 'week', 'daily', 'day', '4hour', '4hour', 'hourly'
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 DATA_ROOT = PROJECT_ROOT / "data" / "indicators"
-print(DATA_ROOT)
 
 
 def subcharts(df_list, ticker='', show_volume=False, show_banker_RSI=True, csv_loader='scanner'):

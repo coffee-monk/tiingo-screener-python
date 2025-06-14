@@ -23,6 +23,7 @@ def run_scanner(criteria='banker_RSI', logic='AND', api_key=None):
         logic: 'AND'/'OR' for dict mode only
         api_key: Optional Tiingo API key. If provided, fundamentals data will be fetched
     """
+    print('--- SCANNER ---\n')
     print(f"Input directory: {INPUT_DIR}")
     print(f"Output directory: {OUTPUT_DIR}")
 
@@ -85,74 +86,6 @@ def _multi_criteria_scan(criteria_list, api_key=None):
             all_results.append(pd.DataFrame(result_row, index=[0]))
     
     return _process_results(all_results, f"multi-criteria {criteria_list} scan", api_key)
-
-# def _advanced_scan(timeframe_criteria, logic='AND', api_key=None):
-#
-#     """Enhanced timeframe scanner with proper multi-timeframe support"""
-#     # Validate and load criteria functions
-#     timeframe_configs = {}
-#     for timeframe, criteria_spec in timeframe_criteria.items():
-#         if isinstance(criteria_spec, (list, tuple)):
-#             criteria_list = criteria_spec
-#         else:
-#             criteria_list = [criteria_spec]
-#            
-#         funcs = [_load_criteria(c) for c in criteria_list]
-#         if not all(funcs):
-#             return pd.DataFrame()
-#         timeframe_configs[timeframe] = funcs
-#
-#     # Group files by ticker
-#     ticker_files = {}
-#     for file in _get_data_files():
-#         ticker, timeframe = _parse_filename(file)
-#         ticker_files.setdefault(ticker, {})[timeframe] = file
-#
-#     all_results = []
-#     for ticker, files in ticker_files.items():
-#         timeframe_signals = {}
-#         timeframe_results = {}
-#         missing_timeframes = []
-#
-#         # Check for missing timeframes
-#         for timeframe in timeframe_configs.keys():
-#             if timeframe not in files:
-#                 missing_timeframes.append(timeframe)
-#
-#         if missing_timeframes:
-#             print(f"Skipping {ticker}: Missing timeframes {missing_timeframes}")
-#             continue
-#
-#         # Check criteria for each timeframe
-#         for timeframe, criteria_funcs in timeframe_configs.items():
-#             df = _load_indicator_file(INPUT_DIR / files[timeframe])
-#            
-#             passed_all = True
-#             for criteria_func in criteria_funcs:
-#                 results = criteria_func(df)
-#                 if results.empty:
-#                     passed_all = False
-#                     break
-#            
-#             timeframe_signals[timeframe] = passed_all
-#             if passed_all:
-#                 # Take the most recent data point
-#                 last_row = df.iloc[[-1]].copy()
-#                 last_row['Ticker'] = ticker
-#                 last_row['Timeframe'] = timeframe
-#                 timeframe_results[timeframe] = last_row
-#
-#         # Apply logic between timeframes
-#         if logic == 'AND' and all(timeframe_signals.values()):
-#             combined = pd.concat(timeframe_results.values())
-#             all_results.append(combined)
-#                
-#         elif logic == 'OR' and any(timeframe_signals.values()):
-#             for timeframe, passed in timeframe_signals.items():
-#                 if passed:
-#                     all_results.append(timeframe_results[timeframe])
-#
-#     return _process_results(all_results, "advanced scan", api_key)
 
 
 def _advanced_scan(timeframe_criteria, logic='AND', api_key=None):
@@ -254,13 +187,13 @@ def _get_data_files():
 def _process_results(results, scan_type, api_key=None):
     """Process and format results without fragmentation"""
     if not results or len(results) == 0:
-        print(f"\nResults: {scan_type} found no setups")
+        print(f"\nResults: {scan_type} found no setups\n")
         return pd.DataFrame()
     
     try:
         final_results = pd.concat(results)
     except ValueError:
-        print(f"\nResults: {scan_type} found no setups")
+        print(f"\nResults: {scan_type} found no setups\n")
         return pd.DataFrame()
     
     # Reset index to get date as column if it's in index
@@ -290,7 +223,7 @@ def _process_results(results, scan_type, api_key=None):
     if api_key:
         minimal_results = _attach_fundamentals_to_scanner(minimal_results, api_key)
     _save_scan_results(minimal_results, OUTPUT_DIR, SCAN_DATE)
-    print(f"\nResults: {scan_type} found {len(minimal_results)} setups")
+    print(f"\nResults: {scan_type} found {len(minimal_results)} setups\n")
     return minimal_results
 
 def _save_scan_results(df, output_dir, scan_date):

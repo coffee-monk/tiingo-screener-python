@@ -11,7 +11,7 @@ from src.visualization.subcharts import subcharts
 API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
 
 indicator_list = [
-    'aVWAP', 
+    # 'aVWAP', 
     # 'candle_colors', 
     # 'liquidity', 
     # 'BoS_CHoCH', 
@@ -76,12 +76,12 @@ params = {
 
 ticker = 'RCG'
 
-df1 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
+# df1 = fetch_ticker(timeframe='daily', ticker=ticker, api_key=API_KEY)
 # df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
 # df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
 # df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
-df1 = get_indicators(df1, indicator_list, params)
+# df1 = get_indicators(df1, indicator_list, params)
 # df2 = get_indicators(df2, indicator_list, params)
 # df3 = get_indicators(df3, indicator_list, params)
 # df4 = get_indicators(df4, indicator_list, params)
@@ -91,14 +91,14 @@ df1 = get_indicators(df1, indicator_list, params)
 # print(df1.head(10)
 # print(df1.tail(10))
 
-subcharts([df1], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
+# subcharts([df1], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
 
 # fetch_tickers(['weekly', 'daily', '1hour'], api_key=API_KEY)
 
 # run_indicators(indicator_list, params, "daily")
 # run_indicators(indicator_list, params)
 
-# run_scanner(['TTM_squeeze', 'OB_bullish'])
+# run_scanner(['TTM_squeeze'])
 # run_scanner(['QQEMOD_overbought'])
 
 # run_scanner(
