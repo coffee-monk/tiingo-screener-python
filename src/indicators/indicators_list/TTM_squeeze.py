@@ -1,13 +1,13 @@
 import pandas as pd
 
 def calculate_ttm_squeeze(
-    df,
-    bb_length=20,
-    bb_std_dev=2.0,
-    kc_length=20,
-    kc_mult=1.5,
-    use_true_range=True
-):
+                          df,
+                          bb_length=20,
+                          bb_std_dev=2.0,
+                          kc_length=20,
+                          kc_mult=1.5,
+                          use_true_range=True
+                         ):
     """
     Simplified TTM Squeeze Indicator (Volatility Focus)
     
