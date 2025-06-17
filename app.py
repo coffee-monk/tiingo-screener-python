@@ -83,7 +83,7 @@ params = {
 
 # Example Code ---------------------------------------------------------------
 
-ticker = 'SOFI'
+ticker = 'BTCUSD'
 
 # df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
 
