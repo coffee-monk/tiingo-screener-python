@@ -3,12 +3,15 @@ import pandas as pd
 from datetime import datetime
 from src.indicators.get_indicators import get_indicators
 from src.indicators.run_indicators import run_indicators
-from src.indicators.params_list import params_weekly, params_daily, params_1hour, params_5min
 from src.fetch_data.fetch_tickers import fetch_tickers
 from src.fetch_data.fetch_ticker import fetch_ticker
 from src.scanner.scanner import run_scanner
 from src.visualization.subcharts import subcharts
 from src.visualization.subcharts import subcharts
+from src.indicators.custom_inputs import (params_weekly, ind_weekly,  
+                                          params_daily,  ind_daily,
+                                          params_1hour,  ind_1hour,
+                                          params_5min,   ind_1hour)
 
 API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
 
@@ -81,36 +84,44 @@ params = {
     'divergence_Vortex': {'period': 100, 'lookback': 40},
 }
 
-# Example Code ---------------------------------------------------------------
+# SUBCHARTS -----------------------------------------------
 
-ticker = 'BTCUSD'
+ticker = 'AAPL'
 
-# df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
+df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
 
-df1 = fetch_ticker(timeframe='w', ticker=ticker, api_key=API_KEY)
-df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
-df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
-df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
+# df1 = fetch_ticker(timeframe='w', ticker=ticker, api_key=API_KEY)
+# df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
+# df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
+# df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
-# df1 = get_indicators(df1, indicator_list, params)
+df1 = get_indicators(df1, indicator_list, params)
 
-df1 = get_indicators(df1, indicator_list, params_weekly)
-df2 = get_indicators(df2, indicator_list, params_daily)
-df3 = get_indicators(df3, indicator_list, params_1hour)
-df4 = get_indicators(df4, indicator_list, params_5min)
+# df1 = get_indicators(df1, ind_weekly, params_weekly)
+# df2 = get_indicators(df2, ind_daily,  params_daily)
+# df3 = get_indicators(df3, ind_1hour,  params_1hour)
+# df4 = get_indicators(df4, ind_5min,   params_5min)
 
 # print(df1.columns)
 # print('\n')
 # print(df1.head(10))
 # print(df1.tail(10))
 
-subcharts([df1, df2, df3, df4], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
-# subcharts([df1], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
+# subcharts([df1, df2, df3, df4], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
+subcharts([df1], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='indicators')
 
-# fetch_tickers(['weekly', 'daily', '1hour'], api_key=API_KEY)
+# FETCH TICKERS -------------------------------------------
 
-# run_indicators(indicator_list, params, "daily")
-# run_indicators(indicator_list, params)
+# fetch_tickers(['weekly', 'daily', '1hour', '5min'], api_key=API_KEY)
+
+# INDICATORS ---------------------------------------------
+
+# run_indicators(ind_weekly, params_weekly, "weekly")
+# run_indicators(ind_daily, params_daily, "daily")
+# run_indicators(ind_1hour, params_1hour, "1hour")
+# run_indicators(ind_5min, params_5min, "5min")
+
+# SCANNER ------------------------------------------------
 
 # run_scanner(['TTM_squeeze'])
 # run_scanner(['QQEMOD_overbought'])

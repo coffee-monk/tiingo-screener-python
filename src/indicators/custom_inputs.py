@@ -1,3 +1,7 @@
+# Custom Inputs for get_indicators() ======================
+
+# PARAMETERS ----------------------------------------------
+
 params_default = {
     'candle_colors': {'indicator_color': 'QQEMOD'},
     'aVWAP': { 
@@ -99,7 +103,7 @@ params_daily = {
               'gaps_avg': False,
               'gaps_params': { 'max_aVWAPs': 20 },
               'avg_lookback': 5,
-              'keep_OB_column': True,
+              'keep_OB_column': False,
              },
     'OB': { 'periods': 20 },
     'StDev': {
@@ -182,7 +186,7 @@ params_5min = {
               'peaks_valleys_params': { 'periods': 20, 'max_aVWAPs': None },
               'OB': True,
               'OB_avg': False,
-              'OB_params': { 'periods': 20, 'max_aVWAPs': 0 },
+              'OB_params': { 'periods': 20, 'max_aVWAPs': 1 },
               'gaps': False,
               'gaps_avg': False,
               'gaps_params': { 'max_aVWAPs': 10 },
@@ -211,4 +215,104 @@ params_5min = {
     'divergence_Vortex': {'period': 128, 'lookback': 80},
 }
 
+# INDICATORS ----------------------------------------------
 
+ind_default = [
+    'aVWAP', 
+    'candle_colors', 
+    'liquidity', 
+    # 'BoS_CHoCH', 
+    # 'ZScore', 
+    # 'StDev', 
+    # 'QQEMOD',
+    # 'banker_RSI', 
+    # 'SMA',
+    # 'supertrend',
+    'OB',
+    # 'TTM_squeeze',
+    # 'divergence_ATR', 
+    'divergence_Vortex',
+    'divergence_Fisher',
+    'divergence_OBV',
+    'divergence_Volume'
+]
+
+ind_weekly = [
+    'aVWAP', 
+    'candle_colors', 
+    # 'liquidity', 
+    # 'BoS_CHoCH', 
+    # 'ZScore', 
+    # 'StDev', 
+    # 'QQEMOD',
+    # 'banker_RSI', 
+    # 'SMA',
+    # 'supertrend',
+    'OB',
+    # 'TTM_squeeze',
+    # 'divergence_ATR', 
+    'divergence_Vortex',
+    'divergence_Fisher',
+    'divergence_OBV',
+    'divergence_Volume'
+]
+
+ind_daily = [
+    'aVWAP', 
+    'candle_colors', 
+    # 'liquidity', 
+    # 'BoS_CHoCH', 
+    # 'ZScore', 
+    # 'StDev', 
+    # 'QQEMOD',
+    # 'banker_RSI', 
+    # 'SMA',
+    # 'supertrend',
+    'OB',
+    # 'TTM_squeeze',
+    # 'divergence_ATR', 
+    'divergence_Vortex',
+    'divergence_Fisher',
+    'divergence_OBV',
+    'divergence_Volume'
+]
+
+ind_1hour = [
+    'aVWAP', 
+    'candle_colors', 
+    # 'liquidity', 
+    # 'BoS_CHoCH', 
+    # 'ZScore', 
+    # 'StDev', 
+    # 'QQEMOD',
+    # 'banker_RSI', 
+    # 'SMA',
+    # 'supertrend',
+    'OB',
+    # 'TTM_squeeze',
+    # 'divergence_ATR', 
+    'divergence_Vortex',
+    'divergence_Fisher',
+    'divergence_OBV',
+    'divergence_Volume'
+]
+
+ind_5min = [
+    'aVWAP', 
+    'candle_colors', 
+    'liquidity', 
+    # 'BoS_CHoCH', 
+    # 'ZScore', 
+    # 'StDev', 
+    # 'QQEMOD',
+    # 'banker_RSI', 
+    # 'SMA',
+    # 'supertrend',
+    'OB',
+    'TTM_squeeze',
+    # 'divergence_ATR', 
+    'divergence_Vortex',
+    'divergence_Fisher',
+    'divergence_OBV',
+    'divergence_Volume'
+]

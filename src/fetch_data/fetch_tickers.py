@@ -18,6 +18,7 @@ def fetch_tickers(
 
     """Fetch raw ticker data for given timeframes without indicators."""
 
+    print('--- FETCH TICKERS ---\n')
     print(f"Today's Date: {DATE_STAMP} (Format: DDMMYY)")
     print(f"Input Tickers: {INPUT_FILE}")
     print(f"Output directory: {OUTPUT_DIR}")
@@ -70,7 +71,7 @@ def load_tickers(csv_path):
     for col in numeric_cols:
         try: df[col] = df[col].replace('[\$,%]', '', regex=True).astype(float)
         except Exception as e:
-            print(f"\nError fetching csv: {str(e)}")
+            # print(f"\nError fetching csv: {str(e)}")
             continue
 
     return df
