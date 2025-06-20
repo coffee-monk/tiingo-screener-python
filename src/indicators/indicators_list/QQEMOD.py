@@ -10,32 +10,37 @@ def calculate_qqemod(
     qqe_factor=3.0,
     qqe_factor2=1.61,
     threshold=3,
-    threshold2=3,
     bb_length=50,
-    bb_mult=0.35,
+    bb_multi=0.35,
 ):
     """
-    Complete QQEMOD calculator for candle coloring systems
-    Returns all necessary components for color decision logic
+    Calculates the QQEMOD indicator with two QQE signals and Bollinger Band filtering.
     
     Parameters:
         df : pd.DataFrame with 'Close' column
-        rsi_period : int - QQE1 RSI period (default: 6)
-        sf : int - QQE1 smoothing factor (default: 5)
-        qqe_factor : float - QQE1 multiplier (default: 3.0)
-        threshold : float - QQE1 threshold (default: 3)
-        bb_length : int - Bollinger Band length (default: 50)
-        bb_mult : float - BB multiplier (default: 0.35)
-        rsi_period2 : int - QQE2 RSI period (default: 6)
-        sf2 : int - QQE2 smoothing factor (default: 5)
-        qqe_factor2 : float - QQE2 multiplier (default: 1.61)
-        threshold2 : float - QQE2 threshold (default: 3)
         
+        # Primary QQE Signal
+        rsi_period : int (default: 6) - QQE1 RSI period
+        sf : int (default: 5) - QQE1 smoothing factor
+        qqe_factor : float (default: 3.0) - QQE1 multiplier
+        
+        # Secondary QQE Signal
+        rsi_period2 : int (default: 6) - QQE2 RSI period
+        sf2 : int (default: 5) - QQE2 smoothing factor
+        qqe_factor2 : float (default: 1.61) - QQE2 multiplier
+
+        threshold : float (default: 3) - Used for QQE2 signal conditions
+        
+        # Bollinger Band Filter
+        bb_length : int (default: 50) - BB length
+        bb_mult : float (default: 0.35) - BB standard deviation multiplier
+    
     Returns:
-        dict with all components needed for candle coloring:
+        dict with components for candle coloring:
         {
-            'QQE1_RSI_MA', 'QQE1_Trend', 'QQE1_UpperBB', 'QQE1_LowerBB',
-            'QQE2_RSI_MA', 'QQE2_Trend', 'QQE2_Value', 'QQE1_Value'
+            'QQEMOD', 'QQE1_Value', 
+            'QQE1_Above_Upper', 'QQE1_Below_Lower',
+            'QQE2_Above_Threshold', 'QQE2_Below_Threshold', 'QQE2_Above_TL'
         }
     """
 
@@ -99,7 +104,7 @@ def calculate_qqemod(
     
     # Bollinger Bands Filter (fixed)
     basis = (fast_atr_rsi_tl_series - 50).rolling(bb_length).mean()
-    dev = bb_mult * (fast_atr_rsi_tl_series - 50).rolling(bb_length).std()
+    dev = bb_multi * (fast_atr_rsi_tl_series - 50).rolling(bb_length).std()
     upper_bb = basis + dev
     lower_bb = basis - dev
     
@@ -180,8 +185,8 @@ def calculate_qqemod(
         # -- Derived Values --
         'QQE1_Above_Upper': (rsi_ma - 50) > upper_bb,
         'QQE1_Below_Lower': (rsi_ma - 50) < lower_bb,
-        'QQE2_Above_Threshold': (rsi_ma2 - 50) > threshold2,
-        'QQE2_Below_Threshold': (rsi_ma2 - 50) < -threshold2,
+        'QQE2_Above_Threshold': (rsi_ma2 - 50) > threshold,
+        'QQE2_Below_Threshold': (rsi_ma2 - 50) < -threshold,
         'QQE2_Above_TL': rsi_ma2 >= fast_atr_rsi2_tl
     }
 

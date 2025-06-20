@@ -1,6 +1,6 @@
 import pandas as pd
 
-def TTM_squeeze(df, mode='active', min_squeeze_bars=1, max_squeeze_bars=None):
+def TTM_squeeze(df, mode='active', min_squeeze_bars=5, max_squeeze_bars=None):
     """
     Enhanced TTM Squeeze scanner with duration tracking
     

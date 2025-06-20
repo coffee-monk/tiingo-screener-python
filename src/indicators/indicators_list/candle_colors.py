@@ -30,9 +30,9 @@ def calculate_candle_colors(df, indicator_color='StDev', custom_params=None):
         },
         'StDev': {
             'centreline': 'peaks_valleys_avg',
-            'peaks_valleys_params': {'periods': 21, 'max_aVWAPs': None},
-            'std_lookback': 50,
-            'avg_lookback': 5
+            'peaks_valleys_params': {'periods': 100, 'max_aVWAPs': None},
+            'std_lookback': 100,
+            'avg_lookback': 10,
         },
         'TTM_squeeze': {
             'bb_length': 20,
@@ -41,7 +41,17 @@ def calculate_candle_colors(df, indicator_color='StDev', custom_params=None):
             'kc_mult': 1.5,
             'use_true_range': True
         },
-        'QQEMOD': {},  # Add default params if needed
+        'QQEMOD': {
+            'rsi_period': 8, 
+            'rsi_period2': 4,
+            'sf': 8,
+            'sf2': 4,
+            'qqe_factor': 3.0,
+            'qqe_factor2': 1.61,
+            'threshold': 3,
+            'bb_length': 10,
+            'bb_multi': 0.35,
+        },
         'banker_RSI': {},
         'WAE': {},
         'supertrend': {}
@@ -53,8 +63,9 @@ def calculate_candle_colors(df, indicator_color='StDev', custom_params=None):
             if indicator in default_params:
                 default_params[indicator].update(params)
 
+    print(default_params['QQEMOD'])
 
-    df = get_indicators(df, [indicator_color], params)
+    df = get_indicators(df, [indicator_color], default_params)
 
     # Get colors from indicator data
     colors = get_color_palette()
