@@ -21,13 +21,13 @@ indicator_list = [
     # 'liquidity', 
     # 'BoS_CHoCH', 
     # 'ZScore', 
-    # 'StDev', 
-    # 'QQEMOD',
-    # 'banker_RSI', 
+    'StDev', 
+    'QQEMOD',
+    'banker_RSI', 
     # 'SMA',
     # 'supertrend',
-    # 'OB',
-    # 'TTM_squeeze',
+    'OB',
+    'TTM_squeeze',
     # 'divergence_ATR', 
     # 'divergence_Vortex',
     # 'divergence_Fisher',
@@ -45,9 +45,9 @@ params = {
     #                                                   'max_aVWAPs': None
     #                                               }}}},
     'candle_colors': {'indicator_color': 'QQEMOD', 
-                      'custom_params': {'QQEMOD': {'rsi_period': 10, 
+                      'custom_params': {'QQEMOD': {'rsi_period': 6, 
                                                    'rsi_period2': 5,
-                                                   'sf': 10,
+                                                   'sf': 6,
                                                    'sf2': 5,
                                                    'qqe_factor': 3.0,
                                                    'qqe_factor2': 1.61,
@@ -76,14 +76,14 @@ params = {
               'avg_lookback': 20,
               },
     'QQEMOD': {
-              'rsi_period': 12,
-              'rsi_period2': 3,
-              'sf': 12,
-              'sf2': 3,
+              'rsi_period': 10,
+              'rsi_period2': 5,
+              'sf': 10,
+              'sf2': 5,
               'qqe_factor': 3.0,
               'qqe_factor2': 1.5,
               'threshold': 3,
-              'bb_length': 6,
+              'bb_length': 20,
               'bb_multi': 0.35,
               },
     # 'StDev': {
@@ -108,9 +108,9 @@ params = {
 
 # SUBCHARTS -----------------------------------------------
 
-ticker = 'SOFI'
+ticker = 'SLS'
 
-df1 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
+df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
 
 # df1 = fetch_ticker(timeframe='w', ticker=ticker, api_key=API_KEY)
 # df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
@@ -130,7 +130,8 @@ df1 = get_indicators(df1, indicator_list, params)
 # print(df1.tail(10))
 
 subcharts([df1], ticker=ticker, show_volume=False, show_banker_RSI=True, csv_loader='scanner')
-# subcharts([df1, df2, df3, df4], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
+# subcharts([df1, df2, df3, df4], 
+#           ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
 
 # FETCH TICKERS -------------------------------------------
 
@@ -153,12 +154,12 @@ subcharts([df1], ticker=ticker, show_volume=False, show_banker_RSI=True, csv_loa
 # run_scanner(['TTM_squeeze'])
 # run_scanner(['QQEMOD_overbought'])
 
-# run_scanner(
-#             { 
-#              # 'weekly': ['TTM_squeeze'], 
-#              'daily':  ['TTM_squeeze'],
-#              # '1hour': ['OB_bullish_below_aVWAP'], 
-#              # '5min': ['OB_bullish_below_aVWAP'], 
-#             }, 
-#             logic='AND'
-#            )
+run_scanner(
+            { 
+             # 'weekly': ['TTM_squeeze'], 
+             'daily':  ['OB_bullish_below_aVWAP'],
+             # '1hour': ['TTM_squeeze'], 
+             # '5min': ['OB_bullish_below_aVWAP'], 
+            }, 
+            logic='AND'
+           )

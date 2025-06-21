@@ -63,8 +63,6 @@ def calculate_candle_colors(df, indicator_color='StDev', custom_params=None):
             if indicator in default_params:
                 default_params[indicator].update(params)
 
-    print(default_params['QQEMOD'])
-
     df = get_indicators(df, [indicator_color], default_params)
 
     # Get colors from indicator data
@@ -133,8 +131,8 @@ def calculate_candle_colors(df, indicator_color='StDev', custom_params=None):
             return colors['teal'] if row['QQE2_Above_TL'] else colors['teal_trans_3']
         elif row['QQE1_Below_Lower'] and row['QQE2_Below_Threshold']:
             return colors['red'] if not row['QQE2_Above_TL'] else colors['red_trans_3']
-        elif row['QQE2_Above_Threshold']: return colors['teal_trans_1']  
-        elif row['QQE2_Below_Threshold']: return colors['red_trans_1']  
+        elif row['QQE2_Above_Threshold']: return colors['teal_trans_2']  
+        elif row['QQE2_Below_Threshold']: return colors['red_trans_2']  
         return colors['black']
 
     def map_WAE(row):
