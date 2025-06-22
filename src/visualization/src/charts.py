@@ -277,7 +277,7 @@ def _on_search(chart, input_ticker):
             for line in lines: line.hide_data()
             chart.clear_markers()
             configure_base_chart(df, chart)
-            add_ui_elements(chart, [chart], input_ticker, current_timeframe, csv_loader)
+            add_ui_elements(chart, [chart], input_ticker, current_timeframe, csv_loader='scanner')
             add_visualizations(chart, df, False)
             chart.set(None)
             chart.set(df)
