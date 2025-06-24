@@ -8,6 +8,9 @@ from src.fetch_data.fetch_ticker import fetch_ticker
 from src.scanner.scanner import run_scanner
 from src.visualization.subcharts import subcharts
 from src.visualization.subcharts import subcharts
+from src.scanner.custom_inputs import (dh_OBBullish_support, dh_OBBearish_resistance,
+                                       dh_divergences_bullish, dh_divergences_bearish,
+                                       dh_StDev_oversold_OBBullish, dh_StDev_overbought_OBBearish)
 from src.indicators.custom_inputs import (params_weekly, ind_weekly,  
                                           params_daily,  ind_daily,
                                           params_1hour,  ind_1hour,
@@ -16,23 +19,23 @@ from src.indicators.custom_inputs import (params_weekly, ind_weekly,
 API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
 
 indicator_list = [
-    'aVWAP', 
-    'candle_colors', 
+    # 'aVWAP', 
+    # 'candle_colors', 
     # 'liquidity', 
     # 'BoS_CHoCH', 
     # 'ZScore', 
-    'StDev', 
-    'QQEMOD',
-    'banker_RSI', 
+    # 'StDev', 
+    # 'QQEMOD',
+    # 'banker_RSI', 
     # 'SMA',
     # 'supertrend',
-    'OB',
-    'TTM_squeeze',
+    # 'OB',
+    # 'TTM_squeeze',
     # 'divergence_ATR', 
-    # 'divergence_Vortex',
-    # 'divergence_Fisher',
-    # 'divergence_OBV',
-    # 'divergence_Volume'
+    'divergence_Vortex',
+    'divergence_Fisher',
+    'divergence_OBV',
+    'divergence_Volume'
 ]
 
 params = {
@@ -108,7 +111,7 @@ params = {
 
 # SUBCHARTS -----------------------------------------------
 
-ticker = 'SLS'
+ticker = 'WELL'
 
 # df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
 
@@ -130,8 +133,7 @@ df3 = get_indicators(df3, ind_1hour,  params_1hour)
 # print(df1.tail(10))
 
 subcharts([df2, df3], ticker=ticker, show_volume=False, show_banker_RSI=True, csv_loader='scanner')
-# subcharts([df1, df2, df3, df4], 
-#           ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
+# subcharts([df1, df2, df3, df4], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
 
 # FETCH TICKERS -------------------------------------------
 
@@ -158,8 +160,15 @@ subcharts([df2, df3], ticker=ticker, show_volume=False, show_banker_RSI=True, cs
 #             { 
 #              # 'weekly': ['TTM_squeeze'], 
 #              'daily':  ['OB_bullish_below_aVWAP'],
-#              '1hour': ['OB_bullish'], 
+#              '1hour': ['OB_bullish_support'], 
 #              # '5min': ['OB_bullish_below_aVWAP'], 
 #             }, 
 #             logic='AND'
 #            )
+
+# run_scanner(dh_OBBullish_support)
+# run_scanner(dh_OBBearish_resistance)
+# run_scanner(dh_divergences_bullish)
+# run_scanner(dh_divergences_bearish)
+# run_scanner(dh_StDev_oversold_OBBullish)
+# run_scanner(dh_StDev_overbought_OBBearish)
