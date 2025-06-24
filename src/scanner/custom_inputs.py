@@ -38,3 +38,15 @@ dh_StDev_overbought_OBBearish = {
                                  'daily': ['StDev_overbought'],
                                  '1hour': ['OB_bearish_above_aVWAP']
                                 }
+
+# weekly + daily ------------------------------------------
+
+wd_QQEMOD_oversold_OBBullish = { 
+                               'weekly': ['QQEMOD_oversold'],
+                               # 'daily': ['OB_bullish_below_aVWAP'],
+                              }
+
+wd_QQEMOD_overbought_OBBearish = { 
+                                 'weekly': ['QQEMOD_overbought'],
+                                 # 'daily': ['OB_bearish_above_aVWAP'],
+                                }
