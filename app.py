@@ -109,16 +109,16 @@ params = {
 
 # SUBCHARTS -----------------------------------------------
 
-ticker = 'CNR'
+ticker = 'JWEL'
 
-# df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
+df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
 
 # df1 = fetch_ticker(timeframe='w', ticker=ticker, api_key=API_KEY)
 # df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
 # df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
 # df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
-# df1 = get_indicators(df1, indicator_list, params)
+df1 = get_indicators(df1, indicator_list, params)
 
 # df1 = get_indicators(df1, ind_weekly, params_weekly)
 # df2 = get_indicators(df2, ind_daily,  params_daily)
@@ -130,7 +130,7 @@ ticker = 'CNR'
 # print(df1.head(10))
 # print(df1.tail(10))
 
-# subcharts([df1], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
+subcharts([df1], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
 # subcharts([df1, df2, df3, df4], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
 
 # FETCH TICKERS -------------------------------------------
@@ -172,7 +172,10 @@ ticker = 'CNR'
 #                 }
 #            )
 
-# run_scanner(scan_configs['dh_OBBullish_support']['criteria'], scan_configs['dh_OBBullish_support']['params'])
+# run_scanner(scan_configs['dh_OBBullish_support']['criteria'], scan_configs['dh_OBBullish_support']['params'], scan_name='dh_OBBullish_support')
+run_scanner(criteria=scan_configs['dh_StDev_oversold_OBBullish']['criteria'], 
+            criteria_param=scan_configs['dh_StDev_oversold_OBBullish']['params'], 
+            scan_name='dh_StDev_oversold_OBBullish')
 # run_scanner(dh_OBBearish_resistance)
 # run_scanner(dh_divergences_bullish)
 # run_scanner(dh_divergences_bearish)

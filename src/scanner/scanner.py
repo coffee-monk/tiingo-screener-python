@@ -14,7 +14,7 @@ OUTPUT_DIR = PROJECT_ROOT / "data/scanner"
 CRITERIA_DIR = PROJECT_ROOT / "src/scanner/criteria"
 SCAN_DATE = datetime.now().strftime("%d%m%y")
 
-def run_scanner(criteria='banker_RSI', criteria_params=None, logic='AND', api_key=None):
+def run_scanner(criteria='banker_RSI', criteria_params=None, logic='AND', api_key=None, scan_name=None):
     """Ultimate flexible scanner with support for criteria parameters.
 
     Args:
@@ -22,8 +22,7 @@ def run_scanner(criteria='banker_RSI', criteria_params=None, logic='AND', api_ke
         logic: 'AND'/'OR' for dict mode only
         api_key: Optional Tiingo API key
         criteria_params: Dict of parameter dicts for criteria functions
-                        Format: {'criteria_name': {'param1': value1, ...}}
-                        or {'criteria_name': {'timeframe1': {params}, 'timeframe2': {params}}}
+        scan_name: Optional custom name suffix for output file
     """
     print('--- SCANNER ---\n')
     print(f"Input directory: {INPUT_DIR}")
@@ -34,13 +33,13 @@ def run_scanner(criteria='banker_RSI', criteria_params=None, logic='AND', api_ke
         criteria_params = {}
 
     if isinstance(criteria, dict):
-        return _advanced_scan(criteria, logic, api_key, criteria_params)
+        return _advanced_scan(criteria, logic, api_key, criteria_params, scan_name)
     elif isinstance(criteria, list):
-        return _multi_criteria_scan(criteria, api_key, criteria_params)
+        return _multi_criteria_scan(criteria, api_key, criteria_params, scan_name)
     else:
-        return _simple_scan(criteria, api_key, criteria_params)
+        return _simple_scan(criteria, api_key, criteria_params, scan_name)
 
-def _simple_scan(criteria, api_key=None, criteria_params=None):
+def _simple_scan(criteria, api_key=None, criteria_params=None, scan_name=None):
     """Single criteria applied to all files with optional parameters"""
     criteria_func = _load_criteria(criteria)
     if not criteria_func:
@@ -66,9 +65,9 @@ def _simple_scan(criteria, api_key=None, criteria_params=None):
             results['Timeframe'] = timeframe
             all_results.append(results)
   
-    return _process_results(all_results, f"'{criteria}' scan", api_key)
+    return _process_results(all_results, f"'{criteria}' scan", api_key, scan_name)
 
-def _multi_criteria_scan(criteria_list, api_key=None, criteria_params=None):
+def _multi_criteria_scan(criteria_list, api_key=None, criteria_params=None, scan_name=None):
     """Multiple criteria (ALL must pass) for all files with parameters"""
     criteria_funcs = [_load_criteria(c) for c in criteria_list]
     if not all(criteria_funcs):
@@ -109,9 +108,9 @@ def _multi_criteria_scan(criteria_list, api_key=None, criteria_params=None):
             result_row.update(criteria_data)
             all_results.append(pd.DataFrame(result_row, index=[0]))
     
-    return _process_results(all_results, f"multi-criteria {criteria_list} scan", api_key)
+    return _process_results(all_results, f"multi-criteria {criteria_list} scan", api_key, scan_name)
 
-def _advanced_scan(timeframe_criteria, logic='AND', api_key=None, criteria_params=None):
+def _advanced_scan(timeframe_criteria, logic='AND', api_key=None, criteria_params=None, scan_name=None):
     """Enhanced timeframe scanner with parameter support"""
     # Validate and load criteria functions
     timeframe_configs = {}
@@ -209,7 +208,7 @@ def _advanced_scan(timeframe_criteria, logic='AND', api_key=None, criteria_param
             
             all_results.append(pd.DataFrame(result_row, index=[0]))
 
-    return _process_results(all_results, "advanced scan", api_key)
+    return _process_results(all_results, "advanced scan", api_key, scan_name)
 
 def _load_criteria(criteria_name):
     """Helper to load criteria function from src.scanner.criteria"""
@@ -224,7 +223,7 @@ def _get_data_files():
     """Get all data files in input directory"""
     return [f for f in os.listdir(INPUT_DIR) if f.endswith(".csv")]
 
-def _process_results(results, scan_type, api_key=None):
+def _process_results(results, scan_type, api_key=None, scan_name=None):
     """Process and format results without fragmentation"""
     if not results or len(results) == 0:
         print(f"\nResults: {scan_type} found no setups\n")
@@ -262,15 +261,19 @@ def _process_results(results, scan_type, api_key=None):
     
     if api_key:
         minimal_results = _attach_fundamentals_to_scanner(minimal_results, api_key)
-    _save_scan_results(minimal_results, OUTPUT_DIR, SCAN_DATE)
+    _save_scan_results(minimal_results, OUTPUT_DIR, SCAN_DATE, scan_name)
     print(f"\nResults: {scan_type} found {len(minimal_results)} setups\n")
     return minimal_results
 
-def _save_scan_results(df, output_dir, scan_date):
-    """Save scan results to CSV"""
-    filename = f"scan_results_{scan_date}.csv"
+def _save_scan_results(df, output_dir, scan_date, scan_name=None):
+    """Save scan results to CSV with custom naming"""
+    filename = f"scan_results_{scan_date}"
+    if scan_name:
+        filename += f"_{scan_name}"
+    filename += ".csv"
     filepath = output_dir / filename
     df.to_csv(filepath, index=False)
+    print(f"Results saved to: {filepath}")
 
 def _parse_filename(filename):
     """Extract ticker and timeframe from filename"""

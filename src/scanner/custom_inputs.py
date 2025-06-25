@@ -98,5 +98,4 @@ scan_configs = {
             }
         }
     }
-
 }
