@@ -2,12 +2,45 @@
 
 scan_configs = {
 
+    # Daily ===============================================
+
+    # d_StDevOversold_OBSupport
+    # d_StDevOverbought_OBResistance
+
+    'd_StDevOversold_OBSupport': {
+        'criteria': {
+            'daily': ['StDev_oversold', 'OB_bullish_support'],
+        },
+        'params': {
+            'StDev_oversold': {
+                'daily': {'threshold': 2}
+            },
+            'OB_bullish_support': {
+                'daily': {'atr_threshold_multiplier': 1.0}
+            }
+        }
+    },
+
+    'd_StDevOverbought_OBResistance': {
+        'criteria': {
+            'daily': ['StDev_overbought'],
+        },
+        'params': {
+            'StDev_oversold': {
+                'daily': {'threshold': 2}
+            },
+            'OB_bullish_resistance': {
+                'daily': {'atr_threshold_multiplier': 1.0}
+            }
+        }
+    },
+
     # Daily + 1hour =======================================
 
     # dh_OBBullish_support 
     # dh_OBBearish_resistance
 
-    'dh_OBBullish_support': {
+    'dh_OB_support': {
         'criteria': {
             'daily': ['OB_bullish_below_aVWAP'],
             '1hour': ['OB_bullish_support']
@@ -19,7 +52,7 @@ scan_configs = {
         }
     },
 
-    'dh_OBBearish_resistance': {
+    'dh_OB_resistance': {
         'criteria': {
             'daily': ['OB_bearish_above_aVWAP'],
             '1hour': ['OB_bearish_resistance']
@@ -61,7 +94,7 @@ scan_configs = {
     # dh_StDev_oversold_OBBullish
     # dh_StDev_overbought_OBBearish
 
-    'dh_StDev_oversold_OBBullish': {
+    'dh_StDevOversold_OBBullish': {
         'criteria': {
             'daily': ['StDev_oversold'],
             '1hour': ['OB_bullish_below_aVWAP']
@@ -73,7 +106,7 @@ scan_configs = {
         }
     },
 
-    'dh_StDev_overbought_OBBearish': {
+    'dh_StDevOverbought_OBBearish': {
         'criteria': {
             'daily': ['StDev_overbought'],
             '1hour': ['OB_bearish_above_aVWAP']
@@ -87,15 +120,17 @@ scan_configs = {
 
     # Weekly + Daily ======================================
 
-    'wd_QQEMOD_oversold': {
+    'wd_QQEMODOversold_OBBullishZone': {
         'criteria': {
             'weekly': ['QQEMOD_oversold'],
             'daily': ['OB_bullish_below_aVWAP']
         },
-        'params': {
-            'QQEMOD_oversold': {
-                'weekly': {'threshold': -2.0}  # More sensitive oversold level
-            }
-        }
+    },
+
+    'wd_QQEMODOverbought_OBBearishZone': {
+        'criteria': {
+            'weekly': ['QQEMOD_overbought'],
+            'daily': ['OB_bearish_above_aVWAP']
+        },
     }
 }
