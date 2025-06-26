@@ -15,9 +15,6 @@ scan_configs = {
             'StDev_oversold': {
                 'daily': {'threshold': 2}
             },
-            'OB_bullish_support': {
-                'daily': {'atr_threshold_multiplier': 1.0}
-            }
         }
     },
 
@@ -29,9 +26,6 @@ scan_configs = {
             'StDev_oversold': {
                 'daily': {'threshold': 2}
             },
-            'OB_bullish_resistance': {
-                'daily': {'atr_threshold_multiplier': 1.0}
-            }
         }
     },
 
@@ -94,27 +88,33 @@ scan_configs = {
     # dh_StDev_oversold_OBBullish
     # dh_StDev_overbought_OBBearish
 
-    'dh_StDevOversold_OBBullish': {
+    'dh_StDevOversold_OBBSupport': {
         'criteria': {
             'daily': ['StDev_oversold'],
-            '1hour': ['OB_bullish_below_aVWAP']
+            '1hour': ['OB_bullish_support']
         },
         'params': {
             'StDev_oversold': {
                 'daily': {'threshold': 2}
-            }
+            },
+            'OB_bullish_support': {
+                '1hour': {'atr_threshold_multiplier': 1.0}
+            },
         }
     },
 
-    'dh_StDevOverbought_OBBearish': {
+    'dh_StDevOverbought_OBResistance': {
         'criteria': {
             'daily': ['StDev_overbought'],
-            '1hour': ['OB_bearish_above_aVWAP']
+            '1hour': ['OB_bearish_resistance']
         },
         'params': {
             'StDev_oversold': {
                 'daily': {'threshold': 2}
-            }
+            },
+            'OB_bullish_resistance': {
+                '1hour': {'atr_threshold_multiplier': 1.0}
+            },
         }
     },
 
