@@ -52,13 +52,17 @@ ind_configs = {
                 }
             },
             'aVWAP': {
-                'peaks_valleys': False, 'peaks_valleys_avg': True,
+                'peaks_valleys': False, 
+                'peaks_valleys_avg': True,
                 'peaks_valleys_params': {'periods': 8, 'max_aVWAPs': None},
-                'OB': True, 'OB_avg': False,
+                'OB': True, 
+                'OB_avg': False,
                 'OB_params': {'periods': 4, 'max_aVWAPs': None},
-                'gaps': False, 'gaps_avg': False,
+                'gaps': False, 
+                'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 4},
-                'avg_lookback': 8, 'keep_OB_column': True
+                'avg_lookback': 8, 
+                'keep_OB_column': True
             },
             'OB': {'periods': 4},
             'StDev': {
@@ -98,13 +102,17 @@ ind_configs = {
                 }
             },
             'aVWAP': {
-                'peaks_valleys': False, 'peaks_valleys_avg': False,
+                'peaks_valleys': False, 
+                'peaks_valleys_avg': False,
                 'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
-                'OB': True, 'OB_avg': False,
+                'OB': True, 
+                'OB_avg': False,
                 'OB_params': {'periods': 20, 'max_aVWAPs': None},
-                'gaps': False, 'gaps_avg': False,
+                'gaps': False, 
+                'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 20},
-                'avg_lookback': 5, 'keep_OB_column': False
+                'avg_lookback': 5, 
+                'keep_OB_column': False
             },
             'OB': {'periods': 20},
             'StDev': {
@@ -144,13 +152,17 @@ ind_configs = {
                 }
             },
             'aVWAP': {
-                'peaks_valleys': False, 'peaks_valleys_avg': False,
+                'peaks_valleys': False, 
+                'peaks_valleys_avg': False,
                 'peaks_valleys_params': {'periods': 16, 'max_aVWAPs': None},
-                'OB': True, 'OB_avg': False,
+                'OB': True, 
+                'OB_avg': False,
                 'OB_params': {'periods': 16, 'max_aVWAPs': 5},
-                'gaps': False, 'gaps_avg': False,
+                'gaps': False, 
+                'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 16},
-                'avg_lookback': 16, 'keep_OB_column': True
+                'avg_lookback': 16, 
+                'keep_OB_column': True
             },
             'OB': {'periods': 16},
             'StDev': {
@@ -190,13 +202,17 @@ ind_configs = {
                 }
             },
             'aVWAP': {
-                'peaks_valleys': False, 'peaks_valleys_avg': False,
+                'peaks_valleys': False, 
+                'peaks_valleys_avg': False,
                 'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
-                'OB': True, 'OB_avg': False,
+                'OB': True, 
+                'OB_avg': False,
                 'OB_params': {'periods': 20, 'max_aVWAPs': 1},
-                'gaps': False, 'gaps_avg': False,
+                'gaps': False, 
+                'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 10},
-                'avg_lookback': 10, 'keep_OB_column': False
+                'avg_lookback': 10, 
+                'keep_OB_column': False
             },
             'OB': {'periods': 20},
             'StDev': {

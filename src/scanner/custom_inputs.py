@@ -132,5 +132,13 @@ scan_configs = {
             'weekly': ['QQEMOD_overbought'],
             'daily': ['OB_bearish_above_aVWAP']
         },
+    },
+
+    'wd_supertrendBearish_OBBullishZone': {
+        'criteria': {
+            'weekly': ['supertrend_bearish'],
+            'daily': ['OB_bullish_below_aVWAP']
+        },
     }
+
 }

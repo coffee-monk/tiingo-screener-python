@@ -9,35 +9,35 @@ from src.scanner.scanner import run_scanner
 from src.visualization.subcharts import subcharts
 from src.visualization.subcharts import subcharts
 from src.scanner.custom_inputs import scan_configs
-from src.indicators.custom_inputs import (params_weekly, ind_weekly,  
-                                          params_daily,  ind_daily,
-                                          params_1hour,  ind_1hour,
-                                          params_5min,   ind_5min)
 from src.indicators.custom_inputs import ind_configs
 
 API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
 
+indicators = ind_configs['indicators']
+params     = ind_configs['params']
+
 # SUBCHARTS -----------------------------------------------
 
-ticker = 'TD'
+ticker = 'VBNK'
 
-# df1 = fetch_ticker(timeframe='w', ticker=ticker, api_key=API_KEY)
+df1 = fetch_ticker(timeframe='w', ticker=ticker, api_key=API_KEY)
 df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
-df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
+# df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
 # df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
-# df1 = get_indicators(df1,  ind_configs['indicators']['weekly'], ind_configs['params']['weekly'])
-df2 = get_indicators(df2, ind_configs['indicators']['daily'], ind_configs['params']['daily'])
-df3 = get_indicators(df3, ind_configs['indicators']['1hour'], ind_configs['params']['1hour'])
-# df4 = get_indicators(df4,  ind_configs['indicators']['5min'], ind_configs['params']['5min'])
+df1 = get_indicators(df1, indicators['weekly'], params['weekly'])
+df2 = get_indicators(df2, indicators['daily'], params['daily'])
+# df3 = get_indicators(df3, indicators['1hour'], params['1hour'])
+# df4 = get_indicators(df4, indicators['5min'], params['5min'])
 
 # print(df1.columns)
 # print('\n')
 # print(df1.head(10))
 # print(df1.tail(10))
 
-subcharts([df2, df3], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
-# subcharts([df1, df2, df3, df4], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
+subcharts([df1, df2], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
+# subcharts([df1, df2, df3, df4], 
+#             ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
 
 # FETCH TICKERS -------------------------------------------
 
@@ -48,10 +48,10 @@ subcharts([df2, df3], ticker=ticker, show_volume=True, show_banker_RSI=False, cs
 
 # INDICATORS ---------------------------------------------
 
-# run_indicators(ind_configs['indicators']['weekly'], ind_configs['params']['weekly'], "weekly")
-# run_indicators(ind_configs['indicators']['daily'], ind_configs['params']['daily'], "daily")
-# run_indicators(ind_configs['indicators']['1hour'], ind_configs['params']['1hour'], "1hour")
-# run_indicators(ind_configs['indicators']['5min'], ind_configs['params']['5min'], "5min")
+# run_indicators(indicators['weekly'], params['weekly'], "weekly")
+# run_indicators(indicators['daily'],  params['daily'],  "daily")
+# run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
+# run_indicators(indicators['5min'],   params['5min'],   "5min")
 
 # SCANNER ------------------------------------------------
 
@@ -80,6 +80,5 @@ subcharts([df2, df3], ticker=ticker, show_volume=True, show_banker_RSI=False, cs
 #             criteria_params=scan_configs['d_StDevOversold_OBSupport']['params'],
 #             scan_name='d_StDevOversold_OBSupport')
 
-# run_scanner(criteria=scan_configs['d_StDevOverbought_OBResistance']['criteria'],
-#             criteria_params=scan_configs['d_StDevOverbought_OBResistance']['params'],
-#             scan_name='d_StDevOverbought_OBResistance')
+# run_scanner(criteria=scan_configs['wd_supertrendBearish_OBBullishZone']['criteria'],
+#             scan_name='wd_supertrendBearish_OBBullishZone')
