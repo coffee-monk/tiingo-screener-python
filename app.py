@@ -18,16 +18,16 @@ params     = ind_configs['params']
 
 # SUBCHARTS -----------------------------------------------
 
-ticker = 'FF'
+ticker = 'EQX'
 
 # df1 = fetch_ticker(timeframe='w', ticker=ticker, api_key=API_KEY)
 df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
-df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
+# df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
 # df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
 # df1 = get_indicators(df1, indicators['weekly'], params['weekly'])
 df2 = get_indicators(df2, indicators['daily'], params['daily'])
-df3 = get_indicators(df3, indicators['1hour'], params['1hour'])
+# df3 = get_indicators(df3, indicators['1hour'], params['1hour'])
 # df4 = get_indicators(df4, indicators['5min'], params['5min'])
 
 # print(df1.columns)
@@ -35,7 +35,7 @@ df3 = get_indicators(df3, indicators['1hour'], params['1hour'])
 # print(df1.head(10))
 # print(df1.tail(10))
 
-subcharts([df2, df3], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
+subcharts([df2], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
 # subcharts([df1, df2, df3, df4], 
 #             ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
 
@@ -76,13 +76,19 @@ subcharts([df2, df3], ticker=ticker, show_volume=True, show_banker_RSI=False, cs
 #                 }
 #            )
 
-# run_scanner(criteria=scan_configs['d_StDevOversold_OBSupport']['criteria'],
-#             criteria_params=scan_configs['d_StDevOversold_OBSupport']['params'],
-#             scan_name='d_StDevOversold_OBSupport')
+# run_scanner(criteria=scan_configs['d_supertrendBullish_QQEMODOversold']['criteria'],
+#             scan_name='d_supertrendBullish_QQEMODOversold')
 
-run_scanner(criteria=scan_configs['dh_StDevOversold_OBBSupport']['criteria'],
-            criteria_params=scan_configs['dh_StDevOversold_OBBSupport']['params'],
-            scan_name='dh_StDevOversold_OBBSupport')
+# run_scanner(criteria=scan_configs['d_bankerRSI_QQEMODOversold']['criteria'],
+#             scan_name='d_bankerRSI_QQEMODOversold')
+
+# run_scanner(criteria=scan_configs['dh_StDevOversold_OBBSupport']['criteria'],
+#             criteria_params=scan_configs['dh_StDevOversold_OBBSupport']['params'],
+#             scan_name='dh_StDevOversold_OBBSupport')
+
+# run_scanner(criteria=scan_configs['d_QQEMODOversold_OBSupport']['criteria'],
+#             criteria_params=scan_configs['d_QQEMODOversold_OBSupport']['params'],
+#             scan_name='d_QQEMODOversold_OBSupport')
 
 # run_scanner(criteria=scan_configs['wd_supertrendBearish_OBBullishZone']['criteria'],
 #             scan_name='wd_supertrendBearish_OBBullishZone')

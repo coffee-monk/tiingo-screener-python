@@ -4,9 +4,6 @@ scan_configs = {
 
     # Daily ===============================================
 
-    # d_StDevOversold_OBSupport
-    # d_StDevOverbought_OBResistance
-
     'd_StDevOversold_OBSupport': {
         'criteria': {
             'daily': ['StDev_oversold', 'OB_bullish_support'],
@@ -27,6 +24,29 @@ scan_configs = {
                 'daily': {'threshold': 2}
             },
         }
+    },
+
+    'd_QQEMODOversold_OBSupport': {
+        'criteria': {
+            'daily': ['QQEMOD_oversold', 'OB_bullish_support'],
+        },
+        'params': {
+            'OB_bullish_support': {
+                'daily': {'atr_threshold_multiplier': 0.5}
+            },
+        }
+    },
+
+    'd_supertrendBullish_QQEMODOversold': {
+        'criteria': {
+            'daily': ['supertrend_bullish', 'QQEMOD_oversold'],
+        },
+    },
+
+    'd_bankerRSI_QQEMODOversold': {
+        'criteria': {
+            'daily': ['banker_RSI', 'QQEMOD_oversold'],
+        },
     },
 
     # Daily + 1hour =======================================
@@ -139,6 +159,15 @@ scan_configs = {
             'weekly': ['supertrend_bearish'],
             'daily': ['OB_bullish_below_aVWAP']
         },
-    }
+    },
+
+    # Weekly ==============================================
+
+    'w_supertrendBullish_QQEMODOversold': {
+        'criteria': {
+            'weekly': ['supertrend_bullish', 'QQEMOD_oversold'],
+        },
+    },
+
 
 }
