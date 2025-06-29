@@ -2,6 +2,100 @@
 
 scan_configs = {
 
+    # Weekly ==============================================
+
+    'w_supertrendBullish_QQEMODOversold': {
+        'criteria': {
+            'weekly': ['supertrend_bullish', 'QQEMOD_oversold'],
+        },
+        'params': None
+    },
+
+    'w_bankerRSI_QQEMODOversold': {
+        'criteria': {
+            'weekly': ['banker_RSI', 'QQEMOD_oversold'],
+        },
+        'params': None
+    },
+
+    'w_bankerRSI': {
+        'criteria': {
+            'weekly': ['banker_RSI'],
+        },
+        'params': None
+    },
+
+    'w_OBSupport': {
+        'criteria': {
+            'weekly': ['OB_bullish_support'],
+        },
+        'params': {
+            'OB_bullish_support': {
+                'weekly': {'atr_threshold_multiplier': 0.5}
+            },
+        },
+    },
+
+    'w_SMAAbove': {
+        'criteria': {
+            '1hour': ['SMA_above'],
+        },
+        'params': {
+            'SMA_above': {
+                '1hour': {'sma_periods': [200], 'distance_pct': 1.0},
+            }
+        }
+    },
+
+    'w_SMABelow': {
+        'criteria': {
+            'weekly': ['SMA_below'],
+        },
+        'params': {
+            'SMA_below': {
+                'weekly': {'sma_periods': [200], 'distance_pct': 1.0},
+            }
+        }
+    },
+
+    # Weekly + Daily ======================================
+
+    'wd_bankerRSI_OBSupport': {
+        'criteria': {
+            'weekly': ['banker_RSI'],
+            'daily': ['OB_bullish_support'],
+        },
+        'params': {
+            'OB_bullish_support': {
+                'daily': {'atr_threshold_multiplier': 0.5}
+            },
+        },
+    },
+
+    'wd_QQEMODOversold_OBullishZone': {
+        'criteria': {
+            'weekly': ['QQEMOD_oversold'],
+            'daily': ['OB_bullish_below_aVWAP']
+        },
+        'params': None
+    },
+
+    'wd_QQEMODOverbought_OBearishZone': {
+        'criteria': {
+            'weekly': ['QQEMOD_overbought'],
+            'daily': ['OB_bearish_above_aVWAP']
+        },
+        'params': None
+    },
+
+    'wd_supertrendBearish_OBullishZone': {
+        'criteria': {
+            'weekly': ['supertrend_bearish'],
+            'daily': ['OB_bullish_below_aVWAP']
+        },
+        'params': None
+    },
+
     # Daily ===============================================
 
     'd_StDevOversold_OBSupport': {
@@ -41,53 +135,59 @@ scan_configs = {
         'criteria': {
             'daily': ['supertrend_bullish', 'QQEMOD_oversold'],
         },
+        'params': None
     },
 
     'd_bankerRSI_QQEMODOversold': {
         'criteria': {
             'daily': ['banker_RSI', 'QQEMOD_oversold'],
         },
+        'params': None
+    },
+
+    'd_SMA': {
+        'criteria': {
+            'daily': ['SMA'],
+        },
+        'params': {
+            'SMA': {
+                'daily': {'sma_periods': [50], 'distance_pct': 1.0},
+            }
+        }
+    },
+
+    'd_SMAAbove': {
+        'criteria': {
+            'daily': ['SMA_above'],
+        },
+        'params': {
+            'SMA_above': {
+                'daily': {'sma_periods': [200], 'distance_pct': 1.0},
+            }
+        }
+    },
+
+    'd_SMABelow': {
+        'criteria': {
+            'daily': ['SMA_below'],
+        },
+        'params': {
+            'SMA_below': {
+                'daily': {'sma_periods': [200], 'distance_pct': 1.0},
+            }
+        }
     },
 
     # Daily + 1hour =======================================
 
-    # dh_OBBullish_support 
-    # dh_OBBearish_resistance
-
-    'dh_OB_support': {
-        'criteria': {
-            'daily': ['OB_bullish_below_aVWAP'],
-            '1hour': ['OB_bullish_support']
-        },
-        'params': {
-            'OB_bullish_support': {
-                '1hour': {'atr_threshold_multiplier': 0.5}
-            }
-        }
-    },
-
-    'dh_OB_resistance': {
-        'criteria': {
-            'daily': ['OB_bearish_above_aVWAP'],
-            '1hour': ['OB_bearish_resistance']
-        },
-        'params': {
-            'OB_bearish_resistance': {
-                '1hour': {'resistance_threshold': 0.5}
-            }
-        }
-    },
-
-    # divergences_bullish 
-    # divergences_bearish
-
-    'dh_divergences_bullish': {
+    ' dh_divergences_bullish': {
         'criteria': {
             'daily': ['divergences_bullish'],
             '1hour': ['divergences_bullish']
         },
         'params': {
             'divergences_bullish': {
+                'daily': {'max_bars_back': 20},
                 '1hour': {'max_bars_back': 20}
             }
         }
@@ -100,15 +200,13 @@ scan_configs = {
         },
         'params': {
             'divergences_bearish': {
+                'daily': {'max_bars_back': 20},
                 '1hour': {'max_bars_back': 20}
             }
         }
     },
 
-    # dh_StDev_oversold_OBBullish
-    # dh_StDev_overbought_OBBearish
-
-    'dh_StDevOversold_OBBSupport': {
+    'dh_StDevOversold_OBSupport': {
         'criteria': {
             'daily': ['StDev_oversold'],
             '1hour': ['OB_bullish_support']
@@ -138,36 +236,114 @@ scan_configs = {
         }
     },
 
-    # Weekly + Daily ======================================
-
-    'wd_QQEMODOversold_OBBullishZone': {
+    'dh_OBSupport': {
         'criteria': {
-            'weekly': ['QQEMOD_oversold'],
-            'daily': ['OB_bullish_below_aVWAP']
+            'daily': ['OB_bullish_support'],
+            '1hour': ['OB_bullish_support']
         },
+        'params': {
+            'OB_bullish_support': {
+                'daily': {'atr_threshold_multiplier': 1.5},
+                '1hour': {'atr_threshold_multiplier': 1.5}
+            },
+        }
     },
 
-    'wd_QQEMODOverbought_OBBearishZone': {
+    'dh_OBResistance': {
         'criteria': {
-            'weekly': ['QQEMOD_overbought'],
-            'daily': ['OB_bearish_above_aVWAP']
+            'daily': ['OB_bearish_resistance'],
+            '1hour': ['OB_bearish_resistance']
         },
+        'params': {
+            'OB_bearish_resistance': {
+                'daily': {'atr_threshold_multiplier': 1.5},
+                '1hour': {'atr_threshold_multiplier': 1.5}
+            },
+        }
     },
 
-    'wd_supertrendBearish_OBBullishZone': {
+    'dh_SMA': {
         'criteria': {
-            'weekly': ['supertrend_bearish'],
-            'daily': ['OB_bullish_below_aVWAP']
+            'daily': ['SMA'],
+            '1hour': ['SMA'],
         },
+        'params': {
+            'SMA': {
+                'daily': {'sma_periods': [50], 'distance_pct': 1.0},
+                '1hour': {'sma_periods': [50], 'distance_pct': 1.0},
+            }
+        }
     },
 
-    # Weekly ==============================================
+    # 1hour ==============================================
 
-    'w_supertrendBullish_QQEMODOversold': {
+    'h_StDevOversold_OBSupport': {
         'criteria': {
-            'weekly': ['supertrend_bullish', 'QQEMOD_oversold'],
+            '1hour': ['StDev_oversold', 'OB_bullish_support'],
         },
+        'params': {
+            'StDev_oversold': {
+                '1hour': {'threshold': 2}
+            },
+        }
     },
 
+    'h_OBSupport': {
+        'criteria': {
+            '1hour': ['OB_bullish_support'],
+        },
+        'params': {
+            'OB_bullish_support': {
+                '1hour': {'atr_threshold_multiplier': 0.5}
+            },
+        }
+    },
+
+    'h_supertrendBullish_QQEMODOversold': {
+        'criteria': {
+            '1hour': ['supertrend_bullish', 'QQEMOD_oversold'],
+        },
+        'params': None
+    },
+
+    'h_bankerRSI_QQEMODOversold': {
+        'criteria': {
+            '1hour': ['banker_RSI', 'QQEMOD_oversold'],
+        },
+        'params': None
+    },
+
+    'h_SMA': {
+        'criteria': {
+            '1hour': ['SMA'],
+        },
+        'params': {
+            'SMA': {
+                '1hour': {'sma_periods': [50], 'distance_pct': 1.0},
+            }
+        }
+    },
+
+    'h_SMAAbove': {
+        'criteria': {
+            '1hour': ['SMA_above'],
+        },
+        'params': {
+            'SMA_above': {
+                '1hour': {'sma_periods': [200], 'distance_pct': 1.0},
+            }
+        }
+    },
+
+    'h_SMABelow': {
+        'criteria': {
+            '1hour': ['SMA_below'],
+        },
+        'params': {
+            'SMA_below': {
+                '1hour': {'sma_periods': [200], 'distance_pct': 1.0},
+            }
+        }
+    },
 
 }

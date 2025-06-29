@@ -9,28 +9,56 @@ ind_configs = {
     'indicators': {
 
         'weekly': [
-            'aVWAP', 'candle_colors', 'StDev', 'QQEMOD', 'banker_RSI',
-            'supertrend', 'OB', 'TTM_squeeze', 'divergence_Vortex',
-            'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+            'aVWAP', 
+            'candle_colors', 
+            'StDev', 
+            'QQEMOD', 
+            'banker_RSI',
+            'SMA',
+            'supertrend', 
+            'OB', 
+            'TTM_squeeze', 
+            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
         'daily': [
-            'aVWAP', 'candle_colors', 'StDev', 'QQEMOD', 'banker_RSI',
-            'supertrend', 'OB', 'TTM_squeeze', 'divergence_Vortex',
-            'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+            'aVWAP', 
+            'candle_colors', 
+            'StDev', 
+            'QQEMOD', 
+            'banker_RSI',
+            'SMA',
+            'supertrend', 
+            'OB', 
+            'TTM_squeeze', 
+            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
         '1hour': [
-            'aVWAP', 'candle_colors', 'StDev', 'QQEMOD', 'banker_RSI',
-            'supertrend', 'OB', 'TTM_squeeze', 'divergence_Vortex',
-            'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+            'aVWAP', 
+            'candle_colors', 
+            'StDev', 
+            'QQEMOD', 
+            'banker_RSI',
+            'SMA',
+            'supertrend', 
+            'OB', 
+            'TTM_squeeze', 
+            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
         '5min': [
-            'aVWAP', 'candle_colors', 'liquidity', 'StDev', 'QQEMOD',
-            'banker_RSI', 'supertrend', 'OB', 'TTM_squeeze',
-            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV',
-            'divergence_Volume'
+            'aVWAP', 
+            'candle_colors', 
+            'liquidity', 
+            'StDev', 
+            'QQEMOD',
+            'banker_RSI', 
+            'SMA', 
+            'supertrend', 
+            'OB', 
+            'TTM_squeeze',
+            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ]
     },
 
@@ -75,7 +103,7 @@ ind_configs = {
                 'qqe_factor': 3.0, 'qqe_factor2': 1.61, 'threshold': 3,
                 'bb_length': 8, 'bb_multi': 0.35
             },
-            'SMA': {'periods': [50, 100, 200]},
+            'SMA': {'periods': [50, 200]},
             'liquidity': {'swing_length': 4, 'range_percent': 0.1},
             'supertrend': {'period': 8, 'multiplier': 3},
             'TTM_squeeze': {
@@ -125,7 +153,7 @@ ind_configs = {
                 'qqe_factor': 3.0, 'qqe_factor2': 1.61, 'threshold': 3,
                 'bb_length': 20, 'bb_multi': 0.35
             },
-            'SMA': {'periods': [50, 100, 200]},
+            'SMA': {'periods': [50, 200]},
             'liquidity': {'swing_length': 20, 'range_percent': 0.1},
             'supertrend': {'period': 20, 'multiplier': 3},
             'TTM_squeeze': {
@@ -175,7 +203,7 @@ ind_configs = {
                 'qqe_factor': 3.0, 'qqe_factor2': 1.5, 'threshold': 3,
                 'bb_length': 20, 'bb_multi': 0.35
             },
-            'SMA': {'periods': [20, 50, 100, 200]},
+            'SMA': {'periods': [50, 200]},
             'liquidity': {'swing_length': 64, 'range_percent': 0.1},
             'supertrend': {'period': 16, 'multiplier': 3},
             'TTM_squeeze': {
@@ -225,7 +253,7 @@ ind_configs = {
                 'qqe_factor': 3.0, 'qqe_factor2': 1.61, 'threshold': 3,
                 'bb_length': 10, 'bb_multi': 0.35
             },
-            'SMA': {'periods': [20, 50, 100]},
+            'SMA': {'periods': [50, 100]},
             'liquidity': {'swing_length': 40, 'range_percent': 0.1},
             'supertrend': {'period': 20, 'multiplier': 3},
             'TTM_squeeze': {

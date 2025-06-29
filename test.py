@@ -9,10 +9,6 @@ from src.scanner.scanner import run_scanner
 from src.visualization.subcharts import subcharts
 from src.visualization.subcharts import subcharts
 from src.scanner.custom_inputs import scan_configs
-from src.indicators.custom_inputs import (params_weekly, ind_weekly,  
-                                          params_daily,  ind_daily,
-                                          params_1hour,  ind_1hour,
-                                          params_5min,   ind_5min)
 from src.indicators.custom_inputs import ind_configs
 
 API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
@@ -26,15 +22,15 @@ indicator_list = [
     # 'StDev', 
     # 'QQEMOD',
     # 'banker_RSI', 
-    # 'SMA',
+    'SMA',
     # 'supertrend',
     # 'OB',
     # 'TTM_squeeze',
     # 'divergence_ATR', 
-    'divergence_Vortex',
-    'divergence_Fisher',
-    'divergence_OBV',
-    'divergence_Volume'
+    # 'divergence_Vortex',
+    # 'divergence_Fisher',
+    # 'divergence_OBV',
+    # 'divergence_Volume'
 ]
 
 params = {
@@ -95,7 +91,7 @@ params = {
     #           'std_lookback': 75,
     #           'avg_lookback': 21,
     #           },
-    'SMA': {'periods': [21]},
+    'SMA': {'periods': [20, 50, 100, 200]},
     'TTM_squeeze': {'bb_length': 20, 
                     'bb_std_dev': 2.0, 
                     'kc_length': 20, 
@@ -112,13 +108,13 @@ params = {
 
 ticker = 'TD'
 
-# df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
+df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
 
-# df1 = get_indicators(df1, indicator_list, params)
+df1 = get_indicators(df1, indicator_list, params)
 
-# print(df1.columns)
-# print('\n')
-# print(df1.head(10))
-# print(df1.tail(10))
+print(df1.columns)
+print('\n')
+print(df1.head(10))
+print(df1.tail(10))
 
-subcharts([df2], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')
+subcharts([df1], ticker=ticker, show_volume=True, show_banker_RSI=False, csv_loader='scanner')

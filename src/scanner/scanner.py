@@ -23,6 +23,27 @@ def run_scanner(criteria='banker_RSI', criteria_params=None, logic='AND', api_ke
         api_key: Optional Tiingo API key
         criteria_params: Dict of parameter dicts for criteria functions
         scan_name: Optional custom name suffix for output file
+
+    Syntax Examples:
+        run_scanner('TTM_squeeze')
+        run_scanner(['QQEMOD_overbought', 'StDev'])
+        run_scanner(
+                    criteria={ 
+                     # 'weekly': ['TTM_squeeze'], 
+                     'daily':  ['StDev'],
+                     # '1hour': ['OB_bullish_support'], 
+                     # '5min': ['OB_bullish_below_aVWAP'], 
+                    }, 
+                    logic='AND',
+                    criteria_params={
+                        'StDev': {
+                            'daily': {
+                                'threshold': 2,
+                                'mode': 'overbought'
+                                }
+                            }
+                        }
+                   )
     """
     print('--- SCANNER ---\n')
     print(f"Input directory: {INPUT_DIR}")
