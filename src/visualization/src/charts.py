@@ -343,85 +343,186 @@ def _load_timeframe_csv(charts, key, csv_loader, show_volume=False):
     chart.fit()
 
 
+# def _load_ticker_csv(charts, key, csv_loader='indicators', show_volume=False):
+#     """
+#     Cycle through tickers with two csv_loaders:
+#     - 'indicators': Default csv_loader (cycles all tickers with indicator data)
+#     - 'scanner': Cycles only tickers that appeared in scanner results
+#    
+#     Args:
+#         charts: List of chart objects
+#         key: Hotkey pressed (maps to chart index)
+#         csv_loader: 'indicators' or 'scanner' (data source)
+#     """
+#     # Key to chart index mapping
+#     KEY_MAPPINGS = {'-': 0, '=': 1, '[': 2, ']': 3}
+#
+#     try:
+#         chart_index = KEY_MAPPINGS[key]
+#         chart = charts[chart_index]
+#     except (KeyError, IndexError) as e:
+#         print(f"Invalid key or chart index: {e}")
+#         return
+#
+#     # Get current values from chart
+#     current_ticker = chart.topbar['ticker'].value
+#     timeframe = chart.topbar['timeframe'].value
+#    
+#     if csv_loader == 'scanner':
+#         # SCANNER csv_loader: Get tickers from scan results - NO FALLBACK TO INDICATORS
+#         scanner_file = get_most_recent_scanner_file()
+#         if not scanner_file:
+#             print("ERROR: No scanner results found")
+#             return
+#
+#         try:
+#             scanner_df = pd.read_csv(scanner_file)
+#             scanner_df = scanner_df[scanner_df['Ticker'].notna() & (scanner_df['Ticker'] != 'nan')] # filter out 'nan' lines
+#             timeframe_tickers = scanner_df[scanner_df['Timeframe'] == timeframe]['Ticker'].unique()
+#            
+#             if len(timeframe_tickers) == 0:
+#                 print(f"ERROR: No tickers in scanner for {timeframe} timeframe")
+#                 return
+#            
+#             available_tickers = sorted(timeframe_tickers)
+#            
+#         except Exception as e:
+#             print(f"ERROR: Scanner file processing failed - {e}")
+#             return
+#    
+#     else:  # csv_loader == 'indicators'
+#         # DEFAULT csv_loader: Get all tickers with indicator data
+#         ticker_files = sorted(DATA_ROOT.glob(f"*_{timeframe}_*.csv"))
+#         available_tickers = sorted(list({f.name.split('_')[0] for f in ticker_files}))
+#        
+#         if not available_tickers:
+#             print(f"ERROR: No tickers available for {timeframe} timeframe")
+#             return
+#
+#     # Find current position and get next ticker
+#     try:
+#         current_index = available_tickers.index(current_ticker)
+#         next_index = (current_index + 1) % len(available_tickers)
+#     except ValueError:
+#         next_index = 0  # Current ticker not in list
+#    
+#     next_ticker = available_tickers[next_index]
+#    
+#     # Load the data file
+#     print(f"Loading {'scanner' if csv_loader == 'scanner' else 'indicator'} ticker {next_ticker} ({timeframe})")
+#    
+#     indicator_file = find_indicator_file(next_ticker, timeframe)
+#     if not indicator_file:
+#         print(f"ERROR: No data found for {next_ticker} {timeframe}")
+#         return
+#        
+#     # Update chart
+#     try:
+#         df = pd.read_csv(indicator_file).rename(columns={
+#             'Open': 'open', 'Close': 'close', 'Low': 'low', 'High': 'high'
+#         }).copy()
+#         df.attrs['timeframe'] = timeframe
+#        
+#         # Clear existing elements
+#         for line in chart.lines():
+#             line.set(pd.DataFrame())
+#         chart.clear_markers()
+#
+#         # Reconfigure chart
+#         prepared_df, _ = prepare_dataframe(df, show_volume)
+#         configure_base_chart(prepared_df, chart)
+#         add_ui_elements(chart, charts, next_ticker, timeframe, csv_loader, show_volume)
+#         add_visualizations(chart, prepared_df, False)
+#         chart.set(prepared_df)
+#         chart.fit()
+#        
+#     except Exception as e:
+#         print(f"ERROR: Failed to load {next_ticker}: {str(e)}")
+
+
 def _load_ticker_csv(charts, key, csv_loader='indicators', show_volume=False):
     """
-    Cycle through tickers with two csv_loaders:
-    - 'indicators': Default csv_loader (cycles all tickers with indicator data)
-    - 'scanner': Cycles only tickers that appeared in scanner results
-    
-    Args:
-        charts: List of chart objects
-        key: Hotkey pressed (maps to chart index)
-        csv_loader: 'indicators' or 'scanner' (data source)
+    Modified to use the tracked CURRENT_SCAN_FILE from subcharts.py
+    Cycles through tickers from either:
+    - The originally loaded scan file (when csv_loader='scanner')
+    - All available tickers (when csv_loader='indicators')
     """
+    # Import the active scan file tracker
+    from src.visualization.subcharts import CURRENT_SCAN_FILE
+    from pathlib import Path
+    import pandas as pd
+
     # Key to chart index mapping
     KEY_MAPPINGS = {'-': 0, '=': 1, '[': 2, ']': 3}
 
     try:
+        # Get the target chart
         chart_index = KEY_MAPPINGS[key]
         chart = charts[chart_index]
-    except (KeyError, IndexError) as e:
-        print(f"Invalid key or chart index: {e}")
-        return
-
-    # Get current values from chart
-    current_ticker = chart.topbar['ticker'].value
-    timeframe = chart.topbar['timeframe'].value
-    
-    if csv_loader == 'scanner':
-        # SCANNER csv_loader: Get tickers from scan results - NO FALLBACK TO INDICATORS
-        scanner_file = get_most_recent_scanner_file()
-        if not scanner_file:
-            print("ERROR: No scanner results found")
-            return
-
-        try:
-            scanner_df = pd.read_csv(scanner_file)
-            scanner_df = scanner_df[scanner_df['Ticker'].notna() & (scanner_df['Ticker'] != 'nan')] # filter out 'nan' lines
-            timeframe_tickers = scanner_df[scanner_df['Timeframe'] == timeframe]['Ticker'].unique()
-            
-            if len(timeframe_tickers) == 0:
-                print(f"ERROR: No tickers in scanner for {timeframe} timeframe")
+        
+        # Get current values from chart
+        current_ticker = chart.topbar['ticker'].value
+        timeframe = chart.topbar['timeframe'].value
+        
+        if csv_loader == 'scanner':
+            # Verify we have an active scan file
+            if not CURRENT_SCAN_FILE or not CURRENT_SCAN_FILE.exists():
+                print("ERROR: No active scan file found for ticker cycling")
                 return
-            
-            available_tickers = sorted(timeframe_tickers)
-            
-        except Exception as e:
-            print(f"ERROR: Scanner file processing failed - {e}")
-            return
-    
-    else:  # csv_loader == 'indicators'
-        # DEFAULT csv_loader: Get all tickers with indicator data
-        ticker_files = sorted(DATA_ROOT.glob(f"*_{timeframe}_*.csv"))
-        available_tickers = sorted(list({f.name.split('_')[0] for f in ticker_files}))
-        
-        if not available_tickers:
-            print(f"ERROR: No tickers available for {timeframe} timeframe")
-            return
 
-    # Find current position and get next ticker
-    try:
-        current_index = available_tickers.index(current_ticker)
-        next_index = (current_index + 1) % len(available_tickers)
-    except ValueError:
-        next_index = 0  # Current ticker not in list
-    
-    next_ticker = available_tickers[next_index]
-    
-    # Load the data file
-    print(f"Loading {'scanner' if csv_loader == 'scanner' else 'indicator'} ticker {next_ticker} ({timeframe})")
-    
-    indicator_file = find_indicator_file(next_ticker, timeframe)
-    if not indicator_file:
-        print(f"ERROR: No data found for {next_ticker} {timeframe}")
-        return
+            try:
+                # Load tickers from the ORIGINAL scan file
+                scanner_df = pd.read_csv(CURRENT_SCAN_FILE)
+                scanner_df = scanner_df[
+                    (scanner_df['Ticker'].notna()) & 
+                    (scanner_df['Ticker'] != 'nan')
+                ]
+                timeframe_tickers = scanner_df[
+                    scanner_df['Timeframe'] == timeframe
+                ]['Ticker'].unique()
+                
+                if len(timeframe_tickers) == 0:
+                    print(f"No tickers in {CURRENT_SCAN_FILE.name} for {timeframe} timeframe")
+                    return
+                
+                available_tickers = sorted(timeframe_tickers)
+                
+            except Exception as e:
+                print(f"Failed to process scan file: {str(e)}")
+                return
+
+        else:  # csv_loader == 'indicators'
+            # Default behavior: cycle all tickers with indicator data
+            ticker_files = sorted(Path("data/indicators").glob(f"*_{timeframe}_*.csv"))
+            available_tickers = sorted(list({f.name.split('_')[0] for f in ticker_files}))
+            
+            if not available_tickers:
+                print(f"No tickers available for {timeframe} timeframe")
+                return
+
+        # Find next ticker in sequence
+        try:
+            current_index = available_tickers.index(current_ticker)
+            next_index = (current_index + 1) % len(available_tickers)
+        except ValueError:
+            next_index = 0  # Current ticker not in list
         
-    # Update chart
-    try:
+        next_ticker = available_tickers[next_index]
+        
+        # Load the indicator data
+        indicator_file = next(Path("data/indicators").glob(f"{next_ticker}_{timeframe}_*.csv"), None)
+        if not indicator_file:
+            print(f"No indicator data found for {next_ticker} {timeframe}")
+            return
+            
+        # Update the chart
         df = pd.read_csv(indicator_file).rename(columns={
-            'Open': 'open', 'Close': 'close', 'Low': 'low', 'High': 'high'
-        }).copy()
-        df.attrs['timeframe'] = timeframe
+            'Open': 'open',
+            'Close': 'close',
+            'Low': 'low', 
+            'High': 'high'
+        })
+        df.attrs = {'timeframe': timeframe, 'ticker': next_ticker}
         
         # Clear existing elements
         for line in chart.lines():
@@ -431,13 +532,24 @@ def _load_ticker_csv(charts, key, csv_loader='indicators', show_volume=False):
         # Reconfigure chart
         prepared_df, _ = prepare_dataframe(df, show_volume)
         configure_base_chart(prepared_df, chart)
-        add_ui_elements(chart, charts, next_ticker, timeframe, csv_loader, show_volume)
+        add_ui_elements(
+            chart, 
+            charts, 
+            next_ticker,
+            timeframe,
+            csv_loader,
+            show_volume
+        )
         add_visualizations(chart, prepared_df, False)
         chart.set(prepared_df)
         chart.fit()
         
+        print(f"Loaded {next_ticker} ({timeframe}) from {indicator_file.name}")
+
     except Exception as e:
-        print(f"ERROR: Failed to load {next_ticker}: {str(e)}")
+        print(f"Error during ticker cycling: {str(e)}")
+
+
 
 
 def get_most_recent_scanner_file():
