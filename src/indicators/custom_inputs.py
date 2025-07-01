@@ -15,7 +15,7 @@ ind_configs = {
             'QQEMOD', 
             'banker_RSI',
             'SMA',
-            'supertrend', 
+            # 'supertrend', 
             'OB', 
             'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -28,7 +28,7 @@ ind_configs = {
             'QQEMOD', 
             'banker_RSI',
             'SMA',
-            'supertrend', 
+            # 'supertrend', 
             'OB', 
             'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -41,7 +41,7 @@ ind_configs = {
             'QQEMOD', 
             'banker_RSI',
             'SMA',
-            'supertrend', 
+            # 'supertrend', 
             'OB', 
             'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -50,12 +50,12 @@ ind_configs = {
         '5min': [
             'aVWAP', 
             'candle_colors', 
-            'liquidity', 
+            # 'liquidity', 
             'StDev', 
             'QQEMOD',
             'banker_RSI', 
             'SMA', 
-            'supertrend', 
+            # 'supertrend', 
             'OB', 
             'TTM_squeeze',
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -131,7 +131,7 @@ ind_configs = {
             },
             'aVWAP': {
                 'peaks_valleys': False, 
-                'peaks_valleys_avg': False,
+                'peaks_valleys_avg': True,
                 'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
                 'OB': True, 
                 'OB_avg': False,
@@ -181,7 +181,7 @@ ind_configs = {
             },
             'aVWAP': {
                 'peaks_valleys': False, 
-                'peaks_valleys_avg': False,
+                'peaks_valleys_avg': True,
                 'peaks_valleys_params': {'periods': 16, 'max_aVWAPs': None},
                 'OB': True, 
                 'OB_avg': False,
@@ -231,7 +231,7 @@ ind_configs = {
             },
             'aVWAP': {
                 'peaks_valleys': False, 
-                'peaks_valleys_avg': False,
+                'peaks_valleys_avg': True,
                 'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
                 'OB': True, 
                 'OB_avg': False,

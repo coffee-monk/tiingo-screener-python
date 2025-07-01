@@ -54,19 +54,19 @@ def vis(scan_file=None):
 
     else:
 
-        ticker = 'VRN'
+        ticker = 'SOFI'
 
         df1 = fetch_ticker(timeframe='w', ticker=ticker, api_key=API_KEY)
         df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
         df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
-        df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
+        # df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
         df1 = get_indicators(df1, indicators['weekly'], params['weekly'])
         df2 = get_indicators(df2, indicators['daily'], params['daily'])
         df3 = get_indicators(df3, indicators['1hour'], params['1hour'])
-        df4 = get_indicators(df4, indicators['5min'], params['5min'])
-        
-        subcharts([df1, df2], ticker=ticker, 
+        # df4 = get_indicators(df4, indicators['5min'], params['5min'])
+
+        subcharts([df1, df2, df3], ticker=ticker, 
                  show_volume=True, show_banker_RSI=False)
 
 # OTHER FUNCTIONS (unchanged) ----------------------------
@@ -80,10 +80,10 @@ def fetch():
 
 def ind():
 
-    run_indicators(['SMA', 'candle_colors'], params['weekly'], "weekly")
-    run_indicators(['SMA', 'candle_colors'], params['daily'], "daily")
-    run_indicators(['SMA', 'candle_colors'], params['1hour'], "1hour")
-    run_indicators(['SMA', 'candle_colors'], params['5min'], "5min")
+    run_indicators(indicators['weekly'], params['weekly'], "weekly")
+    run_indicators(indicators['daily'], params['daily'],  "daily")
+    run_indicators(indicators['1hour'], params['1hour'],  "1hour")
+    run_indicators(indicators['5min'], params['5min'],   "5min")
 
 def scan():
 
