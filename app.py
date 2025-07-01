@@ -74,16 +74,16 @@ def vis(scan_file=None):
 def fetch():
 
     fetch_tickers(['weekly'], api_key=API_KEY)
-    fetch_tickers(['daily'], api_key=API_KEY)
-    fetch_tickers(['1hour'], api_key=API_KEY)
-    fetch_tickers(['5min'], api_key=API_KEY)
+    fetch_tickers(['daily'],  api_key=API_KEY)
+    fetch_tickers(['1hour'],  api_key=API_KEY)
+    fetch_tickers(['5min'],   api_key=API_KEY)
 
 def ind():
 
     run_indicators(indicators['weekly'], params['weekly'], "weekly")
-    run_indicators(indicators['daily'], params['daily'],  "daily")
-    run_indicators(indicators['1hour'], params['1hour'],  "1hour")
-    run_indicators(indicators['5min'], params['5min'],   "5min")
+    run_indicators(indicators['daily'],  params['daily'],  "daily")
+    run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
+    run_indicators(indicators['5min'],   params['5min'],   "5min")
 
 def scan():
 
