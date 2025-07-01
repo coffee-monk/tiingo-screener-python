@@ -87,7 +87,18 @@ def ind():
 
 def scan():
 
-    scans = ['d_SMAAbove']  # Add other scans as needed
+    scans = [
+             'd_QQEMODOversold_OBSupport',
+             'd_bankerRSI_QQEMODOversold',
+             'dh_StDevOversold_OBSupport',
+             'dh_StDevOverbought_OBResistance',
+             'dh_OBSupport',
+             'dh_OBResistance',
+             'h_StDevOversold_OBSupport',
+             'h_OBSupport',
+             'h_bankerRSI_QQEMODOversold',
+            ]
+
     for scan in scans:
         kwargs = {
             'criteria': scan_configs[scan]['criteria'],
