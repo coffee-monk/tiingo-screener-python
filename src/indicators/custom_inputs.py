@@ -9,56 +9,56 @@ ind_configs = {
     'indicators': {
 
         'weekly': [
-            'aVWAP', 
-            'candle_colors', 
-            'StDev', 
-            'QQEMOD', 
-            'banker_RSI',
-            'SMA',
+            # 'aVWAP', 
+            # 'candle_colors', 
+            # 'StDev', 
+            # 'QQEMOD', 
+            # 'banker_RSI',
+            # 'SMA',
             # 'supertrend', 
-            'OB', 
-            'TTM_squeeze', 
-            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+            # 'OB', 
+            # 'TTM_squeeze', 
+            # 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
         'daily': [
             'aVWAP', 
-            'candle_colors', 
-            'StDev', 
-            'QQEMOD', 
-            'banker_RSI',
-            'SMA',
+            # 'candle_colors', 
+            # 'StDev', 
+            # 'QQEMOD', 
+            # 'banker_RSI',
+            # 'SMA',
             # 'supertrend', 
-            'OB', 
-            'TTM_squeeze', 
-            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+            # 'OB', 
+            # 'TTM_squeeze', 
+            # 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
         '1hour': [
-            'aVWAP', 
-            'candle_colors', 
-            'StDev', 
-            'QQEMOD', 
-            'banker_RSI',
-            'SMA',
+            # 'aVWAP', 
+            # 'candle_colors', 
+            # 'StDev', 
+            # 'QQEMOD', 
+            # 'banker_RSI',
+            # 'SMA',
             # 'supertrend', 
-            'OB', 
-            'TTM_squeeze', 
-            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+            # 'OB', 
+            # 'TTM_squeeze', 
+            # 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
         '5min': [
-            'aVWAP', 
-            'candle_colors', 
+            # 'aVWAP', 
+            # 'candle_colors', 
             # 'liquidity', 
-            'StDev', 
-            'QQEMOD',
-            'banker_RSI', 
-            'SMA', 
+            # 'StDev', 
+            # 'QQEMOD',
+            # 'banker_RSI', 
+            # 'SMA', 
             # 'supertrend', 
-            'OB', 
-            'TTM_squeeze',
-            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+            # 'OB', 
+            # 'TTM_squeeze',
+            # 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ]
     },
 

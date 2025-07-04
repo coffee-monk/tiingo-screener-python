@@ -162,7 +162,7 @@ scan_configs = {
         },
         'params': {
             'SMA_above': {
-                'daily': {'sma_periods': [200], 'distance_pct': 1.0},
+                'daily': {'sma_periods': [50], 'distance_pct': 1.0},
             }
         }
     },
@@ -173,7 +173,18 @@ scan_configs = {
         },
         'params': {
             'SMA_below': {
-                'daily': {'sma_periods': [200], 'distance_pct': 1.0},
+                'daily': {'sma_periods': [50], 'distance_pct': 1.0},
+            }
+        }
+    },
+
+    'd_aVWAPavg': {
+        'criteria': {
+            'daily': ['aVWAP_avg'],
+        },
+        'params': {
+            'aVWAP_avg': {
+                'daily': {'distance_pct': 1.0},
             }
         }
     },
