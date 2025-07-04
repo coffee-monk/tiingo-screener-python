@@ -86,7 +86,9 @@ def scan():
              # 'h_StDevOversold_OBSupport',
              # 'h_OBSupport',
              # 'h_bankerRSI_QQEMODOversold',
-             'd_aVWAPavg',
+             # 'd_aVWAPavg',
+             # 'd_aVWAPavgAbove',
+             'd_aVWAPavgBelow',
             ]
 
     for scan in scans:

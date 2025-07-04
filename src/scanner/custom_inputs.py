@@ -189,6 +189,28 @@ scan_configs = {
         }
     },
 
+    'd_aVWAPavgAbove': {
+        'criteria': {
+            'daily': ['aVWAP_avg_above'],
+        },
+        'params': {
+            'aVWAP_avg_above': {
+                'daily': {'distance_pct': 1.0},
+            }
+        }
+    },
+
+    'd_aVWAPavgBelow': {
+        'criteria': {
+            'daily': ['aVWAP_avg_below'],
+        },
+        'params': {
+            'aVWAP_avg_below': {
+                'daily': {'distance_pct': 1.0},
+            }
+        }
+    },
+
     # Daily + 1hour =======================================
 
     ' dh_divergences_bullish': {
