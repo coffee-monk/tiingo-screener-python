@@ -45,11 +45,7 @@ def subcharts(
     ticker='',
     show_volume=False,
     show_banker_RSI=True,
-<<<<<<< HEAD
     scan_file=None,
-=======
-    scan_file=None,  # Can be filename or Path
->>>>>>> cea85ccf94338816b4209ff9b153f0e3f3b7f983
 ):
     """
     Visualize data with automatic scan file path handling.
@@ -109,10 +105,6 @@ def subcharts(
             charts, 
             df.attrs.get('ticker', ticker),
             timeframe,
-<<<<<<< HEAD
-            # 'scanner' if CURRENT_SCAN_FILE is not None else None,
-=======
->>>>>>> cea85ccf94338816b4209ff9b153f0e3f3b7f983
             show_volume
         )
         add_visualizations(chart, prepared_df, show_banker_RSI)
