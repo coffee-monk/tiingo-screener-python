@@ -9,13 +9,8 @@ ind_configs = {
     'indicators': {
 
         'weekly': [
-<<<<<<< HEAD
-            # 'aVWAP', 
-            # 'candle_colors', 
-=======
             'aVWAP', 
             'candle_colors', 
->>>>>>> cea85ccf94338816b4209ff9b153f0e3f3b7f983
             # 'StDev', 
             # 'QQEMOD', 
             # 'banker_RSI',
@@ -28,11 +23,7 @@ ind_configs = {
 
         'daily': [
             'aVWAP', 
-<<<<<<< HEAD
             # 'candle_colors', 
-=======
-            'candle_colors', 
->>>>>>> cea85ccf94338816b4209ff9b153f0e3f3b7f983
             # 'StDev', 
             # 'QQEMOD', 
             # 'banker_RSI',
@@ -44,13 +35,8 @@ ind_configs = {
         ],
 
         '1hour': [
-<<<<<<< HEAD
             # 'aVWAP', 
             # 'candle_colors', 
-=======
-            'aVWAP', 
-            'candle_colors', 
->>>>>>> cea85ccf94338816b4209ff9b153f0e3f3b7f983
             # 'StDev', 
             # 'QQEMOD', 
             # 'banker_RSI',

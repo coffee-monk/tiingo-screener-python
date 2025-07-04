@@ -20,11 +20,7 @@ SCANNER_DIR = PROJECT_ROOT / "data" / "scanner"
 indicators = ind_configs['indicators']
 params = ind_configs['params']
 
-<<<<<<< HEAD
 # VISUALIZATION ------------------------------------------
-=======
-# VISUALIZATION -------------------------------------------
->>>>>>> cea85ccf94338816b4209ff9b153f0e3f3b7f983
 
 def vis(scan_file=None): 
 
@@ -55,30 +51,10 @@ def vis(scan_file=None):
         # df3 = get_indicators(df3, indicators['1hour'], params['1hour'])
         # df4 = get_indicators(df4, indicators['5min'], params['5min'])
 
-<<<<<<< HEAD
         subcharts([df2], ticker=ticker, 
                   show_volume=True, show_banker_RSI=False)
-=======
-        subcharts([df1, df2, df3], ticker=ticker, 
-                 show_volume=True, show_banker_RSI=False)
->>>>>>> parent of 30ab360c (added NOTES.txt file)
 
-<<<<<<< HEAD
 # FETCH TICKERS -------------------------------------------
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-# OTHER FUNCTIONS (unchanged) ----------------------------
->>>>>>> parent of 4b3e8c2a (added full scan and clear data commands)
-=======
-# OTHER FUNCTIONS (unchanged) ----------------------------
->>>>>>> parent of 4b3e8c2a (added full scan and clear data commands)
-=======
-# OTHER FUNCTIONS (unchanged) ----------------------------
->>>>>>> parent of 4b3e8c2a (added full scan and clear data commands)
->>>>>>> cea85ccf94338816b4209ff9b153f0e3f3b7f983
 
 def fetch():
 
@@ -91,16 +67,10 @@ def fetch():
 
 def ind():
 
-<<<<<<< HEAD
     # run_indicators(indicators['weekly'], params['weekly'], "weekly")
-=======
-    run_indicators(indicators['weekly'], params['weekly'], "weekly")
->>>>>>> cea85ccf94338816b4209ff9b153f0e3f3b7f983
     run_indicators(indicators['daily'],  params['daily'],  "daily")
     # run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
     # run_indicators(indicators['5min'],   params['5min'],   "5min")
-
-# SCANNER -------------------------------------------------
 
 # SCANNER -------------------------------------------------
 
@@ -127,12 +97,8 @@ def scan():
         }
         run_scanner(**kwargs)
 
-<<<<<<< HEAD
 # FULL RUN (FETCH + INDICATORS + SCANNER) -----------------
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 def clear_folders():
     """Clear all data folders"""
     folders = [TICKERS_DIR, INDICATORS_DIR, SCANNER_DIR]
@@ -150,7 +116,6 @@ def clear_folders():
         else:
             folder.mkdir(parents=True, exist_ok=True)
     print("All data folders cleared successfully.")
->>>>>>> cea85ccf94338816b4209ff9b153f0e3f3b7f983
 
 def list_scan_files():
     """List available scan files with dates"""
@@ -218,13 +183,6 @@ def clear_screenshots():
     clear_folder(screenshots_dir)
 
 # COMMAND LINE INTERFACE (CLI) ----------------------------
-=======
-=======
->>>>>>> parent of 4b3e8c2a (added full scan and clear data commands)
-=======
->>>>>>> parent of 4b3e8c2a (added full scan and clear data commands)
-# COMMAND LINE INTERFACE ---------------------------------
->>>>>>> parent of 4b3e8c2a (added full scan and clear data commands)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Stock Analysis Toolkit")
@@ -234,12 +192,8 @@ if __name__ == "__main__":
     parser.add_argument('--fetch', action='store_true', help='Fetch ticker data')
     parser.add_argument('--ind', action='store_true', help='Generate indicators')
     parser.add_argument('--scan', action='store_true', help='Run scanner')
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     parser.add_argument('--full-run', action='store_true', 
                         help='Complete pipeline: clear folders, fetch data, generate indicators, run scanner')
-<<<<<<< HEAD
     
     # Folder clearing options
     parser.add_argument('--clear-all', action='store_true',
@@ -252,25 +206,12 @@ if __name__ == "__main__":
                         help='Clear only the scanner results folder')
     parser.add_argument('--clear-screenshots', action='store_true',
                         help='Clear the screenshots folder')
-    
+
     # Scan file options
-=======
     parser.add_argument('--clear-folders', action='store_true', 
-<<<<<<< HEAD
                         help='Clear all data folders (tickers, indicators, scanner)')
 
-=======
-                       help='Clear all data folders (tickers, indicators, scanner)')
-=======
->>>>>>> parent of 4b3e8c2a (added full scan and clear data commands)
-=======
->>>>>>> parent of 4b3e8c2a (added full scan and clear data commands)
-=======
->>>>>>> parent of 4b3e8c2a (added full scan and clear data commands)
-    
->>>>>>> parent of 30ab360c (added NOTES.txt file)
     # New scan file options
->>>>>>> cea85ccf94338816b4209ff9b153f0e3f3b7f983
     parser.add_argument('--scan-file', type=str, default=None,
                       help='Specify scan file (e.g. "scan_results_300625.csv")')
     parser.add_argument('--list-scans', action='store_true',
@@ -278,7 +219,6 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
 
-<<<<<<< HEAD
     # Handle folder clearing first
     if args.clear_all:           clear_folders()
     elif args.clear_tickers:     clear_folder(TICKERS_DIR)
@@ -314,17 +254,3 @@ if __name__ == "__main__":
         
         Utilities:
           --list-scans                       Show available scan files""")
-=======
-    if args.list_scans: list_scan_files()
-    elif args.vis: vis(scan_file=args.scan_file)
-    elif args.fetch: fetch()
-    elif args.ind: ind()
-    elif args.scan: scan()
-    else: print("""Available commands:
-        --vis          Launch visualization
-        --vis --scan-file "filename.csv"   Visualize specific scan
-        --list-scans   Show available scan files
-        --fetch        Fetch ticker data
-        --ind          Generate indicators
-        --scan         Run scanner""")
->>>>>>> cea85ccf94338816b4209ff9b153f0e3f3b7f983
