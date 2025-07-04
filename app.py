@@ -6,12 +6,12 @@ from pathlib import Path
 from datetime import datetime
 from src.indicators.get_indicators import get_indicators
 from src.indicators.run_indicators import run_indicators
-from src.fetch_data.fetch_tickers import fetch_tickers
-from src.fetch_data.fetch_ticker import fetch_ticker
-from src.scanner.scanner import run_scanner
-from src.visualization.subcharts import subcharts
-from src.scanner.custom_inputs import scan_configs
-from src.indicators.custom_inputs import ind_configs
+from src.fetch_data.fetch_tickers  import fetch_tickers
+from src.fetch_data.fetch_ticker   import fetch_ticker
+from src.scanner.scanner           import run_scanner
+from src.visualization.subcharts   import subcharts
+from src.scanner.custom_inputs     import scan_configs
+from src.indicators.custom_inputs  import ind_configs
 
 API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
 
@@ -23,23 +23,7 @@ INDICATORS_DIR = PROJECT_ROOT / "data" / "indicators"
 indicators = ind_configs['indicators']
 params = ind_configs['params']
 
-# SCAN FILE UTILITIES -------------------------------------
-
-def list_scan_files():
-    """List available scan files with dates"""
-    print(SCANNER_DIR)
-    scans = sorted(SCANNER_DIR.glob("scan_results_*.csv"), 
-                key=lambda f: f.stat().st_mtime, reverse=True)
-    if not scans:
-        print("No scan files found in data/scanner/")
-        return
-    
-    print("\nAvailable scan files:")
-    for i, scan in enumerate(scans[:10]):  # Show 10 most recent
-        print(f"{i+1}. {scan.name}")
-    print("\nUse with: --vis --scan-file 'filename.csv'")
-
-# VISUALIZATION ------------------------------------------
+# VISUALIZATION -------------------------------------------
 
 def vis(scan_file=None): 
 
@@ -61,34 +45,40 @@ def vis(scan_file=None):
 
         ticker = 'BTCUSD'
 
-        df1 = fetch_ticker(timeframe='w', ticker=ticker, api_key=API_KEY)
+        # df1 = fetch_ticker(timeframe='w', ticker=ticker, api_key=API_KEY)
         df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
-        df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
+        # df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
         # df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
-        df1 = get_indicators(df1, indicators['weekly'], params['weekly'])
+        # df1 = get_indicators(df1, indicators['weekly'], params['weekly'])
         df2 = get_indicators(df2, indicators['daily'], params['daily'])
-        df3 = get_indicators(df3, indicators['1hour'], params['1hour'])
+        # df3 = get_indicators(df3, indicators['1hour'], params['1hour'])
         # df4 = get_indicators(df4, indicators['5min'], params['5min'])
 
-        subcharts([df1, df2, df3], ticker=ticker, 
+        subcharts([df2], ticker=ticker, 
                   show_volume=True, show_banker_RSI=False)
 
-# OTHER FUNCTIONS ----------------------------
 
 def fetch():
+
     fetch_tickers(['weekly'], api_key=API_KEY)
     fetch_tickers(['daily'],  api_key=API_KEY)
     fetch_tickers(['1hour'],  api_key=API_KEY)
     fetch_tickers(['5min'],   api_key=API_KEY)
 
+# INDICATORS ----------------------------------------------
+
 def ind():
+
     run_indicators(indicators['weekly'], params['weekly'], "weekly")
     run_indicators(indicators['daily'],  params['daily'],  "daily")
     run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
     run_indicators(indicators['5min'],   params['5min'],   "5min")
 
+# SCANNER -------------------------------------------------
+
 def scan():
+
     scans = [
              'd_QQEMODOversold_OBSupport',
              'd_bankerRSI_QQEMODOversold',
@@ -127,6 +117,22 @@ def clear_folders():
             folder.mkdir(parents=True, exist_ok=True)
     print("All data folders cleared successfully.")
 
+def list_scan_files():
+    """List available scan files with dates"""
+    print(SCANNER_DIR)
+    scans = sorted(SCANNER_DIR.glob("scan_results_*.csv"), 
+                key=lambda f: f.stat().st_mtime, reverse=True)
+    if not scans:
+        print("No scan files found in data/scanner/")
+        return
+    
+    print("\nAvailable scan files:")
+    for i, scan in enumerate(scans[:10]):  # Show 10 most recent
+        print(f"{i+1}. {scan.name}")
+    print("\nUse with: --vis --scan-file 'filename.csv'")
+
+# FULL RUN (FETCH TICKERS + INDICATORS + SCANNER) ---------
+
 def full_run():
     """Complete pipeline: clear folders, fetch data, generate indicators, run scanner"""
     clear_folders()
@@ -134,7 +140,7 @@ def full_run():
     ind()   ; print('=== RUN INDICATORS ===\n')
     scan()  ; print('=== RUN SCANNER ===\n')
 
-# COMMAND LINE INTERFACE ---------------------------------
+# COMMAND LINE INTERFACE (CLI) ----------------------------
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Stock Analysis Toolkit")
@@ -145,9 +151,9 @@ if __name__ == "__main__":
     parser.add_argument('--ind', action='store_true', help='Generate indicators')
     parser.add_argument('--scan', action='store_true', help='Run scanner')
     parser.add_argument('--full-run', action='store_true', 
-                       help='Complete pipeline: clear folders, fetch data, generate indicators, run scanner')
+                        help='Complete pipeline: clear folders, fetch data, generate indicators, run scanner')
     parser.add_argument('--clear-folders', action='store_true', 
-                       help='Clear all data folders (tickers, indicators, scanner)')
+                        help='Clear all data folders (tickers, indicators, scanner)')
 
     # New scan file options
     parser.add_argument('--scan-file', type=str, default=None,

@@ -1,24 +1,24 @@
-date,Open,High,Low,Close,Volume,Peaks_Valleys_avg,color,StDev,StDev_Mean,StdDev_ZScore,QQEMOD,QQE1_Value,QQE1_Above_Upper,QQE1_Below_Lower,QQE2_Above_Threshold,QQE2_Below_Threshold,QQE2_Above_TL,banker_RSI,SMA_50,SMA_100,OB,OB_High,OB_Low,OB_Mitigated_Index,TTM_squeeze_Active,VI_plus,VI_minus,VI_Regular_Bullish,VI_Regular_Bearish,VI_Hidden_Bullish,VI_Hidden_Bearish,Fisher,Fisher_Signal,Fisher_Regular_Bullish,Fisher_Regular_Bearish,Fisher_Hidden_Bullish,Fisher_Hidden_Bearish,OBV,OBV_Smoothed,OBV_Regular_Bullish,OBV_Regular_Bearish,OBV_Hidden_Bullish,OBV_Hidden_Bearish,Volume_MA,Vol_Regular_Bullish,Vol_Regular_Bearish,Vol_Hidden_Bullish,Vol_Hidden_Bearish
-2025-07-02 14:25:00+00:00,76.7,76.7,76.7,76.7,5.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,5.0,False,False,False,False
-2025-07-02 14:30:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,4.922480620155039,False,False,False,False
-2025-07-02 14:35:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,4.846163091160387,False,False,False,False
-2025-07-02 14:40:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,4.771028779669527,False,False,False,False
-2025-07-02 14:45:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,4.697059341225039,False,False,False,False
-2025-07-02 14:50:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,4.6242367157796895,False,False,False,False
-2025-07-02 14:55:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,4.552543123286981,False,False,False,False
-2025-07-02 15:00:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,4.48196105936005,False,False,False,False
-2025-07-02 15:05:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,4.4124732909978786,False,False,False,False
-2025-07-02 15:10:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,4.344062852377756,False,False,False,False
-2025-07-02 15:15:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,4.276713040712984,False,False,False,False
-2025-07-02 15:20:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,4.210407412174798,False,False,False,False
-2025-07-02 15:25:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,4.145129777877514,False,False,False,False
-2025-07-02 15:30:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,4.080864199925925,False,False,False,False
-2025-07-02 15:35:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,4.017594987523973,False,False,False,False
-2025-07-02 15:40:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,3.955306693143756,False,False,False,False
-2025-07-02 15:45:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,3.89398410875393,False,False,False,False
-2025-07-02 15:50:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,3.8336122621065822,False,False,False,False
-2025-07-02 15:55:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,3.774176413081674,False,False,False,False
-2025-07-02 16:00:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,3.7156620500881594,False,False,False,False
-2025-07-02 16:05:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,3.658054886520901,False,False,False,False
-2025-07-02 16:10:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000,,,,,,False,False,False,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,0.0,0.0,False,False,False,False,3.6013408572725147,False,False,False,False
-2025-07-02 16:15:00+00:00,76.7,76.83,76.7,76.83,70.0,76.78666666666665,"rgba(38, 166, 154, 0.5)",,76.78666666666665,,100.0,,False,False,True,False,False,,,,0.0,0.0,0.0,0.0,0,,,False,False,False,False,,,False,False,False,False,70.0,1.0852713178294573,False,False,False,False,4.630777433128754,False,False,False,False
+date,Open,High,Low,Close,Volume,Peaks_Valleys_avg,color
+2025-07-02 14:25:00+00:00,76.7,76.7,76.7,76.7,5.0,,#000000
+2025-07-02 14:30:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 14:35:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 14:40:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 14:45:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 14:50:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 14:55:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 15:00:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 15:05:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 15:10:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 15:15:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 15:20:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 15:25:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 15:30:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 15:35:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 15:40:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 15:45:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 15:50:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 15:55:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 16:00:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 16:05:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 16:10:00+00:00,76.7,76.7,76.7,76.7,0.0,,#000000
+2025-07-02 16:15:00+00:00,76.7,76.83,76.7,76.83,70.0,76.78666666666665,"rgba(38, 166, 154, 0.5)"
