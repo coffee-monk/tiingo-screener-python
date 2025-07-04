@@ -97,40 +97,6 @@ def scan():
         }
         run_scanner(**kwargs)
 
-# FULL RUN (FETCH + INDICATORS + SCANNER) -----------------
-
-def clear_folders():
-    """Clear all data folders"""
-    folders = [TICKERS_DIR, INDICATORS_DIR, SCANNER_DIR]
-    
-    for folder in folders:
-        if folder.exists():
-            for file in folder.glob('*'):
-                try:
-                    if file.is_file():
-                        file.unlink()
-                    elif file.is_dir():
-                        shutil.rmtree(file)
-                except Exception as e:
-                    print(f"Error deleting {file}: {e}")
-        else:
-            folder.mkdir(parents=True, exist_ok=True)
-    print("All data folders cleared successfully.")
-
-def list_scan_files():
-    """List available scan files with dates"""
-    print(SCANNER_DIR)
-    scans = sorted(SCANNER_DIR.glob("scan_results_*.csv"), 
-                key=lambda f: f.stat().st_mtime, reverse=True)
-    if not scans:
-        print("No scan files found in data/scanner/")
-        return
-    
-    print("\nAvailable scan files:")
-    for i, scan in enumerate(scans[:10]):  # Show 10 most recent
-        print(f"{i+1}. {scan.name}")
-    print("\nUse with: --vis --scan-file 'filename.csv'")
-
 # FULL RUN (FETCH TICKERS + INDICATORS + SCANNER) ---------
 
 def full_run():
@@ -186,41 +152,35 @@ def clear_screenshots():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Stock Analysis Toolkit")
-    
-    # Main commands
-    parser.add_argument('--vis', action='store_true', help='Launch visualization')
-    parser.add_argument('--fetch', action='store_true', help='Fetch ticker data')
-    parser.add_argument('--ind', action='store_true', help='Generate indicators')
-    parser.add_argument('--scan', action='store_true', help='Run scanner')
+
+    parser.add_argument('--vis',      action='store_true', help='Launch visualization')
+    parser.add_argument('--fetch',    action='store_true', help='Fetch ticker data')
+    parser.add_argument('--ind',      action='store_true', help='Generate indicators')
+    parser.add_argument('--scan',     action='store_true', help='Run scanner')
     parser.add_argument('--full-run', action='store_true', 
                         help='Complete pipeline: clear folders, fetch data, generate indicators, run scanner')
-    
-    # Folder clearing options
-    parser.add_argument('--clear-all', action='store_true',
+
+    parser.add_argument('--scan-file', type=str, default=None,
+                        help='Specify scan file (e.g. "scan_results_300625.csv")')
+
+    parser.add_argument('--clear-all',         action='store_true',
                         help='Clear all data folders (tickers, indicators, scanner)')
-    parser.add_argument('--clear-tickers', action='store_true',
+    parser.add_argument('--clear-tickers',     action='store_true',
                         help='Clear only the tickers data folder')
-    parser.add_argument('--clear-indicators', action='store_true',
+    parser.add_argument('--clear-indicators',  action='store_true',
                         help='Clear only the indicators data folder')
-    parser.add_argument('--clear-scanner', action='store_true',
+    parser.add_argument('--clear-scanner',     action='store_true',
                         help='Clear only the scanner results folder')
     parser.add_argument('--clear-screenshots', action='store_true',
                         help='Clear the screenshots folder')
 
-    # Scan file options
-    parser.add_argument('--clear-folders', action='store_true', 
-                        help='Clear all data folders (tickers, indicators, scanner)')
-
-    # New scan file options
-    parser.add_argument('--scan-file', type=str, default=None,
-                      help='Specify scan file (e.g. "scan_results_300625.csv")')
     parser.add_argument('--list-scans', action='store_true',
-                      help='Show available scan files')
+                        help='Show available scan files')
     
     args = parser.parse_args()
 
     # Handle folder clearing first
-    if args.clear_all:           clear_folders()
+    if   args.clear_all:         clear_folders()
     elif args.clear_tickers:     clear_folder(TICKERS_DIR)
     elif args.clear_indicators:  clear_folder(INDICATORS_DIR)
     elif args.clear_scanner:     clear_folder(SCANNER_DIR)
