@@ -1,7 +1,0 @@
-Ideas for CRITERIA ========================================
-
-- stdev oversold + in longer range aVWAP
-  - how to determine longer range aVWAP?
-- SMA + stdev oversold 
-- SMA + stdev oversold 
-- aVWAP avg proximity
