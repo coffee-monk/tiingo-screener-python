@@ -60,6 +60,10 @@ def vis(scan_file=None):
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+# OTHER FUNCTIONS (unchanged) ----------------------------
+>>>>>>> parent of 4b3e8c2a (added full scan and clear data commands)
 =======
 # OTHER FUNCTIONS (unchanged) ----------------------------
 >>>>>>> parent of 4b3e8c2a (added full scan and clear data commands)
@@ -109,6 +113,7 @@ def scan():
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 def clear_folders():
     """Clear all data folders"""
     folders = [TICKERS_DIR, INDICATORS_DIR, SCANNER_DIR]
@@ -154,6 +159,8 @@ def full_run():
 =======
 =======
 >>>>>>> parent of 4b3e8c2a (added full scan and clear data commands)
+=======
+>>>>>>> parent of 4b3e8c2a (added full scan and clear data commands)
 # COMMAND LINE INTERFACE ---------------------------------
 >>>>>>> parent of 4b3e8c2a (added full scan and clear data commands)
 
@@ -167,6 +174,7 @@ if __name__ == "__main__":
     parser.add_argument('--scan', action='store_true', help='Run scanner')
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     parser.add_argument('--full-run', action='store_true', 
                         help='Complete pipeline: clear folders, fetch data, generate indicators, run scanner')
     parser.add_argument('--clear-folders', action='store_true', 
@@ -175,6 +183,8 @@ if __name__ == "__main__":
 
 =======
                        help='Clear all data folders (tickers, indicators, scanner)')
+=======
+>>>>>>> parent of 4b3e8c2a (added full scan and clear data commands)
 =======
 >>>>>>> parent of 4b3e8c2a (added full scan and clear data commands)
 =======
