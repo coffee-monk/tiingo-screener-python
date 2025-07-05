@@ -9,8 +9,8 @@ ind_configs = {
     'indicators': {
 
         'weekly': [
-            'aVWAP', 
-            'candle_colors', 
+            # 'aVWAP', 
+            # 'candle_colors', 
             # 'StDev', 
             # 'QQEMOD', 
             # 'banker_RSI',
@@ -22,12 +22,12 @@ ind_configs = {
         ],
 
         'daily': [
-            'aVWAP', 
+            # 'aVWAP', 
             # 'candle_colors', 
             # 'StDev', 
             # 'QQEMOD', 
             # 'banker_RSI',
-            # 'SMA',
+            'SMA',
             # 'supertrend', 
             # 'OB', 
             # 'TTM_squeeze', 
@@ -153,7 +153,7 @@ ind_configs = {
                 'qqe_factor': 3.0, 'qqe_factor2': 1.61, 'threshold': 3,
                 'bb_length': 20, 'bb_multi': 0.35
             },
-            'SMA': {'periods': [50, 200]},
+            'SMA': {'periods': [200]},
             'liquidity': {'swing_length': 20, 'range_percent': 0.1},
             'supertrend': {'period': 20, 'multiplier': 3},
             'TTM_squeeze': {

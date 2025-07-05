@@ -42,7 +42,7 @@ scan_configs = {
         },
         'params': {
             'SMA_above': {
-                '1hour': {'sma_periods': [200], 'distance_pct': 1.0},
+                '1hour': {'sma_periods': [200], 'distance_pct': 1.0, 'outside_range': True},
             }
         }
     },
@@ -53,7 +53,7 @@ scan_configs = {
         },
         'params': {
             'SMA_below': {
-                'weekly': {'sma_periods': [200], 'distance_pct': 1.0},
+                'weekly': {'sma_periods': [200], 'distance_pct': 1.0, 'outside_range': True},
             }
         }
     },
@@ -162,7 +162,7 @@ scan_configs = {
         },
         'params': {
             'SMA_above': {
-                'daily': {'sma_periods': [50], 'distance_pct': 1.0},
+                'daily': {'sma_periods': [200], 'distance_pct': 30.0, 'outside_range': True},
             }
         }
     },
@@ -173,7 +173,7 @@ scan_configs = {
         },
         'params': {
             'SMA_below': {
-                'daily': {'sma_periods': [50], 'distance_pct': 1.0},
+                'daily': {'sma_periods': [200], 'distance_pct': 30.0, 'outside_range': True},
             }
         }
     },
@@ -195,7 +195,7 @@ scan_configs = {
         },
         'params': {
             'aVWAP_avg_above': {
-                'daily': {'distance_pct': 1.0},
+                'daily': {'distance_pct': 20.0, 'outside_range': False},
             }
         }
     },
@@ -206,7 +206,7 @@ scan_configs = {
         },
         'params': {
             'aVWAP_avg_below': {
-                'daily': {'distance_pct': 1.0},
+                'daily': {'distance_pct': 20.0, 'outside_range': False},
             }
         }
     },
@@ -363,7 +363,7 @@ scan_configs = {
         },
         'params': {
             'SMA_above': {
-                '1hour': {'sma_periods': [200], 'distance_pct': 1.0},
+                '1hour': {'sma_periods': [200], 'distance_pct': 1.0, 'outside_range': False},
             }
         }
     },
@@ -374,7 +374,7 @@ scan_configs = {
         },
         'params': {
             'SMA_below': {
-                '1hour': {'sma_periods': [200], 'distance_pct': 1.0},
+                '1hour': {'sma_periods': [200], 'distance_pct': 1.0, 'outside_range': False},
             }
         }
     },

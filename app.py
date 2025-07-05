@@ -16,6 +16,7 @@ API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
 
 PROJECT_ROOT = Path(__file__).parent
 SCANNER_DIR = PROJECT_ROOT / "data" / "scanner"
+INDICATORS_DIR = PROJECT_ROOT / "data" / "indicators"
 
 indicators = ind_configs['indicators']
 params = ind_configs['params']
@@ -58,10 +59,10 @@ def vis(scan_file=None):
 
 def fetch():
 
-    fetch_tickers(['weekly'], api_key=API_KEY)
+    # fetch_tickers(['weekly'], api_key=API_KEY)
     fetch_tickers(['daily'],  api_key=API_KEY)
-    fetch_tickers(['1hour'],  api_key=API_KEY)
-    fetch_tickers(['5min'],   api_key=API_KEY)
+    # fetch_tickers(['1hour'],  api_key=API_KEY)
+    # fetch_tickers(['5min'],   api_key=API_KEY)
 
 # INDICATORS ----------------------------------------------
 
@@ -88,7 +89,9 @@ def scan():
              # 'h_bankerRSI_QQEMODOversold',
              # 'd_aVWAPavg',
              # 'd_aVWAPavgAbove',
-             'd_aVWAPavgBelow',
+             # 'd_aVWAPavgBelow',
+             'd_SMAAbove',
+             'd_SMABelow',
             ]
 
     for scan in scans:
