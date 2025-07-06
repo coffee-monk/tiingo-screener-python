@@ -58,6 +58,17 @@ scan_configs = {
         }
     },
 
+    'w_TTMSqueeze': {
+        'criteria': {
+            'weekly': ['TTM_squeeze'],
+        },
+        'params': {
+            'TTM_squeeze': {
+                'weekly': {'min_squeeze_bars': 5, 'max_squeeze_bars': None},
+            }
+        }
+    },
+
     # Weekly + Daily ======================================
 
     'wd_bankerRSI_OBSupport': {
@@ -207,6 +218,17 @@ scan_configs = {
         'params': {
             'aVWAP_avg_below': {
                 'daily': {'distance_pct': 20.0, 'outside_range': False},
+            }
+        }
+    },
+
+    'd_TTMSqueeze': {
+        'criteria': {
+            'daily': ['TTM_squeeze'],
+        },
+        'params': {
+            'TTM_squeeze': {
+                'daily': {'min_squeeze_bars': 5, 'max_squeeze_bars': None},
             }
         }
     },
@@ -375,6 +397,17 @@ scan_configs = {
         'params': {
             'SMA_below': {
                 '1hour': {'sma_periods': [200], 'distance_pct': 1.0, 'outside_range': False},
+            }
+        }
+    },
+
+    'h_TTMSqueeze': {
+        'criteria': {
+            '1hour': ['TTM_squeeze'],
+        },
+        'params': {
+            'TTM_squeeze': {
+                '1hour': {'min_squeeze_bars': 5, 'max_squeeze_bars': None},
             }
         }
     },

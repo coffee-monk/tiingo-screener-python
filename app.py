@@ -15,8 +15,9 @@ from src.indicators.custom_inputs  import ind_configs
 API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
 
 PROJECT_ROOT = Path(__file__).parent
-SCANNER_DIR = PROJECT_ROOT / "data" / "scanner"
+SCANNER_DIR = PROJECT_ROOT    / "data" / "scanner"
 INDICATORS_DIR = PROJECT_ROOT / "data" / "indicators"
+TICKERS_DIR = PROJECT_ROOT    / "data" / "tickers"
 
 indicators = ind_configs['indicators']
 params = ind_configs['params']
@@ -40,27 +41,27 @@ def vis(scan_file=None):
 
     else:
 
-        ticker = 'SOFI'
+        ticker = 'AAPL'
 
         # df1 = fetch_ticker(timeframe='w', ticker=ticker, api_key=API_KEY)
-        df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
-        # df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
+        # df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
+        df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
         # df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
         # df1 = get_indicators(df1, indicators['weekly'], params['weekly'])
-        df2 = get_indicators(df2, indicators['daily'], params['daily'])
-        # df3 = get_indicators(df3, indicators['1hour'], params['1hour'])
+        # df2 = get_indicators(df2, indicators['daily'], params['daily'])
+        df3 = get_indicators(df3, indicators['1hour'], params['1hour'])
         # df4 = get_indicators(df4, indicators['5min'], params['5min'])
 
-        subcharts([df2], ticker=ticker, 
+        subcharts([df3], ticker=ticker, 
                   show_volume=True, show_banker_RSI=False)
 
 # FETCH TICKERS -------------------------------------------
 
 def fetch():
 
-    # fetch_tickers(['weekly'], api_key=API_KEY)
-    fetch_tickers(['daily'],  api_key=API_KEY)
+    fetch_tickers(['weekly'], api_key=API_KEY)
+    # fetch_tickers(['daily'],  api_key=API_KEY)
     # fetch_tickers(['1hour'],  api_key=API_KEY)
     # fetch_tickers(['5min'],   api_key=API_KEY)
 
@@ -69,8 +70,8 @@ def fetch():
 def ind():
 
     # run_indicators(indicators['weekly'], params['weekly'], "weekly")
-    run_indicators(indicators['daily'],  params['daily'],  "daily")
-    # run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
+    # run_indicators(indicators['daily'],  params['daily'],  "daily")
+    run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
     # run_indicators(indicators['5min'],   params['5min'],   "5min")
 
 # SCANNER -------------------------------------------------
@@ -78,20 +79,32 @@ def ind():
 def scan():
 
     scans = [
-             # 'd_QQEMODOversold_OBSupport',
-             # 'd_bankerRSI_QQEMODOversold',
+             # 'wd_bankerRSI_OBSupport',
+             # 'wd_QQEMODOverbought_OBearishZone',
+
              # 'dh_StDevOversold_OBSupport',
              # 'dh_StDevOverbought_OBResistance',
              # 'dh_OBSupport',
              # 'dh_OBResistance',
-             # 'h_StDevOversold_OBSupport',
-             # 'h_OBSupport',
-             # 'h_bankerRSI_QQEMODOversold',
+
+             # 'w_bankerRSI_QQEMODOversold',
+             # 'w_OBSupport',
+             # 'w_bankerRSI'
+             # 'w_bankerRSI_QQEMODOversold',
+             # 'w_TTMSqueeze',
+
+             # 'd_QQEMODOversold_OBSupport',
+             # 'd_bankerRSI_QQEMODOversold',
              # 'd_aVWAPavg',
              # 'd_aVWAPavgAbove',
              # 'd_aVWAPavgBelow',
-             'd_SMAAbove',
-             'd_SMABelow',
+             # 'd_SMAAbove',
+             # 'd_SMABelow',
+             # 'd_TTMSqueeze',
+
+             # 'h_StDevOversold_OBSupport',
+             # 'h_OBSupport',
+             'h_TTMSqueeze'
             ]
 
     for scan in scans:

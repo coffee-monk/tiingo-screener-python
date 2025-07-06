@@ -27,7 +27,7 @@ ind_configs = {
             # 'StDev', 
             # 'QQEMOD', 
             # 'banker_RSI',
-            'SMA',
+            # 'SMA',
             # 'supertrend', 
             # 'OB', 
             # 'TTM_squeeze', 
@@ -43,7 +43,7 @@ ind_configs = {
             # 'SMA',
             # 'supertrend', 
             # 'OB', 
-            # 'TTM_squeeze', 
+            'TTM_squeeze', 
             # 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
@@ -105,12 +105,12 @@ ind_configs = {
             },
             'SMA': {'periods': [50, 200]},
             'liquidity': {'swing_length': 4, 'range_percent': 0.1},
-            'supertrend': {'period': 8, 'multiplier': 3},
+            'supertrend': {'period': 20, 'multiplier': 3},
             'TTM_squeeze': {
-                'bb_length': 8, 'bb_std_dev': 2.0,
-                'kc_length': 8, 'kc_mult': 1.5, 'use_true_range': True
+                'bb_length': 20, 'bb_std_dev': 2.0,
+                'kc_length': 20, 'kc_mult': 2.0, 'use_true_range': True
             },
-            'divergence_OBV': {'period': 26, 'lookback': 26},
+            'divergence_OBV':    {'period': 26, 'lookback': 26},
             'divergence_Volume': {'period': 26, 'lookback': 26},
             'divergence_Fisher': {'period': 26, 'lookback': 26},
             'divergence_Vortex': {'period': 26, 'lookback': 26}
@@ -155,12 +155,12 @@ ind_configs = {
             },
             'SMA': {'periods': [200]},
             'liquidity': {'swing_length': 20, 'range_percent': 0.1},
-            'supertrend': {'period': 20, 'multiplier': 3},
+            'supertrend': {'period': 14, 'multiplier': 3},
             'TTM_squeeze': {
-                'bb_length': 40, 'bb_std_dev': 2.0,
-                'kc_length': 40, 'kc_mult': 1.5, 'use_true_range': True
+                'bb_length': 18, 'bb_std_dev': 1.9,
+                'kc_length': 18, 'kc_mult': 1.7, 'use_true_range': True
             },
-            'divergence_OBV': {'period': 50, 'lookback': 50},
+            'divergence_OBV':    {'period': 50, 'lookback': 50},
             'divergence_Volume': {'period': 50, 'lookback': 50},
             'divergence_Fisher': {'period': 50, 'lookback': 50},
             'divergence_Vortex': {'period': 50, 'lookback': 50}
@@ -205,12 +205,12 @@ ind_configs = {
             },
             'SMA': {'periods': [50, 200]},
             'liquidity': {'swing_length': 64, 'range_percent': 0.1},
-            'supertrend': {'period': 16, 'multiplier': 3},
+            'supertrend': {'period': 12, 'multiplier': 2.5},
             'TTM_squeeze': {
-                'bb_length': 32, 'bb_std_dev': 2.0,
-                'kc_length': 32, 'kc_mult': 1.5, 'use_true_range': True
+                'bb_length': 14, 'bb_std_dev': 1.8,
+                'kc_length': 14, 'kc_mult': 1.3, 'use_true_range': True
             },
-            'divergence_OBV': {'period': 128, 'lookback': 64},
+            'divergence_OBV':    {'period': 128, 'lookback': 64},
             'divergence_Volume': {'period': 128, 'lookback': 64},
             'divergence_Fisher': {'period': 128, 'lookback': 64},
             'divergence_Vortex': {'period': 128, 'lookback': 64}
@@ -255,12 +255,12 @@ ind_configs = {
             },
             'SMA': {'periods': [50, 100]},
             'liquidity': {'swing_length': 40, 'range_percent': 0.1},
-            'supertrend': {'period': 20, 'multiplier': 3},
+            'supertrend': {'period': 10, 'multiplier': 2.5},
             'TTM_squeeze': {
-                'bb_length': 40, 'bb_std_dev': 2.0,
-                'kc_length': 40, 'kc_mult': 1.5, 'use_true_range': True
+                'bb_length': 12, 'bb_std_dev': 1.6,
+                'kc_length': 12, 'kc_mult': 1.2, 'use_true_range': True
             },
-            'divergence_OBV': {'period': 128, 'lookback': 80},
+            'divergence_OBV':    {'period': 128, 'lookback': 80},
             'divergence_Volume': {'period': 128, 'lookback': 80},
             'divergence_Fisher': {'period': 128, 'lookback': 80},
             'divergence_Vortex': {'period': 128, 'lookback': 80}
