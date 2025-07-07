@@ -233,6 +233,28 @@ scan_configs = {
         }
     },
 
+    'd_QQEMODBullishReversal': {
+        'criteria': {
+            'daily': ['QQEMOD_bullish_reversal'],
+        },
+        'params': {
+            'QQEMOD_bullish_reversal': {
+                'daily': {'min_red_candles': 3},
+            }
+        }
+    },
+
+    'd_QQEMODBearishReversal': {
+        'criteria': {
+            '1hour': ['QQEMOD_bearish_reversal'],
+        },
+        'params': {
+            'QQEMOD_bearish_reversal': {
+                '1hour': {'min_red_candles': 3},
+            }
+        }
+    },
+
     # Daily + 1hour =======================================
 
     ' dh_divergences_bullish': {
@@ -408,6 +430,28 @@ scan_configs = {
         'params': {
             'TTM_squeeze': {
                 '1hour': {'min_squeeze_bars': 5, 'max_squeeze_bars': None},
+            }
+        }
+    },
+
+    'h_QQEMODBullishReversal': {
+        'criteria': {
+            '1hour': ['QQEMOD_bullish_reversal'],
+        },
+        'params': {
+            'QQEMOD_bullish_reversal': {
+                '1hour': {'min_red_candles': 3},
+            }
+        }
+    },
+
+    'h_QQEMODBearishReversal': {
+        'criteria': {
+            '1hour': ['QQEMOD_bearish_reversal'],
+        },
+        'params': {
+            'QQEMOD_bearish_reversal': {
+                '1hour': {'min_red_candles': 3},
             }
         }
     },

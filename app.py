@@ -41,27 +41,27 @@ def vis(scan_file=None):
 
     else:
 
-        ticker = 'AAPL'
+        ticker = 'BTCUSD'
 
-        # df1 = fetch_ticker(timeframe='w', ticker=ticker, api_key=API_KEY)
-        # df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
+        df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
+        df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
         df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
-        # df4 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
+        df4 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
 
-        # df1 = get_indicators(df1, indicators['weekly'], params['weekly'])
-        # df2 = get_indicators(df2, indicators['daily'], params['daily'])
+        df1 = get_indicators(df1, indicators['daily'], params['daily'])
+        df2 = get_indicators(df2, indicators['daily'], params['daily2'])
         df3 = get_indicators(df3, indicators['1hour'], params['1hour'])
-        # df4 = get_indicators(df4, indicators['5min'], params['5min'])
+        df4 = get_indicators(df4, indicators['1hour'], params['1hour2'])
 
-        subcharts([df3], ticker=ticker, 
+        subcharts([df1, df2, df3, df4], ticker=ticker, 
                   show_volume=True, show_banker_RSI=False)
 
 # FETCH TICKERS -------------------------------------------
 
 def fetch():
 
-    fetch_tickers(['weekly'], api_key=API_KEY)
-    # fetch_tickers(['daily'],  api_key=API_KEY)
+    # fetch_tickers(['weekly'], api_key=API_KEY)
+    fetch_tickers(['daily'],  api_key=API_KEY)
     # fetch_tickers(['1hour'],  api_key=API_KEY)
     # fetch_tickers(['5min'],   api_key=API_KEY)
 
@@ -70,8 +70,8 @@ def fetch():
 def ind():
 
     # run_indicators(indicators['weekly'], params['weekly'], "weekly")
-    # run_indicators(indicators['daily'],  params['daily'],  "daily")
-    run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
+    run_indicators(indicators['daily'],  params['daily'],  "daily")
+    # run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
     # run_indicators(indicators['5min'],   params['5min'],   "5min")
 
 # SCANNER -------------------------------------------------
@@ -104,7 +104,9 @@ def scan():
 
              # 'h_StDevOversold_OBSupport',
              # 'h_OBSupport',
-             'h_TTMSqueeze'
+             # 'h_TTMSqueeze',
+             # 'h_QQEMODBullishReversal'
+             'h_QQEMODBearishReversal'
             ]
 
     for scan in scans:
@@ -118,7 +120,7 @@ def scan():
 # FULL RUN (FETCH TICKERS + INDICATORS + SCANNER) ---------
 
 def full_run():
-    """Complete pipeline: clear folders, fetch data, generate indicators, run scanner"""
+    """Clear folders + fetch data + generate indicators + run scanner"""
     clear_folders() ; print('=== CLEAR DATA FOLDERS ===\n')
     fetch()         ; print('=== FETCH TICKERS ===\n')
     ind()           ; print('=== RUN INDICATORS ===\n')
