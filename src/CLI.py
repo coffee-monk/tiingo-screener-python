@@ -1,11 +1,16 @@
 import argparse
 from pathlib import Path
 
-def execute_cli(
-    TICKERS_DIR,
-    INDICATORS_DIR,
-    SCANNER_DIR,
-    SCREENSHOTS_DIR,
+# Project ROOT and data folders
+PROJECT_ROOT = Path(__file__).parent.parent
+SCANNER_DIR     = PROJECT_ROOT / "data" / "scanner"
+INDICATORS_DIR  = PROJECT_ROOT / "data" / "indicators"
+TICKERS_DIR     = PROJECT_ROOT / "data" / "tickers"
+SCREENSHOTS_DIR = PROJECT_ROOT / "data" / "screenshots"
+
+# INITIALIZE CLI ------------------------------------------
+
+def init_cli(
     vis,
     fetch,
     ind,
@@ -43,7 +48,9 @@ def execute_cli(
     elif args.clear_scanner:     clear_folder(SCANNER_DIR)
     elif args.clear_screenshots: clear_folder(SCREENSHOTS_DIR)
     elif args.list_scans:        list_scan_files(SCANNER_DIR)
-    else: print("""\n\nAvailable commands: 
+
+    else: print(
+                """\nAvailable commands: 
                 Visualization:
                   --vis                              Launch visualization
                   --vis --scan-file "filename.csv"   Visualize specific scan
@@ -63,7 +70,7 @@ def execute_cli(
        
                 Utilities:
                   --list-scans                       Show available scan files"""
-              )
+               )
 
 # CLI UTILITY FUNCTIONS -----------------------------------
 

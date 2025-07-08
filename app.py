@@ -1,5 +1,5 @@
 import os
-from src.CLI import execute_cli
+from src.CLI import init_cli, SCANNER_DIR, list_scan_files
 import argparse
 import pandas as pd
 from pathlib import Path
@@ -14,12 +14,6 @@ from src.scanner.custom_inputs     import scan_configs
 from src.indicators.custom_inputs  import ind_configs
 
 API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
-
-PROJECT_ROOT    = Path(__file__).parent
-SCANNER_DIR     = PROJECT_ROOT / "data" / "scanner"
-INDICATORS_DIR  = PROJECT_ROOT / "data" / "indicators"
-TICKERS_DIR     = PROJECT_ROOT / "data" / "tickers"
-SCREENSHOTS_DIR = PROJECT_ROOT / "data" / "screenshots"
 
 indicators = ind_configs['indicators']
 params     = ind_configs['params']
@@ -57,7 +51,7 @@ def vis(scan_file=None):
     
     if not scan_path.exists():
         print(f"Error: Scan file not found at {scan_path}")
-        list_scan_files()
+        list_scan_files(SCANNER_DIR)
         return
         
     subcharts(scan_file=scan_path)
@@ -85,6 +79,7 @@ def ind():
 def scan():
 
     scans = [
+
              # 'wd_bankerRSI_OBSupport',
              # 'wd_QQEMODOverbought_OBearishZone',
 
@@ -118,6 +113,7 @@ def scan():
              # 'd_QQEMODBearishReversal'
              # 'h_QQEMODBearishReversal'
              # 'h_QQEMODBearishReversal'
+
             ]
 
     for scan in scans:
@@ -130,16 +126,6 @@ def scan():
 
 # COMMAND LINE INTERFACE (CLI) ----------------------------
 
-if __name__ == "__main__":
+# RUN 'python app.py' in TERMINAL to get HELP command list
 
-    # python app.py to get :help commands
-    execute_cli(
-                TICKERS_DIR=TICKERS_DIR,
-                INDICATORS_DIR=INDICATORS_DIR,
-                SCANNER_DIR=SCANNER_DIR,
-                SCREENSHOTS_DIR=SCREENSHOTS_DIR,
-                vis=vis,
-                fetch=fetch,
-                ind=ind,
-                scan=scan,
-               )
+if __name__ == "__main__": init_cli(vis, fetch, ind, scan)
