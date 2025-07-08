@@ -1,2 +1,0 @@
-- QQEMOD good for catching reversals
-  - 1st less_RED candle after full_RED

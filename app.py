@@ -1,4 +1,5 @@
 import os
+from src.CLI import execute_cli
 import argparse
 import pandas as pd
 from pathlib import Path
@@ -14,35 +15,23 @@ from src.indicators.custom_inputs  import ind_configs
 
 API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
 
-PROJECT_ROOT = Path(__file__).parent
-SCANNER_DIR = PROJECT_ROOT    / "data" / "scanner"
-INDICATORS_DIR = PROJECT_ROOT / "data" / "indicators"
-TICKERS_DIR = PROJECT_ROOT    / "data" / "tickers"
+PROJECT_ROOT    = Path(__file__).parent
+SCANNER_DIR     = PROJECT_ROOT / "data" / "scanner"
+INDICATORS_DIR  = PROJECT_ROOT / "data" / "indicators"
+TICKERS_DIR     = PROJECT_ROOT / "data" / "tickers"
+SCREENSHOTS_DIR = PROJECT_ROOT / "data" / "screenshots"
 
 indicators = ind_configs['indicators']
-params = ind_configs['params']
+params     = ind_configs['params']
 
 # VISUALIZATION ------------------------------------------
 
-def vis(scan_file=None): 
+def vis(scan_file=None):
 
-    if scan_file:
-
-        scan_path = Path(scan_file)
-        if not scan_path.exists() and not scan_path.parent.name == "scanner":
-            scan_path = SCANNER_DIR / scan_path.name
-        
-        if not scan_path.exists():
-            print(f"Error: Scan file not found at {scan_path}")
-            list_scan_files()
-            return
-            
-        subcharts(scan_file=scan_path)
-
-    else:
+    if not scan_file:
 
         ticker = 'BTCUSD'
-
+        
         df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
         df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
         df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
@@ -53,8 +42,25 @@ def vis(scan_file=None):
         df3 = get_indicators(df3, indicators['1hour'], params['1hour'])
         df4 = get_indicators(df4, indicators['1hour'], params['1hour2'])
 
-        subcharts([df1, df2, df3, df4], ticker=ticker, 
-                  show_volume=True, show_banker_RSI=False)
+        subcharts(
+                  [df1, df2, df3, df4], 
+                  ticker=ticker, 
+                  show_volume=True, 
+                  show_banker_RSI=False
+                 )
+        return
+
+    # Scan file case - only runs if scan_file is provided
+    scan_path = Path(scan_file)
+    if not scan_path.exists() and not scan_path.parent.name == "scanner":
+        scan_path = SCANNER_DIR / scan_path.name
+    
+    if not scan_path.exists():
+        print(f"Error: Scan file not found at {scan_path}")
+        list_scan_files()
+        return
+        
+    subcharts(scan_file=scan_path)
 
 # FETCH TICKERS -------------------------------------------
 
@@ -105,8 +111,13 @@ def scan():
              # 'h_StDevOversold_OBSupport',
              # 'h_OBSupport',
              # 'h_TTMSqueeze',
-             # 'h_QQEMODBullishReversal'
-             'h_QQEMODBearishReversal'
+
+             # 'w_QQEMODBullishReversal'
+             # 'w_QQEMODBearishReversal'
+             # 'd_QQEMODBullishReversal'
+             # 'd_QQEMODBearishReversal'
+             # 'h_QQEMODBearishReversal'
+             # 'h_QQEMODBearishReversal'
             ]
 
     for scan in scans:
@@ -117,120 +128,18 @@ def scan():
         }
         run_scanner(**kwargs)
 
-# FULL RUN (FETCH TICKERS + INDICATORS + SCANNER) ---------
-
-def full_run():
-    """Clear folders + fetch data + generate indicators + run scanner"""
-    clear_folders() ; print('=== CLEAR DATA FOLDERS ===\n')
-    fetch()         ; print('=== FETCH TICKERS ===\n')
-    ind()           ; print('=== RUN INDICATORS ===\n')
-    scan()          ; print('=== RUN SCANNER ===\n')
-
-# UTILITIES -----------------------------------------------
-
-def list_scan_files():
-    """List available scan files with dates"""
-    print(SCANNER_DIR)
-    scans = sorted(SCANNER_DIR.glob("scan_results_*.csv"), 
-                key=lambda f: f.stat().st_mtime, reverse=True)
-    if not scans:
-        print("No scan files found in data/scanner/")
-        return
-    
-    print("\nAvailable scan files:")
-    for i, scan in enumerate(scans[:10]):  # Show 10 most recent
-        print(f"{i+1}. {scan.name}")
-    print("\nUse with: --vis --scan-file 'filename.csv'")
-
-def clear_folder(folder_path):
-    """Clear a specific folder"""
-    if folder_path.exists():
-        for item in folder_path.glob('*'):
-            try:
-                if item.is_file():
-                    item.unlink()
-                elif item.is_dir():
-                    shutil.rmtree(item)
-            except Exception as e:
-                print(f"Error deleting {item}: {e}")
-        print(f"Cleared folder: {folder_path}")
-    else:
-        print(f"Folder does not exist: {folder_path}")
-
-def clear_folders():
-    """Clear all data folders"""
-    folders = [TICKERS_DIR, INDICATORS_DIR, SCANNER_DIR]
-    for folder in folders:
-        clear_folder(folder)
-
-def clear_screenshots():
-    """Clear screenshots folder"""
-    screenshots_dir = PROJECT_ROOT / "data" / "screenshots"
-    clear_folder(screenshots_dir)
-
 # COMMAND LINE INTERFACE (CLI) ----------------------------
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Stock Analysis Toolkit")
 
-    parser.add_argument('--vis',      action='store_true', help='Launch visualization')
-    parser.add_argument('--fetch',    action='store_true', help='Fetch ticker data')
-    parser.add_argument('--ind',      action='store_true', help='Generate indicators')
-    parser.add_argument('--scan',     action='store_true', help='Run scanner')
-    parser.add_argument('--full-run', action='store_true', 
-                        help='Complete pipeline: clear folders, fetch data, generate indicators, run scanner')
-
-    parser.add_argument('--scan-file', type=str, default=None,
-                        help='Specify scan file (e.g. "scan_results_300625.csv")')
-
-    parser.add_argument('--clear-all',         action='store_true',
-                        help='Clear all data folders (tickers, indicators, scanner)')
-    parser.add_argument('--clear-tickers',     action='store_true',
-                        help='Clear only the tickers data folder')
-    parser.add_argument('--clear-indicators',  action='store_true',
-                        help='Clear only the indicators data folder')
-    parser.add_argument('--clear-scanner',     action='store_true',
-                        help='Clear only the scanner results folder')
-    parser.add_argument('--clear-screenshots', action='store_true',
-                        help='Clear the screenshots folder')
-
-    parser.add_argument('--list-scans', action='store_true',
-                        help='Show available scan files')
-    
-    args = parser.parse_args()
-
-    # Handle folder clearing first
-    if   args.clear_all:         clear_folders()
-    elif args.clear_tickers:     clear_folder(TICKERS_DIR)
-    elif args.clear_indicators:  clear_folder(INDICATORS_DIR)
-    elif args.clear_scanner:     clear_folder(SCANNER_DIR)
-    elif args.clear_screenshots: clear_screenshots()
-
-    # Then handle other commands
-    elif args.list_scans:        list_scan_files()
-    elif args.vis:               vis(scan_file=args.scan_file)
-    elif args.fetch:             fetch()
-    elif args.ind:               ind()
-    elif args.scan:              scan()
-    elif args.full_run:          full_run()
-    else:
-        print("""Available commands:
-        Visualization:
-          --vis                              Launch visualization
-          --vis --scan-file "filename.csv"   Visualize specific scan
-        
-        Data Management:
-          --fetch                            Fetch ticker data
-          --ind                              Generate indicators
-          --scan                             Run scanner
-          --full-run                         Reset + Tickers + Indicators + Scanner
-        
-        Folder Management:
-          --clear-all                        Clear all data folders
-          --clear-tickers                    Clear only tickers data
-          --clear-indicators                 Clear only indicators data
-          --clear-scanner                    Clear only scanner results
-          --clear-screenshots                Clear screenshots folder
-        
-        Utilities:
-          --list-scans                       Show available scan files""")
+    # python app.py to get :help commands
+    execute_cli(
+                TICKERS_DIR=TICKERS_DIR,
+                INDICATORS_DIR=INDICATORS_DIR,
+                SCANNER_DIR=SCANNER_DIR,
+                SCREENSHOTS_DIR=SCREENSHOTS_DIR,
+                vis=vis,
+                fetch=fetch,
+                ind=ind,
+                scan=scan,
+               )

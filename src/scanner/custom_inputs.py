@@ -69,6 +69,28 @@ scan_configs = {
         }
     },
 
+    'w_QQEMODBullishReversal': {
+        'criteria': {
+            'weekly': ['QQEMOD_bullish_reversal'],
+        },
+        'params': {
+            'QQEMOD_bullish_reversal': {
+                'weekly': {'min_red_candles': 3},
+            }
+        }
+    },
+
+    'w_QQEMODBearishReversal': {
+        'criteria': {
+            'weekly': ['QQEMOD_bearish_reversal'],
+        },
+        'params': {
+            'QQEMOD_bearish_reversal': {
+                'weekly': {'min_red_candles': 3},
+            }
+        }
+    },
+
     # Weekly + Daily ======================================
 
     'wd_bankerRSI_OBSupport': {
