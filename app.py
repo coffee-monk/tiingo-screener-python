@@ -10,13 +10,10 @@ from src.fetch_data.fetch_tickers  import fetch_tickers
 from src.fetch_data.fetch_ticker   import fetch_ticker
 from src.scanner.scanner           import run_scanner
 from src.visualization.subcharts   import subcharts
-from src.scanner.custom_inputs     import scan_configs
-from src.indicators.custom_inputs  import ind_configs
+from src.scanner.custom_scans.custom_scans import custom_scans
+from src.indicators.ind_configs.ind_configs import indicators, params
 
 API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
-
-indicators = ind_configs['indicators']
-params     = ind_configs['params']
 
 # VISUALIZATION ------------------------------------------
 
@@ -24,17 +21,17 @@ def vis(scan_file=None):
 
     if not scan_file:
 
-        ticker = 'BTCUSD'
-        
+        ticker = 'SOFI'
+
         df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
         df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
         df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
         df4 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
 
         df1 = get_indicators(df1, indicators['daily'], params['daily'])
-        df2 = get_indicators(df2, indicators['daily'], params['daily2'])
+        df2 = get_indicators(df2, indicators['daily'], params['daily_2'])
         df3 = get_indicators(df3, indicators['1hour'], params['1hour'])
-        df4 = get_indicators(df4, indicators['1hour'], params['1hour2'])
+        df4 = get_indicators(df4, indicators['1hour'], params['1hour_2'])
 
         subcharts(
                   [df1, df2, df3, df4], 
@@ -107,25 +104,24 @@ def scan():
              # 'h_OBSupport',
              # 'h_TTMSqueeze',
 
-             # 'w_QQEMODBullishReversal'
-             # 'w_QQEMODBearishReversal'
-             # 'd_QQEMODBullishReversal'
-             # 'd_QQEMODBearishReversal'
-             # 'h_QQEMODBearishReversal'
-             # 'h_QQEMODBearishReversal'
+             'w_QQEMODBullishReversal',
+             'w_QQEMODBearishReversal',
+             'd_QQEMODBullishReversal',
+             'd_QQEMODBearishReversal',
+             'h_QQEMODBearishReversal',
+             'h_QQEMODBearishReversal',
 
             ]
 
     for scan in scans:
         kwargs = {
-            'criteria': scan_configs[scan]['criteria'],
-            'criteria_params': scan_configs[scan]['params'],
+            'criteria': custom_scans[scan]['criteria'],
+            'criteria_params': custom_scans[scan]['params'],
             'scan_name': scan
         }
         run_scanner(**kwargs)
 
 # COMMAND LINE INTERFACE (CLI) ----------------------------
 
-# RUN 'python app.py' in TERMINAL to get HELP command list
-
+# RUN 'python app.py' for HELP command list
 if __name__ == "__main__": init_cli(vis, fetch, ind, scan)
