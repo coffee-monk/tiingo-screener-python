@@ -25,7 +25,7 @@ def init_cli(
     parser.add_argument('--fetch',             action='store_true', help='Fetch ticker data')
     parser.add_argument('--ind',               action='store_true', help='Generate indicators')
     parser.add_argument('--scan',              action='store_true', help='Run scanner')
-    parser.add_argument('--full-run',          action='store_true', help='Complete pipeline: clear folders, fetch data, generate indicators, run scanner')
+    parser.add_argument('--full-run',          action='store_true', help='Reset + Tickers + Indicators + Scanner')
     parser.add_argument('--clear-all',         action='store_true', help='Clear all data folders')
     parser.add_argument('--clear-tickers',     action='store_true', help='Clear only the tickers data folder')
     parser.add_argument('--clear-indicators',  action='store_true', help='Clear only the indicators data folder')
@@ -42,35 +42,34 @@ def init_cli(
     elif args.ind:               ind()
     elif args.scan:              scan()
     elif args.full_run:          full_run()
-    elif args.clear_all:         clear_folders()
+    elif args.clear_all:         clear_folders(TICKERS_DIR, INDICATORS_DIR, SCANNER_DIR)
     elif args.clear_tickers:     clear_folder(TICKERS_DIR)
     elif args.clear_indicators:  clear_folder(INDICATORS_DIR)
     elif args.clear_scanner:     clear_folder(SCANNER_DIR)
     elif args.clear_screenshots: clear_folder(SCREENSHOTS_DIR)
     elif args.list_scans:        list_scan_files(SCANNER_DIR)
 
-    else: print(
-                """\nAvailable commands: 
-                Visualization:
-                  --vis                              Launch visualization
-                  --vis --scan-file "filename.csv"   Visualize specific scan
+    else: print("""\nAvailable commands:\n 
+        Visualization:
+          --vis                              Launch visualization
+          --vis --scan-file "filename.csv"   Visualize specific scan
        
-                Data Management:
-                  --fetch                            Fetch ticker data
-                  --ind                              Generate indicators
-                  --scan                             Run scanner
-                  --full-run                         Reset + Tickers + Indicators + Scanner
+        Data Management:
+          --fetch                            Fetch ticker data
+          --ind                              Generate indicators
+          --scan                             Run scanner
+          --full-run                         Reset + Tickers + Indicators + Scanner
        
-                Folder Management:
-                  --clear-all                        Clear all data folders
-                  --clear-tickers                    Clear only tickers data
-                  --clear-indicators                 Clear only indicators data
-                  --clear-scanner                    Clear only scanner results
-                  --clear-screenshots                Clear screenshots folder
+        Folder Management:
+          --clear-all                        Clear all data folders
+          --clear-tickers                    Clear only tickers data
+          --clear-indicators                 Clear only indicators data
+          --clear-scanner                    Clear only scanner results
+          --clear-screenshots                Clear screenshots folder
        
-                Utilities:
-                  --list-scans                       Show available scan files"""
-               )
+        Utilities:
+          --list-scans                       Show available scan files\n"""
+        )
 
 # CLI UTILITY FUNCTIONS -----------------------------------
 

@@ -2,3 +2,6 @@
   - use as long range support zone
   - find when current price in long range aVWAP level
   - try to find the breakout from long consolidations
+
+- align StDev values and candle-coloring with conventional trading zones
+  - in order to find natural support/resistance levels

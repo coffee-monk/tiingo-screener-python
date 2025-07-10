@@ -1,5 +1,4 @@
 import os
-from src.CLI import init_cli, SCANNER_DIR, list_scan_files
 import argparse
 import pandas as pd
 from pathlib import Path
@@ -10,8 +9,9 @@ from src.fetch_data.fetch_tickers  import fetch_tickers
 from src.fetch_data.fetch_ticker   import fetch_ticker
 from src.scanner.scanner           import run_scanner
 from src.visualization.subcharts   import subcharts
-from src.scanner.custom_scans.custom_scans import custom_scans
+from src.scanner.scan_configs.scan_configs import scan_configs
 from src.indicators.ind_configs.ind_configs import indicators, params
+from src.CLI import init_cli, SCANNER_DIR, list_scan_files
 
 API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
 
@@ -57,19 +57,19 @@ def vis(scan_file=None):
 
 def fetch():
 
-    # fetch_tickers(['weekly'], api_key=API_KEY)
+    fetch_tickers(['weekly'], api_key=API_KEY)
     fetch_tickers(['daily'],  api_key=API_KEY)
-    # fetch_tickers(['1hour'],  api_key=API_KEY)
-    # fetch_tickers(['5min'],   api_key=API_KEY)
+    fetch_tickers(['1hour'],  api_key=API_KEY)
+    fetch_tickers(['5min'],   api_key=API_KEY)
 
 # INDICATORS ----------------------------------------------
 
 def ind():
 
-    # run_indicators(indicators['weekly'], params['weekly'], "weekly")
+    run_indicators(indicators['weekly'], params['weekly'], "weekly")
     run_indicators(indicators['daily'],  params['daily'],  "daily")
-    # run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
-    # run_indicators(indicators['5min'],   params['5min'],   "5min")
+    run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
+    run_indicators(indicators['5min'],   params['5min'],   "5min")
 
 # SCANNER -------------------------------------------------
 
@@ -104,19 +104,19 @@ def scan():
              # 'h_OBSupport',
              # 'h_TTMSqueeze',
 
-             'w_QQEMODBullishReversal',
-             'w_QQEMODBearishReversal',
-             'd_QQEMODBullishReversal',
-             'd_QQEMODBearishReversal',
-             'h_QQEMODBearishReversal',
+             # 'w_QQEMODBullishReversal',
+             # 'w_QQEMODBearishReversal',
+             # 'd_QQEMODBullishReversal',
+             # 'd_QQEMODBearishReversal',
+             # 'h_QQEMODBearishReversal',
              'h_QQEMODBearishReversal',
 
             ]
 
     for scan in scans:
         kwargs = {
-            'criteria': custom_scans[scan]['criteria'],
-            'criteria_params': custom_scans[scan]['params'],
+            'criteria': scan_configs[scan]['criteria'],
+            'criteria_params': scan_configs[scan]['params'],
             'scan_name': scan
         }
         run_scanner(**kwargs)

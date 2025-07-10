@@ -4,7 +4,7 @@ from typing import Dict, Any
 
 # Initialize combined dictionaries
 all_indicators = {}
-all_params = {}
+all_params     = {}
 
 # Load and merge all config files
 for f in Path(__file__).parent.glob('ind_conf_*.py'):
@@ -23,5 +23,5 @@ for f in Path(__file__).parent.glob('ind_conf_*.py'):
             all_params[f"{timeframe}_{config_id}"] = param_set
 
 # Export the combined dictionaries
-indicators = all_indicators
-params = all_params
+indicators     = all_indicators
+params         = all_params

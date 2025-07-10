@@ -56,8 +56,6 @@ indicators = {
 
 params = {
 
-        # Weekly ------------------------------------------
-
         'weekly': {
             'candle_colors': {
                 'indicator_color': 'QQEMOD',
@@ -105,8 +103,6 @@ params = {
             'divergence_Fisher': {'period': 26, 'lookback': 26},
             'divergence_Vortex': {'period': 26, 'lookback': 26}
         },
-
-        # Daily -------------------------------------------
 
         'daily': {
             'candle_colors': {
@@ -157,8 +153,6 @@ params = {
         },
 
 
-        # 1Hour -------------------------------------------
-
         '1hour': {
             'candle_colors': {
                 'indicator_color': 'QQEMOD',
@@ -206,8 +200,6 @@ params = {
             'divergence_Fisher': {'period': 128, 'lookback': 64},
             'divergence_Vortex': {'period': 128, 'lookback': 64}
         },
-
-         # 5min --------------------------------------------
 
         '5min': {
             'candle_colors': {
