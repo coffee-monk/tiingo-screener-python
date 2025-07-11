@@ -5,3 +5,9 @@
 
 - align StDev values and candle-coloring with conventional trading zones
   - in order to find natural support/resistance levels
+
+- update aVWAP ind function
+  - param to: 
+    - only start creating VALLEYS starting from the LOWEST value
+    - only start creating PEAKS starting from the HIGHEST value
+  - to get a better idea of the true range of the current price

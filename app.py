@@ -21,7 +21,7 @@ def vis(scan_file=None):
 
     if not scan_file:
 
-        ticker = 'SOFI'
+        ticker = 'BTCUSD'
 
         # df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
         df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
@@ -34,7 +34,6 @@ def vis(scan_file=None):
         # df4 = get_indicators(df4, indicators['1hour'], params['1hour_2'])
 
         print(df2.columns)
-        print(df2)
 
         subcharts(
                   [df2], 
@@ -82,35 +81,35 @@ def scan():
 
              # --- Multi-Timeframe Scans ---
 
-             # 'w_QQEMODOversold_d_OBullishZone',
+             'w_QQEMODOversold_d_OBullishZone',
 
-             # 'd_StDevOversold_h_OBSupport',
-             # 'd_StDevOverbought_h_OBResistance',
-             # 'd_OBSupport_h_OBSupport',
-             # 'd_OBResistance_h_OBResistance',
+             'd_StDevOversold_h_OBSupport',
+             'd_StDevOverbought_h_OBResistance',
+             'd_OBSupport_h_OBSupport',
+             'd_OBResistance_h_OBResistance',
 
-             # 'w_bankerRSI_QQEMODOversold',
-             # 'w_OBSupport',
-             # 'w_bankerRSI',
-             # 'w_bankerRSI_QQEMODOversold',
+             'w_bankerRSI_QQEMODOversold',
+             'w_OBSupport',
+             'w_bankerRSI',
+             'w_bankerRSI_QQEMODOversold',
 
              # --- Single-Timeframe Scans ---
 
-             # 'w_QQEMODBullishReversal',
-             # 'w_QQEMODBearishReversal',
+             'w_QQEMODBullishReversal',
+             'w_QQEMODBearishReversal',
 
-             # 'd_aVWAPavgBelow_OBBullish',
-             # 'd_QQEMODBullishReversal',
-             # 'd_QQEMODBearishReversal',
-             # 'd_QQEMODOversold_OBSupport',
-             # 'd_bankerRSI_QQEMODOversold',
-             # 'd_aVWAPavg',
-             # 'd_SMA',
+             'd_aVWAPavgBelow_OBBullish',
+             'd_QQEMODBullishReversal',
+             'd_QQEMODBearishReversal',
+             'd_QQEMODOversold_OBSupport',
+             'd_bankerRSI_QQEMODOversold',
+             'd_aVWAPavg',
+             'd_SMA',
 
-             # 'h_StDevOversold_OBSupport',
-             # 'h_OBSupport',
-             # 'h_QQEMODBearishReversal',
-             # 'h_QQEMODBearishReversal',
+             'h_StDevOversold_OBSupport',
+             'h_OBSupport',
+             'h_QQEMODBearishReversal',
+             'h_QQEMODBearishReversal',
              'h_aVWAPavgBelow_OBBullish',
 
             ]

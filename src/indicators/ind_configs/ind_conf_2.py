@@ -16,6 +16,7 @@ indicators = {
         'daily': [
             'aVWAP', 
             'candle_colors', 
+            'liquidity', 
             # 'StDev', 
             # 'QQEMOD', 
             # 'banker_RSI',
@@ -109,26 +110,27 @@ params = {
                 'indicator_color': 'StDev',
                 'custom_params': {
                     'StDev': {
-                        'std_lookback': 20, 'avg_lookback': 20,
+                        'std_lookback': 100, 'avg_lookback': 20,
                         'centreline': 'peaks_valleys_avg',
-                        'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None}
+                        'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': 20}
                     }
                 }
             },
             'aVWAP': {
-                'peaks_valleys': False, 
+                'peaks_valleys': True,
                 'peaks_valleys_avg': True,
                 'peaks_avg': False,
-                'valleys_avg': True,
-                'peaks_valleys_params': {'periods': 10, 'max_aVWAPs': None},
-                'OB': False, 
+                'valleys_avg': False,
+                'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
+                'OB': False,
                 'OB_avg': False,
                 'OB_params': {'periods': 10, 'max_aVWAPs': None},
-                'gaps': False, 
+                'gaps': False,
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 20},
-                'avg_lookback': 1, 
-                'keep_OB_column': False
+                'avg_lookback': 20,
+                'keep_OB_column': False,
+                'aVWAP_channel': True,
             },
             'OB': {'periods': 20},
             'StDev': {
@@ -142,7 +144,7 @@ params = {
                 'bb_length': 50, 'bb_multi': 0.35
             },
             'SMA': {'periods': [200]},
-            'liquidity': {'swing_length': 20, 'range_percent': 0.1},
+            'liquidity': {'swing_length': 20, 'range_percent': 10.0},
             'supertrend': {'period': 14, 'multiplier': 3},
             'TTM_squeeze': {
                 'bb_length': 18, 'bb_std_dev': 1.9,
