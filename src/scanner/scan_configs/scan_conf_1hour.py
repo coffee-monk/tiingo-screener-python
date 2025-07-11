@@ -104,4 +104,15 @@ scan_conf = {
         }
     },
 
+    'h_aVWAPavgBelow_OBBullish': {
+        'criteria': {
+            '1hour': ['aVWAP_avg_below', 'OB_bullish'],
+        },
+        'params': {
+            'aVWAP_avg_below': {
+                '1hour': {'distance_pct': 1.0},
+            },
+        }
+    },
+
 }

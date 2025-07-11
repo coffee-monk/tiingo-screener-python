@@ -21,20 +21,23 @@ def vis(scan_file=None):
 
     if not scan_file:
 
-        ticker = 'SHOP'
+        ticker = 'SOFI'
 
-        df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
+        # df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
         df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
-        df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
-        df4 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
+        # df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
+        # df4 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
 
-        df1 = get_indicators(df1, indicators['daily'], params['daily'])
-        df2 = get_indicators(df2, indicators['daily'], params['daily_2'])
-        df3 = get_indicators(df3, indicators['1hour'], params['1hour'])
-        df4 = get_indicators(df4, indicators['1hour'], params['1hour_2'])
+        # df1 = get_indicators(df1, indicators['daily'], params['daily'])
+        df2 = get_indicators(df2, indicators['daily_2'], params['daily_2'])
+        # df3 = get_indicators(df3, indicators['1hour'], params['1hour'])
+        # df4 = get_indicators(df4, indicators['1hour'], params['1hour_2'])
+
+        print(df2.columns)
+        print(df2)
 
         subcharts(
-                  [df1, df2, df3, df4], 
+                  [df2], 
                   ticker=ticker, 
                   show_volume=True, 
                   show_banker_RSI=False
@@ -77,39 +80,38 @@ def scan():
 
     scans = [
 
-             # 'wd_bankerRSI_OBSupport',
-             # 'wd_QQEMODOverbought_OBearishZone',
+             # --- Multi-Timeframe Scans ---
 
-             # 'dh_StDevOversold_OBSupport',
-             # 'dh_StDevOverbought_OBResistance',
-             # 'dh_OBSupport',
-             # 'dh_OBResistance',
+             # 'w_QQEMODOversold_d_OBullishZone',
+
+             # 'd_StDevOversold_h_OBSupport',
+             # 'd_StDevOverbought_h_OBResistance',
+             # 'd_OBSupport_h_OBSupport',
+             # 'd_OBResistance_h_OBResistance',
 
              # 'w_bankerRSI_QQEMODOversold',
              # 'w_OBSupport',
-             # 'w_bankerRSI'
+             # 'w_bankerRSI',
              # 'w_bankerRSI_QQEMODOversold',
-             # 'w_TTMSqueeze',
 
-             # 'd_QQEMODOversold_OBSupport',
-             # 'd_bankerRSI_QQEMODOversold',
-             # 'd_aVWAPavg',
-             # 'd_aVWAPavgAbove',
-             # 'd_aVWAPavgBelow',
-             # 'd_SMAAbove',
-             # 'd_SMABelow',
-             # 'd_TTMSqueeze',
-
-             # 'h_StDevOversold_OBSupport',
-             # 'h_OBSupport',
-             # 'h_TTMSqueeze',
+             # --- Single-Timeframe Scans ---
 
              # 'w_QQEMODBullishReversal',
              # 'w_QQEMODBearishReversal',
+
+             # 'd_aVWAPavgBelow_OBBullish',
              # 'd_QQEMODBullishReversal',
              # 'd_QQEMODBearishReversal',
+             # 'd_QQEMODOversold_OBSupport',
+             # 'd_bankerRSI_QQEMODOversold',
+             # 'd_aVWAPavg',
+             # 'd_SMA',
+
+             # 'h_StDevOversold_OBSupport',
+             # 'h_OBSupport',
              # 'h_QQEMODBearishReversal',
-             'h_QQEMODBearishReversal',
+             # 'h_QQEMODBearishReversal',
+             'h_aVWAPavgBelow_OBBullish',
 
             ]
 

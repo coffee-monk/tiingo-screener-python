@@ -43,8 +43,8 @@ def _load_scan_data(scan_file):
 def subcharts(
     df_list=None,
     ticker='',
-    show_volume=False,
-    show_banker_RSI=True,
+    show_volume=True,
+    show_banker_RSI=False,
     scan_file=None,
 ):
     """

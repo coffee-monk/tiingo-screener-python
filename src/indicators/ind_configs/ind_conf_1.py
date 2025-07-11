@@ -7,7 +7,7 @@ indicators = {
             'QQEMOD', 
             'banker_RSI',
             'SMA',
-            'supertrend', 
+            # 'supertrend', 
             'OB', 
             'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -20,7 +20,7 @@ indicators = {
             'QQEMOD', 
             'banker_RSI',
             'SMA',
-            'supertrend', 
+            # 'supertrend', 
             'OB', 
             'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -33,7 +33,7 @@ indicators = {
             'QQEMOD', 
             'banker_RSI',
             'SMA',
-            'supertrend', 
+            # 'supertrend', 
             'OB', 
             'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -47,7 +47,7 @@ indicators = {
             'QQEMOD',
             'banker_RSI', 
             'SMA', 
-            'supertrend', 
+            # 'supertrend', 
             'OB', 
             'TTM_squeeze',
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'

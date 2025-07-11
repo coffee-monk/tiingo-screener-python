@@ -91,7 +91,7 @@ scan_conf = {
 
     # Weekly + Daily ======================================
 
-    'wd_bankerRSI_OBSupport': {
+    'w_bankerRSI_d_OBSupport': {
         'criteria': {
             'weekly': ['banker_RSI'],
             'daily': ['OB_bullish_support'],
@@ -103,7 +103,7 @@ scan_conf = {
         },
     },
 
-    'wd_QQEMODOversold_OBullishZone': {
+    'w_QQEMODOversold_d_OBullishZone': {
         'criteria': {
             'weekly': ['QQEMOD_oversold'],
             'daily': ['OB_bullish_below_aVWAP']
@@ -111,7 +111,7 @@ scan_conf = {
         'params': None
     },
 
-    'wd_QQEMODOverbought_OBearishZone': {
+    'w_QQEMODOverbought_d_OBearishZone': {
         'criteria': {
             'weekly': ['QQEMOD_overbought'],
             'daily': ['OB_bearish_above_aVWAP']
@@ -119,7 +119,7 @@ scan_conf = {
         'params': None
     },
 
-    'wd_supertrendBearish_OBullishZone': {
+    'w_supertrendBearish_d_OBullishZone': {
         'criteria': {
             'weekly': ['supertrend_bearish'],
             'daily': ['OB_bullish_below_aVWAP']

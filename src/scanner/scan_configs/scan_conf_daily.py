@@ -148,9 +148,20 @@ scan_conf = {
         }
     },
 
+    'd_aVWAPavgBelow_OBBullish': {
+        'criteria': {
+            'daily': ['aVWAP_avg_below', 'OB_bullish'],
+        },
+        'params': {
+            'aVWAP_avg_below': {
+                'daily': {'distance_pct': 1.0},
+            },
+        }
+    },
+
     # Daily + 1hour =======================================
 
-    ' dh_divergences_bullish': {
+    ' d_DivBullish_h_DivBullish': {
         'criteria': {
             'daily': ['divergences_bullish'],
             '1hour': ['divergences_bullish']
@@ -163,7 +174,7 @@ scan_conf = {
         }
     },
 
-    'dh_divergences_bearish': {
+    'd_DivBearish_h_DivBearish': {
         'criteria': {
             'daily': ['divergences_bearish'],
             '1hour': ['divergences_bearish']
@@ -176,7 +187,7 @@ scan_conf = {
         }
     },
 
-    'dh_StDevOversold_OBSupport': {
+    'd_StDevOversold_h_OBSupport': {
         'criteria': {
             'daily': ['StDev_oversold'],
             '1hour': ['OB_bullish_support']
@@ -191,7 +202,7 @@ scan_conf = {
         }
     },
 
-    'dh_StDevOverbought_OBResistance': {
+    'd_StDevOverbought_h_OBResistance': {
         'criteria': {
             'daily': ['StDev_overbought'],
             '1hour': ['OB_bearish_resistance']
@@ -206,7 +217,7 @@ scan_conf = {
         }
     },
 
-    'dh_OBSupport': {
+    'd_OBSupport_h_OBSupport': {
         'criteria': {
             'daily': ['OB_bullish_support'],
             '1hour': ['OB_bullish_support']
@@ -219,7 +230,7 @@ scan_conf = {
         }
     },
 
-    'dh_OBResistance': {
+    'd_OBResistance_h_OBResistance': {
         'criteria': {
             'daily': ['OB_bearish_resistance'],
             '1hour': ['OB_bearish_resistance']
@@ -232,7 +243,7 @@ scan_conf = {
         }
     },
 
-    'dh_SMA': {
+    'd_SMA_h_SMA': {
         'criteria': {
             'daily': ['SMA'],
             '1hour': ['SMA'],
