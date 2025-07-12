@@ -35,7 +35,7 @@ indicators = {
             # 'banker_RSI',
             # 'SMA',
             # 'supertrend', 
-            # 'OB', 
+            'OB', 
             # 'TTM_squeeze', 
             # 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
@@ -119,8 +119,8 @@ params = {
             'aVWAP': {
                 'peaks_valleys': True,
                 'peaks_valleys_avg': True,
-                'peaks_avg': False,
-                'valleys_avg': False,
+                'peaks_avg': True,
+                'valleys_avg': True,
                 'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
                 'OB': False,
                 'OB_avg': False,
@@ -161,24 +161,27 @@ params = {
                 'indicator_color': 'StDev',
                 'custom_params': {
                     'StDev': {
-                        'std_lookback': 16, 'avg_lookback': 16,
+                        'std_lookback': 16, 'avg_lookback': 20,
                         'centreline': 'peaks_valleys_avg',
-                        'peaks_valleys_params': {'periods': 16, 'max_aVWAPs': None}
+                        'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None}
                     }
                 }
             },
             'aVWAP': {
-                'peaks_valleys': False, 
+                'peaks_valleys': True,
                 'peaks_valleys_avg': True,
-                'peaks_valleys_params': {'periods': 16, 'max_aVWAPs': None},
-                'OB': True, 
+                'peaks_avg': True,
+                'valleys_avg': True,
+                'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
+                'OB': False,
                 'OB_avg': False,
-                'OB_params': {'periods': 16, 'max_aVWAPs': 5},
-                'gaps': False, 
+                'OB_params': {'periods': 10, 'max_aVWAPs': None},
+                'gaps': False,
                 'gaps_avg': False,
-                'gaps_params': {'max_aVWAPs': 16},
-                'avg_lookback': 16, 
-                'keep_OB_column': False
+                'gaps_params': {'max_aVWAPs': 20},
+                'avg_lookback': 20,
+                'keep_OB_column': False,
+                'aVWAP_channel': True,
             },
             'OB': {'periods': 16},
             'StDev': {
