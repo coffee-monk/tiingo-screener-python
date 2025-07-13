@@ -14,12 +14,12 @@ indicators = {
         ],
 
         'daily': [
-            'aVWAP', 
+            # 'aVWAP', 
             'candle_colors', 
-            'liquidity', 
+            # 'liquidity', 
             # 'StDev', 
             # 'QQEMOD', 
-            # 'banker_RSI',
+            'banker_RSI',
             # 'SMA',
             # 'supertrend', 
             # 'OB', 
@@ -117,13 +117,13 @@ params = {
                 }
             },
             'aVWAP': {
-                'peaks_valleys': False,
-                'peaks_valleys_avg': True,
+                'peaks_valleys': True,
+                'peaks_valleys_avg': False,
                 'peaks_avg': False,
                 'valleys_avg': False,
                 'peaks_valleys_params': {'periods': 30, 'max_aVWAPs': None},
                 'OB': False,
-                'OB_avg': True,
+                'OB_avg': False,
                 'OB_params': {'periods': 10, 'max_aVWAPs': None},
                 'gaps': False,
                 'gaps_avg': False,

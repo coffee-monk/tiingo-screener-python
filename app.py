@@ -33,10 +33,12 @@ def vis(scan_file=None):
         # df3 = get_indicators(df3, indicators['1hour'], params['1hour'])
         # df4 = get_indicators(df4, indicators['1hour_2'], params['1hour_2'])
 
+        print(df2.columns)
+
         subcharts(
-                  [df2], 
-                  ticker=ticker, 
-                  show_volume=True, 
+                  [df2],
+                  ticker=ticker,
+                  show_volume=False,
                   show_banker_RSI=False
                  )
         return
