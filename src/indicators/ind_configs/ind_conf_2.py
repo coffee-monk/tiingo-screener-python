@@ -101,7 +101,7 @@ params = {
             },
             'divergence_OBV':    {'period': 26, 'lookback': 26},
             'divergence_Volume': {'period': 26, 'lookback': 26},
-            'divergence_Fisher': {'period': 26, 'lookback': 26},
+            'divergenCe_Fisher': {'period': 26, 'lookback': 26},
             'divergence_Vortex': {'period': 26, 'lookback': 26}
         },
 
@@ -110,24 +110,25 @@ params = {
                 'indicator_color': 'StDev',
                 'custom_params': {
                     'StDev': {
-                        'std_lookback': 100, 'avg_lookback': 20,
+                        'std_lookback': 20, 'avg_lookback': 20,
                         'centreline': 'peaks_valleys_avg',
                         'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': 20}
                     }
                 }
             },
             'aVWAP': {
-                'peaks_valleys': True,
+                'peaks_valleys': False,
                 'peaks_valleys_avg': True,
-                'peaks_avg': True,
-                'valleys_avg': True,
+                'peaks_avg': False,
+                'valleys_avg': False,
                 'peaks_valleys_params': {'periods': 30, 'max_aVWAPs': None},
                 'OB': False,
-                'OB_avg': False,
+                'OB_avg': True,
                 'OB_params': {'periods': 10, 'max_aVWAPs': None},
                 'gaps': False,
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 20},
+                'All_avg': False,
                 'avg_lookback': 30,
                 'keep_OB_column': False,
                 'aVWAP_channel': True,

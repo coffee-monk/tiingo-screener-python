@@ -21,7 +21,7 @@ def vis(scan_file=None):
 
     if not scan_file:
 
-        ticker = 'MSFT'
+        ticker = 'SOFI'
 
         # df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
         df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)

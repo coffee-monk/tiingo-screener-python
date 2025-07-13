@@ -256,22 +256,24 @@ def _aVWAP_visualization(subchart, df):
             price_line=False,
             price_label=False,
             color=colors['orange_aVWAP'],
-            width=5
+            width=3,
+            style='dashed',
         ).set(df[['date', 'OB_avg']].rename(columns={'OB_avg': 'value'}))
 
     if 'Gaps_avg' in df.columns:
         subchart.create_line(
             price_line=False,
             price_label=False,
-            color=colors['gray'],
-            width=5
+            color=colors['orange_aVWAP'],
+            width=3,
+            style='dotted',
         ).set(df[['date', 'Gaps_avg']].rename(columns={'Gaps_avg': 'value'}))
 
     if 'All_avg' in df.columns:
         subchart.create_line(
             price_line=False,
             price_label=False,
-            color=colors['orange_aVWAP'],
+            color=colors['gray_trans'],
             width=5
         ).set(df[['date', 'All_avg']].rename(columns={'All_avg': 'value'}))
 

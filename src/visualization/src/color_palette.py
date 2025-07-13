@@ -35,9 +35,11 @@ def get_color_palette():
         'aqua': f"rgba(0, 255, 255, 0.75)",
         'magenta': f"rgba(255, 26, 202, 1.0)",
 
+        'gray': f"rgba(100,100,100,1.0)",
+        'gray_trans': f"rgba(100,100,100,0.5)",
+
         'white': '#ffffff',
         'black': '#000000',
-        'gray': f"rgba(100,100,100,1.0)",
 
     }
 
