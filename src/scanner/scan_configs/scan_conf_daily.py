@@ -13,6 +13,13 @@ scan_conf = {
         }
     },
 
+    'd_aVWAPChannelSupport': {
+        'criteria': {
+            'daily': ['aVWAP_channel_support'],
+        },
+        'params': {}
+    },
+
     'd_StDevOverbought_OBResistance': {
         'criteria': {
             'daily': ['StDev_overbought'],

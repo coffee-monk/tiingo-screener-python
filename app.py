@@ -68,10 +68,10 @@ def fetch():
 
 def ind():
 
-    run_indicators(indicators['weekly'], params['weekly'], "weekly")
-    run_indicators(indicators['daily'],  params['daily'],  "daily")
-    run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
-    run_indicators(indicators['5min'],   params['5min'],   "5min")
+    # run_indicators(indicators['weekly'], params['weekly'], "weekly")
+    run_indicators(indicators['daily_2'],  params['daily_2'],  "daily")
+    # run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
+    # run_indicators(indicators['5min'],   params['5min'],   "5min")
 
 # SCANNER -------------------------------------------------
 
@@ -81,36 +81,38 @@ def scan():
 
              # --- Multi-Timeframe Scans ---
 
-             'w_QQEMODOversold_d_OBullishZone',
+             # 'w_QQEMODOversold_d_OBullishZone',
 
-             'd_StDevOversold_h_OBSupport',
-             'd_StDevOverbought_h_OBResistance',
-             'd_OBSupport_h_OBSupport',
-             'd_OBResistance_h_OBResistance',
+             # 'd_StDevOversold_h_OBSupport',
+             # 'd_StDevOverbought_h_OBResistance',
+             # 'd_OBSupport_h_OBSupport',
+             # 'd_OBResistance_h_OBResistance',
 
-             'w_bankerRSI_QQEMODOversold',
-             'w_OBSupport',
-             'w_bankerRSI',
-             'w_bankerRSI_QQEMODOversold',
+             # 'w_bankerRSI_QQEMODOversold',
+             # 'w_OBSupport',
+             # 'w_bankerRSI',
+             # 'w_bankerRSI_QQEMODOversold',
 
              # --- Single-Timeframe Scans ---
 
-             'w_QQEMODBullishReversal',
-             'w_QQEMODBearishReversal',
+             # 'w_QQEMODBullishReversal',
+             # 'w_QQEMODBearishReversal',
 
-             'd_aVWAPavgBelow_OBBullish',
-             'd_QQEMODBullishReversal',
-             'd_QQEMODBearishReversal',
-             'd_QQEMODOversold_OBSupport',
-             'd_bankerRSI_QQEMODOversold',
-             'd_aVWAPavg',
-             'd_SMA',
+             # 'd_aVWAPavgBelow_OBBullish',
+             # 'd_QQEMODBullishReversal',
+             # 'd_QQEMODBearishReversal',
+             # 'd_QQEMODOversold_OBSupport',
+             # 'd_bankerRSI_QQEMODOversold',
+             # 'd_aVWAPavg',
+             # 'd_SMA',
 
-             'h_StDevOversold_OBSupport',
-             'h_OBSupport',
-             'h_QQEMODBearishReversal',
-             'h_QQEMODBearishReversal',
-             'h_aVWAPavgBelow_OBBullish',
+             # 'h_StDevOversold_OBSupport',
+             # 'h_OBSupport',
+             # 'h_QQEMODBearishReversal',
+             # 'h_QQEMODBearishReversal',
+             # 'h_aVWAPavgBelow_OBBullish',
+
+            'd_aVWAPChannelSupport'
 
             ]
 

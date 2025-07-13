@@ -14,17 +14,17 @@ indicators = {
         ],
 
         'daily': [
-            # 'aVWAP', 
+            'aVWAP', 
             'candle_colors', 
             # 'liquidity', 
-            # 'StDev', 
-            # 'QQEMOD', 
+            'StDev', 
+            'QQEMOD', 
             'banker_RSI',
-            # 'SMA',
+            'SMA',
             # 'supertrend', 
-            # 'OB', 
+            'OB', 
             # 'TTM_squeeze', 
-            # 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
         '1hour': [
@@ -118,10 +118,10 @@ params = {
             },
             'aVWAP': {
                 'peaks_valleys': True,
-                'peaks_valleys_avg': False,
+                'peaks_valleys_avg': True,
                 'peaks_avg': False,
                 'valleys_avg': False,
-                'peaks_valleys_params': {'periods': 30, 'max_aVWAPs': None},
+                'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
                 'OB': False,
                 'OB_avg': False,
                 'OB_params': {'periods': 10, 'max_aVWAPs': None},
@@ -129,7 +129,7 @@ params = {
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 20},
                 'All_avg': False,
-                'avg_lookback': 30,
+                'avg_lookback': 20,
                 'keep_OB_column': False,
                 'aVWAP_channel': True,
             },
