@@ -59,27 +59,31 @@ params = {
 
         'weekly': {
             'candle_colors': {
-                'indicator_color': 'QQEMOD',
+                'indicator_color': 'StDev',
                 'custom_params': {
-                    'QQEMOD': {
-                        'rsi_period': 8, 'rsi_period2': 8, 'sf': 6, 'sf2': 6,
-                        'qqe_factor': 3.5, 'qqe_factor2': 2.0, 'threshold': 4,
-                        'bb_length': 60, 'bb_multi': 0.4
-                    },
+                    'StDev': {
+                        'std_lookback': 20, 'avg_lookback': 20,
+                        'centreline': 'peaks_valleys_avg',
+                        'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': 20}
+                    }
                 }
             },
             'aVWAP': {
-                'peaks_valleys': False, 
-                'peaks_valleys_avg': True,
-                'peaks_valleys_params': {'periods': 8, 'max_aVWAPs': None},
-                'OB': False, 
+                'peaks_valleys': True,
+                'peaks_valleys_avg': False,
+                'peaks_avg': True,
+                'valleys_avg': True,
+                'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
+                'OB': False,
                 'OB_avg': False,
-                'OB_params': {'periods': 4, 'max_aVWAPs': None},
-                'gaps': False, 
+                'OB_params': {'periods': 10, 'max_aVWAPs': None},
+                'gaps': False,
                 'gaps_avg': False,
-                'gaps_params': {'max_aVWAPs': 4},
-                'avg_lookback': 8, 
-                'keep_OB_column': True
+                'gaps_params': {'max_aVWAPs': 20},
+                'All_avg': False,
+                'avg_lookback': 20,
+                'keep_OB_column': False,
+                'aVWAP_channel': True,
             },
             'OB': {'periods': 4},
             'StDev': {
@@ -118,9 +122,9 @@ params = {
             },
             'aVWAP': {
                 'peaks_valleys': True,
-                'peaks_valleys_avg': True,
-                'peaks_avg': False,
-                'valleys_avg': False,
+                'peaks_valleys_avg': False,
+                'peaks_avg': True,
+                'valleys_avg': True,
                 'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
                 'OB': False,
                 'OB_avg': False,
@@ -170,7 +174,7 @@ params = {
             },
             'aVWAP': {
                 'peaks_valleys': True,
-                'peaks_valleys_avg': True,
+                'peaks_valleys_avg': False,
                 'peaks_avg': True,
                 'valleys_avg': True,
                 'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
@@ -180,6 +184,7 @@ params = {
                 'gaps': False,
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 20},
+                'All_avg': False,
                 'avg_lookback': 20,
                 'keep_OB_column': False,
                 'aVWAP_channel': True,
@@ -210,27 +215,31 @@ params = {
 
         '5min': {
             'candle_colors': {
-                'indicator_color': 'QQEMOD',
+                'indicator_color': 'StDev',
                 'custom_params': {
-                    'QQEMOD': {
-                        'rsi_period': 4, 'rsi_period2': 4, 'sf': 3, 'sf2': 3,
-                        'qqe_factor': 2.0, 'qqe_factor2': 1.0, 'threshold': 1.5,
-                        'bb_length': 30, 'bb_multi': 0.25
-                    },
+                    'StDev': {
+                        'std_lookback': 20, 'avg_lookback': 20,
+                        'centreline': 'peaks_valleys_avg',
+                        'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': 20}
+                    }
                 }
             },
             'aVWAP': {
-                'peaks_valleys': False, 
-                'peaks_valleys_avg': True,
+                'peaks_valleys': True,
+                'peaks_valleys_avg': False,
+                'peaks_avg': True,
+                'valleys_avg': True,
                 'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
-                'OB': False, 
+                'OB': False,
                 'OB_avg': False,
-                'OB_params': {'periods': 20, 'max_aVWAPs': 1},
-                'gaps': False, 
+                'OB_params': {'periods': 10, 'max_aVWAPs': None},
+                'gaps': False,
                 'gaps_avg': False,
-                'gaps_params': {'max_aVWAPs': 10},
-                'avg_lookback': 10, 
-                'keep_OB_column': False
+                'gaps_params': {'max_aVWAPs': 20},
+                'All_avg': False,
+                'avg_lookback': 20,
+                'keep_OB_column': False,
+                'aVWAP_channel': True,
             },
             'OB': {'periods': 20},
             'StDev': {

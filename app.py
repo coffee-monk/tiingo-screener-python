@@ -21,7 +21,7 @@ def vis(scan_file=None):
 
     if not scan_file:
 
-        ticker = 'SOFI'
+        ticker = 'NVDA'
 
         # df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
         df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
@@ -36,10 +36,10 @@ def vis(scan_file=None):
         print(df2.columns)
 
         subcharts(
-                  [df2],
-                  ticker=ticker,
-                  show_volume=False,
-                  show_banker_RSI=False
+                  # [df2],
+                  # ticker=ticker,
+                  # show_volume=False,
+                  # show_banker_RSI=False
                  )
         return
 
@@ -68,10 +68,10 @@ def fetch():
 
 def ind():
 
-    # run_indicators(indicators['weekly'], params['weekly'], "weekly")
+    run_indicators(indicators['weekly_2'], params['weekly_2'], "weekly")
     run_indicators(indicators['daily_2'],  params['daily_2'],  "daily")
-    # run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
-    # run_indicators(indicators['5min'],   params['5min'],   "5min")
+    run_indicators(indicators['1hour_2'],  params['1hour_2'],  "1hour")
+    run_indicators(indicators['5min_2'],   params['5min_2'],   "5min")
 
 # SCANNER -------------------------------------------------
 
