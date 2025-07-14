@@ -21,25 +21,25 @@ def vis(scan_file=None):
 
     if not scan_file:
 
-        ticker = 'BTCUSD'
+        ticker = 'META'
 
         # df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
         df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
-        # df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
+        df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
         # df4 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
 
         # df1 = get_indicators(df1, indicators['daily'], params['daily'])
         df2 = get_indicators(df2, indicators['daily_2'], params['daily_2'])
-        # df3 = get_indicators(df3, indicators['1hour'], params['1hour'])
+        df3 = get_indicators(df3, indicators['1hour_2'], params['1hour_2'])
         # df4 = get_indicators(df4, indicators['1hour_2'], params['1hour_2'])
 
         print(df2.columns)
 
         subcharts(
-                  [df2],
+                  [df2, df3],
                   ticker=ticker,
                   show_volume=False,
-                  show_banker_RSI=False
+                  show_banker_RSI=True
                  )
         return
 

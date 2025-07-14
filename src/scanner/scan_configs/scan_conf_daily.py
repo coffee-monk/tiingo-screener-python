@@ -2,13 +2,13 @@ scan_conf = {
 
     # Daily ===============================================
 
-    'd_StDevOversold_OBSupport': {
+    'd_aVWAPChannelTop': {
         'criteria': {
-            'daily': ['StDev_oversold', 'OB_bullish_support'],
+            'daily': ['aVWAP_channel_resistance'],
         },
         'params': {
-            'StDev_oversold': {
-                'daily': {'threshold': 2}
+            'aVWAP_channel_support': {
+                'daily': {'distance_pct': 1.0, 'direction': 'above'}
             },
         }
     },
@@ -24,13 +24,13 @@ scan_conf = {
         }
     },
 
-    'd_aVWAPChannelTop': {
+    'd_StDevOversold_OBSupport': {
         'criteria': {
-            'daily': ['aVWAP_channel_resistance'],
+            'daily': ['StDev_oversold', 'OB_bullish_support'],
         },
         'params': {
-            'aVWAP_channel_support': {
-                'daily': {'distance_pct': 1.0, 'direction': 'above'}
+            'StDev_oversold': {
+                'daily': {'threshold': 2}
             },
         }
     },
