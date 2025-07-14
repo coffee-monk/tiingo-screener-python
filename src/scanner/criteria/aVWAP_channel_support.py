@@ -1,6 +1,6 @@
 import pandas as pd
 
-def aVWAP_channel_support(df, distance_pct=100.0, direction='below'):
+def aVWAP_channel_support(df, distance_pct=1.0, direction='below'):
     """
     Scan for price near the lowest aVWAP with directional control.
     

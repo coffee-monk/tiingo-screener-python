@@ -21,7 +21,7 @@ def vis(scan_file=None):
 
     if not scan_file:
 
-        ticker = 'NVDA'
+        ticker = 'BTCUSD'
 
         # df1 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
         df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
@@ -36,10 +36,10 @@ def vis(scan_file=None):
         print(df2.columns)
 
         subcharts(
-                  # [df2],
-                  # ticker=ticker,
-                  # show_volume=False,
-                  # show_banker_RSI=False
+                  [df2],
+                  ticker=ticker,
+                  show_volume=False,
+                  show_banker_RSI=False
                  )
         return
 
@@ -112,7 +112,9 @@ def scan():
              # 'h_QQEMODBearishReversal',
              # 'h_aVWAPavgBelow_OBBullish',
 
-            'd_aVWAPChannelSupport'
+            'd_aVWAPChannelBottom',
+            'd_aVWAPChannelTop',
+            # 'd_aVWAPChannelOversold',
 
             ]
 

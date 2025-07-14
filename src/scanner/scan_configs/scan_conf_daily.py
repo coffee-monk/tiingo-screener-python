@@ -13,11 +13,26 @@ scan_conf = {
         }
     },
 
-    'd_aVWAPChannelSupport': {
+    'd_aVWAPChannelBottom': {
         'criteria': {
             'daily': ['aVWAP_channel_support'],
         },
-        'params': {}
+        'params': {
+            'aVWAP_channel_support': {
+                'daily': {'distance_pct': 1.0, 'direction': 'below'}
+            },
+        }
+    },
+
+    'd_aVWAPChannelTop': {
+        'criteria': {
+            'daily': ['aVWAP_channel_resistance'],
+        },
+        'params': {
+            'aVWAP_channel_support': {
+                'daily': {'distance_pct': 1.0, 'direction': 'above'}
+            },
+        }
     },
 
     'd_StDevOverbought_OBResistance': {
@@ -264,3 +279,4 @@ scan_conf = {
     },
 
 }
+
