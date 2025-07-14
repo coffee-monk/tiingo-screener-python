@@ -24,6 +24,29 @@ scan_conf = {
         }
     },
 
+    'd_aVWAPPeaksavg': {
+        'criteria': {
+            'daily': ['aVWAP_peaks_avg'],
+        },
+        'params': {
+            'aVWAP_peaks_avg': {
+                'daily': {'distance_pct': 1.0, 'direction': 'both'}
+            },
+        }
+    },
+
+    'd_aVWAPValleysavg': {
+        'criteria': {
+            'daily': ['aVWAP_valleys_avg'],
+        },
+        'params': {
+            'aVWAP_valleys_avg': {
+                'daily': {'distance_pct': 1.0, 'direction': 'both'}
+            },
+        }
+    },
+
+
     'd_StDevOversold_OBSupport': {
         'criteria': {
             'daily': ['StDev_oversold', 'OB_bullish_support'],

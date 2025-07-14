@@ -112,8 +112,10 @@ def scan():
              # 'h_QQEMODBearishReversal',
              # 'h_aVWAPavgBelow_OBBullish',
 
-            'd_aVWAPChannelBottom',
-            'd_aVWAPChannelTop',
+            # 'd_aVWAPChannelBottom',
+            # 'd_aVWAPChannelTop',
+            'd_aVWAPPeaksavg',
+            'd_aVWAPValleysavg',
             # 'd_aVWAPChannelOversold',
 
             ]
