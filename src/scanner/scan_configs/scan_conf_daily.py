@@ -8,7 +8,7 @@ scan_conf = {
         },
         'params': {
             'aVWAP_channel_resistance': {
-                'daily': {'distance_pct': 20.0, 'direction': 'above'}
+                'daily': {'distance_pct': 10.0, 'direction': 'above'}
             },
         }
     },
@@ -19,7 +19,7 @@ scan_conf = {
         },
         'params': {
             'aVWAP_channel_support': {
-                'daily': {'distance_pct': 20.0, 'direction': 'below'}
+                'daily': {'distance_pct': 10.0, 'direction': 'below'}
             },
         }
     },
@@ -45,7 +45,6 @@ scan_conf = {
             },
         }
     },
-
 
     'd_StDevOversold_OBSupport': {
         'criteria': {

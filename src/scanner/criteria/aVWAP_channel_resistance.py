@@ -1,20 +1,16 @@
 import pandas as pd
 
-def aVWAP_channel_resistance(df, distance_pct=50.0, direction='above'):
+def aVWAP_channel_resistance(df, distance_pct=10.0, direction='above'):
     """
-    Scan for price MINIMUM distance from highest aVWAP (resistance scanning).
-    Opposite of aVWAP_channel_support - uses highest aVWAP as reference.
+    Enhanced resistance scanner with 'within' range check for 'within' direction.
     
     Parameters:
-        df: DataFrame with aVWAP_peak_* and aVWAP_valley_* columns
-        distance_pct: MINIMUM percentage distance required
-        direction: Where to look relative to resistance:
-                  'above' - Price must be AT LEAST distance_pct% above highest aVWAP
-                  'below' - Price must be AT LEAST distance_pct% below highest aVWAP  
-                  'both' - Price must be AT LEAST distance_pct% away (either side)
-    
-    Returns:
-        pd.DataFrame: Signal details if conditions met, else empty.
+        df: DataFrame with aVWAP columns
+        distance_pct: Percentage threshold
+        direction: 
+            'above' - Price must be ≥X% above resistance (distance >= X%)
+            'below' - Price must be ≥X% below resistance (distance <= -X%)
+            'within' - Price must be WITHIN X% of resistance (abs(distance) <= X%)
     """
     if len(df) == 0:
         return pd.DataFrame()
@@ -29,24 +25,23 @@ def aVWAP_channel_resistance(df, distance_pct=50.0, direction='above'):
     highest_aVWAP = max(current_aVWAPs)
     distance = (latest['Close'] - highest_aVWAP) / highest_aVWAP * 100
     
-    # MINIMUM distance checks (opposite logic from support scanner)
+    # Updated conditions
     if direction == 'above':
-        condition = (distance >= distance_pct)  # Must be at least X% above resistance
+        condition = (distance >= distance_pct)  # At least X% above resistance
     elif direction == 'below':
-        condition = (distance <= -distance_pct)  # Must be at least X% below resistance
-    else:  # 'both'
-        condition = (abs(distance) >= distance_pct)  # Must be at least X% away
+        condition = (distance <= -distance_pct)  # At least X% below resistance
+    else:  # 'within' (now checks for within range)
+        condition = (abs(distance) <= distance_pct)  # Within X% range
     
     if condition:
-        result = pd.DataFrame({
+        return pd.DataFrame({
             'Close': latest['Close'],
-            'Signal': f'MinResistanceDistance_{direction}',
+            'Signal': f'aVWAP_Resistance_{direction}',
             'Highest_aVWAP': highest_aVWAP,
             'Distance_Pct': distance,
-            'Min_Required_Pct': distance_pct,
+            'Threshold_Pct': distance_pct,
             'Position': 'above' if distance > 0 else 'below',
-            'Lowest_aVWAP': min(current_aVWAPs)  # For context
+            'Lowest_aVWAP': min(current_aVWAPs)  # Still included for context
         }, index=[latest.name])
-        return result
     
     return pd.DataFrame()

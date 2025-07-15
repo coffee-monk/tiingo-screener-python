@@ -2,6 +2,72 @@ scan_conf = {
 
     # 1hour ==============================================
 
+    'h_aVWAPChannelOverbought': {
+        'criteria': {
+            '1hour': ['aVWAP_channel_resistance'],
+        },
+        'params': {
+            'aVWAP_channel_resistance': {
+                '1hour': {'distance_pct': 10.0, 'direction': 'above'}
+            },
+        }
+    },
+
+    'h_aVWAPChannelOversold': {
+        'criteria': {
+            '1hour': ['aVWAP_channel_support'],
+        },
+        'params': {
+            'aVWAP_channel_support': {
+                '1hour': {'distance_pct': 10.0, 'direction': 'below'}
+            },
+        }
+    },
+
+    'h_aVWAPChannelResistance': {
+        'criteria': {
+            '1hour': ['aVWAP_channel_resistance'],
+        },
+        'params': {
+            'aVWAP_channel_resistance': {
+                '1hour': {'distance_pct': 5.0, 'direction': 'both'}
+            },
+        }
+    },
+
+    'h_aVWAPChannelSupport': {
+        'criteria': {
+            '1hour': ['aVWAP_channel_support'],
+        },
+        'params': {
+            'aVWAP_channel_support': {
+                '1hour': {'distance_pct': 5.0, 'direction': 'both'}
+            },
+        }
+    },
+
+    'h_aVWAPPeaksavg': {
+        'criteria': {
+            '1hour': ['aVWAP_peaks_avg'],
+        },
+        'params': {
+            'aVWAP_peaks_avg': {
+                '1hour': {'distance_pct': 1.0, 'direction': 'both'}
+            },
+        }
+    },
+
+    'h_aVWAPValleysavg': {
+        'criteria': {
+            '1hour': ['aVWAP_valleys_avg'],
+        },
+        'params': {
+            'aVWAP_valleys_avg': {
+                '1hour': {'distance_pct': 1.0, 'direction': 'both'}
+            },
+        }
+    },
+
     'h_StDevOversold_OBSupport': {
         'criteria': {
             '1hour': ['StDev_oversold', 'OB_bullish_support'],

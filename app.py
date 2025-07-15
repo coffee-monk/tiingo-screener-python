@@ -111,12 +111,16 @@ def scan():
              # 'h_QQEMODBearishReversal',
              # 'h_QQEMODBearishReversal',
              # 'h_aVWAPavgBelow_OBBullish',
+             'h_aVWAPChannelOversold',
+             'h_aVWAPChannelOverbought',
+             'h_aVWAPPeaksavg',
+             'h_aVWAPValleysavg',
 
-            'd_aVWAPChannelOversold',
-            'd_aVWAPChannelOverbought',
-            # 'd_aVWAPPeaksavg',
-            # 'd_aVWAPValleysavg',
-            # 'd_aVWAPChannelOversold',
+             # 'd_aVWAPChannelOversold',
+             # 'd_aVWAPChannelOverbought',
+             # 'd_aVWAPPeaksavg',
+             # 'd_aVWAPValleysavg',
+             # 'd_aVWAPChannelOversold',
 
             ]
 

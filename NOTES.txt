@@ -13,3 +13,5 @@
   - to get a better idea of the true range of the current price
 
 - OB beneath SMA
+
+- cross-timeframe - aVWAP bottom + OB
