@@ -2,24 +2,24 @@ scan_conf = {
 
     # Daily ===============================================
 
-    'd_aVWAPChannelTop': {
+    'd_aVWAPChannelOverbought': {
         'criteria': {
             'daily': ['aVWAP_channel_resistance'],
         },
         'params': {
-            'aVWAP_channel_support': {
-                'daily': {'distance_pct': 1.0, 'direction': 'above'}
+            'aVWAP_channel_resistance': {
+                'daily': {'distance_pct': 20.0, 'direction': 'above'}
             },
         }
     },
 
-    'd_aVWAPChannelBottom': {
+    'd_aVWAPChannelOversold': {
         'criteria': {
             'daily': ['aVWAP_channel_support'],
         },
         'params': {
             'aVWAP_channel_support': {
-                'daily': {'distance_pct': 1.0, 'direction': 'below'}
+                'daily': {'distance_pct': 20.0, 'direction': 'below'}
             },
         }
     },

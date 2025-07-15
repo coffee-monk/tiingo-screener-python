@@ -11,3 +11,5 @@
     - only start creating VALLEYS starting from the LOWEST price
     - only start creating PEAKS starting from the HIGHEST price
   - to get a better idea of the true range of the current price
+
+- OB beneath SMA

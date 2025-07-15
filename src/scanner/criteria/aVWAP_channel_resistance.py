@@ -1,17 +1,17 @@
 import pandas as pd
 
-def aVWAP_channel_resistance(df, distance_pct=1.0, direction='above'):
+def aVWAP_channel_resistance(df, distance_pct=50.0, direction='above'):
     """
-    Scan for price near the highest aVWAP in the channel (resistance level).
+    Scan for price MINIMUM distance from highest aVWAP (resistance scanning).
+    Opposite of aVWAP_channel_support - uses highest aVWAP as reference.
     
     Parameters:
         df: DataFrame with aVWAP_peak_* and aVWAP_valley_* columns
-        distance_pct: Percentage distance from resistance level 
-                     (positive = above resistance, negative = below resistance)
+        distance_pct: MINIMUM percentage distance required
         direction: Where to look relative to resistance:
-                  'above' - Only prices above resistance (breakouts)
-                  'below' - Only prices below resistance (rejections)
-                  'both' - Either side (default behavior)
+                  'above' - Price must be AT LEAST distance_pct% above highest aVWAP
+                  'below' - Price must be AT LEAST distance_pct% below highest aVWAP  
+                  'both' - Price must be AT LEAST distance_pct% away (either side)
     
     Returns:
         pd.DataFrame: Signal details if conditions met, else empty.
@@ -20,39 +20,33 @@ def aVWAP_channel_resistance(df, distance_pct=1.0, direction='above'):
         return pd.DataFrame()
     
     latest = df.iloc[-1]
-    
-    # Get all active aVWAP values
     aVWAP_cols = [col for col in df.columns if col.startswith('aVWAP_')]
     current_aVWAPs = [latest[col] for col in aVWAP_cols if pd.notna(latest[col])]
     
-    # Need at least one valid aVWAP
-    if not current_aVWAPs:
+    if not current_aVWAPs or pd.isna(latest['Close']):
         return pd.DataFrame()
     
-    # Calculate resistance level (highest aVWAP)
-    resistance_level = max(current_aVWAPs)
-    lowest_aVWAP = min(current_aVWAPs)
+    highest_aVWAP = max(current_aVWAPs)
+    distance = (latest['Close'] - highest_aVWAP) / highest_aVWAP * 100
     
-    # Calculate percentage distance from resistance
-    distance = (latest['Close'] - resistance_level) / resistance_level * 100
-    
-    # Directional checks
-    if direction == 'below':
-        condition = (-distance_pct <= distance <= 0)  # Below resistance only
-    elif direction == 'above':
-        condition = (0 <= distance <= distance_pct)  # Above resistance only
+    # MINIMUM distance checks (opposite logic from support scanner)
+    if direction == 'above':
+        condition = (distance >= distance_pct)  # Must be at least X% above resistance
+    elif direction == 'below':
+        condition = (distance <= -distance_pct)  # Must be at least X% below resistance
     else:  # 'both'
-        condition = abs(distance) <= distance_pct  # Either side
+        condition = (abs(distance) >= distance_pct)  # Must be at least X% away
     
     if condition:
         result = pd.DataFrame({
-            'Resistance_Level': resistance_level,
-            'Support_Level': lowest_aVWAP,  # For context
+            'Close': latest['Close'],
+            'Signal': f'MinResistanceDistance_{direction}',
+            'Highest_aVWAP': highest_aVWAP,
             'Distance_Pct': distance,
-            'Position': 'below' if distance < 0 else 'above',
-            'Channel_Width_Pct': (resistance_level - lowest_aVWAP) / lowest_aVWAP * 100
+            'Min_Required_Pct': distance_pct,
+            'Position': 'above' if distance > 0 else 'below',
+            'Lowest_aVWAP': min(current_aVWAPs)  # For context
         }, index=[latest.name])
-        
         return result
     
     return pd.DataFrame()
