@@ -24,21 +24,21 @@ def vis(scan_file=None, ticker=None):
         if not ticker: ticker = 'BTCUSD'
 
         # df1 = fetch_ticker(timeframe='w', ticker=ticker, api_key=API_KEY)
-        df2 = fetch_ticker(timeframe='d', ticker=ticker, api_key=API_KEY)
-        df3 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
-        df5 = fetch_ticker(timeframe='4h', ticker=ticker, api_key=API_KEY)
-        # df4 = fetch_ticker(timeframe='h', ticker=ticker, api_key=API_KEY)
+        df2 = fetch_ticker(timeframe='d',  ticker=ticker, api_key=API_KEY)
+        df3 = fetch_ticker(timeframe='4h', ticker=ticker, api_key=API_KEY)
+        df4 = fetch_ticker(timeframe='h',  ticker=ticker, api_key=API_KEY)
+        # df5 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
         # df1 = get_indicators(df1, indicators['weekly_2'], params['weekly_2'])
         df2 = get_indicators(df2, indicators['daily_2'], params['daily_2'])
-        df3 = get_indicators(df3, indicators['1hour_2'], params['1hour_2'])
-        df5 = get_indicators(df5, indicators['4hour_2'], params['4hour_2'])
-        # df4 = get_indicators(df4, indicators['1hour_2'], params['1hour_2'])
+        df3 = get_indicators(df3, indicators['4hour_2'], params['4hour_2'])
+        df4 = get_indicators(df4, indicators['1hour_2'], params['1hour_2'])
+        # df5 = get_indicators(df5, indicators['5min'], params['5min'])
 
         # print(df2.columns)
 
         subcharts(
-                  [df2, df5, df3],
+                  [df2, df3, df4],
                   ticker=ticker,
                   show_volume=False,
                   show_banker_RSI=True
@@ -63,17 +63,19 @@ def fetch():
 
     fetch_tickers(['weekly'], api_key=API_KEY)
     fetch_tickers(['daily'],  api_key=API_KEY)
+    fetch_tickers(['4hour'],  api_key=API_KEY)
     fetch_tickers(['1hour'],  api_key=API_KEY)
-    fetch_tickers(['5min'],   api_key=API_KEY)
+    # fetch_tickers(['5min'],   api_key=API_KEY)
 
 # INDICATORS ----------------------------------------------
 
 def ind():
 
-    run_indicators(indicators['weekly_2'], params['weekly_2'], "weekly")
+    # run_indicators(indicators['weekly_2'], params['weekly_2'], "weekly")
     run_indicators(indicators['daily_2'],  params['daily_2'],  "daily")
-    run_indicators(indicators['1hour_2'],  params['1hour_2'],  "1hour")
-    run_indicators(indicators['5min_2'],   params['5min_2'],   "5min")
+    # run_indicators(indicators['1hour_2'],  params['1hour_2'],  "1hour")
+    # run_indicators(indicators['4hour_2'],  params['4hour_2'],  "4hour")
+    # run_indicators(indicators['5min_2'],   params['5min_2'],   "5min")
 
 # SCANNER -------------------------------------------------
 
@@ -108,15 +110,20 @@ def scan():
              # 'd_aVWAPavg',
              # 'd_SMA',
 
+             '4h_aVWAPChannelOversold',
+             '4h_aVWAPChannelOverbought',
+             '4h_aVWAPPeaksavg',
+             '4h_aVWAPValleysavg',
+
              # 'h_StDevOversold_OBSupport',
              # 'h_OBSupport',
              # 'h_QQEMODBearishReversal',
              # 'h_QQEMODBearishReversal',
              # 'h_aVWAPavgBelow_OBBullish',
-             # 'h_aVWAPChannelOversold',
-             # 'h_aVWAPChannelOverbought',
-             # 'h_aVWAPPeaksavg',
-             # 'h_aVWAPValleysavg',
+             'h_aVWAPChannelOversold',
+             'h_aVWAPChannelOverbought',
+             'h_aVWAPPeaksavg',
+             'h_aVWAPValleysavg',
 
              'd_aVWAPChannelOversold',
              'd_aVWAPChannelOverbought',
