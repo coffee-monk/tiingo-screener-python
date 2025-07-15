@@ -33,11 +33,12 @@ def init_cli(
     parser.add_argument('--clear-screenshots', action='store_true', help='Clear the screenshots folder') 
     parser.add_argument('--list-scans',        action='store_true', help='Show available scan files')
     parser.add_argument('--scan-file', type=str, default=None, help='Specify scan file (e.g. "scan_results_300625.csv")')
+    parser.add_argument('--ticker', type=str, default=None, help='vis(ticker=ticker)')
 
     args = parser.parse_args()
 
     # Execute commands
-    if   args.vis:               vis(scan_file=args.scan_file)
+    if   args.vis:               vis(scan_file=args.scan_file, ticker=args.ticker)
     elif args.fetch:             fetch()
     elif args.ind:               ind()
     elif args.scan:              scan()
