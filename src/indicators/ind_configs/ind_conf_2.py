@@ -5,12 +5,12 @@ indicators = {
             'candle_colors', 
             # 'StDev', 
             # 'QQEMOD', 
-            # 'banker_RSI',
+            'banker_RSI',
             # 'SMA',
             # 'supertrend', 
             # 'OB', 
             # 'TTM_squeeze', 
-            # 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
         'daily': [
@@ -27,30 +27,30 @@ indicators = {
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
-        '1hour': [
-            'aVWAP', 
-            'candle_colors',
-            # 'StDev', 
-            # 'QQEMOD', 
-            # 'banker_RSI',
-            # 'SMA',
-            # 'supertrend', 
-            'OB', 
-            # 'TTM_squeeze', 
-            # 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
-        ],
-
         '4hour': [
             'aVWAP', 
             'candle_colors',
             # 'StDev', 
             # 'QQEMOD', 
-            # 'banker_RSI',
+            'banker_RSI',
             # 'SMA',
             # 'supertrend', 
             'OB', 
             # 'TTM_squeeze', 
-            # 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+        ],
+
+        '1hour': [
+            'aVWAP', 
+            'candle_colors',
+            # 'StDev', 
+            # 'QQEMOD', 
+            'banker_RSI',
+            # 'SMA',
+            # 'supertrend', 
+            'OB', 
+            # 'TTM_squeeze', 
+            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
         '5min': [
@@ -64,7 +64,7 @@ indicators = {
             # 'supertrend', 
             # 'OB', 
             # 'TTM_squeeze',
-            # 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ]
 }
 
