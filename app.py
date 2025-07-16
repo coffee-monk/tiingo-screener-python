@@ -71,10 +71,10 @@ def fetch():
 
 def ind():
 
-    # run_indicators(indicators['weekly_2'], params['weekly_2'], "weekly")
+    run_indicators(indicators['weekly_2'], params['weekly_2'], "weekly")
     run_indicators(indicators['daily_2'],  params['daily_2'],  "daily")
-    # run_indicators(indicators['1hour_2'],  params['1hour_2'],  "1hour")
-    # run_indicators(indicators['4hour_2'],  params['4hour_2'],  "4hour")
+    run_indicators(indicators['1hour_2'],  params['1hour_2'],  "1hour")
+    run_indicators(indicators['4hour_2'],  params['4hour_2'],  "4hour")
     # run_indicators(indicators['5min_2'],   params['5min_2'],   "5min")
 
 # SCANNER -------------------------------------------------
@@ -110,25 +110,25 @@ def scan():
              # 'd_aVWAPavg',
              # 'd_SMA',
 
-             '4h_aVWAPChannelOversold',
-             '4h_aVWAPChannelOverbought',
-             '4h_aVWAPPeaksavg',
-             '4h_aVWAPValleysavg',
+             # '4h_aVWAPChannelOversold',
+             # '4h_aVWAPChannelOverbought',
+             # '4h_aVWAPPeaksavg',
+             # '4h_aVWAPValleysavg',
 
              # 'h_StDevOversold_OBSupport',
              # 'h_OBSupport',
              # 'h_QQEMODBearishReversal',
              # 'h_QQEMODBearishReversal',
              # 'h_aVWAPavgBelow_OBBullish',
-             'h_aVWAPChannelOversold',
-             'h_aVWAPChannelOverbought',
-             'h_aVWAPPeaksavg',
-             'h_aVWAPValleysavg',
+             # 'h_aVWAPChannelOversold',
+             # 'h_aVWAPChannelOverbought',
+             # 'h_aVWAPPeaksavg',
+             # 'h_aVWAPValleysavg',
 
-             'd_aVWAPChannelOversold',
-             'd_aVWAPChannelOverbought',
-             'd_aVWAPPeaksavg',
-             'd_aVWAPValleysavg',
+             # 'd_aVWAPChannelOversold',
+             # 'd_aVWAPChannelOverbought',
+             # 'd_aVWAPPeaksavg',
+             # 'd_aVWAPValleysavg',
 
             ]
 
