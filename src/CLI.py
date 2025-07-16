@@ -42,7 +42,7 @@ def init_cli(
     elif args.fetch:             fetch()
     elif args.ind:               ind()
     elif args.scan:              scan()
-    elif args.full_run:          full_run()
+    elif args.full_run:          full_run(fetch, ind, scan)
     elif args.clear_all:         clear_folders(TICKERS_DIR, INDICATORS_DIR, SCANNER_DIR)
     elif args.clear_tickers:     clear_folder(TICKERS_DIR)
     elif args.clear_indicators:  clear_folder(INDICATORS_DIR)
@@ -109,9 +109,9 @@ def clear_folders(TICKERS_DIR, INDICATORS_DIR, SCANNER_DIR):
     for folder in folders:
         clear_folder(folder)
 
-def full_run():
+def full_run(fetch, ind, scan):
     """Clear folders + fetch data + generate indicators + run scanner"""
-    clear_folders() ; print('=== CLEAR DATA FOLDERS ===\n')
-    fetch()         ; print('=== FETCH TICKERS ===\n')
-    ind()           ; print('=== RUN INDICATORS ===\n')
-    scan()          ; print('=== RUN SCANNER ===\n')
+    clear_folders(TICKERS_DIR, INDICATORS_DIR, SCANNER_DIR) ; print('=== CLEAR DATA FOLDERS ===\n')
+    fetch() ; print('=== FETCH TICKERS ===\n')
+    ind()   ; print('=== RUN INDICATORS ===\n')
+    scan()  ; print('=== RUN SCANNER ===\n')
