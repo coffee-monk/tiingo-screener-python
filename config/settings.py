@@ -7,7 +7,7 @@ DATE_STAMP = datetime.now().strftime('%d%m%y')
  
 # Project ROOT Directory
 
-PROJECT_ROOT    = Path(__file__).parent.parent
+PROJECT_ROOT = Path(__file__).parent.parent
 
 # Data Output Directories
 
@@ -19,4 +19,3 @@ SCREENSHOTS_DIR = PROJECT_ROOT / "data" / "screenshots"
 # List Directories
 
 TICKERS_LIST    = PROJECT_ROOT / 'src/fetch_data/ticker_lists/tsx.csv'
-

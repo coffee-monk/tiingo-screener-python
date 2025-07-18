@@ -11,7 +11,6 @@ from src.scanner.scanner           import run_scanner
 from src.visualization.subcharts   import subcharts
 from src.scanner.scan_configs.scan_configs import scan_configs
 from src.indicators.ind_configs.ind_configs import indicators, params
-# from src.CLI import init_cli, list_scans
 from config.CLI import init_cli, list_scans
 from config.settings import SCANNER_DIR
 
