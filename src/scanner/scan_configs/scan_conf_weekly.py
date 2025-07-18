@@ -25,10 +25,10 @@ scan_conf = {
 
     'w_OBSupport': {
         'criteria': {
-            'weekly': ['OB_bullish_support'],
+            'weekly': ['OB_support'],
         },
         'params': {
-            'OB_bullish_support': {
+            'OB_support': {
                 'weekly': {'atr_threshold_multiplier': 0.5}
             },
         },
@@ -94,10 +94,10 @@ scan_conf = {
     'w_bankerRSI_d_OBSupport': {
         'criteria': {
             'weekly': ['banker_RSI'],
-            'daily': ['OB_bullish_support'],
+            'daily': ['OB_support'],
         },
         'params': {
-            'OB_bullish_support': {
+            'OB_support': {
                 'daily': {'atr_threshold_multiplier': 0.5}
             },
         },
@@ -106,25 +106,37 @@ scan_conf = {
     'w_QQEMODOversold_d_OBullishZone': {
         'criteria': {
             'weekly': ['QQEMOD_oversold'],
-            'daily': ['OB_bullish_below_aVWAP']
+            'daily': ['OB_bullish_aVWAP']
         },
-        'params': None
+        'params': {
+            'OB_bullish_aVWAP': {
+                'daily': {'distance_pct': 0.0, 'direction': 'below'}
+            },
+        },
     },
 
     'w_QQEMODOverbought_d_OBearishZone': {
         'criteria': {
             'weekly': ['QQEMOD_overbought'],
-            'daily': ['OB_bearish_above_aVWAP']
+            'daily': ['OB_bearish_aVWAP']
         },
-        'params': None
+        'params': {
+            'OB_bearish_aVWAP': {
+                'daily': {'distance_pct': 0.0, 'direction': 'above'}
+            },
+        },
     },
 
     'w_supertrendBearish_d_OBullishZone': {
         'criteria': {
             'weekly': ['supertrend_bearish'],
-            'daily': ['OB_bullish_below_aVWAP']
+            'daily': ['OB_bullish_aVWAP']
         },
-        'params': None
+        'params': {
+            'OB_bullish_aVWAP': {
+                'daily': {'distance_pct': 0.0, 'direction': 'below'}
+            },
+        },
     },
 
 }

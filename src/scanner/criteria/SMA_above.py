@@ -1,6 +1,6 @@
 import pandas as pd
 
-def SMA_above(df, sma_periods=[50, 200], distance_pct=None, outside_range=False):
+def SMA_above(df, sma_periods=[50, 200], distance_pct=10.0, outside_range=False):
     """
     Detect when price is above moving averages, with option to scan outside distance threshold.
     

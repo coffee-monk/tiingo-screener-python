@@ -3,10 +3,7 @@ import pandas as pd
 from pathlib import Path
 from datetime import datetime
 from src.indicators.get_indicators import get_indicators
-
-PROJECT_ROOT = Path(__file__).parent.parent.parent
-INPUT_DIR = PROJECT_ROOT / "data/tickers"
-OUTPUT_DIR = PROJECT_ROOT / "data/indicators"
+from config.settings import TICKERS_DIR, INDICATORS_DIR
 
 def run_indicators(indicator_list, params=None, timeframe_filter=None):
     """
@@ -19,7 +16,7 @@ def run_indicators(indicator_list, params=None, timeframe_filter=None):
                          If None, processes all timeframes
     """
 
-    tickers_data = load_tickers(INPUT_DIR)
+    tickers_data = load_tickers(TICKERS_DIR)
     
     # Filter by timeframe if specified
     if timeframe_filter is not None:
@@ -32,8 +29,8 @@ def run_indicators(indicator_list, params=None, timeframe_filter=None):
 
     total_files = len(tickers_data)
     print('--- INDICATORS ---\n')
-    print(f"Input directory: {INPUT_DIR}")
-    print(f"Output directory: {OUTPUT_DIR}")
+    print(f"Input directory: {TICKERS_DIR}")
+    print(f"Output directory: {INDICATORS_DIR}")
     print(f"\nLoaded {total_files} datasets. Processing...")
 
     processed_count = 0
@@ -52,7 +49,7 @@ def run_indicators(indicator_list, params=None, timeframe_filter=None):
                 ticker=ticker,
                 timeframe=timeframe,
                 date_stamp=data["date_stamp"],
-                output_dir=OUTPUT_DIR
+                output_dir=INDICATORS_DIR
             )
 
         except KeyError as e:

@@ -5,14 +5,7 @@ from pathlib import Path
 from datetime import datetime
 import importlib
 import requests
-
-PROJECT_ROOT = Path(__file__).parent.parent.parent
-sys.path.append(str(PROJECT_ROOT))  # Add project root to Python path
-
-INPUT_DIR = PROJECT_ROOT / "data/indicators"
-OUTPUT_DIR = PROJECT_ROOT / "data/scanner"
-CRITERIA_DIR = PROJECT_ROOT / "src/scanner/criteria"
-SCAN_DATE = datetime.now().strftime("%d%m%y")
+from config.settings import SCANNER_DIR, INDICATORS_DIR, DATE_STAMP
 
 def run_scanner(criteria='banker_RSI', criteria_params=None, logic='AND', api_key=None, scan_name=None):
     """Ultimate flexible scanner with support for criteria parameters.
@@ -31,8 +24,8 @@ def run_scanner(criteria='banker_RSI', criteria_params=None, logic='AND', api_ke
                     criteria={ 
                      # 'weekly': ['TTM_squeeze'], 
                      'daily':  ['StDev'],
-                     # '1hour': ['OB_bullish_support'], 
-                     # '5min': ['OB_bullish_below_aVWAP'], 
+                     # '1hour': ['OB_support'], 
+                     # '5min': ['SMA_above'], 
                     }, 
                     logic='AND',
                     criteria_params={
@@ -46,8 +39,8 @@ def run_scanner(criteria='banker_RSI', criteria_params=None, logic='AND', api_ke
                    )
     """
     print('--- SCANNER ---\n')
-    print(f"Input directory: {INPUT_DIR}")
-    print(f"Output directory: {OUTPUT_DIR}")
+    print(f"Input directory: {INDICATORS_DIR}")
+    print(f"Output directory: {SCANNER_DIR}")
 
     # Initialize empty params if none provided
     if criteria_params is None:
@@ -72,7 +65,7 @@ def _simple_scan(criteria, api_key=None, criteria_params=None, scan_name=None):
     all_results = []
     for file in _get_data_files():
         ticker, timeframe = _parse_filename(file)
-        df = _load_indicator_file(INPUT_DIR / file)
+        df = _load_indicator_file(INDICATORS_DIR / file)
         
         # Pass parameters to criteria function if it accepts them
         try:
@@ -97,7 +90,7 @@ def _multi_criteria_scan(criteria_list, api_key=None, criteria_params=None, scan
     all_results = []
     for file in _get_data_files():
         ticker, timeframe = _parse_filename(file)
-        df = _load_indicator_file(INPUT_DIR / file)
+        df = _load_indicator_file(INDICATORS_DIR / file)
         
         # Check ALL criteria pass for this stock
         passed = True
@@ -169,7 +162,7 @@ def _advanced_scan(timeframe_criteria, logic='AND', api_key=None, criteria_param
 
         # Check criteria for each timeframe
         for timeframe, criteria_funcs in timeframe_configs.items():
-            df = _load_indicator_file(INPUT_DIR / files[timeframe])
+            df = _load_indicator_file(INDICATORS_DIR / files[timeframe])
             
             passed_all = True
             for criteria_func in criteria_funcs:
@@ -242,7 +235,7 @@ def _load_criteria(criteria_name):
 
 def _get_data_files():
     """Get all data files in input directory"""
-    return [f for f in os.listdir(INPUT_DIR) if f.endswith(".csv")]
+    return [f for f in os.listdir(INDICATORS_DIR) if f.endswith(".csv")]
 
 def _process_results(results, scan_type, api_key=None, scan_name=None):
     """Process and format results without fragmentation"""
@@ -282,7 +275,7 @@ def _process_results(results, scan_type, api_key=None, scan_name=None):
     
     if api_key:
         minimal_results = _attach_fundamentals_to_scanner(minimal_results, api_key)
-    _save_scan_results(minimal_results, OUTPUT_DIR, SCAN_DATE, scan_name)
+    _save_scan_results(minimal_results, SCANNER_DIR, DATE_STAMP, scan_name)
     print(f"\nResults: {scan_type} found {len(minimal_results)} setups\n")
     return minimal_results
 

@@ -1,30 +1,25 @@
 import os
 import pandas as pd
 from pathlib import Path
-from datetime import datetime
 from src.fetch_data.fetch_ticker import fetch_ticker
-
-PROJECT_ROOT = Path(__file__).parent.parent.parent
-DATE_STAMP = datetime.now().strftime('%d%m%y')
-OUTPUT_DIR = PROJECT_ROOT / 'data/tickers'
-INPUT_FILE = PROJECT_ROOT / 'src/fetch_data/ticker_lists/tsx.csv' # nasdaq_tickers.csv
+from config.settings import TICKERS_DIR, TICKERS_LIST, DATE_STAMP
 
 def fetch_tickers(
-                 timeframes=['weekly', 'daily', 'hourly', '5min'], 
-                 start_date=None,
-                 end_date=None,
-                 api_key='Tiingo_API_Key'
+                  timeframes=['weekly', 'daily', 'hourly', '5min'], 
+                  start_date=None,
+                  end_date=None,
+                  api_key='Tiingo_API_Key'
                  ):
 
     """Fetch raw ticker data for given timeframes without indicators."""
 
     print('--- FETCH TICKERS ---\n')
     print(f"Today's Date: {DATE_STAMP} (Format: DDMMYY)")
-    print(f"Input Tickers: {INPUT_FILE}")
-    print(f"Output directory: {OUTPUT_DIR}")
+    print(f"Input Tickers: {TICKERS_LIST}")
+    print(f"Output directory: {TICKERS_DIR}")
     
     # Load ticker list
-    df_stock_list = load_tickers(INPUT_FILE)
+    df_stock_list = load_tickers(TICKERS_LIST)
     total_tickers = len(df_stock_list['Ticker'].unique())
     print(f"\nLoaded {total_tickers} Tickers: {DATE_STAMP}")
     
@@ -52,8 +47,8 @@ def process_ticker(ticker, timeframes, api_key, save_to_disk=True):
             results[timeframe] = df
             
             if save_to_disk:
-                os.makedirs(OUTPUT_DIR, exist_ok=True)
-                filename = os.path.join(OUTPUT_DIR, f"{ticker}_{timeframe}_{DATE_STAMP}.csv")
+                os.makedirs(TICKERS_DIR, exist_ok=True)
+                filename = os.path.join(TICKERS_DIR, f"{ticker}_{timeframe}_{DATE_STAMP}.csv")
                 df.to_csv(filename, index=True)
                 
         except Exception as e:

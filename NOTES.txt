@@ -15,3 +15,16 @@
 - OB beneath SMA
 
 - cross-timeframe - aVWAP bottom + OB
+
+- cross-timeframe
+  - try to stack the S/R zones
+  - examples:
+    - T1 aVWAP bottom + T2 aVWAP avg
+    - T1 aVWAP bottom + T2 aVWAP bottom
+    - T1 aVWAP avg + T2 aVWAP avg
+    - etc
+
+- banker_RSI scan that checks for a number of previous zero candles
+  - to find new breakouts
+
+- control the vertical relative position of the valleys_avg and peaks_avg to get a sense of the support level

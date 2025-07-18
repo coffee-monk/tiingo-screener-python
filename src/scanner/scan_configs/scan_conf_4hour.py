@@ -70,7 +70,7 @@ scan_conf = {
 
     '4h_StDevOversold_OBSupport': {
         'criteria': {
-            '4hour': ['StDev_oversold', 'OB_bullish_support'],
+            '4hour': ['StDev_oversold', 'OB_support'],
         },
         'params': {
             'StDev_oversold': {
@@ -81,10 +81,10 @@ scan_conf = {
 
     '4h_OBSupport': {
         'criteria': {
-            '4hour': ['OB_bullish_support'],
+            '4hour': ['OB_support'],
         },
         'params': {
-            'OB_bullish_support': {
+            'OB_support': {
                 '4hour': {'atr_threshold_multiplier': 0.5}
             },
         }
@@ -172,12 +172,16 @@ scan_conf = {
 
     '4h_aVWAPavgBelow_OBBullish': {
         'criteria': {
-            '4hour': ['aVWAP_avg_below', 'OB_bullish'],
+            '4hour': ['aVWAP_avg', 'OB_bullish'],
         },
         'params': {
-            'aVWAP_avg_below': {
-                '4hour': {'distance_pct': 1.0},
-            },
+            'aVWAP_avg': {
+                '4hour': {
+                          'direction': 'below',
+                          'distance_pct': 1.0, 
+                          'outside_range': False
+                },
+            }
         }
     },
 

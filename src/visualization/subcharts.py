@@ -1,5 +1,6 @@
 import pandas as pd
 from pathlib import Path
+from config.settings import SCANNER_DIR, INDICATORS_DIR
 from src.visualization.src.indicators import add_visualizations
 from src.visualization.src.charts import (
     get_charts,
@@ -8,18 +9,14 @@ from src.visualization.src.charts import (
     add_ui_elements
 )
 
-# Global variable to track active scan file
 CURRENT_SCAN_FILE = None
-PROJECT_ROOT = Path(__file__).parent.parent.parent
-SCANNER_DIR = PROJECT_ROOT / "data" / "scanner"
-INDICATOR_DIR = PROJECT_ROOT / "data" / "indicators"
 
 def _get_latest_scan():
     """Get newest scan file in scanner directory"""
     files = sorted(SCANNER_DIR.glob("scan_results_*.csv"), 
                  key=lambda f: f.stat().st_mtime, reverse=True)
     if not files:
-        raise FileNotFoundError("No scan files found in data/scanner/")
+        raise FileNotFoundError("No scan files found in data/scans/")
     return files[0]
 
 def _load_scan_data(scan_file):
@@ -50,7 +47,7 @@ def subcharts(
     """
     Visualize data with automatic scan file path handling.
     Usage:
-    - subcharts(scan_file='filename.csv')  # Auto-finds in data/scanner/
+    - subcharts(scan_file='filename.csv')  # Auto-finds in data/scans/
     - subcharts()  # Loads latest scan
     - subcharts([df1, df2])  # Manual mode
     """
