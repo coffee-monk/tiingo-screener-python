@@ -38,7 +38,7 @@ def run_scanner(criteria='banker_RSI', criteria_params=None, logic='AND', api_ke
                         }
                    )
     """
-    print('--- SCANNER ---\n')
+    print('\n=== SCANNER ===\n')
     print(f"Input directory: {INDICATORS_DIR}")
     print(f"Output directory: {SCANNER_DIR}")
 

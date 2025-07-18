@@ -28,7 +28,7 @@ def run_indicators(indicator_list, params=None, timeframe_filter=None):
             return
 
     total_files = len(tickers_data)
-    print('--- INDICATORS ---\n')
+    print('\n=== INDICATORS ===\n')
     print(f"Input directory: {TICKERS_DIR}")
     print(f"Output directory: {INDICATORS_DIR}")
     print(f"\nLoaded {total_files} datasets. Processing...")

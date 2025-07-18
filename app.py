@@ -73,9 +73,9 @@ def vis(scan_file=None, ticker=None):
 def fetch():
 
     fetch_tickers(['weekly'], api_key=API_KEY)
-    # fetch_tickers(['daily'],  api_key=API_KEY)
-    # fetch_tickers(['4hour'],  api_key=API_KEY)
-    # fetch_tickers(['1hour'],  api_key=API_KEY)
+    fetch_tickers(['daily'],  api_key=API_KEY)
+    fetch_tickers(['4hour'],  api_key=API_KEY)
+    fetch_tickers(['1hour'],  api_key=API_KEY)
     # fetch_tickers(['5min'],   api_key=API_KEY)
 
 # INDICATORS ----------------------------------------------
@@ -84,8 +84,8 @@ def ind():
 
     run_indicators(indicators['weekly_2'], params['weekly_2'], "weekly")
     run_indicators(indicators['daily_2'],  params['daily_2'],  "daily")
-    run_indicators(indicators['1hour_2'],  params['1hour_2'],  "1hour")
     run_indicators(indicators['4hour_2'],  params['4hour_2'],  "4hour")
+    run_indicators(indicators['1hour_2'],  params['1hour_2'],  "1hour")
     # run_indicators(indicators['5min_2'],   params['5min_2'],   "5min")
 
 # SCANNER -------------------------------------------------
@@ -100,8 +100,8 @@ def scan():
              #
              # 'd_StDevOversold_h_OBSupport',
              # 'd_StDevOverbought_h_OBResistance',
-             'h_OBResistance',
-             'h_OBSupport',
+             # 'h_OBResistance',
+             # 'h_OBSupport',
 
              # 'd_OBSupport_h_OBSupport',
              # 'd_OBResistance_h_OBResistance',

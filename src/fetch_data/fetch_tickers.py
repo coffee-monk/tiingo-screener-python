@@ -13,7 +13,7 @@ def fetch_tickers(
 
     """Fetch raw ticker data for given timeframes without indicators."""
 
-    print('--- FETCH TICKERS ---\n')
+    print('\n=== FETCH TICKERS ===\n')
     print(f"Today's Date: {DATE_STAMP} (Format: DDMMYY)")
     print(f"Input Tickers: {TICKERS_LIST}")
     print(f"Output directory: {TICKERS_DIR}")

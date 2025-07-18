@@ -112,7 +112,7 @@ def clear_folders():
 
 def full_run(fetch, ind, scan):
     """Clear folders + fetch data + generate indicators + run scanner"""
-    clear_folders(TICKERS_DIR, INDICATORS_DIR, SCANNER_DIR) ; print('=== CLEAR DATA FOLDERS ===\n')
-    fetch() ; print('=== FETCH TICKERS ===\n')
-    ind()   ; print('=== RUN INDICATORS ===\n')
-    scan()  ; print('=== RUN SCANNER ===\n')
+    clear_folders()
+    fetch()         
+    ind()           
+    scan()          
