@@ -1,6 +1,6 @@
 import pandas as pd
 
-def aVWAP_avg(df, distance_pct=1.0, direction='both', outside_range=False):
+def aVWAP_avg(df, distance_pct=1.0, direction='within', outside_range=False):
     """
     Enhanced unified scanner for price relative to Peaks_Valleys_avg.
     
@@ -10,7 +10,7 @@ def aVWAP_avg(df, distance_pct=1.0, direction='both', outside_range=False):
         direction: Relationship to aVWAP:
                   'below' - Price relative to below aVWAP
                   'above' - Price relative to above aVWAP  
-                  'both' - Price relative to either side of aVWAP
+                  'within' - Price relative to either side of aVWAP
         outside_range: If True, finds prices BEYOND distance_pct threshold
                      (overbought/oversold), if False finds prices WITHIN threshold
     
@@ -40,7 +40,7 @@ def aVWAP_avg(df, distance_pct=1.0, direction='both', outside_range=False):
             condition = (distance > distance_pct)  # Extended above
         else:
             condition = (0 <= distance <= distance_pct)  # Normal above
-    else:  # 'both'
+    else:  # 'within'
         if outside_range:
             condition = (abs(distance) > distance_pct)  # Extended either side
         else:

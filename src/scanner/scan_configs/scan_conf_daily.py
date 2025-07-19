@@ -24,13 +24,35 @@ scan_conf = {
         }
     },
 
+    'd_aVWAPChannelResistance': {
+        'criteria': {
+            'daily': ['aVWAP_channel_resistance'],
+        },
+        'params': {
+            'aVWAP_channel_resistance': {
+                'daily': {'distance_pct': 5.0, 'direction': 'within'}
+            },
+        }
+    },
+
+    'd_aVWAPChannelSupport': {
+        'criteria': {
+            'daily': ['aVWAP_channel_support'],
+        },
+        'params': {
+            'aVWAP_channel_support': {
+                'daily': {'distance_pct': 5.0, 'direction': 'within'}
+            },
+        }
+    },
+
     'd_aVWAPPeaksavg': {
         'criteria': {
             'daily': ['aVWAP_peaks_avg'],
         },
         'params': {
             'aVWAP_peaks_avg': {
-                'daily': {'distance_pct': 1.0, 'direction': 'both'}
+                'daily': {'distance_pct': 1.0, 'direction': 'within'}
             },
         }
     },
@@ -41,7 +63,7 @@ scan_conf = {
         },
         'params': {
             'aVWAP_valleys_avg': {
-                'daily': {'distance_pct': 1.0, 'direction': 'both'}
+                'daily': {'distance_pct': 1.0, 'direction': 'within'}
             },
         }
     },
@@ -133,7 +155,7 @@ scan_conf = {
         'params': {
             'aVWAP_avg': {
                 'daily': {
-                          'direction': 'both',
+                          'direction': 'within',
                           'distance_pct': 1.0, 
                           'outside_range': False
                          },
@@ -148,7 +170,7 @@ scan_conf = {
         'params': {
             'aVWAP_avg': {
                 'daily': {
-                          'direction': 'both',
+                          'direction': 'within',
                           'distance_pct': 20.0, 
                           'outside_range': False
                 },
@@ -322,7 +344,7 @@ scan_conf = {
         },
         'params': {
             'OB_bullish_aVWAP': {
-                'daily': {'distance_pct': 1.0, 'direction': 'both'},
+                'daily': {'distance_pct': 1.0, 'direction': 'within'},
             }
         }
     },
@@ -333,7 +355,7 @@ scan_conf = {
         },
         'params': {
             'OB_bearish_aVWAP': {
-                'daily': {'distance_pct': 1.0, 'direction': 'both'},
+                'daily': {'distance_pct': 1.0, 'direction': 'within'},
             }
         }
     },

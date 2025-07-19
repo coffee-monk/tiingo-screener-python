@@ -1,6 +1,6 @@
 import pandas as pd
 
-def OB_bearish_aVWAP(df, distance_pct=1.0, direction='both'):
+def OB_bearish_aVWAP(df, distance_pct=1.0, direction='within'):
     """
     Scan for price relative to bearish Order Block's aVWAP with distance control.
     
@@ -14,7 +14,7 @@ def OB_bearish_aVWAP(df, distance_pct=1.0, direction='both'):
         direction: Where to look relative to OB's aVWAP:
                   'below' - Price below OB's aVWAP
                   'above' - Price above OB's aVWAP  
-                  'both' - Price near OB's aVWAP (either side)
+                  'within' - Price near OB's aVWAP (either side)
     
     Returns:
         pd.DataFrame: Signal details if conditions met, else empty.
@@ -40,7 +40,7 @@ def OB_bearish_aVWAP(df, distance_pct=1.0, direction='both'):
                     condition = (-distance_pct <= distance <= 0)  # Price below aVWAP
                 elif direction == 'above':
                     condition = (0 <= distance <= distance_pct)   # Price above aVWAP
-                else:  # 'both'
+                else:  # 'within'
                     condition = abs(distance) <= distance_pct     # Price near aVWAP
                 
                 if condition:

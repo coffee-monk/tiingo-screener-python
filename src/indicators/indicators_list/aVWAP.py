@@ -37,7 +37,10 @@ def calculate_avwap_channel(df,
         If True:
         - Only uses valleys starting from the LOWEST price
         - Only uses peaks starting from the HIGHEST price
-        - peaks_valleys_avg only calculated after both highest peak and lowest valley exist
+        - peaks_valleys_avg: calculated after both highest peak and lowest valley exist
+    
+    max_aVWAPs : number 
+        - max number of most recent anchors to calculate VWAPs from
     """
     
     # Set default parameters if not provided

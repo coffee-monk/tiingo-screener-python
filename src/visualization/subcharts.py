@@ -76,7 +76,7 @@ def subcharts(
         ticker, timeframe = first_valid['Ticker'], first_valid['Timeframe']
         
         # Load indicator data
-        indicator_file = next(INDICATOR_DIR.glob(f"{ticker}_{timeframe}_*.csv"), None)
+        indicator_file = next(INDICATORS_DIR.glob(f"{ticker}_{timeframe}_*.csv"), None)
         if not indicator_file:
             raise FileNotFoundError(f"No indicator data for {ticker} {timeframe}")
             

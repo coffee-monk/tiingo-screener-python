@@ -1,6 +1,6 @@
 import pandas as pd
 
-def aVWAP_valleys_avg(df, distance_pct=1.0, direction='both'):
+def aVWAP_valleys_avg(df, distance_pct=1.0, direction='within'):
     """
     Scan for price near pre-calculated Valleys_avg level.
     Strictly uses existing Valleys_avg column without recalculation.
@@ -8,7 +8,7 @@ def aVWAP_valleys_avg(df, distance_pct=1.0, direction='both'):
     Parameters:
         df: DataFrame with Valleys_avg column
         distance_pct: Percentage distance threshold
-        direction: 'below', 'above', or 'both' relative to Valleys_avg
+        direction: 'below', 'above', or 'within' relative to Valleys_avg
     
     Returns:
         pd.DataFrame: Signal details if conditions met, else empty.
@@ -31,7 +31,7 @@ def aVWAP_valleys_avg(df, distance_pct=1.0, direction='both'):
         condition = (-distance_pct <= distance <= 0)
     elif direction == 'above':
         condition = (0 <= distance <= distance_pct)
-    else:  # 'both'
+    else:  # 'within'
         condition = abs(distance) <= distance_pct
     
     if condition:

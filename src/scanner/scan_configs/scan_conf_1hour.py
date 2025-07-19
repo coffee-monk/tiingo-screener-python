@@ -30,7 +30,7 @@ scan_conf = {
         },
         'params': {
             'aVWAP_channel_resistance': {
-                '1hour': {'distance_pct': 5.0, 'direction': 'both'}
+                '1hour': {'distance_pct': 5.0, 'direction': 'within'}
             },
         }
     },
@@ -41,7 +41,7 @@ scan_conf = {
         },
         'params': {
             'aVWAP_channel_support': {
-                '1hour': {'distance_pct': 5.0, 'direction': 'both'}
+                '1hour': {'distance_pct': 5.0, 'direction': 'within'}
             },
         }
     },
@@ -52,7 +52,7 @@ scan_conf = {
         },
         'params': {
             'aVWAP_peaks_avg': {
-                '1hour': {'distance_pct': 1.0, 'direction': 'both'}
+                '1hour': {'distance_pct': 1.0, 'direction': 'within'}
             },
         }
     },
@@ -63,7 +63,7 @@ scan_conf = {
         },
         'params': {
             'aVWAP_valleys_avg': {
-                '1hour': {'distance_pct': 1.0, 'direction': 'both'}
+                '1hour': {'distance_pct': 1.0, 'direction': 'within'}
             },
         }
     },
