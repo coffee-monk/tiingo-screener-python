@@ -39,8 +39,9 @@ def run_scanner(criteria='banker_RSI', criteria_params=None, logic='AND', api_ke
                    )
     """
     print('\n=== SCANNER ===\n')
+    print(f"Scan: {scan_name}\n")
     print(f"Input directory: {INDICATORS_DIR}")
-    print(f"Output directory: {SCANNER_DIR}")
+    print(f"Output directory: {SCANNER_DIR}\n")
 
     # Initialize empty params if none provided
     if criteria_params is None:
@@ -287,7 +288,7 @@ def _save_scan_results(df, output_dir, scan_date, scan_name=None):
     filename += ".csv"
     filepath = output_dir / filename
     df.to_csv(filepath, index=False)
-    print(f"Results saved to: {filepath}")
+    print(f"\nResults saved to: {filepath}")
 
 def _parse_filename(filename):
     """Extract ticker and timeframe from filename"""

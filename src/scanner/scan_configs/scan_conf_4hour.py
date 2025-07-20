@@ -70,11 +70,11 @@ scan_conf = {
 
     '4h_StDevOversold_OBSupport': {
         'criteria': {
-            '4hour': ['StDev_oversold', 'OB_support'],
+            '4hour': ['StDev', 'OB_support'],
         },
         'params': {
-            'StDev_oversold': {
-                '4hour': {'threshold': 2}
+            'StDev': {
+                '4hour': {'threshold': 2, 'mode': 'oversold'}
             },
         }
     },
@@ -92,9 +92,13 @@ scan_conf = {
 
     '4h_supertrendBullish_QQEMODOversold': {
         'criteria': {
-            '4hour': ['supertrend_bullish', 'QQEMOD_oversold'],
+            '4hour': ['supertrend', 'QQEMOD_oversold'],
         },
-        'params': None
+        'params': {
+            'supertrend': {
+                '4hour': {'mode': 'bullish'},
+            }
+        }
     },
 
     '4h_bankerRSI_QQEMODOversold': {
@@ -117,10 +121,10 @@ scan_conf = {
 
     '4h_SMAAbove': {
         'criteria': {
-            '4hour': ['SMA_above'],
+            '4hour': ['SMA'],
         },
         'params': {
-            'SMA_above': {
+            'SMA': {
                 '4hour': {'sma_periods': [200], 'distance_pct': 1.0, 'outside_range': False},
             }
         }
@@ -128,10 +132,10 @@ scan_conf = {
 
     '4h_SMABelow': {
         'criteria': {
-            '4hour': ['SMA_below'],
+            '4hour': ['SMA'],
         },
         'params': {
-            'SMA_below': {
+            'SMA': {
                 '4hour': {'sma_periods': [200], 'distance_pct': 1.0, 'outside_range': False},
             }
         }
@@ -154,7 +158,7 @@ scan_conf = {
         },
         'params': {
             'QQEMOD_bullish_reversal': {
-                '4hour': {'min_red_candles': 3},
+                '4hour': {'min_candles': 3},
             }
         }
     },
@@ -165,7 +169,7 @@ scan_conf = {
         },
         'params': {
             'QQEMOD_bearish_reversal': {
-                '4hour': {'min_red_candles': 3},
+                '4hour': {'min_candles': 3},
             }
         }
     },

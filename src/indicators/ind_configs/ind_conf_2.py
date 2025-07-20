@@ -85,7 +85,7 @@ params = {
             },
             'aVWAP': {
                 'peaks_valleys': True,
-                'peaks_valleys_avg': False,
+                'peaks_valleys_avg': True,
                 'peaks_avg': True,
                 'valleys_avg': True,
                 'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
@@ -126,18 +126,23 @@ params = {
 
         'daily': {
             'candle_colors': {
-                'indicator_color': 'StDev',
+                'indicator_color': 'QQEMOD',
                 'custom_params': {
                     'StDev': {
                         'std_lookback': 20, 'avg_lookback': 20,
                         'centreline': 'peaks_valleys_avg',
                         'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': 20}
-                    }
+                    },
+                    'QQEMOD': {
+                        'rsi_period': 6, 'rsi_period2': 5, 'sf': 5, 'sf2': 5,
+                        'qqe_factor': 3.0, 'qqe_factor2': 1.61, 'threshold': 3,
+                        'bb_length': 50, 'bb_multi': 0.35
+                    },
                 }
             },
             'aVWAP': {
                 'peaks_valleys': True,
-                'peaks_valleys_avg': False,
+                'peaks_valleys_avg': True,
                 'peaks_avg': True,
                 'valleys_avg': True,
                 'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
@@ -189,7 +194,7 @@ params = {
             },
             'aVWAP': {
                 'peaks_valleys': True,
-                'peaks_valleys_avg': False,
+                'peaks_valleys_avg': True,
                 'peaks_avg': True,
                 'valleys_avg': True,
                 'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
@@ -241,7 +246,7 @@ params = {
             },
             'aVWAP': {
                 'peaks_valleys': True,
-                'peaks_valleys_avg': False,
+                'peaks_valleys_avg': True,
                 'peaks_avg': True,
                 'valleys_avg': True,
                 'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
@@ -293,7 +298,7 @@ params = {
             },
             'aVWAP': {
                 'peaks_valleys': True,
-                'peaks_valleys_avg': False,
+                'peaks_valleys_avg': True,
                 'peaks_avg': True,
                 'valleys_avg': True,
                 'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},

@@ -70,11 +70,11 @@ scan_conf = {
 
     'h_StDevOversold_OBSupport': {
         'criteria': {
-            '1hour': ['StDev_oversold', 'OB_support'],
+            '1hour': ['StDev', 'OB_support'],
         },
         'params': {
-            'StDev_oversold': {
-                '1hour': {'threshold': 2}
+            'StDev': {
+                '1hour': {'threshold': 2, 'mode': 'oversold'}
             },
         }
     },
@@ -103,9 +103,13 @@ scan_conf = {
 
     'h_supertrendBullish_QQEMODOversold': {
         'criteria': {
-            '1hour': ['supertrend_bullish', 'QQEMOD_oversold'],
+            '1hour': ['supertrend', 'QQEMOD_oversold'],
         },
-        'params': None
+        'params': {
+            'supertrend': {
+                '1hour': {'mode': 'bullish'},
+            }
+        }
     },
 
     'h_bankerRSI_QQEMODOversold': {
@@ -128,10 +132,10 @@ scan_conf = {
 
     'h_SMAAbove': {
         'criteria': {
-            '1hour': ['SMA_above'],
+            '1hour': ['SMA'],
         },
         'params': {
-            'SMA_above': {
+            'SMA': {
                 '1hour': {'sma_periods': [200], 'distance_pct': 1.0, 'outside_range': False},
             }
         }
@@ -139,10 +143,10 @@ scan_conf = {
 
     'h_SMABelow': {
         'criteria': {
-            '1hour': ['SMA_below'],
+            '1hour': ['SMA'],
         },
         'params': {
-            'SMA_below': {
+            'SMA': {
                 '1hour': {'sma_periods': [200], 'distance_pct': 1.0, 'outside_range': False},
             }
         }
@@ -165,7 +169,7 @@ scan_conf = {
         },
         'params': {
             'QQEMOD_bullish_reversal': {
-                '1hour': {'min_red_candles': 3},
+                '1hour': {'min_candles': 3},
             }
         }
     },
@@ -176,7 +180,7 @@ scan_conf = {
         },
         'params': {
             'QQEMOD_bearish_reversal': {
-                '1hour': {'min_red_candles': 3},
+                '1hour': {'min_candles': 3},
             }
         }
     },

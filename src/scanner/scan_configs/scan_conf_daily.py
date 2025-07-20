@@ -68,24 +68,68 @@ scan_conf = {
         }
     },
 
-    'd_StDevOversold_OBSupport': {
+    'd_OBBullish': {
         'criteria': {
-            'daily': ['StDev_oversold', 'OB_support'],
+            'daily': ['OB'],
         },
         'params': {
-            'StDev_oversold': {
-                'daily': {'threshold': 2}
+            'OB': {
+                'daily': {'mode': 'bullish'}
+            },
+        }
+    },
+
+    'd_OBBearish': {
+        'criteria': {
+            'daily': ['OB'],
+        },
+        'params': {
+            'OB': {
+                'daily': {'mode': 'bearish'}
+            },
+        }
+    },
+
+    'd_OBSupport': {
+        'criteria': {
+            'daily': ['OB'],
+        },
+        'params': {
+            'OB': {
+                'daily': {'mode': 'support'}
+            },
+        }
+    },
+
+    'd_OBResistance': {
+        'criteria': {
+            'daily': ['OB'],
+        },
+        'params': {
+            'OB': {
+                'daily': {'mode': 'resistance'}
+            },
+        }
+    },
+
+    'd_StDevOversold_OBSupport': {
+        'criteria': {
+            'daily': ['StDev', 'OB_support'],
+        },
+        'params': {
+            'StDev': {
+                'daily': {'threshold': 2, 'mode': 'overbought'}
             },
         }
     },
 
     'd_StDevOverbought_OBResistance': {
         'criteria': {
-            'daily': ['StDev_overbought'],
+            'daily': ['StDev', 'OB_resistance'],
         },
         'params': {
-            'StDev_oversold': {
-                'daily': {'threshold': 2}
+            'StDev': {
+                'daily': {'threshold': 2, 'mode': 'overbought'}
             },
         }
     },
@@ -103,9 +147,13 @@ scan_conf = {
 
     'd_supertrendBullish_QQEMODOversold': {
         'criteria': {
-            'daily': ['supertrend_bullish', 'QQEMOD_oversold'],
+            'daily': ['supertrend', 'QQEMOD_oversold'],
         },
-        'params': None
+        'params': {
+            'supertrend': {
+                'daily': {'mode': 'bullish'},
+            }
+        }
     },
 
     'd_bankerRSI_QQEMODOversold': {
@@ -128,10 +176,10 @@ scan_conf = {
 
     'd_SMAAbove': {
         'criteria': {
-            'daily': ['SMA_above'],
+            'daily': ['SMA'],
         },
         'params': {
-            'SMA_above': {
+            'SMA': {
                 'daily': {'sma_periods': [200], 'distance_pct': 30.0, 'outside_range': True},
             }
         }
@@ -139,10 +187,10 @@ scan_conf = {
 
     'd_SMABelow': {
         'criteria': {
-            'daily': ['SMA_below'],
+            'daily': ['SMA'],
         },
         'params': {
-            'SMA_below': {
+            'SMA': {
                 'daily': {'sma_periods': [200], 'distance_pct': 30.0, 'outside_range': True},
             }
         }
@@ -204,27 +252,49 @@ scan_conf = {
         }
     },
 
-    'd_QQEMODBullishReversal': {
+    'd_QQEMODOverbought': {
         'criteria': {
-            'daily': ['QQEMOD_bullish_reversal'],
+            'daily': ['QQEMOD'],
         },
         'params': {
-            'QQEMOD_bullish_reversal': {
-                'daily': {'min_red_candles': 3},
+            'QQEMOD': {
+                'daily': {'mode': 'overbought'},
             }
         }
     },
 
-    'd_QQEMODBearishReversal': {
+    'd_QQEMODOversold': {
         'criteria': {
-            '1hour': ['QQEMOD_bearish_reversal'],
+            'daily': ['QQEMOD'],
         },
         'params': {
-            'QQEMOD_bearish_reversal': {
-                '1hour': {'min_red_candles': 3},
+            'QQEMOD': {
+                'daily': {'mode': 'oversold'},
             }
         }
     },
+
+    # 'd_QQEMODBullishReversal': {
+    #     'criteria': {
+    #         'daily': ['QQEMOD_bullish_reversal'],
+    #     },
+    #     'params': {
+    #         'QQEMOD_bullish_reversal': {
+    #             'daily': {'min_candles': 3},
+    #         }
+    #     }
+    # },
+    #
+    # 'd_QQEMODBearishReversal': {
+    #     'criteria': {
+    #         'daily': ['QQEMOD_bearish_reversal'],
+    #     },
+    #     'params': {
+    #         'QQEMOD_bearish_reversal': {
+    #             'daily': {'min_candles': 3},
+    #         }
+    #     }
+    # },
 
     'd_aVWAPavgBelow_OBBullish': {
         'criteria': {
@@ -241,42 +311,64 @@ scan_conf = {
         }
     },
 
+    'd_DivBullish': {
+        'criteria': {
+            'daily': ['divergences'],
+        },
+        'params': {
+            'divergences': {
+                'daily': {'mode': 'bullish', 'max_bars_back': 100},
+            }
+        }
+    },
+
+    'd_DivBearish': {
+        'criteria': {
+            'daily': ['divergences'],
+        },
+        'params': {
+            'divergences': {
+                'daily': {'mode': 'bearish', 'max_bars_back': 100},
+            }
+        }
+    },
+
     # Daily + 1hour =======================================
 
     'd_DivBullish_h_DivBullish': {
         'criteria': {
-            'daily': ['divergences_bullish'],
-            '1hour': ['divergences_bullish']
+            'daily': ['divergences'],
+            '1hour': ['divergences']
         },
         'params': {
-            'divergences_bullish': {
-                'daily': {'max_bars_back': 20},
-                '1hour': {'max_bars_back': 20}
+            'divergences': {
+                'daily': {'mode': 'bullish', 'max_bars_back': 20},
+                '1hour': {'mode': 'bullish', 'max_bars_back': 20}
             }
         }
     },
 
     'd_DivBearish_h_DivBearish': {
         'criteria': {
-            'daily': ['divergences_bearish'],
-            '1hour': ['divergences_bearish']
+            'daily': ['divergences'],
+            '1hour': ['divergences']
         },
         'params': {
-            'divergences_bearish': {
-                'daily': {'max_bars_back': 20},
-                '1hour': {'max_bars_back': 20}
+            'divergences': {
+                'daily': {'mode': 'bearish', 'max_bars_back': 20},
+                '1hour': {'mode': 'bearish', 'max_bars_back': 20}
             }
         }
     },
 
     'd_StDevOversold_h_OBSupport': {
         'criteria': {
-            'daily': ['StDev_oversold'],
+            'daily': ['StDev'],
             '1hour': ['OB_support']
         },
         'params': {
-            'StDev_oversold': {
-                'daily': {'threshold': 2}
+            'StDev': {
+                'daily': {'threshold': 2, 'mode': 'oversold'}
             },
             'OB_support': {
                 '1hour': {'atr_threshold_multiplier': 1.0}
@@ -286,12 +378,12 @@ scan_conf = {
 
     'd_StDevOverbought_h_OBResistance': {
         'criteria': {
-            'daily': ['StDev_overbought'],
+            'daily': ['StDev'],
             '1hour': ['OB_resistance']
         },
         'params': {
-            'StDev_oversold': {
-                'daily': {'threshold': 2}
+            'StDev': {
+                'daily': {'threshold': 2, 'mode': 'overbought'}
             },
             'OB_bullish_resistance': {
                 '1hour': {'atr_threshold_multiplier': 1.0}
@@ -361,4 +453,3 @@ scan_conf = {
     },
 
 }
-

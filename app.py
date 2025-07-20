@@ -26,20 +26,18 @@ def vis(scan_file=None, ticker=None):
 
         # df1 = fetch_ticker(timeframe='w', ticker=ticker, api_key=API_KEY)
         df2 = fetch_ticker(timeframe='d',  ticker=ticker, api_key=API_KEY)
-        df3 = fetch_ticker(timeframe='4h', ticker=ticker, api_key=API_KEY)
-        df4 = fetch_ticker(timeframe='h',  ticker=ticker, api_key=API_KEY)
+        # df3 = fetch_ticker(timeframe='4h', ticker=ticker, api_key=API_KEY)
+        # df4 = fetch_ticker(timeframe='h',  ticker=ticker, api_key=API_KEY)
         # df5 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
         # df1 = get_indicators(df1, indicators['weekly_2'], params['weekly_2'])
         df2 = get_indicators(df2, indicators['daily_2'], params['daily_2'])
-        df3 = get_indicators(df3, indicators['4hour_2'], params['4hour_2'])
-        df4 = get_indicators(df4, indicators['1hour_2'], params['1hour_2'])
+        # df3 = get_indicators(df3, indicators['4hour_2'], params['4hour_2'])
+        # df4 = get_indicators(df4, indicators['1hour_2'], params['1hour_2'])
         # df5 = get_indicators(df5, indicators['5min'], params['5min'])
 
-        # print(df2.columns)
-
         subcharts(
-                  [df2, df3, df4],
+                  [df2],
                   ticker=ticker,
                   show_volume=False,
                   show_banker_RSI=True
@@ -115,20 +113,24 @@ def scan():
 
              # 'w_QQEMODBullishReversal',
              # 'w_QQEMODBearishReversal',
-             #
-             # 'd_aVWAPavgBelow_OBBullish',
+
+             'd_OBBullish',
+             'd_OBBearish',
              # 'd_QQEMODBullishReversal',
              # 'd_QQEMODBearishReversal',
+             # 'd_QQEMODBullishReversal',
+             # 'd_QQEMODBearishReversal',
+             # 'd_aVWAPavgBelow_OBBullish',
              # 'd_QQEMODOversold_OBSupport',
              # 'd_bankerRSI_QQEMODOversold',
              # 'd_aVWAPavg',
              # 'd_SMA',
-             #
+
              # '4h_aVWAPChannelOversold',
              # '4h_aVWAPChannelOverbought',
              # '4h_aVWAPPeaksavg',
              # '4h_aVWAPValleysavg',
-             #
+
              # 'h_StDevOversold_OBSupport',
              # 'h_OBSupport',
              # 'h_QQEMODBearishReversal',
@@ -146,8 +148,8 @@ def scan():
              # 'd_aVWAPChannelResistance',
              # 'd_aVWAPChannelSupport',
 
-             'd_OBBullishaVWAP',
-             'd_OBBearishaVWAP',
+             # 'd_OBBullishaVWAP',
+             # 'd_OBBearishaVWAP',
 
             ]
 

@@ -4,9 +4,13 @@ scan_conf = {
 
     'w_supertrendBullish_QQEMODOversold': {
         'criteria': {
-            'weekly': ['supertrend_bullish', 'QQEMOD_oversold'],
+            'weekly': ['supertrend', 'QQEMOD_oversold'],
         },
-        'params': None
+        'params': {
+            'supertrend': {
+                'weekly': {'mode': 'bullish'}
+            },
+        },
     },
 
     'w_bankerRSI_QQEMODOversold': {
@@ -36,10 +40,10 @@ scan_conf = {
 
     'w_SMAAbove': {
         'criteria': {
-            '1hour': ['SMA_above'],
+            '1hour': ['SMA'],
         },
         'params': {
-            'SMA_above': {
+            'SMA': {
                 '1hour': {'sma_periods': [200], 'distance_pct': 1.0, 'outside_range': True},
             }
         }
@@ -47,10 +51,10 @@ scan_conf = {
 
     'w_SMABelow': {
         'criteria': {
-            'weekly': ['SMA_below'],
+            'weekly': ['SMA'],
         },
         'params': {
-            'SMA_below': {
+            'SMA': {
                 'weekly': {'sma_periods': [200], 'distance_pct': 1.0, 'outside_range': True},
             }
         }
@@ -73,7 +77,7 @@ scan_conf = {
         },
         'params': {
             'QQEMOD_bullish_reversal': {
-                'weekly': {'min_red_candles': 3},
+                'weekly': {'min_candles': 3},
             }
         }
     },
@@ -84,7 +88,7 @@ scan_conf = {
         },
         'params': {
             'QQEMOD_bearish_reversal': {
-                'weekly': {'min_red_candles': 3},
+                'weekly': {'min_candles': 3},
             }
         }
     },
@@ -123,18 +127,6 @@ scan_conf = {
         'params': {
             'OB_bearish_aVWAP': {
                 'daily': {'distance_pct': 0.0, 'direction': 'above'}
-            },
-        },
-    },
-
-    'w_supertrendBearish_d_OBullishZone': {
-        'criteria': {
-            'weekly': ['supertrend_bearish'],
-            'daily': ['OB_bullish_aVWAP']
-        },
-        'params': {
-            'OB_bullish_aVWAP': {
-                'daily': {'distance_pct': 0.0, 'direction': 'below'}
             },
         },
     },
