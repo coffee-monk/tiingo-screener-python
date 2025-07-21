@@ -103,7 +103,6 @@ def clear_folder(folder_path):
     else:
         print(f"\nFolder does not exist: {folder_path}")
 
-
 def clear_folders():
     """Clear all data folders"""
     folders = [TICKERS_DIR, INDICATORS_DIR, SCANNER_DIR]

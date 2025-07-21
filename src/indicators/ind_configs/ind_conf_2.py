@@ -3,6 +3,7 @@ indicators = {
         'weekly': [
             'aVWAP', 
             'candle_colors', 
+            # 'liquidity', 
             'StDev', 
             'QQEMOD', 
             'banker_RSI',
@@ -18,13 +19,13 @@ indicators = {
             'candle_colors', 
             # 'liquidity', 
             'StDev', 
-            'QQEMOD', 
-            'banker_RSI',
-            'SMA',
+            # 'QQEMOD', 
+            # 'banker_RSI',
+            # 'SMA',
             # 'supertrend', 
-            'OB', 
+            # 'OB', 
             # 'TTM_squeeze', 
-            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+            # 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
         '4hour': [
@@ -126,12 +127,12 @@ params = {
 
         'daily': {
             'candle_colors': {
-                'indicator_color': 'QQEMOD',
+                'indicator_color': 'StDev',
                 'custom_params': {
                     'StDev': {
                         'std_lookback': 20, 'avg_lookback': 20,
                         'centreline': 'peaks_valleys_avg',
-                        'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': 20}
+                        'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None}
                     },
                     'QQEMOD': {
                         'rsi_period': 6, 'rsi_period2': 5, 'sf': 5, 'sf2': 5,
@@ -155,7 +156,7 @@ params = {
                 'All_avg': False,
                 'avg_lookback': 20,
                 'keep_OB_column': False,
-                'aVWAP_channel': True,
+                'aVWAP_channel': False,
             },
             'OB': {'periods': 20},
             'StDev': {
