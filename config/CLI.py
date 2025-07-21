@@ -76,17 +76,17 @@ def init_cli(
 
 def list_scans():
     """List available scan files with dates"""
-    print(SCANNER_DIR)
+    print(f"\nScans folder: {SCANNER_DIR}")
     scans = sorted(SCANNER_DIR.glob("scan_results_*.csv"), 
                 key=lambda f: f.stat().st_mtime, reverse=True)
     if not scans:
-        print("No scan files found in data/scans/")
+        print("\nNo scan files found in data/scans/")
         return
     
     print("\nAvailable scan files:")
     for i, scan in enumerate(scans[:10]):  # Show 10 most recent
         print(f"{i+1}. {scan.name}")
-    print("\nUse with: --vis --scan-file 'filename.csv'")
+    print("\nUse with: --vis --scan-file 'filename.csv\n'")
 
 def clear_folder(folder_path):
     """Clear a specific folder"""
@@ -99,9 +99,9 @@ def clear_folder(folder_path):
                     shutil.rmtree(item)
             except Exception as e:
                 print(f"Error deleting {item}: {e}")
-        print(f"Cleared folder: {folder_path}")
+        print(f"\nCleared folder: {folder_path}\n")
     else:
-        print(f"Folder does not exist: {folder_path}")
+        print(f"\nFolder does not exist: {folder_path}")
 
 
 def clear_folders():

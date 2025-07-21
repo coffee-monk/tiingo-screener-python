@@ -16,7 +16,7 @@ def _get_latest_scan():
     files = sorted(SCANNER_DIR.glob("scan_results_*.csv"), 
                  key=lambda f: f.stat().st_mtime, reverse=True)
     if not files:
-        raise FileNotFoundError("No scan files found in data/scans/")
+        raise FileNotFoundError("\nNo scan files found in data/scans/\n")
     return files[0]
 
 def _load_scan_data(scan_file):
