@@ -26,44 +26,44 @@ scan_conf = {
 
     'h_aVWAPChannelResistance': {
         'criteria': {
-            '1hour': ['aVWAP_channel_resistance'],
+            '1hour': ['aVWAP_channel'],
         },
         'params': {
-            'aVWAP_channel_resistance': {
-                '1hour': {'distance_pct': 5.0, 'direction': 'within'}
+            'aVWAP_channel': {
+                '1hour': {'mode': 'resistance', 'distance_pct': 1.0}
             },
         }
     },
 
     'h_aVWAPChannelSupport': {
         'criteria': {
-            '1hour': ['aVWAP_channel_support'],
+            '1hour': ['aVWAP_channel'],
         },
         'params': {
-            'aVWAP_channel_support': {
-                '1hour': {'distance_pct': 5.0, 'direction': 'within'}
+            'aVWAP_channel': {
+                '1hour': {'mode': 'support', 'distance_pct': 5.0}
             },
         }
     },
 
     'h_aVWAPPeaksavg': {
         'criteria': {
-            '1hour': ['aVWAP_peaks_avg'],
+            '1hour': ['aVWAP_avg'],
         },
         'params': {
-            'aVWAP_peaks_avg': {
-                '1hour': {'distance_pct': 1.0, 'direction': 'within'}
+            'aVWAP_avg': {
+                '1hour': {'mode': 'peaks', 'distance_pct': 1.0}
             },
         }
     },
 
     'h_aVWAPValleysavg': {
         'criteria': {
-            '1hour': ['aVWAP_valleys_avg'],
+            '1hour': ['aVWAP_avg'],
         },
         'params': {
-            'aVWAP_valleys_avg': {
-                '1hour': {'distance_pct': 1.0, 'direction': 'within'}
+            'aVWAP_avg': {
+                '1hour': {'mode': 'valleys', 'distance_pct': 1.0}
             },
         }
     },

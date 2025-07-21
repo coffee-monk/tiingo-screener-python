@@ -48,22 +48,22 @@ scan_conf = {
 
     '4h_aVWAPPeaksavg': {
         'criteria': {
-            '4hour': ['aVWAP_peaks_avg'],
+            '4hour': ['aVWAP_avg'],
         },
         'params': {
-            'aVWAP_peaks_avg': {
-                '4hour': {'distance_pct': 1.0, 'direction': 'within'}
+            'aVWAP_avg': {
+                '4hour': {'mode': 'peaks', 'distance_pct': 1.0}
             },
         }
     },
 
     '4h_aVWAPValleysavg': {
         'criteria': {
-            '4hour': ['aVWAP_valleys_avg'],
+            '4hour': ['aVWAP_avg'],
         },
         'params': {
-            'aVWAP_valleys_avg': {
-                '4hour': {'distance_pct': 1.0, 'direction': 'within'}
+            'aVWAP_avg': {
+                '4hour': {'mode': 'valleys', 'distance_pct': 1.0}
             },
         }
     },

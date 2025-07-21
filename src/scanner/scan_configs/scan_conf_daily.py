@@ -48,22 +48,30 @@ scan_conf = {
 
     'd_aVWAPPeaksavg': {
         'criteria': {
-            'daily': ['aVWAP_peaks_avg'],
+            'daily': ['aVWAP_avg'],
         },
         'params': {
-            'aVWAP_peaks_avg': {
-                'daily': {'distance_pct': 1.0, 'direction': 'within'}
+            'aVWAP_avg': {
+                'daily': {
+                          'mode': 'peaks', 
+                          'direction': 'above', 
+                          'distance_pct': 1.0, 
+                         }
             },
         }
     },
 
     'd_aVWAPValleysavg': {
         'criteria': {
-            'daily': ['aVWAP_valleys_avg'],
+            'daily': ['aVWAP_avg'],
         },
         'params': {
-            'aVWAP_valleys_avg': {
-                'daily': {'distance_pct': 1.0, 'direction': 'within'}
+            'aVWAP_avg': {
+                'daily': {
+                          'mode': 'valleys',
+                          'direction': 'below',
+                          'distance_pct': 1.0, 
+                         }
             },
         }
     },
@@ -225,9 +233,7 @@ scan_conf = {
         'params': {
             'aVWAP_avg': {
                 'daily': {
-                          'direction': 'within',
-                          'distance_pct': 1.0, 
-                          'outside_range': False
+                          'distance_pct': 5.0, 
                          },
             }
         }
@@ -241,8 +247,8 @@ scan_conf = {
             'aVWAP_avg': {
                 'daily': {
                           'direction': 'above',
-                          'distance_pct': 20.0, 
-                          'outside_range': False
+                          'distance_pct': 5.0, 
+                          'outside_range': True
                 },
             }
         }
@@ -256,8 +262,8 @@ scan_conf = {
             'aVWAP_avg': {
                 'daily': {
                           'direction': 'below',
-                          'distance_pct': 20.0, 
-                          'outside_range': False
+                          'distance_pct': 5.0, 
+                          'outside_range': True
                 },
             }
         }
