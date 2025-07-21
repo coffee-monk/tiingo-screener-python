@@ -70,34 +70,40 @@ scan_conf = {
 
     '4h_StDevOversold_OBSupport': {
         'criteria': {
-            '4hour': ['StDev', 'OB_support'],
+            '4hour': ['StDev', 'OB'],
         },
         'params': {
             'StDev': {
                 '4hour': {'threshold': 2, 'mode': 'oversold'}
+            },
+            'OB': {
+                '4hour': {'mode': 'support'}
             },
         }
     },
 
     '4h_OBSupport': {
         'criteria': {
-            '4hour': ['OB_support'],
+            '4hour': ['OB'],
         },
         'params': {
-            'OB_support': {
-                '4hour': {'atr_threshold_multiplier': 0.5}
+            'OB': {
+                '4hour': {'mode': 'support'}
             },
         }
     },
 
     '4h_supertrendBullish_QQEMODOversold': {
         'criteria': {
-            '4hour': ['supertrend', 'QQEMOD_oversold'],
+            '4hour': ['supertrend', 'QQEMOD'],
         },
         'params': {
             'supertrend': {
                 '4hour': {'mode': 'bullish'},
-            }
+            },
+            'QQEMOD': {
+                '4hour': {'mode': 'oversold'},
+            },
         }
     },
 
@@ -105,7 +111,11 @@ scan_conf = {
         'criteria': {
             '4hour': ['banker_RSI', 'QQEMOD_oversold'],
         },
-        'params': None
+        'params': {
+            'QQEMOD': {
+                '4hour': {'mode': 'oversold'},
+            }
+        }
     },
 
     '4h_SMA': {
@@ -154,29 +164,29 @@ scan_conf = {
 
     '4h_QQEMODBullishReversal': {
         'criteria': {
-            '4hour': ['QQEMOD_bullish_reversal'],
+            '4hour': ['QQEMOD'],
         },
         'params': {
-            'QQEMOD_bullish_reversal': {
-                '4hour': {'min_candles': 3},
+            'QQEMOD': {
+                '4hour': {'mode': 'bullish_reversal'},
             }
         }
     },
 
     '4h_QQEMODBearishReversal': {
         'criteria': {
-            '4hour': ['QQEMOD_bearish_reversal'],
+            '4hour': ['QQEMOD'],
         },
         'params': {
-            'QQEMOD_bearish_reversal': {
-                '4hour': {'min_candles': 3},
+            'QQEMOD': {
+                '4hour': {'mode': 'bearish_reversal'},
             }
         }
     },
 
     '4h_aVWAPavgBelow_OBBullish': {
         'criteria': {
-            '4hour': ['aVWAP_avg', 'OB_bullish'],
+            '4hour': ['aVWAP_avg', 'OB'],
         },
         'params': {
             'aVWAP_avg': {
@@ -185,6 +195,9 @@ scan_conf = {
                           'distance_pct': 1.0, 
                           'outside_range': False
                 },
+            },
+            'OB': {
+                '4hour': {'mode': 'bullish'},
             }
         }
     },

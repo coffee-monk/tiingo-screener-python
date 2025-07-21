@@ -4,44 +4,44 @@ scan_conf = {
 
     'd_aVWAPChannelOverbought': {
         'criteria': {
-            'daily': ['aVWAP_channel_resistance'],
+            'daily': ['aVWAP_channel'],
         },
         'params': {
-            'aVWAP_channel_resistance': {
-                'daily': {'distance_pct': 10.0, 'direction': 'above'}
+            'aVWAP_channel': {
+                'daily': {'mode': 'resistance', 'direction': 'above'}
             },
         }
     },
 
     'd_aVWAPChannelOversold': {
         'criteria': {
-            'daily': ['aVWAP_channel_support'],
+            'daily': ['aVWAP_channel'],
         },
         'params': {
-            'aVWAP_channel_support': {
-                'daily': {'distance_pct': 10.0, 'direction': 'below'}
+            'aVWAP_channel': {
+                'daily': {'mode': 'support', 'direction': 'below'}
             },
         }
     },
 
     'd_aVWAPChannelResistance': {
         'criteria': {
-            'daily': ['aVWAP_channel_resistance'],
+            'daily': ['aVWAP_channel'],
         },
         'params': {
-            'aVWAP_channel_resistance': {
-                'daily': {'distance_pct': 5.0, 'direction': 'within'}
+            'aVWAP_channel': {
+                'daily': {'mode': 'resistance', 'direction': 'within'}
             },
         }
     },
 
     'd_aVWAPChannelSupport': {
         'criteria': {
-            'daily': ['aVWAP_channel_support'],
+            'daily': ['aVWAP_channel'],
         },
         'params': {
-            'aVWAP_channel_support': {
-                'daily': {'distance_pct': 5.0, 'direction': 'within'}
+            'aVWAP_channel': {
+                'daily': {'mode': 'support', 'direction': 'within'}
             },
         }
     },
@@ -114,53 +114,69 @@ scan_conf = {
 
     'd_StDevOversold_OBSupport': {
         'criteria': {
-            'daily': ['StDev', 'OB_support'],
+            'daily': ['StDev', 'OB'],
         },
         'params': {
             'StDev': {
                 'daily': {'threshold': 2, 'mode': 'overbought'}
+            },
+            'OB': {
+                'daily': {'mode': 'support'}
             },
         }
     },
 
     'd_StDevOverbought_OBResistance': {
         'criteria': {
-            'daily': ['StDev', 'OB_resistance'],
+            'daily': ['StDev', 'OB'],
         },
         'params': {
             'StDev': {
                 'daily': {'threshold': 2, 'mode': 'overbought'}
+            },
+            'OB': {
+                'daily': {'mode': 'resistance'}
             },
         }
     },
 
     'd_QQEMODOversold_OBSupport': {
         'criteria': {
-            'daily': ['QQEMOD_oversold', 'OB_support'],
+            'daily': ['QQEMOD', 'OB'],
         },
         'params': {
-            'OB_support': {
-                'daily': {'atr_threshold_multiplier': 0.5}
+            'OB': {
+                'daily': {'mode': 'support'}
+            },
+            'QQEMOD': {
+                'daily': {'mode': 'oversold'}
             },
         }
     },
 
     'd_supertrendBullish_QQEMODOversold': {
         'criteria': {
-            'daily': ['supertrend', 'QQEMOD_oversold'],
+            'daily': ['supertrend', 'QQEMOD'],
         },
         'params': {
             'supertrend': {
                 'daily': {'mode': 'bullish'},
+            },
+            'QQEMOD': {
+                'daily': {'mode': 'oversold'},
             }
         }
     },
 
     'd_bankerRSI_QQEMODOversold': {
         'criteria': {
-            'daily': ['banker_RSI', 'QQEMOD_oversold'],
+            'daily': ['banker_RSI', 'QQEMOD'],
         },
-        'params': None
+        'params': {
+            'QQEMOD': {
+                'daily': {'mode': 'oversold'},
+            }
+        }
     },
 
     'd_SMA': {
@@ -180,7 +196,10 @@ scan_conf = {
         },
         'params': {
             'SMA': {
-                'daily': {'sma_periods': [200], 'distance_pct': 30.0, 'outside_range': True},
+                'daily': {'sma_periods': [200], 
+                          'mode': 'above', 
+                          'distance_pct': 30.0, 
+                          'outside_range': True},
             }
         }
     },
@@ -191,7 +210,10 @@ scan_conf = {
         },
         'params': {
             'SMA': {
-                'daily': {'sma_periods': [200], 'distance_pct': 30.0, 'outside_range': True},
+                'daily': {'sma_periods': [200], 
+                          'mode': 'below', 
+                          'distance_pct': 30.0, 
+                          'outside_range': True},
             }
         }
     },
@@ -218,7 +240,7 @@ scan_conf = {
         'params': {
             'aVWAP_avg': {
                 'daily': {
-                          'direction': 'within',
+                          'direction': 'above',
                           'distance_pct': 20.0, 
                           'outside_range': False
                 },
@@ -274,31 +296,9 @@ scan_conf = {
         }
     },
 
-    # 'd_QQEMODBullishReversal': {
-    #     'criteria': {
-    #         'daily': ['QQEMOD_bullish_reversal'],
-    #     },
-    #     'params': {
-    #         'QQEMOD_bullish_reversal': {
-    #             'daily': {'min_candles': 3},
-    #         }
-    #     }
-    # },
-    #
-    # 'd_QQEMODBearishReversal': {
-    #     'criteria': {
-    #         'daily': ['QQEMOD_bearish_reversal'],
-    #     },
-    #     'params': {
-    #         'QQEMOD_bearish_reversal': {
-    #             'daily': {'min_candles': 3},
-    #         }
-    #     }
-    # },
-
     'd_aVWAPavgBelow_OBBullish': {
         'criteria': {
-            'daily': ['aVWAP_avg', 'OB_bullish'],
+            'daily': ['aVWAP_avg', 'OB'],
         },
         'params': {
             'aVWAP_avg': {
@@ -307,6 +307,9 @@ scan_conf = {
                           'distance_pct': 1.0, 
                           'outside_range': True
                 },
+            },
+            'OB': {
+                'daily': {'mode': 'bullish'},
             },
         }
     },
@@ -364,14 +367,14 @@ scan_conf = {
     'd_StDevOversold_h_OBSupport': {
         'criteria': {
             'daily': ['StDev'],
-            '1hour': ['OB_support']
+            '1hour': ['OB']
         },
         'params': {
             'StDev': {
-                'daily': {'threshold': 2, 'mode': 'oversold'}
+                'daily': {'mode': 'oversold', 'threshold': 2}
             },
-            'OB_support': {
-                '1hour': {'atr_threshold_multiplier': 1.0}
+            'OB': {
+                '1hour': {'mode': 'support'}
             },
         }
     },
@@ -379,40 +382,40 @@ scan_conf = {
     'd_StDevOverbought_h_OBResistance': {
         'criteria': {
             'daily': ['StDev'],
-            '1hour': ['OB_resistance']
+            '1hour': ['OB']
         },
         'params': {
             'StDev': {
-                'daily': {'threshold': 2, 'mode': 'overbought'}
+                'daily': {'mode': 'overbought', 'threshold': 2}
             },
-            'OB_bullish_resistance': {
-                '1hour': {'atr_threshold_multiplier': 1.0}
+            'OB': {
+                '1hour': {'mode': 'resistance', 'atr_threshold_multiplier': 1.0}
             },
         }
     },
 
     'd_OBSupport_h_OBSupport': {
         'criteria': {
-            'daily': ['OB_support'],
-            '1hour': ['OB_support']
+            'daily': ['OB'],
+            '1hour': ['OB']
         },
         'params': {
-            'OB_support': {
-                'daily': {'atr_threshold_multiplier': 1.5},
-                '1hour': {'atr_threshold_multiplier': 1.5}
+            'OB': {
+                'daily': {'mode': 'support', 'atr_threshold_multiplier': 1.5},
+                '1hour': {'mode': 'support', 'atr_threshold_multiplier': 1.5}
             },
         }
     },
 
     'd_OBResistance_h_OBResistance': {
         'criteria': {
-            'daily': ['OB_resistance'],
-            '1hour': ['OB_resistance']
+            'daily': ['OB'],
+            '1hour': ['OB']
         },
         'params': {
-            'OB_resistance': {
-                'daily': {'atr_threshold_multiplier': 1.5},
-                '1hour': {'atr_threshold_multiplier': 1.5}
+            'OB': {
+                'daily': {'mode': 'resistance', 'atr_threshold_multiplier': 1.5},
+                '1hour': {'mode': 'resistance', 'atr_threshold_multiplier': 1.5}
             },
         }
     },
@@ -432,22 +435,22 @@ scan_conf = {
 
     'd_OBBullishaVWAP': {
         'criteria': {
-            'daily': ['OB_bullish_aVWAP'],
+            'daily': ['OB_aVWAP'],
         },
         'params': {
-            'OB_bullish_aVWAP': {
-                'daily': {'distance_pct': 1.0, 'direction': 'within'},
+            'OB_aVWAP': {
+                'daily': {'bullish': 'bullish', 'distance_pct': 1.0, 'direction': 'within'},
             }
         }
     },
 
     'd_OBBearishaVWAP': {
         'criteria': {
-            'daily': ['OB_bearish_aVWAP'],
+            'daily': ['OB_aVWAP'],
         },
         'params': {
-            'OB_bearish_aVWAP': {
-                'daily': {'distance_pct': 1.0, 'direction': 'within'},
+            'OB_aVWAP': {
+                'daily': {'mode': 'bearish', 'distance_pct': 1.0, 'direction': 'within'},
             }
         }
     },

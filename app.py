@@ -114,8 +114,6 @@ def scan():
              # 'w_QQEMODBullishReversal',
              # 'w_QQEMODBearishReversal',
 
-             'd_OBBullish',
-             'd_OBBearish',
              # 'd_QQEMODBullishReversal',
              # 'd_QQEMODBearishReversal',
              # 'd_QQEMODBullishReversal',
@@ -141,12 +139,12 @@ def scan():
              # 'h_aVWAPPeaksavg',
              # 'h_aVWAPValleysavg',
 
-             # 'd_aVWAPChannelOversold',
-             # 'd_aVWAPChannelOverbought',
+             'd_aVWAPChannelOversold',
+             'd_aVWAPChannelOverbought',
              # 'd_aVWAPPeaksavg',
              # 'd_aVWAPValleysavg',
-             # 'd_aVWAPChannelResistance',
-             # 'd_aVWAPChannelSupport',
+             'd_aVWAPChannelResistance',
+             'd_aVWAPChannelSupport',
 
              # 'd_OBBullishaVWAP',
              # 'd_OBBearishaVWAP',
