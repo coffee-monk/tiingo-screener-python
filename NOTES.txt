@@ -33,7 +33,11 @@
   - calculate aVWAP_avg indicators and filter for the ones that receive the most liquidity 
   - liquidity = price touches this price the most times
 
+- calculate how many times dips below aVWAP_channel leads to rise to top of aVWAP channel
+
 # HOW TO ADD CUSTOM INDICATOR PARAMS
 - add final indicator param version suffix to the end of filename, ie ticker_time_timestamp_ind1
+
+
 
 
