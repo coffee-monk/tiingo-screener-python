@@ -7,9 +7,7 @@ from datetime import datetime
 from lightweight_charts import Chart
 from src.visualization.src.color_palette import get_color_palette
 from src.visualization.src.indicators import add_visualizations
-
-PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
-DATA_ROOT = PROJECT_ROOT / "data" / "indicators"
+from config.settings import INDICATORS_DIR
 
 def prepare_dataframe(df, show_volume, padding_ratio=0.25):
     df = df.copy()
@@ -248,7 +246,7 @@ def _on_search(chart, input_ticker):
     print(f"Searching for ticker: {input_ticker}")
     try:
         current_timeframe = chart.topbar['timeframe'].value
-        matching_files = sorted(DATA_ROOT.glob(f"{input_ticker}_{current_timeframe}_*.csv"), reverse=True)
+        matching_files = sorted(INDICATORS_DIR.glob(f"{input_ticker}_{current_timeframe}_*.csv"), reverse=True)
         if not matching_files:
             print(f"No {current_timeframe} data found for {input_ticker}")
             return
@@ -284,7 +282,7 @@ def _load_timeframe_csv(charts, key, show_volume=False):
     timeframe_order = ['weekly','daily','4hour','1hour','30min','15min','5min','1min']
     available_timeframes = []
     for tf in timeframe_order:
-        if list(DATA_ROOT.glob(f"{ticker}_{tf}_*.csv")):
+        if list(INDICATORS_DIR.glob(f"{ticker}_{tf}_*.csv")):
             available_timeframes.append(tf)
     
     if not available_timeframes:
@@ -298,7 +296,7 @@ def _load_timeframe_csv(charts, key, show_volume=False):
     
     next_index = (current_index + 1) % len(available_timeframes)
     next_timeframe = available_timeframes[next_index]
-    matching_files = sorted(DATA_ROOT.glob(f"{ticker}_{next_timeframe}_*.csv"), reverse=True)
+    matching_files = sorted(INDICATORS_DIR.glob(f"{ticker}_{next_timeframe}_*.csv"), reverse=True)
     selected_file = matching_files[0]
     print(f"Loading {ticker} {next_timeframe} data from: {selected_file}")
     
@@ -315,14 +313,14 @@ def _load_timeframe_csv(charts, key, show_volume=False):
     chart.fit()
 
 def get_most_recent_scanner_file():
-    scanner_path = DATA_ROOT.parent / "scanner"
+    scanner_path = INDICATORS_DIR.parent / "scanner"
     if not scanner_path.exists():
         return None
     scan_files = sorted(scanner_path.glob("scan_results_*.csv"), key=lambda x: x.stem.split('_')[-1], reverse=True)
     return scan_files[0] if scan_files else None
 
 def find_indicator_file(ticker, timeframe):
-    files = sorted(DATA_ROOT.glob(f"{ticker}_{timeframe}_*.csv"), reverse=True)
+    files = sorted(INDICATORS_DIR.glob(f"{ticker}_{timeframe}_*.csv"), reverse=True)
     return files[0] if files else None
 
 SCREENSHOT_KEY_MAPPINGS = {'_':0,'+':1,'{':2,'}':3}

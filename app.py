@@ -44,16 +44,6 @@ def vis(scan_file=None, ticker=None):
                  )
         return
 
-    # # Scan file case - only runs if scan_file is provided
-    # scan_path = Path(scan_file)
-    # if not scan_path.exists() and not scan_path.parent.name == "scans":
-    #     scan_path = SCANNER_DIR / scan_path.name
-    #
-    # if not scan_path.exists():
-    #     print(f"Error: Scan file not found at {scan_path}")
-    #     list_scans()
-    #     return
-
     # If path doesn't exist, try prepending SCANNER_DIR
     scan_path = Path(scan_file)
     if not scan_path.exists():

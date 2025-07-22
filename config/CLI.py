@@ -80,7 +80,7 @@ def list_scans():
     scans = sorted(SCANNER_DIR.glob("scan_results_*.csv"), 
                 key=lambda f: f.stat().st_mtime, reverse=True)
     if not scans:
-        print("\nNo scan files found in data/scans/")
+        print("\nNo scan files found in data/scans/\n")
         return
     
     print("\nAvailable scan files:")
