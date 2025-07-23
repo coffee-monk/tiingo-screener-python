@@ -11,8 +11,9 @@ from src.scanner.scanner           import run_scanner
 from src.visualization.subcharts   import subcharts
 from src.scanner.scan_configs.scan_configs import scan_configs
 from src.indicators.ind_configs.ind_configs import indicators, params
-from config.CLI import init_cli, list_scans
+from config.CLI import init_cli
 from config.settings import SCANNER_DIR
+from config.data_manager import dm
 
 API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
 
@@ -25,33 +26,34 @@ def vis(scan_file=None, ticker=None):
         if not ticker: ticker = 'BTCUSD'
 
         # df1 = fetch_ticker(timeframe='w', ticker=ticker, api_key=API_KEY)
-        df2 = fetch_ticker(timeframe='d',  ticker=ticker, api_key=API_KEY)
+        # df2 = fetch_ticker(timeframe='d',  ticker=ticker, api_key=API_KEY)
         # df3 = fetch_ticker(timeframe='4h', ticker=ticker, api_key=API_KEY)
         # df4 = fetch_ticker(timeframe='h',  ticker=ticker, api_key=API_KEY)
         # df5 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
         # df1 = get_indicators(df1, indicators['weekly_2'], params['weekly_2'])
-        df2 = get_indicators(df2, indicators['daily_2'], params['daily_2'])
+        # df2 = get_indicators(df2, indicators['daily_2'], params['daily_2'])
         # df3 = get_indicators(df3, indicators['4hour_2'], params['4hour_2'])
         # df4 = get_indicators(df4, indicators['1hour_2'], params['1hour_2'])
         # df5 = get_indicators(df5, indicators['5min'], params['5min'])
 
-        subcharts(
-                  [df2],
-                  ticker=ticker,
-                  show_volume=False,
-                  show_banker_RSI=True
-                 )
+        # subcharts(
+        #           [df2],
+        #           ticker=ticker,
+        #           show_volume=False,
+        #           show_banker_RSI=True
+        #          )
         return
 
     # If path doesn't exist, try prepending SCANNER_DIR
     scan_path = Path(scan_file)
     if not scan_path.exists():
         scan_path = SCANNER_DIR / scan_path.name
-    
+
     if not scan_path.exists():
         print(f"Error: Scan file not found at {scan_path}")
         list_scans()  # Show available scans
+        dm.list_scans()
         return
 
     subcharts(scan_file=scan_path)
@@ -71,9 +73,9 @@ def fetch():
 def ind():
 
     run_indicators(indicators['weekly_2'], params['weekly_2'], "weekly")
-    run_indicators(indicators['daily_2'],  params['daily_2'],  "daily")
-    run_indicators(indicators['4hour_2'],  params['4hour_2'],  "4hour")
-    run_indicators(indicators['1hour_2'],  params['1hour_2'],  "1hour")
+    # run_indicators(indicators['daily_2'],  params['daily_2'],  "daily")
+    # run_indicators(indicators['4hour_2'],  params['4hour_2'],  "4hour")
+    # run_indicators(indicators['1hour_2'],  params['1hour_2'],  "1hour")
     # run_indicators(indicators['5min_2'],   params['5min_2'],   "5min")
 
 # SCANNER -------------------------------------------------
@@ -150,7 +152,17 @@ def scan():
         }
         run_scanner(**kwargs)
 
+# FULL RUN ------------------------------------------------
+
+def full_run(fetch, ind, scan) -> None:
+    """Standard full run pipeline"""
+    dm.clear_all_buffers()
+    fetch()
+    ind()
+    scan()
+    print("\n✅ Standard full run completed")
+
 # COMMAND LINE INTERFACE (CLI) ----------------------------
 
 # RUN 'python app.py' for HELP command list
-if __name__ == "__main__": init_cli(vis, fetch, ind, scan)
+if __name__ == "__main__": init_cli(vis, fetch, ind, scan, full_run)
