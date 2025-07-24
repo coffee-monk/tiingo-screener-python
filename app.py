@@ -14,7 +14,7 @@ from src.indicators.ind_configs.ind_configs import indicators, params
 from config.CLI import init_cli
 from config.settings import SCANNER_DIR
 from config.data_manager import dm
-from config.scan_lists import scans_lists
+from config.scan_lists import scan_lists
 
 API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
 
@@ -76,18 +76,18 @@ def ind(ind_conf=None):
     match ind_conf:
         case 'ind_conf_1':
             run_indicators(indicators['weekly'], params['weekly'], "weekly")
-            run_indicators(indicators['daily'],  params['daily'],  "daily")
-            run_indicators(indicators['4hour'],  params['4hour'],  "4hour")
-            run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
+            # run_indicators(indicators['daily'],  params['daily'],  "daily")
+            # run_indicators(indicators['4hour'],  params['4hour'],  "4hour")
+            # run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
         case 'ind_conf_2':
             run_indicators(indicators['weekly_2'], params['weekly_2'], "weekly")
-            run_indicators(indicators['daily_2'],  params['daily_2'],  "daily")
-            run_indicators(indicators['4hour_2'],  params['4hour_2'],  "4hour")
-            run_indicators(indicators['1hour_2'],  params['1hour_2'],  "1hour")
+            # run_indicators(indicators['daily_2'],  params['daily_2'],  "daily")
+            # run_indicators(indicators['4hour_2'],  params['4hour_2'],  "4hour")
+            # run_indicators(indicators['1hour_2'],  params['1hour_2'],  "1hour")
 
 # SCANNER -------------------------------------------------
 
-def scan(scan_list=scans_lists['ind_conf_1']):
+def scan(scan_list=scan_lists['ind_conf_1']):
 
     scans = scan_list
 
@@ -105,18 +105,24 @@ def full_run(fetch, ind, scan) -> None:
     """Standard full run pipeline"""
     # dm.clear_all_buffers()
     # fetch()
+
+    # Indicators
+
     ind('ind_conf_1')
     dm.save_indicators('ind_conf_1')
-    dm.clear_buffer(self.indicators_dir)
+    dm.clear_buffer(dm.indicators_dir)
     ind('ind_conf_2')
     dm.save_indicators('ind_conf_2')
-    dm.clear_buffer(self.indicators_dir)
-    scan()
-    dm.save_scans(scan_lists['ind_conf_1'])
-    dm.clear_buffer(self.scanner_dir)
+    dm.clear_buffer(dm.indicators_dir)
+
+    # Scanner
+
+    scan(scan_lists['ind_conf_1'])
+    dm.save_scans('ind_conf_1')
+    dm.clear_buffer(dm.scanner_dir)
     scan(scan_lists['ind_conf_2'])
-    dm.save_scans(scan_lists['ind_conf_2'])
-    dm.clear_buffer(self.scanner_dir)
+    dm.save_scans('ind_conf_2')
+    dm.clear_buffer(dm.scanner_dir)
     print("\n✅ Standard full run completed")
 
 # COMMAND LINE INTERFACE (CLI) ----------------------------
