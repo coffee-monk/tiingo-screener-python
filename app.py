@@ -14,6 +14,7 @@ from src.indicators.ind_configs.ind_configs import indicators, params
 from config.CLI import init_cli
 from config.settings import SCANNER_DIR
 from config.data_manager import dm
+from config.scan_lists import scans_lists
 
 API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
 
@@ -26,23 +27,23 @@ def vis(scan_file=None, ticker=None):
         if not ticker: ticker = 'BTCUSD'
 
         # df1 = fetch_ticker(timeframe='w', ticker=ticker, api_key=API_KEY)
-        # df2 = fetch_ticker(timeframe='d',  ticker=ticker, api_key=API_KEY)
-        # df3 = fetch_ticker(timeframe='4h', ticker=ticker, api_key=API_KEY)
+        df2 = fetch_ticker(timeframe='d',  ticker=ticker, api_key=API_KEY)
+        df3 = fetch_ticker(timeframe='4h', ticker=ticker, api_key=API_KEY)
         # df4 = fetch_ticker(timeframe='h',  ticker=ticker, api_key=API_KEY)
         # df5 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
         # df1 = get_indicators(df1, indicators['weekly_2'], params['weekly_2'])
-        # df2 = get_indicators(df2, indicators['daily_2'], params['daily_2'])
-        # df3 = get_indicators(df3, indicators['4hour_2'], params['4hour_2'])
+        df2 = get_indicators(df2, indicators['daily_2'], params['daily_2'])
+        df3 = get_indicators(df3, indicators['4hour_2'], params['4hour_2'])
         # df4 = get_indicators(df4, indicators['1hour_2'], params['1hour_2'])
         # df5 = get_indicators(df5, indicators['5min'], params['5min'])
 
-        # subcharts(
-        #           [df2],
-        #           ticker=ticker,
-        #           show_volume=False,
-        #           show_banker_RSI=True
-        #          )
+        subcharts(
+                  [df2, df3],
+                  ticker=ticker,
+                  show_volume=False,
+                  show_banker_RSI=True
+                 )
         return
 
     # If path doesn't exist, try prepending SCANNER_DIR
@@ -70,79 +71,25 @@ def fetch():
 
 # INDICATORS ----------------------------------------------
 
-def ind():
+def ind(ind_conf=None):
 
-    run_indicators(indicators['weekly_2'], params['weekly_2'], "weekly")
-    # run_indicators(indicators['daily_2'],  params['daily_2'],  "daily")
-    # run_indicators(indicators['4hour_2'],  params['4hour_2'],  "4hour")
-    # run_indicators(indicators['1hour_2'],  params['1hour_2'],  "1hour")
-    # run_indicators(indicators['5min_2'],   params['5min_2'],   "5min")
+    match ind_conf:
+        case 'ind_conf_1':
+            run_indicators(indicators['weekly'], params['weekly'], "weekly")
+            run_indicators(indicators['daily'],  params['daily'],  "daily")
+            run_indicators(indicators['4hour'],  params['4hour'],  "4hour")
+            run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
+        case 'ind_conf_2':
+            run_indicators(indicators['weekly_2'], params['weekly_2'], "weekly")
+            run_indicators(indicators['daily_2'],  params['daily_2'],  "daily")
+            run_indicators(indicators['4hour_2'],  params['4hour_2'],  "4hour")
+            run_indicators(indicators['1hour_2'],  params['1hour_2'],  "1hour")
 
 # SCANNER -------------------------------------------------
 
-def scan():
+def scan(scan_list=scans_lists['ind_conf_1']):
 
-    scans = [
-
-             # --- Multi-Timeframe Scans ---
-
-             # 'w_QQEMODOversold_d_OBullishZone',
-             #
-             # 'd_StDevOversold_h_OBSupport',
-             # 'd_StDevOverbought_h_OBResistance',
-             # 'h_OBResistance',
-             # 'h_OBSupport',
-
-             # 'd_OBSupport_h_OBSupport',
-             # 'd_OBResistance_h_OBResistance',
-             #
-             # 'w_bankerRSI_QQEMODOversold',
-             # 'w_OBSupport',
-             # 'w_bankerRSI',
-             # 'w_bankerRSI_QQEMODOversold',
-
-             # --- Single-Timeframe Scans ---
-
-             # 'w_QQEMODBullishReversal',
-             # 'w_QQEMODBearishReversal',
-
-             # 'd_QQEMODBullishReversal',
-             # 'd_QQEMODBearishReversal',
-             # 'd_QQEMODBullishReversal',
-             # 'd_QQEMODBearishReversal',
-             # 'd_aVWAPavgBelow_OBBullish',
-             # 'd_QQEMODOversold_OBSupport',
-             # 'd_bankerRSI_QQEMODOversold',
-             # 'd_aVWAPavg',
-             # 'd_SMA',
-
-             # '4h_aVWAPChannelOversold',
-             # '4h_aVWAPChannelOverbought',
-             # '4h_aVWAPPeaksavg',
-             # '4h_aVWAPValleysavg',
-
-             # 'h_StDevOversold_OBSupport',
-             # 'h_OBSupport',
-             # 'h_QQEMODBearishReversal',
-             # 'h_QQEMODBearishReversal',
-             # 'h_aVWAPavgBelow_OBBullish',
-             # 'h_aVWAPChannelOversold',
-             # 'h_aVWAPChannelOverbought',
-             # 'h_aVWAPPeaksavg',
-             # 'h_aVWAPValleysavg',
-
-             'd_aVWAPavg',
-             'd_aVWAPPeaksavg',
-             'd_aVWAPValleysavg',
-             'd_aVWAPChannelOversold',
-             'd_aVWAPChannelOverbought',
-             'd_aVWAPChannelResistance',
-             'd_aVWAPChannelSupport',
-
-             # 'd_OBBullishaVWAP',
-             # 'd_OBBearishaVWAP',
-
-            ]
+    scans = scan_list
 
     for scan in scans:
         kwargs = {
@@ -156,10 +103,20 @@ def scan():
 
 def full_run(fetch, ind, scan) -> None:
     """Standard full run pipeline"""
-    dm.clear_all_buffers()
-    fetch()
-    ind()
+    # dm.clear_all_buffers()
+    # fetch()
+    ind('ind_conf_1')
+    dm.save_indicators('ind_conf_1')
+    dm.clear_buffer(self.indicators_dir)
+    ind('ind_conf_2')
+    dm.save_indicators('ind_conf_2')
+    dm.clear_buffer(self.indicators_dir)
     scan()
+    dm.save_scans(scan_lists['ind_conf_1'])
+    dm.clear_buffer(self.scanner_dir)
+    scan(scan_lists['ind_conf_2'])
+    dm.save_scans(scan_lists['ind_conf_2'])
+    dm.clear_buffer(self.scanner_dir)
     print("\n✅ Standard full run completed")
 
 # COMMAND LINE INTERFACE (CLI) ----------------------------
