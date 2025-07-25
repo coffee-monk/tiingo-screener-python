@@ -28,18 +28,18 @@ def vis(scan_file=None, ticker=None):
 
         # df1 = fetch_ticker(timeframe='w', ticker=ticker, api_key=API_KEY)
         df2 = fetch_ticker(timeframe='d',  ticker=ticker, api_key=API_KEY)
-        df3 = fetch_ticker(timeframe='4h', ticker=ticker, api_key=API_KEY)
+        # df3 = fetch_ticker(timeframe='4h', ticker=ticker, api_key=API_KEY)
         # df4 = fetch_ticker(timeframe='h',  ticker=ticker, api_key=API_KEY)
         # df5 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
         # df1 = get_indicators(df1, indicators['weekly_2'], params['weekly_2'])
-        df2 = get_indicators(df2, indicators['daily_2'], params['daily_2'])
-        df3 = get_indicators(df3, indicators['4hour_2'], params['4hour_2'])
+        df2 = get_indicators(df2, indicators['daily'], params['daily'])
+        # df3 = get_indicators(df3, indicators['4hour_2'], params['4hour_2'])
         # df4 = get_indicators(df4, indicators['1hour_2'], params['1hour_2'])
         # df5 = get_indicators(df5, indicators['5min'], params['5min'])
 
         subcharts(
-                  [df2, df3],
+                  [df2],
                   ticker=ticker,
                   show_volume=False,
                   show_banker_RSI=True
@@ -76,14 +76,19 @@ def ind(ind_conf=None):
     match ind_conf:
         case 'ind_conf_1':
             run_indicators(indicators['weekly'], params['weekly'], "weekly")
-            # run_indicators(indicators['daily'],  params['daily'],  "daily")
-            # run_indicators(indicators['4hour'],  params['4hour'],  "4hour")
-            # run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
+            run_indicators(indicators['daily'],  params['daily'],  "daily")
+            run_indicators(indicators['4hour'],  params['4hour'],  "4hour")
+            run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
         case 'ind_conf_2':
             run_indicators(indicators['weekly_2'], params['weekly_2'], "weekly")
-            # run_indicators(indicators['daily_2'],  params['daily_2'],  "daily")
-            # run_indicators(indicators['4hour_2'],  params['4hour_2'],  "4hour")
-            # run_indicators(indicators['1hour_2'],  params['1hour_2'],  "1hour")
+            run_indicators(indicators['daily_2'],  params['daily_2'],  "daily")
+            run_indicators(indicators['4hour_2'],  params['4hour_2'],  "4hour")
+            run_indicators(indicators['1hour_2'],  params['1hour_2'],  "1hour")
+        case 'ind_conf_3':
+            run_indicators(indicators['weekly_3'], params['weekly_3'], "weekly")
+            run_indicators(indicators['daily_3'],  params['daily_3'],  "daily")
+            run_indicators(indicators['4hour_3'],  params['4hour_3'],  "4hour")
+            run_indicators(indicators['1hour_3'],  params['1hour_3'],  "1hour")
 
 # SCANNER -------------------------------------------------
 
@@ -103,26 +108,42 @@ def scan(scan_list=scan_lists['ind_conf_1']):
 
 def full_run(fetch, ind, scan) -> None:
     """Standard full run pipeline"""
-    # dm.clear_all_buffers()
-    # fetch()
 
-    # Indicators
+    # FETCH
+
+    dm.clear_all_buffers()
+    fetch()
+
+    # INDICATORS
 
     ind('ind_conf_1')
     dm.save_indicators('ind_conf_1')
     dm.clear_buffer(dm.indicators_dir)
+
     ind('ind_conf_2')
     dm.save_indicators('ind_conf_2')
     dm.clear_buffer(dm.indicators_dir)
 
-    # Scanner
+    ind('ind_conf_3')
+    dm.save_indicators('ind_conf_3')
+    dm.clear_buffer(dm.indicators_dir)
 
-    scan(scan_lists['ind_conf_1'])
-    dm.save_scans('ind_conf_1')
+    # SCANNER
+
+    scan(scan_lists['scan_conf_1'])
+    dm.save_scans('scan_conf_1')
     dm.clear_buffer(dm.scanner_dir)
-    scan(scan_lists['ind_conf_2'])
-    dm.save_scans('ind_conf_2')
+
+    scan(scan_lists['scan_conf_2'])
+    dm.save_scans('scan_conf_2')
     dm.clear_buffer(dm.scanner_dir)
+
+    scan(scan_lists['scan_conf_3'])
+    dm.save_scans('scan_conf_3')
+    dm.clear_buffer(dm.scanner_dir)
+
+    # COMPLETE
+
     print("\n✅ Standard full run completed")
 
 # COMMAND LINE INTERFACE (CLI) ----------------------------

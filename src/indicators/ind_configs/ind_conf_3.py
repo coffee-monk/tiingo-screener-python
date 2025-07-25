@@ -1,32 +1,32 @@
 indicators = {
 
         'weekly': [
-            'aVWAP', 
-            'candle_colors', 
-            'StDev', 
-            'QQEMOD', 
+            'aVWAP',
+            'candle_colors',
+            'StDev',
+            'QQEMOD',
             'banker_RSI',
             'SMA',
-            'OB', 
-            'TTM_squeeze', 
+            'OB',
+            'TTM_squeeze',
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
         'daily': [
-            'aVWAP', 
-            'candle_colors', 
-            'StDev', 
-            'QQEMOD', 
+            'aVWAP',
+            'candle_colors',
+            'StDev',
+            'QQEMOD',
             'banker_RSI',
             'SMA',
-            'OB', 
-            'TTM_squeeze', 
+            'OB',
+            'TTM_squeeze',
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
         '4hour': [
             'aVWAP', 
-            'candle_colors',
+            'candle_colors', 
             'StDev', 
             'QQEMOD', 
             'banker_RSI',
@@ -38,7 +38,7 @@ indicators = {
 
         '1hour': [
             'aVWAP', 
-            'candle_colors',
+            'candle_colors', 
             'StDev', 
             'QQEMOD', 
             'banker_RSI',
@@ -52,20 +52,21 @@ indicators = {
             'aVWAP', 
             'candle_colors', 
             'StDev', 
-            'QQEMOD',
-            'banker_RSI', 
-            'SMA', 
+            'QQEMOD', 
+            'banker_RSI',
+            'SMA',
             'OB', 
-            'TTM_squeeze',
+            'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ]
 }
 
 params = {
 
+
         'weekly': {
             'candle_colors': {
-                'indicator_color': 'QQEMOD',
+                'indicator_color': 'supertrend',
                 'custom_params': {
                     'StDev': {
                         'std_lookback': 20, 'avg_lookback': 20,
@@ -76,14 +77,14 @@ params = {
                         'rsi_period': 8, 'rsi_period2': 8, 'sf': 6, 'sf2': 6,
                         'qqe_factor': 3.5, 'qqe_factor2': 2.0, 'threshold': 4,
                         'bb_length': 60, 'bb_multi': 0.4
-                    }
+                    },
                 }
             },
             'aVWAP': {
-                'peaks_valleys': True,
+                'peaks_valleys': False,
                 'peaks_valleys_avg': True,
-                'peaks_avg': True,
-                'valleys_avg': True,
+                'peaks_avg': False,
+                'valleys_avg': False,
                 'peaks_valleys_params': {'periods': 8, 'max_aVWAPs': None},
                 'OB': True,
                 'OB_avg': False,
@@ -94,7 +95,7 @@ params = {
                 'All_avg': False,
                 'avg_lookback': 8,
                 'keep_OB_column': False,
-                'aVWAP_channel': True,
+                'aVWAP_channel': False,
             },
             'OB': {'periods': 4},
             'StDev': {
@@ -116,13 +117,13 @@ params = {
             },
             'divergence_OBV':    {'period': 26, 'lookback': 26},
             'divergence_Volume': {'period': 26, 'lookback': 26},
-            'divergenCe_Fisher': {'period': 26, 'lookback': 26},
+            'divergence_Fisher': {'period': 26, 'lookback': 26},
             'divergence_Vortex': {'period': 26, 'lookback': 26}
         },
 
         'daily': {
             'candle_colors': {
-                'indicator_color': 'QQEMOD',
+                'indicator_color': 'supertrend',
                 'custom_params': {
                     'StDev': {
                         'std_lookback': 20, 'avg_lookback': 20,
@@ -133,14 +134,14 @@ params = {
                         'rsi_period': 6, 'rsi_period2': 5, 'sf': 5, 'sf2': 5,
                         'qqe_factor': 3.0, 'qqe_factor2': 1.61, 'threshold': 3,
                         'bb_length': 50, 'bb_multi': 0.35
-                    }
+                    },
                 }
             },
             'aVWAP': {
-                'peaks_valleys': True,
+                'peaks_valleys': False,
                 'peaks_valleys_avg': True,
-                'peaks_avg': True,
-                'valleys_avg': True,
+                'peaks_avg': False,
+                'valleys_avg': False,
                 'peaks_valleys_params': {'periods': 8, 'max_aVWAPs': None},
                 'OB': True,
                 'OB_avg': False,
@@ -151,7 +152,7 @@ params = {
                 'All_avg': False,
                 'avg_lookback': 8,
                 'keep_OB_column': False,
-                'aVWAP_channel': True,
+                'aVWAP_channel': False,
             },
             'OB': {'periods': 20},
             'StDev': {
@@ -165,7 +166,7 @@ params = {
                 'bb_length': 50, 'bb_multi': 0.35
             },
             'SMA': {'periods': [200]},
-            'liquidity': {'swing_length': 20, 'range_percent': 10.0},
+            'liquidity': {'swing_length': 20, 'range_percent': 0.1},
             'supertrend': {'period': 14, 'multiplier': 3},
             'TTM_squeeze': {
                 'bb_length': 18, 'bb_std_dev': 1.9,
@@ -177,14 +178,15 @@ params = {
             'divergence_Vortex': {'period': 50, 'lookback': 50}
         },
 
+
         '4hour': {
             'candle_colors': {
-                'indicator_color': 'QQEMOD',
+                'indicator_color': 'supertrend',
                 'custom_params': {
                     'StDev': {
-                        'std_lookback': 16, 'avg_lookback': 20,
                         'centreline': 'peaks_valleys_avg',
-                        'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None}
+                        'peaks_valleys_params': {'periods': 16, 'max_aVWAPs': None},
+                        'std_lookback': 16, 'avg_lookback': 16
                     },
                     'QQEMOD': {
                         'rsi_period': 5, 'rsi_period2': 5, 'sf': 5, 'sf2': 4,
@@ -194,10 +196,10 @@ params = {
                 }
             },
             'aVWAP': {
-                'peaks_valleys': True,
+                'peaks_valleys': False,
                 'peaks_valleys_avg': True,
-                'peaks_avg': True,
-                'valleys_avg': True,
+                'peaks_avg': False,
+                'valleys_avg': False,
                 'peaks_valleys_params': {'periods': 8, 'max_aVWAPs': None},
                 'OB': True,
                 'OB_avg': False,
@@ -208,7 +210,7 @@ params = {
                 'All_avg': False,
                 'avg_lookback': 8,
                 'keep_OB_column': False,
-                'aVWAP_channel': True,
+                'aVWAP_channel': False,
             },
             'OB': {'periods': 16},
             'StDev': {
@@ -233,28 +235,29 @@ params = {
             'divergence_Fisher': {'period': 128, 'lookback': 64},
             'divergence_Vortex': {'period': 128, 'lookback': 64}
         },
+
 
         '1hour': {
             'candle_colors': {
-                'indicator_color': 'QQEMOD',
+                'indicator_color': 'supertrend',
                 'custom_params': {
                     'StDev': {
-                        'std_lookback': 16, 'avg_lookback': 20,
                         'centreline': 'peaks_valleys_avg',
-                        'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None}
+                        'peaks_valleys_params': {'periods': 16, 'max_aVWAPs': None},
+                        'std_lookback': 16, 'avg_lookback': 16
                     },
                     'QQEMOD': {
                         'rsi_period': 5, 'rsi_period2': 5, 'sf': 5, 'sf2': 4,
                         'qqe_factor': 2.5, 'qqe_factor2': 1.3, 'threshold': 2,
                         'bb_length': 40, 'bb_multi': 0.3
-                    }
+                    },
                 }
             },
             'aVWAP': {
-                'peaks_valleys': True,
+                'peaks_valleys': False,
                 'peaks_valleys_avg': True,
-                'peaks_avg': True,
-                'valleys_avg': True,
+                'peaks_avg': False,
+                'valleys_avg': False,
                 'peaks_valleys_params': {'periods': 8, 'max_aVWAPs': None},
                 'OB': True,
                 'OB_avg': False,
@@ -265,7 +268,7 @@ params = {
                 'All_avg': False,
                 'avg_lookback': 8,
                 'keep_OB_column': False,
-                'aVWAP_channel': True,
+                'aVWAP_channel': False,
             },
             'OB': {'periods': 16},
             'StDev': {
@@ -291,27 +294,28 @@ params = {
             'divergence_Vortex': {'period': 128, 'lookback': 64}
         },
 
+
         '5min': {
             'candle_colors': {
-                'indicator_color': 'QQEMOD',
+                'indicator_color': 'supertrend',
                 'custom_params': {
                     'StDev': {
-                        'std_lookback': 20, 'avg_lookback': 20,
                         'centreline': 'peaks_valleys_avg',
-                        'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': 20}
+                        'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
+                        'std_lookback': 20, 'avg_lookback': 20
                     },
                     'QQEMOD': {
-                        'rsi_period': 5, 'rsi_period2': 5, 'sf': 5, 'sf2': 4,
-                        'qqe_factor': 2.5, 'qqe_factor2': 1.3, 'threshold': 2,
-                        'bb_length': 40, 'bb_multi': 0.3
+                        'rsi_period': 4, 'rsi_period2': 4, 'sf': 3, 'sf2': 3,
+                        'qqe_factor': 2.0, 'qqe_factor2': 1.0, 'threshold': 1.5,
+                        'bb_length': 30, 'bb_multi': 0.25
                     }
                 }
             },
             'aVWAP': {
-                'peaks_valleys': True,
+                'peaks_valleys': False,
                 'peaks_valleys_avg': True,
-                'peaks_avg': True,
-                'valleys_avg': True,
+                'peaks_avg': False,
+                'valleys_avg': False,
                 'peaks_valleys_params': {'periods': 8, 'max_aVWAPs': None},
                 'OB': True,
                 'OB_avg': False,
@@ -322,7 +326,7 @@ params = {
                 'All_avg': False,
                 'avg_lookback': 8,
                 'keep_OB_column': False,
-                'aVWAP_channel': True,
+                'aVWAP_channel': False,
             },
             'OB': {'periods': 20},
             'StDev': {
@@ -348,3 +352,4 @@ params = {
             'divergence_Vortex': {'period': 128, 'lookback': 80}
         }
 }
+

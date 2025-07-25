@@ -3,9 +3,9 @@ from pathlib import Path
 from datetime import datetime
 from typing import List, Dict, Optional, Union
 from config.settings import (
-                             INDICATORS_DIR, 
-                             SCANNER_DIR, 
-                             TICKERS_DIR, 
+                             INDICATORS_DIR,
+                             SCANNER_DIR,
+                             TICKERS_DIR,
                              SCREENSHOTS_DIR
                             )
 
@@ -136,7 +136,7 @@ class DataManager:
         """List scan files in buffer with nice formatting"""
         scans = self.list_files(self.scanner_dir, "scan_results_*.csv", limit)
         
-        print(f"\nCurrent scans in buffer ({len(scans)}):")
+        print(f"\nCurrent scans in buffer ({len(scans)}):\n")
         for i, scan in enumerate(scans):
             print(f"  {i+1}. {scan.name}")
 
@@ -144,30 +144,9 @@ class DataManager:
         """List indicator files in buffer with nice formatting"""
         indicators = self.list_files(self.indicators_dir, "*.csv", limit)
         
-        print(f"\nCurrent indicators in buffer ({len(indicators)}):")
+        print(f"\nCurrent indicators in buffer ({len(indicators)}):\n")
         for i, indicator in enumerate(indicators):
             print(f"  {i+1}. {indicator.name}")
-
-    # Advanced Workflows --------------------------------
-    
-    def timestamped_run(self, fetch_fn, ind_fn, scan_fn) -> Dict[str, str]:
-        """Run full pipeline with auto-versioning"""
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M")
-        self.clear_all_buffers()
-        
-        fetch_fn()
-        ind_fn()
-        self.save_indicators(f"auto_{timestamp}")
-        
-        scan_fn()
-        self.save_scans(f"auto_{timestamp}")
-        
-        return {
-            'indicators': f"auto_{timestamp}",
-            'scans': f"auto_{timestamp}",
-            'timestamp': timestamp
-        }
-
 
 # Create instance of Class to export
 dm = DataManager({

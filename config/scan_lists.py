@@ -1,6 +1,6 @@
 scan_lists = {
 
-    'ind_conf_1': [
+    'scan_list_1': [
 
         'w_bankerRSI',
         'w_OBSupport',
@@ -8,7 +8,7 @@ scan_lists = {
 
     ],
         
-    'ind_conf_2': [
+    'scan_list_2': [
 
         # --- Multi-Timeframe Scans ---
 
@@ -32,44 +32,44 @@ scan_lists = {
 
         # --- Single-Timeframe Scans ---
 
-        # 'w_QQEMODBullishReversal',
-        # 'w_QQEMODBearishReversal',
-        #
-        # 'd_QQEMODBullishReversal',
-        # 'd_QQEMODBearishReversal',
-        # 'd_QQEMODBullishReversal',
-        # 'd_QQEMODBearishReversal',
-        # 'd_aVWAPavgBelow_OBBullish',
-        # 'd_QQEMODOversold_OBSupport',
-        # 'd_bankerRSI_QQEMODOversold',
-        # 'd_aVWAPavg',
-        # 'd_SMA',
-        #
-        # '4h_aVWAPChannelOversold',
-        # '4h_aVWAPChannelOverbought',
-        # '4h_aVWAPPeaksavg',
-        # '4h_aVWAPValleysavg',
-        #
-        # 'h_StDevOversold_OBSupport',
-        # 'h_OBSupport',
-        # 'h_QQEMODBearishReversal',
-        # 'h_QQEMODBearishReversal',
-        # 'h_aVWAPavgBelow_OBBullish',
-        # 'h_aVWAPChannelOversold',
-        # 'h_aVWAPChannelOverbought',
-        # 'h_aVWAPPeaksavg',
-        # 'h_aVWAPValleysavg',
-        #
-        # 'd_aVWAPavg',
-        # 'd_aVWAPPeaksavg',
-        # 'd_aVWAPValleysavg',
-        # 'd_aVWAPChannelOversold',
-        # 'd_aVWAPChannelOverbought',
-        # 'd_aVWAPChannelResistance',
-        # 'd_aVWAPChannelSupport',
-        #
-        # 'd_OBBullishaVWAP',
-        # 'd_OBBearishaVWAP',
+        'w_QQEMODBullishReversal',
+        'w_QQEMODBearishReversal',
+        
+        'd_QQEMODBullishReversal',
+        'd_QQEMODBearishReversal',
+        'd_QQEMODBullishReversal',
+        'd_QQEMODBearishReversal',
+        'd_aVWAPavgBelow_OBBullish',
+        'd_QQEMODOversold_OBSupport',
+        'd_bankerRSI_QQEMODOversold',
+        'd_aVWAPavg',
+        'd_SMA',
+        
+        '4h_aVWAPChannelOversold',
+        '4h_aVWAPChannelOverbought',
+        '4h_aVWAPPeaksavg',
+        '4h_aVWAPValleysavg',
+        
+        'h_StDevOversold_OBSupport',
+        'h_OBSupport',
+        'h_QQEMODBearishReversal',
+        'h_QQEMODBearishReversal',
+        'h_aVWAPavgBelow_OBBullish',
+        'h_aVWAPChannelOversold',
+        'h_aVWAPChannelOverbought',
+        'h_aVWAPPeaksavg',
+        'h_aVWAPValleysavg',
+        
+        'd_aVWAPavg',
+        'd_aVWAPPeaksavg',
+        'd_aVWAPValleysavg',
+        'd_aVWAPChannelOversold',
+        'd_aVWAPChannelOverbought',
+        'd_aVWAPChannelResistance',
+        'd_aVWAPChannelSupport',
+        
+        'd_OBBullishaVWAP',
+        'd_OBBearishaVWAP',
 
     ],
 
