@@ -92,7 +92,7 @@ def ind(ind_conf=None):
 
 # SCANNER -------------------------------------------------
 
-def scan(scan_list=scan_lists['ind_conf_1']):
+def scan(scan_list=scan_lists['scan_list_1']):
 
     scans = scan_list
 
@@ -112,6 +112,10 @@ def full_run(fetch, ind, scan) -> None:
     # FETCH
 
     dm.clear_all_buffers()
+    dm.delete_all_versions(dm.tickers_dir)
+    dm.delete_all_versions(dm.indicators_dir)
+    dm.delete_all_versions(dm.scanner_dir)
+
     fetch()
 
     # INDICATORS
@@ -130,16 +134,16 @@ def full_run(fetch, ind, scan) -> None:
 
     # SCANNER
 
-    scan(scan_lists['scan_conf_1'])
-    dm.save_scans('scan_conf_1')
+    scan(scan_lists['scan_list_1'])
+    dm.save_scans('scan_list_1')
     dm.clear_buffer(dm.scanner_dir)
 
-    scan(scan_lists['scan_conf_2'])
-    dm.save_scans('scan_conf_2')
+    scan(scan_lists['scan_list_2'])
+    dm.save_scans('scan_list_2')
     dm.clear_buffer(dm.scanner_dir)
 
-    scan(scan_lists['scan_conf_3'])
-    dm.save_scans('scan_conf_3')
+    scan(scan_lists['scan_list_3'])
+    dm.save_scans('scan_list_3')
     dm.clear_buffer(dm.scanner_dir)
 
     # COMPLETE

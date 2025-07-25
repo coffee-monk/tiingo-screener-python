@@ -67,7 +67,6 @@ class DataManager:
         self.clear_buffer(self.tickers_dir)
         self.clear_buffer(self.indicators_dir)
         self.clear_buffer(self.scanner_dir, "scan_results_*.csv")
-        self.clear_buffer(self.screenshots_dir)
         print("✨ All buffers cleared (versions preserved)")
 
     # Version Management --------------------------------
