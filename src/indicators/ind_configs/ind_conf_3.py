@@ -3,6 +3,7 @@ indicators = {
         'weekly': [
             'aVWAP',
             'candle_colors',
+            'liquidity',
             'StDev',
             'QQEMOD',
             'banker_RSI',
@@ -15,6 +16,7 @@ indicators = {
         'daily': [
             'aVWAP',
             'candle_colors',
+            'liquidity',
             'StDev',
             'QQEMOD',
             'banker_RSI',
@@ -27,6 +29,7 @@ indicators = {
         '4hour': [
             'aVWAP', 
             'candle_colors', 
+            'liquidity',
             'StDev', 
             'QQEMOD', 
             'banker_RSI',
@@ -39,6 +42,7 @@ indicators = {
         '1hour': [
             'aVWAP', 
             'candle_colors', 
+            'liquidity',
             'StDev', 
             'QQEMOD', 
             'banker_RSI',
@@ -51,6 +55,7 @@ indicators = {
         '5min': [
             'aVWAP', 
             'candle_colors', 
+            'liquidity',
             'StDev', 
             'QQEMOD', 
             'banker_RSI',
