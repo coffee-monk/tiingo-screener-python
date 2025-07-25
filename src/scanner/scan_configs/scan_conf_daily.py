@@ -148,6 +148,28 @@ scan_conf = {
         }
     },
 
+    'd_QQEMODBullishReversal': {
+        'criteria': {
+            '4hour': ['QQEMOD'],
+        },
+        'params': {
+            'QQEMOD': {
+                '4hour': {'mode': 'bullish_reversal'},
+            }
+        }
+    },
+
+    'd_QQEMODBearishReversal': {
+        'criteria': {
+            'daily': ['QQEMOD'],
+        },
+        'params': {
+            'QQEMOD': {
+                'daily': {'mode': 'bearish_reversal'},
+            }
+        }
+    },
+
     'd_QQEMODOversold_OBSupport': {
         'criteria': {
             'daily': ['QQEMOD', 'OB'],
