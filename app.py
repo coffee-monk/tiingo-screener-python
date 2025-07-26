@@ -111,39 +111,39 @@ def full_run(fetch, ind, scan) -> None:
 
     # FETCH
 
-    dm.clear_all_buffers()
-    dm.delete_all_versions(dm.tickers_dir)
-    dm.delete_all_versions(dm.indicators_dir)
-    dm.delete_all_versions(dm.scanner_dir)
-
-    fetch()
+    # dm.clear_all_buffers()
+    # dm.delete_all_versions(dm.tickers_dir)
+    # dm.delete_all_versions(dm.indicators_dir)
+    # dm.delete_all_versions(dm.scanner_dir)
+    #
+    # fetch()
 
     # INDICATORS
 
-    ind('ind_conf_1')
-    dm.save_indicators('ind_conf_1')
-    dm.clear_buffer(dm.indicators_dir)
-
-    ind('ind_conf_2')
-    dm.save_indicators('ind_conf_2')
-    dm.clear_buffer(dm.indicators_dir)
-
-    ind('ind_conf_3')
-    dm.save_indicators('ind_conf_3')
-    dm.clear_buffer(dm.indicators_dir)
+    # ind('ind_conf_1')
+    # dm.save_indicators('ind_conf_1')
+    # dm.clear_buffer(dm.indicators_dir)
+    #
+    # ind('ind_conf_2')
+    # dm.save_indicators('ind_conf_2')
+    # dm.clear_buffer(dm.indicators_dir)
+    #
+    # ind('ind_conf_3')
+    # dm.save_indicators('ind_conf_3')
+    # dm.clear_buffer(dm.indicators_dir)
 
     # SCANNER
 
     scan(scan_lists['scan_list_1'])
-    dm.save_scans('scan_list_1')
+    dm.save_scans('ind_conf_1')
     dm.clear_buffer(dm.scanner_dir)
 
-    scan(scan_lists['scan_list_2'])
-    dm.save_scans('scan_list_2')
+    scan(scan_lists['scan_list_1'])
+    dm.save_scans('ind_conf_2')
     dm.clear_buffer(dm.scanner_dir)
 
-    scan(scan_lists['scan_list_3'])
-    dm.save_scans('scan_list_3')
+    scan(scan_lists['scan_list_1'])
+    dm.save_scans('ind_conf_3')
     dm.clear_buffer(dm.scanner_dir)
 
     # COMPLETE
