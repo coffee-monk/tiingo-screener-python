@@ -138,6 +138,7 @@ class DataManager:
         print(f"\nCurrent scans in buffer ({len(scans)}):\n")
         for i, scan in enumerate(scans):
             print(f"  {i+1}. {scan.name}")
+        print()
 
     def list_ind(self, limit: int = 10) -> None:
         """List indicator files in buffer with nice formatting"""
@@ -146,6 +147,7 @@ class DataManager:
         print(f"\nCurrent indicators in buffer ({len(indicators)}):\n")
         for i, indicator in enumerate(indicators):
             print(f"  {i+1}. {indicator.name}")
+        print()
 
 # Create instance of Class to export
 dm = DataManager({

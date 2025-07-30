@@ -81,7 +81,7 @@ params = {
                 'peaks_valleys_avg': False,
                 'peaks_avg': True,
                 'valleys_avg': True,
-                'peaks_valleys_params': {'periods': 8, 'max_aVWAPs': None},
+                'peaks_valleys_params': {'periods': 10, 'max_aVWAPs': None},
                 'OB': False,
                 'OB_avg': False,
                 'OB_params': {'periods': 4, 'max_aVWAPs': None},
@@ -89,7 +89,7 @@ params = {
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 8},
                 'All_avg': False,
-                'avg_lookback': 8,
+                'avg_lookback': 10,
                 'keep_OB_column': False,
                 'aVWAP_channel': True,
             },
@@ -104,8 +104,6 @@ params = {
                 'qqe_factor': 3.5, 'qqe_factor2': 2.0, 'threshold': 4,
                 'bb_length': 60, 'bb_multi': 0.4
             },
-            'liquidity': {'swing_length': 4, 'range_percent': 0.1},
-            'supertrend': {'period': 20, 'multiplier': 3},
             'TTM_squeeze': {
                 'bb_length': 20, 'bb_std_dev': 2.0,
                 'kc_length': 20, 'kc_mult': 2.0, 'use_true_range': True
@@ -137,7 +135,7 @@ params = {
                 'peaks_valleys_avg': False,
                 'peaks_avg': True,
                 'valleys_avg': True,
-                'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
+                'peaks_valleys_params': {'periods': 30, 'max_aVWAPs': None},
                 'OB': False,
                 'OB_avg': False,
                 'OB_params': {'periods': 4, 'max_aVWAPs': None},
@@ -160,8 +158,6 @@ params = {
                 'qqe_factor': 3.0, 'qqe_factor2': 1.61, 'threshold': 3,
                 'bb_length': 50, 'bb_multi': 0.35
             },
-            'liquidity': {'swing_length': 20, 'range_percent': 10.0},
-            'supertrend': {'period': 14, 'multiplier': 3},
             'TTM_squeeze': {
                 'bb_length': 18, 'bb_std_dev': 1.9,
                 'kc_length': 18, 'kc_mult': 1.7, 'use_true_range': True
@@ -193,7 +189,7 @@ params = {
                 'peaks_valleys_avg': False,
                 'peaks_avg': True,
                 'valleys_avg': True,
-                'peaks_valleys_params': {'periods': 8, 'max_aVWAPs': None},
+                'peaks_valleys_params': {'periods': 30, 'max_aVWAPs': None},
                 'OB': False,
                 'OB_avg': False,
                 'OB_params': {'periods': 4, 'max_aVWAPs': None},
@@ -201,7 +197,7 @@ params = {
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 8},
                 'All_avg': False,
-                'avg_lookback': 8,
+                'avg_lookback': 20,
                 'keep_OB_column': False,
                 'aVWAP_channel': True,
             },
@@ -216,8 +212,6 @@ params = {
                 'qqe_factor': 2.5, 'qqe_factor2': 1.3, 'threshold': 2,
                 'bb_length': 40, 'bb_multi': 0.3
             },
-            'liquidity': {'swing_length': 64, 'range_percent': 0.1},
-            'supertrend': {'period': 12, 'multiplier': 2.5},
             'TTM_squeeze': {
                 'bb_length': 14, 'bb_std_dev': 1.8,
                 'kc_length': 14, 'kc_mult': 1.3, 'use_true_range': True
@@ -249,7 +243,7 @@ params = {
                 'peaks_valleys_avg': False,
                 'peaks_avg': True,
                 'valleys_avg': True,
-                'peaks_valleys_params': {'periods': 8, 'max_aVWAPs': None},
+                'peaks_valleys_params': {'periods': 30, 'max_aVWAPs': None},
                 'OB': False,
                 'OB_avg': False,
                 'OB_params': {'periods': 4, 'max_aVWAPs': None},
@@ -257,7 +251,7 @@ params = {
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 8},
                 'All_avg': False,
-                'avg_lookback': 8,
+                'avg_lookback': 20,
                 'keep_OB_column': False,
                 'aVWAP_channel': True,
             },
@@ -272,8 +266,6 @@ params = {
                 'qqe_factor': 2.5, 'qqe_factor2': 1.3, 'threshold': 2,
                 'bb_length': 40, 'bb_multi': 0.3
             },
-            'liquidity': {'swing_length': 64, 'range_percent': 0.1},
-            'supertrend': {'period': 12, 'multiplier': 2.5},
             'TTM_squeeze': {
                 'bb_length': 14, 'bb_std_dev': 1.8,
                 'kc_length': 14, 'kc_mult': 1.3, 'use_true_range': True
@@ -305,7 +297,7 @@ params = {
                 'peaks_valleys_avg': False,
                 'peaks_avg': True,
                 'valleys_avg': True,
-                'peaks_valleys_params': {'periods': 8, 'max_aVWAPs': None},
+                'peaks_valleys_params': {'periods': 50, 'max_aVWAPs': None},
                 'OB': False,
                 'OB_avg': False,
                 'OB_params': {'periods': 4, 'max_aVWAPs': None},
@@ -313,7 +305,7 @@ params = {
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 8},
                 'All_avg': False,
-                'avg_lookback': 8,
+                'avg_lookback': 20,
                 'keep_OB_column': False,
                 'aVWAP_channel': True,
             },
@@ -329,7 +321,6 @@ params = {
                 'bb_length': 30, 'bb_multi': 0.25
             },
             'liquidity': {'swing_length': 40, 'range_percent': 0.1},
-            'supertrend': {'period': 10, 'multiplier': 2.5},
             'TTM_squeeze': {
                 'bb_length': 12, 'bb_std_dev': 1.6,
                 'kc_length': 12, 'kc_mult': 1.2, 'use_true_range': True
