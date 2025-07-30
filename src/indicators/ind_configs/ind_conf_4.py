@@ -1,38 +1,38 @@
-# ind_conf_3
+# ind_conf_4
 
-indicators = {  # liquidity levels
+indicators = {
 
         'weekly': [
-            'aVWAP',
-            'candle_colors',
-            'liquidity',
-            'StDev',
-            'QQEMOD',
+            'aVWAP', 
+            'candle_colors', 
+            'StDev', 
+            'QQEMOD', 
             'banker_RSI',
-            'OB',
-            'TTM_squeeze',
+            'SMA',
+            'OB', 
+            'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
         'daily': [
-            'aVWAP',
-            'candle_colors',
-            'liquidity',
-            'StDev',
-            'QQEMOD',
+            'aVWAP', 
+            'candle_colors', 
+            'StDev', 
+            'QQEMOD', 
             'banker_RSI',
-            'OB',
-            'TTM_squeeze',
+            'SMA',
+            'OB', 
+            'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
         '4hour': [
             'aVWAP', 
             'candle_colors', 
-            'liquidity',
             'StDev', 
             'QQEMOD', 
             'banker_RSI',
+            'SMA',
             'OB', 
             'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -41,10 +41,10 @@ indicators = {  # liquidity levels
         '1hour': [
             'aVWAP', 
             'candle_colors', 
-            'liquidity',
             'StDev', 
             'QQEMOD', 
             'banker_RSI',
+            'SMA',
             'OB', 
             'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -53,10 +53,10 @@ indicators = {  # liquidity levels
         '5min': [
             'aVWAP', 
             'candle_colors', 
-            'liquidity',
             'StDev', 
             'QQEMOD', 
             'banker_RSI',
+            'SMA',
             'OB', 
             'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -68,7 +68,7 @@ params = {
 
         'weekly': {
             'candle_colors': {
-                'indicator_color': 'supertrend',
+                'indicator_color': 'StDev',
                 'custom_params': {
                     'StDev': {
                         'std_lookback': 20, 'avg_lookback': 20,
@@ -83,7 +83,7 @@ params = {
                 }
             },
             'aVWAP': {
-                'peaks_valleys': False,
+                'peaks_valleys': True,
                 'peaks_valleys_avg': True,
                 'peaks_avg': False,
                 'valleys_avg': False,
@@ -125,7 +125,7 @@ params = {
 
         'daily': {
             'candle_colors': {
-                'indicator_color': 'supertrend',
+                'indicator_color': 'StDev',
                 'custom_params': {
                     'StDev': {
                         'std_lookback': 20, 'avg_lookback': 20,
@@ -141,7 +141,7 @@ params = {
             },
             'aVWAP': {
                 'peaks_valleys': False,
-                'peaks_valleys_avg': True,
+                'peaks_valleys_avg': False,
                 'peaks_avg': False,
                 'valleys_avg': False,
                 'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
@@ -150,7 +150,7 @@ params = {
                 'OB_params': {'periods': 10, 'max_aVWAPs': None},
                 'gaps': False,
                 'gaps_avg': False,
-                'gaps_params': {'max_aVWAPs': None},
+                'gaps_params': {'max_aVWAPs': 20},
                 'All_avg': False,
                 'avg_lookback': 20,
                 'keep_OB_column': False,
@@ -167,7 +167,7 @@ params = {
                 'qqe_factor': 3.0, 'qqe_factor2': 1.61, 'threshold': 3,
                 'bb_length': 50, 'bb_multi': 0.35
             },
-            'SMA': {'periods': [200]},
+            'SMA': {'periods': [200, 50, 20]},
             'liquidity': {'swing_length': 20, 'range_percent': 0.1},
             'supertrend': {'period': 14, 'multiplier': 3},
             'TTM_squeeze': {
@@ -183,7 +183,7 @@ params = {
 
         '4hour': {
             'candle_colors': {
-                'indicator_color': 'supertrend',
+                'indicator_color': 'StDev',
                 'custom_params': {
                     'StDev': {
                         'centreline': 'peaks_valleys_avg',
@@ -198,19 +198,19 @@ params = {
                 }
             },
             'aVWAP': {
-                'peaks_valleys': False,
+                'peaks_valleys': True,
                 'peaks_valleys_avg': True,
                 'peaks_avg': False,
                 'valleys_avg': False,
-                'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
+                'peaks_valleys_params': {'periods': 50, 'max_aVWAPs': None},
                 'OB': True,
                 'OB_avg': False,
-                'OB_params': {'periods': 4, 'max_aVWAPs': None},
+                'OB_params': {'periods': 10, 'max_aVWAPs': None},
                 'gaps': False,
                 'gaps_avg': False,
-                'gaps_params': {'max_aVWAPs': 8},
+                'gaps_params': {'max_aVWAPs': 20},
                 'All_avg': False,
-                'avg_lookback': 20,
+                'avg_lookback': 30,
                 'keep_OB_column': False,
                 'aVWAP_channel': False,
             },
@@ -241,7 +241,7 @@ params = {
 
         '1hour': {
             'candle_colors': {
-                'indicator_color': 'supertrend',
+                'indicator_color': 'StDev',
                 'custom_params': {
                     'StDev': {
                         'centreline': 'peaks_valleys_avg',
@@ -256,19 +256,19 @@ params = {
                 }
             },
             'aVWAP': {
-                'peaks_valleys': False,
+                'peaks_valleys': True,
                 'peaks_valleys_avg': True,
                 'peaks_avg': False,
                 'valleys_avg': False,
-                'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
+                'peaks_valleys_params': {'periods': 50, 'max_aVWAPs': None},
                 'OB': True,
                 'OB_avg': False,
-                'OB_params': {'periods': 4, 'max_aVWAPs': None},
+                'OB_params': {'periods': 10, 'max_aVWAPs': None},
                 'gaps': False,
                 'gaps_avg': False,
-                'gaps_params': {'max_aVWAPs': 8},
+                'gaps_params': {'max_aVWAPs': 20},
                 'All_avg': False,
-                'avg_lookback': 20,
+                'avg_lookback': 30,
                 'keep_OB_column': False,
                 'aVWAP_channel': False,
             },
@@ -299,7 +299,7 @@ params = {
 
         '5min': {
             'candle_colors': {
-                'indicator_color': 'supertrend',
+                'indicator_color': 'StDev',
                 'custom_params': {
                     'StDev': {
                         'centreline': 'peaks_valleys_avg',
@@ -314,19 +314,19 @@ params = {
                 }
             },
             'aVWAP': {
-                'peaks_valleys': False,
+                'peaks_valleys': True,
                 'peaks_valleys_avg': True,
                 'peaks_avg': False,
                 'valleys_avg': False,
-                'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
-                'OB': True,
+                'peaks_valleys_params': {'periods': 50, 'max_aVWAPs': None},
+                'OB': False,
                 'OB_avg': False,
-                'OB_params': {'periods': 4, 'max_aVWAPs': None},
+                'OB_params': {'periods': 10, 'max_aVWAPs': None},
                 'gaps': False,
                 'gaps_avg': False,
-                'gaps_params': {'max_aVWAPs': 8},
+                'gaps_params': {'max_aVWAPs': 20},
                 'All_avg': False,
-                'avg_lookback': 20,
+                'avg_lookback': 30,
                 'keep_OB_column': False,
                 'aVWAP_channel': False,
             },

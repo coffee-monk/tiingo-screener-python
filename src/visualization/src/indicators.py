@@ -232,7 +232,7 @@ def _aVWAP_visualization(subchart, df):
             price_line=False,
             price_label=False,
             color=colors['orange_aVWAP'],
-            width=3
+            width=4
         ).set(df[['date', 'Peaks_Valleys_avg']].rename(columns={'Peaks_Valleys_avg': 'value'}))
 
     if 'Peaks_avg' in df.columns:
@@ -240,7 +240,7 @@ def _aVWAP_visualization(subchart, df):
             price_line=False,
             price_label=False,
             color=colors['red'],
-            width=2
+            width=4
         ).set(df[['date', 'Peaks_avg']].rename(columns={'Peaks_avg': 'value'}))
 
     if 'Valleys_avg' in df.columns:
@@ -248,7 +248,7 @@ def _aVWAP_visualization(subchart, df):
             price_line=False,
             price_label=False,
             color=colors['teal'],
-            width=2
+            width=4
         ).set(df[['date', 'Valleys_avg']].rename(columns={'Valleys_avg': 'value'}))
 
     if 'OB_avg' in df.columns:

@@ -1,4 +1,6 @@
-indicators = {
+# ind_conf_1
+
+indicators = {  # aVWAP_channel = False
 
         'weekly': [
             'aVWAP', 
@@ -6,7 +8,6 @@ indicators = {
             'StDev', 
             'QQEMOD', 
             'banker_RSI',
-            'SMA',
             'OB', 
             'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -18,7 +19,6 @@ indicators = {
             'StDev', 
             'QQEMOD', 
             'banker_RSI',
-            'SMA',
             'OB', 
             'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -30,7 +30,6 @@ indicators = {
             'StDev', 
             'QQEMOD', 
             'banker_RSI',
-            'SMA',
             'OB', 
             'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -42,7 +41,6 @@ indicators = {
             'StDev', 
             'QQEMOD', 
             'banker_RSI',
-            'SMA',
             'OB', 
             'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -54,7 +52,6 @@ indicators = {
             'StDev', 
             'QQEMOD', 
             'banker_RSI',
-            'SMA',
             'OB', 
             'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -62,7 +59,6 @@ indicators = {
 }
 
 params = {
-
 
         'weekly': {
             'candle_colors': {
@@ -83,17 +79,17 @@ params = {
             'aVWAP': {
                 'peaks_valleys': True,
                 'peaks_valleys_avg': True,
-                'peaks_avg': True,
-                'valleys_avg': True,
-                'peaks_valleys_params': {'periods': 8, 'max_aVWAPs': None},
-                'OB': True,
+                'peaks_avg': False,
+                'valleys_avg': False,
+                'peaks_valleys_params': {'periods': 10, 'max_aVWAPs': None},
+                'OB': False,
                 'OB_avg': False,
                 'OB_params': {'periods': 4, 'max_aVWAPs': None},
                 'gaps': False,
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 8},
                 'All_avg': False,
-                'avg_lookback': 8,
+                'avg_lookback': 10,
                 'keep_OB_column': False,
                 'aVWAP_channel': False,
             },
@@ -108,7 +104,6 @@ params = {
                 'qqe_factor': 3.5, 'qqe_factor2': 2.0, 'threshold': 4,
                 'bb_length': 60, 'bb_multi': 0.4
             },
-            'SMA': {'periods': [50, 200]},
             'liquidity': {'swing_length': 4, 'range_percent': 0.1},
             'supertrend': {'period': 20, 'multiplier': 3},
             'TTM_squeeze': {
@@ -140,10 +135,10 @@ params = {
             'aVWAP': {
                 'peaks_valleys': True,
                 'peaks_valleys_avg': True,
-                'peaks_avg': True,
-                'valleys_avg': True,
-                'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
-                'OB': True,
+                'peaks_avg': False,
+                'valleys_avg': False,
+                'peaks_valleys_params': {'periods': 40, 'max_aVWAPs': None},
+                'OB': False,
                 'OB_avg': False,
                 'OB_params': {'periods': 10, 'max_aVWAPs': None},
                 'gaps': False,
@@ -165,7 +160,6 @@ params = {
                 'qqe_factor': 3.0, 'qqe_factor2': 1.61, 'threshold': 3,
                 'bb_length': 50, 'bb_multi': 0.35
             },
-            'SMA': {'periods': [200]},
             'liquidity': {'swing_length': 20, 'range_percent': 0.1},
             'supertrend': {'period': 14, 'multiplier': 3},
             'TTM_squeeze': {
@@ -198,10 +192,10 @@ params = {
             'aVWAP': {
                 'peaks_valleys': True,
                 'peaks_valleys_avg': True,
-                'peaks_avg': True,
-                'valleys_avg': True,
-                'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
-                'OB': True,
+                'peaks_avg': False,
+                'valleys_avg': False,
+                'peaks_valleys_params': {'periods': 100, 'max_aVWAPs': None},
+                'OB': False,
                 'OB_avg': False,
                 'OB_params': {'periods': 10, 'max_aVWAPs': None},
                 'gaps': False,
@@ -223,7 +217,6 @@ params = {
                 'qqe_factor': 2.5, 'qqe_factor2': 1.3, 'threshold': 2,
                 'bb_length': 40, 'bb_multi': 0.3
             },
-            'SMA': {'periods': [50, 200]},
             'liquidity': {'swing_length': 64, 'range_percent': 0.1},
             'supertrend': {'period': 12, 'multiplier': 2.5},
             'TTM_squeeze': {
@@ -256,10 +249,10 @@ params = {
             'aVWAP': {
                 'peaks_valleys': True,
                 'peaks_valleys_avg': True,
-                'peaks_avg': True,
-                'valleys_avg': True,
-                'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
-                'OB': True,
+                'peaks_avg': False,
+                'valleys_avg': False,
+                'peaks_valleys_params': {'periods': 100, 'max_aVWAPs': None},
+                'OB': False,
                 'OB_avg': False,
                 'OB_params': {'periods': 10, 'max_aVWAPs': None},
                 'gaps': False,
@@ -281,7 +274,6 @@ params = {
                 'qqe_factor': 2.5, 'qqe_factor2': 1.3, 'threshold': 2,
                 'bb_length': 40, 'bb_multi': 0.3
             },
-            'SMA': {'periods': [50, 200]},
             'liquidity': {'swing_length': 64, 'range_percent': 0.1},
             'supertrend': {'period': 12, 'multiplier': 2.5},
             'TTM_squeeze': {
@@ -314,9 +306,9 @@ params = {
             'aVWAP': {
                 'peaks_valleys': True,
                 'peaks_valleys_avg': True,
-                'peaks_avg': True,
-                'valleys_avg': True,
-                'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
+                'peaks_avg': False,
+                'valleys_avg': False,
+                'peaks_valleys_params': {'periods': 50, 'max_aVWAPs': None},
                 'OB': False,
                 'OB_avg': False,
                 'OB_params': {'periods': 10, 'max_aVWAPs': None},
@@ -339,7 +331,6 @@ params = {
                 'qqe_factor': 2.0, 'qqe_factor2': 1.0, 'threshold': 1.5,
                 'bb_length': 30, 'bb_multi': 0.25
             },
-            'SMA': {'periods': [50, 100]},
             'liquidity': {'swing_length': 40, 'range_percent': 0.1},
             'supertrend': {'period': 10, 'multiplier': 2.5},
             'TTM_squeeze': {
