@@ -9,6 +9,7 @@ indicators = {  # aVWAP_channel = False
             'SMA', 
             'gaps', 
             'FVG', 
+            'BoS_CHoCH', 
             'QQEMOD', 
             'banker_RSI',
             'liquidity',
@@ -27,6 +28,7 @@ indicators = {  # aVWAP_channel = False
             'SMA', 
             'gaps', 
             'FVG', 
+            'BoS_CHoCH', 
             'QQEMOD', 
             'banker_RSI',
             'liquidity',
@@ -45,6 +47,7 @@ indicators = {  # aVWAP_channel = False
             'SMA', 
             'gaps', 
             'FVG', 
+            'BoS_CHoCH', 
             'QQEMOD', 
             'banker_RSI',
             'liquidity',
@@ -63,6 +66,7 @@ indicators = {  # aVWAP_channel = False
             'SMA', 
             'gaps', 
             'FVG', 
+            'BoS_CHoCH', 
             'QQEMOD', 
             'banker_RSI',
             'liquidity',
@@ -81,6 +85,7 @@ indicators = {  # aVWAP_channel = False
             'SMA', 
             'gaps', 
             'FVG', 
+            'BoS_CHoCH', 
             'QQEMOD', 
             'banker_RSI',
             'liquidity',
@@ -135,6 +140,7 @@ params = {
                 'join_consecutive': False
             },
             'RSI': {'periods': 14},
+            'BoS_CHoCH': {'swing_length': 8},
             'StDev': {
                 'centreline': 'peaks_valleys_avg',
                 'peaks_valleys_params': {'periods': 8, 'max_aVWAPs': None},
@@ -143,7 +149,7 @@ params = {
             'QQEMOD': {
                 'rsi_period': 8, 'rsi_period2': 8, 'sf': 6, 'sf2': 6,
                 'qqe_factor': 3.5, 'qqe_factor2': 2.0, 'threshold': 4,
-                'bb_length': 60, 'bb_multi': 0.4
+                'bb_length': 50, 'bb_multi': 0.4
             },
             'SMA': {'periods': [50, 200]},
             'WAE': {
@@ -154,7 +160,7 @@ params = {
             'supertrend': {'period': 20, 'multiplier': 3},
             'TTM_squeeze': {
                 'bb_length': 20, 'bb_std_dev': 2.0,
-                'kc_length': 20, 'kc_mult': 2.0, 'use_true_range': True
+                'kc_length': 20, 'kc_mult': 1.5, 'use_true_range': True
             },
             'divergence_OBV':    {'period': 26, 'lookback': 26},
             'divergence_Volume': {'period': 26, 'lookback': 26},
@@ -186,7 +192,7 @@ params = {
                 'peaks_valleys_params': {'periods': 30, 'max_aVWAPs': None},
                 'OB': True,
                 'OB_avg': False,
-                'OB_params': {'periods': 10, 'max_aVWAPs': None},
+                'OB_params': {'periods': 20, 'max_aVWAPs': None},
                 'gaps': False,
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 20},
@@ -202,6 +208,7 @@ params = {
                 'join_consecutive': False
             },
             'RSI': {'periods': 14},
+            'BoS_CHoCH': {'swing_length': 10},
             'StDev': {
                 'centreline': 'peaks_valleys_avg',
                 'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
@@ -270,6 +277,7 @@ params = {
                 'join_consecutive': False
             },
             'RSI': {'periods': 14},
+            'BoS_CHoCH': {'swing_length': 25},
             'StDev': {
                 'centreline': 'peaks_valleys_avg',
                 'peaks_valleys_params': {'periods': 16, 'max_aVWAPs': None},
@@ -338,6 +346,7 @@ params = {
                 'join_consecutive': False
             },
             'RSI': {'periods': 14},
+            'BoS_CHoCH': {'swing_length': 25},
             'StDev': {
                 'centreline': 'peaks_valleys_avg',
                 'peaks_valleys_params': {'periods': 16, 'max_aVWAPs': None},
@@ -406,6 +415,7 @@ params = {
                 'join_consecutive': False
             },
             'RSI': {'periods': 14},
+            'BoS_CHoCH': {'swing_length': 25},
             'StDev': {
                 'centreline': 'peaks_valleys_avg',
                 'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},

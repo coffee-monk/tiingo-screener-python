@@ -8,7 +8,6 @@ indicators = {  # aVWAP_channel = False
             'StDev', 
             'QQEMOD', 
             'banker_RSI',
-            'supertrend',
             'OB', 
             'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -20,7 +19,6 @@ indicators = {  # aVWAP_channel = False
             'StDev', 
             'QQEMOD', 
             'banker_RSI',
-            'supertrend',
             'OB', 
             'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -32,7 +30,6 @@ indicators = {  # aVWAP_channel = False
             'StDev', 
             'QQEMOD', 
             'banker_RSI',
-            'supertrend',
             'OB', 
             'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -44,7 +41,6 @@ indicators = {  # aVWAP_channel = False
             'StDev', 
             'QQEMOD', 
             'banker_RSI',
-            'supertrend',
             'OB', 
             'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -56,7 +52,6 @@ indicators = {  # aVWAP_channel = False
             'StDev', 
             'QQEMOD', 
             'banker_RSI',
-            'supertrend',
             'OB', 
             'TTM_squeeze', 
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
@@ -109,7 +104,6 @@ params = {
                 'qqe_factor': 3.5, 'qqe_factor2': 2.0, 'threshold': 4,
                 'bb_length': 60, 'bb_multi': 0.4
             },
-            'supertrend': {'period': 20, 'multiplier': 3},
             'TTM_squeeze': {
                 'bb_length': 20, 'bb_std_dev': 2.0,
                 'kc_length': 20, 'kc_mult': 2.0, 'use_true_range': True
@@ -164,7 +158,6 @@ params = {
                 'qqe_factor': 3.0, 'qqe_factor2': 1.61, 'threshold': 3,
                 'bb_length': 50, 'bb_multi': 0.35
             },
-            'supertrend': {'period': 14, 'multiplier': 3},
             'TTM_squeeze': {
                 'bb_length': 18, 'bb_std_dev': 1.9,
                 'kc_length': 18, 'kc_mult': 1.7, 'use_true_range': True
@@ -220,7 +213,6 @@ params = {
                 'qqe_factor': 2.5, 'qqe_factor2': 1.3, 'threshold': 2,
                 'bb_length': 40, 'bb_multi': 0.3
             },
-            'supertrend': {'period': 12, 'multiplier': 2.5},
             'TTM_squeeze': {
                 'bb_length': 14, 'bb_std_dev': 1.8,
                 'kc_length': 14, 'kc_mult': 1.3, 'use_true_range': True
@@ -276,7 +268,6 @@ params = {
                 'qqe_factor': 2.5, 'qqe_factor2': 1.3, 'threshold': 2,
                 'bb_length': 40, 'bb_multi': 0.3
             },
-            'supertrend': {'period': 12, 'multiplier': 2.5},
             'TTM_squeeze': {
                 'bb_length': 14, 'bb_std_dev': 1.8,
                 'kc_length': 14, 'kc_mult': 1.3, 'use_true_range': True
@@ -332,7 +323,6 @@ params = {
                 'qqe_factor': 2.0, 'qqe_factor2': 1.0, 'threshold': 1.5,
                 'bb_length': 30, 'bb_multi': 0.25
             },
-            'supertrend': {'period': 10, 'multiplier': 2.5},
             'TTM_squeeze': {
                 'bb_length': 12, 'bb_std_dev': 1.6,
                 'kc_length': 12, 'kc_mult': 1.2, 'use_true_range': True
