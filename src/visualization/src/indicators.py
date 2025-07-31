@@ -22,15 +22,32 @@ def add_visualizations(subchart, df, show_banker_RSI):
     # Includes Regular/Hidden divergences for RSI, MACD, OBV, Volume, etc
     _combined_divergence_visualization(subchart, df)
 
+
 def _FVG_visualization(subchart, df):
     if all(col in df.columns for col in ['FVG', 'FVG_High', 'FVG_Low', 'FVG_Mitigated_Index']):
+        # Get all FVG occurrences (bullish=1, bearish=-1)
         fvg_indices = df[df['FVG'] != 0].index
+        
         for idx in fvg_indices:
-            mit_idx = int(df.loc[idx, 'FVG_Mitigated_Index'])
-            level = 'FVG_High' if df.loc[idx, 'FVG'] == 1 else 'FVG_Low'
-            color = 'rgba(39,157,130,0.5)' if df.loc[idx, 'FVG'] == 1 else 'rgba(200,97,100,0.5)'
-            end_date = (df.loc[mit_idx, 'date'] if 0 < mit_idx < len(df) 
-                       else df.iloc[-1]['date'])
+            # Get mitigation index (may be NaN, 0, or positive number)
+            mit_idx = df.loc[idx, 'FVG_Mitigated_Index']
+            
+            # Determine if FVG is mitigated
+            if pd.isna(mit_idx) or mit_idx == 0:
+                # Unmitigated - draw to end of chart
+                end_idx = len(df) - 1
+            else:
+                # Mitigated - convert to integer index
+                end_idx = int(mit_idx)
+                # Ensure it's within bounds
+                end_idx = min(end_idx, len(df) - 1)
+            
+            # Set visualization parameters
+            fvg_type = df.loc[idx, 'FVG']
+            level = 'FVG_High' if fvg_type == 1 else 'FVG_Low'
+            color = 'rgba(39,157,130,0.5)' if fvg_type == 1 else 'rgba(200,97,100,0.5)'
+            
+            # Create the line
             subchart.create_line(
                 price_line=False,
                 price_label=False,
@@ -38,7 +55,7 @@ def _FVG_visualization(subchart, df):
                 width=2,
                 style='dashed'
             ).set(pd.DataFrame({
-                'date': [df.loc[idx, 'date'], end_date],
+                'date': [df.loc[idx, 'date'], df.iloc[end_idx]['date']],
                 'value': [df.loc[idx, level]] * 2
             }))
 

@@ -1,7 +1,7 @@
 import pandas as pd
 from smartmoneyconcepts import smc
 
-def calculate_fvg(df, max_mitigated=20, max_unmitigated=10, join_consecutive=False):
+def calculate_fvg(df, max_mitigated=10, max_unmitigated=10, join_consecutive=False):
     df = df.rename(columns={
         'Open': 'open',
         'Close': 'close',

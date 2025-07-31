@@ -7,6 +7,8 @@ indicators = {  # aVWAP_channel = False
             'candle_colors', 
             'StDev', 
             'SMA', 
+            'gaps', 
+            'FVG', 
             'QQEMOD', 
             'banker_RSI',
             'liquidity',
@@ -23,6 +25,8 @@ indicators = {  # aVWAP_channel = False
             'candle_colors', 
             'StDev', 
             'SMA', 
+            'gaps', 
+            'FVG', 
             'QQEMOD', 
             'banker_RSI',
             'liquidity',
@@ -39,6 +43,8 @@ indicators = {  # aVWAP_channel = False
             'candle_colors', 
             'StDev', 
             'SMA', 
+            'gaps', 
+            'FVG', 
             'QQEMOD', 
             'banker_RSI',
             'liquidity',
@@ -55,6 +61,8 @@ indicators = {  # aVWAP_channel = False
             'candle_colors', 
             'StDev', 
             'SMA', 
+            'gaps', 
+            'FVG', 
             'QQEMOD', 
             'banker_RSI',
             'liquidity',
@@ -71,6 +79,8 @@ indicators = {  # aVWAP_channel = False
             'candle_colors', 
             'StDev', 
             'SMA', 
+            'gaps', 
+            'FVG', 
             'QQEMOD', 
             'banker_RSI',
             'liquidity',
@@ -119,6 +129,11 @@ params = {
                 'aVWAP_channel': False,
             },
             'OB': {'periods': 4},
+            'FVG': {
+                'max_mitigated': 10, 
+                'max_unmitigated': 10, 
+                'join_consecutive': False
+            },
             'RSI': {'periods': 14},
             'StDev': {
                 'centreline': 'peaks_valleys_avg',
@@ -181,6 +196,11 @@ params = {
                 'aVWAP_channel': False,
             },
             'OB': {'periods': 20},
+            'FVG': {
+                'max_mitigated': 10, 
+                'max_unmitigated': 10, 
+                'join_consecutive': False
+            },
             'RSI': {'periods': 14},
             'StDev': {
                 'centreline': 'peaks_valleys_avg',
@@ -244,6 +264,11 @@ params = {
                 'aVWAP_channel': False,
             },
             'OB': {'periods': 16},
+            'FVG': {
+                'max_mitigated': 10, 
+                'max_unmitigated': 10, 
+                'join_consecutive': False
+            },
             'RSI': {'periods': 14},
             'StDev': {
                 'centreline': 'peaks_valleys_avg',
@@ -307,6 +332,11 @@ params = {
                 'aVWAP_channel': False,
             },
             'OB': {'periods': 16},
+            'FVG': {
+                'max_mitigated': 10, 
+                'max_unmitigated': 10, 
+                'join_consecutive': False
+            },
             'RSI': {'periods': 14},
             'StDev': {
                 'centreline': 'peaks_valleys_avg',
@@ -370,6 +400,11 @@ params = {
                 'aVWAP_channel': False,
             },
             'OB': {'periods': 20},
+            'FVG': {
+                'max_mitigated': 10, 
+                'max_unmitigated': 10, 
+                'join_consecutive': False
+            },
             'RSI': {'periods': 14},
             'StDev': {
                 'centreline': 'peaks_valleys_avg',
