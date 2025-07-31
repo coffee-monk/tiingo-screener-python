@@ -38,12 +38,6 @@ def vis(scan_file=None, ticker=None):
         # df4 = get_indicators(df4, indicators['1hour'],  params['1hour'])
         # df5 = get_indicators(df5, indicators['5min'], params['5min'])
 
-        print(df2.columns)
-        print(df2.head())
-        print(df2.tail())
-        print()
-
-
         subcharts(
                   # [df1, df2, df3, df4],
                   [df2],
