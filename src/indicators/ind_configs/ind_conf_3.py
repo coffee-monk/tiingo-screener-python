@@ -354,4 +354,3 @@ params = {
             'divergence_Vortex': {'period': 128, 'lookback': 80}
         }
 }
-
