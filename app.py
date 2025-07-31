@@ -120,10 +120,6 @@ def full_run(fetch, ind, scan) -> None:
 
     # INDICATORS
 
-    # ind('ind_conf_0')
-    # dm.save_indicators('ind_conf_1')
-    # dm.clear_buffer(dm.indicators_dir)
-    #
     # ind('ind_conf_1')
     # dm.save_indicators('ind_conf_1')
     # dm.clear_buffer(dm.indicators_dir)

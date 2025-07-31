@@ -85,7 +85,7 @@ class DataManager:
         for i, version in enumerate(versions[:limit]):
             print(f"  {i+1}. {version}")
         if len(versions) > limit:
-            print(f"  ... and {len(versions) - limit} more")
+            print(f"  ... + {len(versions) - limit} more")
         
         return versions
 
@@ -143,7 +143,7 @@ class DataManager:
         for i, scan in enumerate(scans_to_show, 1):
             print(f"  {i}. {scan.name}")
         if total_scans > limit:
-            print(f"\n  ... and {total_scans - limit} more")
+            print(f"\n  ... + {total_scans - limit} more")
         print()
 
     def list_ind(self, limit: int = 10) -> None:
