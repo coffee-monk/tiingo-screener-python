@@ -133,20 +133,32 @@ class DataManager:
 
     def list_scans(self, limit: int = 10) -> None:
         """List scan files in buffer with nice formatting"""
-        scans = self.list_files(self.scanner_dir, "scan_results_*.csv", limit)
+        # Get all matching files (generator version for memory efficiency)
+        all_scans = sorted(self.scanner_dir.glob("scan_results_*.csv"))
+        total_scans = len(all_scans)
+        # Take first N files in alphabetical order
+        scans_to_show = all_scans[:limit]
         
-        print(f"\nCurrent scans in buffer ({len(scans)}):\n")
-        for i, scan in enumerate(scans):
-            print(f"  {i+1}. {scan.name}")
+        print(f"\n  Scans in buffer (Total: {total_scans}, Showing first {limit}):\n")
+        for i, scan in enumerate(scans_to_show, 1):
+            print(f"  {i}. {scan.name}")
+        if total_scans > limit:
+            print(f"\n  ... and {total_scans - limit} more")
         print()
 
     def list_ind(self, limit: int = 10) -> None:
         """List indicator files in buffer with nice formatting"""
-        indicators = self.list_files(self.indicators_dir, "*.csv", limit)
+        # Get all matching files (generator version for memory efficiency)
+        all_indicators = sorted(self.indicators_dir.glob("*.csv"))
+        total_indicators = len(all_indicators)
+        # Take first N files in alphabetical order
+        indicators_to_show = all_indicators[:limit]
         
-        print(f"\nCurrent indicators in buffer ({len(indicators)}):\n")
-        for i, indicator in enumerate(indicators):
-            print(f"  {i+1}. {indicator.name}")
+        print(f"\n  Indicators in buffer (Total: {total_indicators}, Showing first {limit}):\n")
+        for i, indicator in enumerate(indicators_to_show, 1):
+            print(f"  {i}. {indicator.name}")
+        if total_indicators > limit:
+            print(f"\n  ... and {total_indicators - limit} more")
         print()
 
 # Create instance of Class to export
