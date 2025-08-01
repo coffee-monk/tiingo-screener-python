@@ -25,6 +25,9 @@ def add_visualizations(subchart, df, show_banker_RSI):
 
 def _FVG_visualization(subchart, df):
     if all(col in df.columns for col in ['FVG', 'FVG_High', 'FVG_Low', 'FVG_Mitigated_Index']):
+        # Find the last row with actual data (before NaN padding)
+        last_data_idx = df[['close', 'high', 'low', 'open']].last_valid_index()
+        
         # Get all FVG occurrences (bullish=1, bearish=-1)
         fvg_indices = df[df['FVG'] != 0].index
         
@@ -34,30 +37,32 @@ def _FVG_visualization(subchart, df):
             
             # Determine if FVG is mitigated
             if pd.isna(mit_idx) or mit_idx == 0:
-                # Unmitigated - draw to end of chart
-                end_idx = len(df) - 1
+                # Unmitigated - draw only to last actual data point, not through padding
+                end_idx = last_data_idx
             else:
                 # Mitigated - convert to integer index
                 end_idx = int(mit_idx)
-                # Ensure it's within bounds
-                end_idx = min(end_idx, len(df) - 1)
+                # Ensure it's within bounds of actual data
+                end_idx = min(end_idx, last_data_idx)
             
             # Set visualization parameters
             fvg_type = df.loc[idx, 'FVG']
             level = 'FVG_High' if fvg_type == 1 else 'FVG_Low'
             color = colors['teal_trans_3'] if fvg_type == 1 else colors['red_trans_3']
-            
-            # Create the line
-            subchart.create_line(
-                price_line=False,
-                price_label=False,
-                color=color,
-                width=1,
-                style='dashed'
-            ).set(pd.DataFrame({
-                'date': [df.loc[idx, 'date'], df.iloc[end_idx]['date']],
-                'value': [df.loc[idx, level]] * 2
-            }))
+
+            # Only create line if we have valid points to draw
+            if idx <= end_idx:
+                # Create the line
+                subchart.create_line(
+                    price_line=False,
+                    price_label=False,
+                    color=color,
+                    width=1,
+                    style='dashed'
+                ).set(pd.DataFrame({
+                    'date': [df.loc[idx, 'date'], df.loc[end_idx, 'date']],
+                    'value': [df.loc[idx, level]] * 2
+                }))
 
 
 def _OB_visualization(subchart, df):
@@ -203,7 +208,7 @@ def _aVWAP_visualization(subchart, df):
             color=colors['red_trans_3'],
             width=1
         ).set(df[['date', col]].rename(columns={col: 'value'}))
-    
+
     # Plot valley aVWAPs (green)
     valley_cols = [col for col in df.columns if col.startswith('aVWAP_valley_')]
     for col in valley_cols:
@@ -213,8 +218,8 @@ def _aVWAP_visualization(subchart, df):
             color=colors['teal_trans_3'],
             width=1
         ).set(df[['date', col]].rename(columns={col: 'value'}))
-    
-    # Plot gap up aVWAPs (gray)
+
+    # Plot gaps UP aVWAPs
     gap_cols = [col for col in df.columns if col.startswith('Gap_Up_aVWAP_')]
     for col in gap_cols:
         subchart.create_line(
@@ -225,7 +230,7 @@ def _aVWAP_visualization(subchart, df):
             style='dotted'
         ).set(df[['date', col]].rename(columns={col: 'value'}))
 
-    # Plot gap down aVWAPs (gray)
+    # Plot gaps DOWN aVWAPs
     gap_cols = [col for col in df.columns if col.startswith('Gap_Down_aVWAP_')]
     for col in gap_cols:
         subchart.create_line(
