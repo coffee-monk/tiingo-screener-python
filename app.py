@@ -33,7 +33,7 @@ def vis(scan_file=None, ticker=None):
         # df5 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
         # df1 = get_indicators(df1, indicators['weekly_3'], params['weekly_3'])
-        df2 = get_indicators(df2, indicators['daily_2'],  params['daily_2'])
+        df2 = get_indicators(df2, indicators['daily_1'],  params['daily_1'])
         # df3 = get_indicators(df3, indicators['4hour_3'],  params['4hour_3'])
         # df4 = get_indicators(df4, indicators['1hour_3'],  params['1hour_3'])
         # df5 = get_indicators(df5, indicators['5min'], params['5min'])
