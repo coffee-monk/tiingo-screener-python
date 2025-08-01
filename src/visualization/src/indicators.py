@@ -89,7 +89,6 @@ def _BoS_CHoCH_visualization(subchart, df):
     # First verify all required columns exist
     missing_cols = [col for col in required_cols if col not in df.columns]
     if missing_cols:
-        print(f"Skipping BoS/CHoCH visualization - missing columns: {missing_cols}")
         return
     
     # Now safely process the data

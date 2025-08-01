@@ -14,13 +14,13 @@ indicators = {  # aVWAP_channel = True
         ],
 
         'daily': [
-            'aVWAP', 
-            'candle_colors', 
-            'StDev', 
-            'QQEMOD', 
+            'aVWAP',
+            'candle_colors',
+            'StDev',
+            'QQEMOD',
             'banker_RSI',
-            'OB', 
-            'TTM_squeeze', 
+            'OB',
+            'TTM_squeeze',
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
@@ -62,7 +62,7 @@ params = {
 
         'weekly': {
             'candle_colors': {
-                'indicator_color': 'QQEMOD',
+                'indicator_color': 'StDev',
                 'custom_params': {
                     'StDev': {
                         'std_lookback': 20, 'avg_lookback': 20,
@@ -116,7 +116,7 @@ params = {
 
         'daily': {
             'candle_colors': {
-                'indicator_color': 'QQEMOD',
+                'indicator_color': 'StDev',
                 'custom_params': {
                     'StDev': {
                         'std_lookback': 20, 'avg_lookback': 20,

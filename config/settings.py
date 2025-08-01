@@ -18,4 +18,4 @@ SCREENSHOTS_DIR = PROJECT_ROOT / "data" / "screenshots"
 
 # List Directories
 
-TICKERS_LIST    = PROJECT_ROOT / 'src/fetch_data/ticker_lists/tsx.csv'
+TICKERS_LIST    = PROJECT_ROOT / 'src/fetch_data/ticker_lists/TSX.csv'
