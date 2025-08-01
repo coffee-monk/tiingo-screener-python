@@ -84,49 +84,54 @@ def _OB_visualization(subchart, df):
 
 
 def _BoS_CHoCH_visualization(subchart, df):
-    # First clean the DataFrame by dropping NaN rows in key columns
-    df = df.dropna(subset=['BoS', 'CHoCH', 'BoS_CHoCH_Price', 'BoS_CHoCH_Break_Index'])
+    required_cols = ['BoS', 'CHoCH', 'BoS_CHoCH_Price', 'BoS_CHoCH_Break_Index']
     
-    if all(col in df.columns for col in ['BoS', 'CHoCH', 'BoS_CHoCH_Price', 'BoS_CHoCH_Break_Index']):
-        # Get most recent 25 BoS/CHoCH events (combined)
-        events = df[(df['BoS'] != 0) | (df['CHoCH'] != 0)].index[-25:]
+    # First verify all required columns exist
+    missing_cols = [col for col in required_cols if col not in df.columns]
+    if missing_cols:
+        print(f"Skipping BoS/CHoCH visualization - missing columns: {missing_cols}")
+        return
+    
+    # Now safely process the data
+    df = df.dropna(subset=required_cols)
+    events = df[(df['BoS'] != 0) | (df['CHoCH'] != 0)].index[-25:]
         
-        for idx in events:
-            start_date = df.loc[idx, 'date']
-            price = df.loc[idx, 'BoS_CHoCH_Price']
-            
-            # Safely handle break index (NaN, None, or invalid values)
-            try:
-                break_idx = int(df.loc[idx, 'BoS_CHoCH_Break_Index'])
-                # Ensure break index is within valid range
-                if 0 < break_idx < len(df):
-                    end_date = df.loc[break_idx, 'date']
-                else:
-                    end_date = df.iloc[-1]['date']
-            except (ValueError, TypeError):
-                end_date = df.iloc[-1]['date']  # Use last date if conversion fails
-            
-            # Determine color and style
-            if df.loc[idx, 'BoS'] != 0:  # Break of Structure
-                color = colors['teal_trans_3'] if df.loc[idx, 'BoS'] > 0 else colors['red_trans_3']
-                style = 'solid'
-                width = 1
-            else:  # Change of Character
-                color = colors['aqua'] if df.loc[idx, 'CHoCH'] > 0 else colors['red_dark']
-                style = 'solid'
-                width = 1
-            
-            # Create the line
-            subchart.create_line(
-                price_line=False,
-                price_label=False,
-                color=color,
-                width=width,
-                style=style
-            ).set(pd.DataFrame({
-                'date': [start_date, end_date],
-                'value': [price, price]
-            }))
+    for idx in events:
+        start_date = df.loc[idx, 'date']
+        price = df.loc[idx, 'BoS_CHoCH_Price']
+        
+        # Safely handle break index (NaN, None, or invalid values)
+        try:
+            break_idx = int(df.loc[idx, 'BoS_CHoCH_Break_Index'])
+            # Ensure break index is within valid range
+            if 0 < break_idx < len(df):
+                end_date = df.loc[break_idx, 'date']
+            else:
+                end_date = df.iloc[-1]['date']
+        except (ValueError, TypeError):
+            end_date = df.iloc[-1]['date']  # Use last date if conversion fails
+        
+        # Determine color and style
+        if df.loc[idx, 'BoS'] != 0:  # Break of Structure
+            color = colors['teal_trans_3'] if df.loc[idx, 'BoS'] > 0 else colors['red_trans_3']
+            style = 'solid'
+            width = 1
+        else:  # Change of Character
+            color = colors['aqua'] if df.loc[idx, 'CHoCH'] > 0 else colors['red_dark']
+            style = 'solid'
+            width = 1
+        
+        # Create the line
+        subchart.create_line(
+            price_line=False,
+            price_label=False,
+            color=color,
+            width=width,
+            style=style
+        ).set(pd.DataFrame({
+            'date': [start_date, end_date],
+            'value': [price, price]
+        }))
 
 
 def _liquidity_visualization(subchart, df):

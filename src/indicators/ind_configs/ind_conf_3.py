@@ -136,7 +136,7 @@ params = {
 
         'daily': {
             'candle_colors': {
-                'indicator_color': 'supertrend',
+                'indicator_color': 'QQEMOD',
                 'custom_params': {
                     'StDev': {
                         'std_lookback': 20, 'avg_lookback': 20,
