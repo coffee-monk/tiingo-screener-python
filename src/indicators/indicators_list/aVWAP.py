@@ -19,37 +19,52 @@ def calculate_avwap_channel(df,
                            keep_OB_column=False,
                            aVWAP_channel=False):
     """
-    Calculate anchored VWAP channels with separate parameters for each type.
-    
-    Example:
-        calculate_avwap_channel(
-            df,
-            peaks_valleys=True,
-            peaks_valleys_avg=True,
-            aVWAP_channel=True,
-            peaks_valleys_params={'periods': 30, 'max_aVWAPs': 10},
-            avg_lookback=3
-        )
+    Calculate anchored VWAP channels from market structure points.
     
     Parameters:
     -----------
-    aVWAP_channel : bool
-        If True:
-        - Only uses valleys starting from the LOWEST price
-        - Only uses peaks starting from the HIGHEST price
-        - peaks_valleys_avg: calculated after both highest peak and lowest valley exist
+    df : pd.DataFrame
+        OHLCV data with columns: ['Open', 'High', 'Low', 'Close', 'Volume']
     
-    max_aVWAPs : number 
-        - max number of most recent anchors to calculate VWAPs from
+    Main toggles (bool):
+        peaks_valleys, gaps, OB - Calculate aVWAPs from these anchors
+        *_avg - Calculate rolling averages of respective aVWAPs
+        All_avg - Average of all aVWAP types
+    
+    Parameters dicts:
+        peaks_valleys_params: {'periods': 25, 'max_aVWAPs': None}
+        gaps_params: {'max_aVWAPs': None}
+        OB_params: {'periods': 25, 'max_aVWAPs': None, 
+                   'include_bullish': True, 'include_bearish': True}
+    
+    Other params:
+        avg_lookback: Number of aVWAPs to average (default 1)
+        keep_OB_column: Keep raw OB data if True
+        aVWAP_channel: Use only extreme peaks/valleys if True
+    
+    Returns:
+    --------
+    dict of pd.Series with keys:
+        Individual aVWAPs: 'aVWAP_peak_[idx]', 'aVWAP_valley_[idx]', 
+                         'Gap_Up_aVWAP_[idx]', 'aVWAP_OB_bull_[idx]', etc.
+        Averages: 'Peaks_Valleys_avg', 'Gaps_avg', 'OB_avg', etc.
+    
+    Example:
+        calculate_avwap_channel(df, peaks_valleys=True, OB=True,
+                              OB_params={'include_bearish': False})
     """
-    
     # Set default parameters if not provided
     if peaks_valleys_params is None:
         peaks_valleys_params = {'periods': 25, 'max_aVWAPs': None}
     if gaps_params is None:
         gaps_params = {'max_aVWAPs': None}
     if OB_params is None:
-        OB_params = {'periods': 25, 'max_aVWAPs': None}
+        OB_params = {
+            'periods': 25, 
+            'max_aVWAPs': None,
+            'include_bullish': True,
+            'include_bearish': True
+        }
 
     # Get indicators based on input parameters
     aVWAP_anchors = []
@@ -130,7 +145,6 @@ def calculate_avwap_channel(df,
             else:
                 df['Peaks_Valleys_avg'] = calculate_rolling_aVWAP_avg(df, peaks_valleys_aVWAPs, avg_lookback)
 
-    # [Rest of the function remains unchanged...]
     # Process gaps and OB anchors
     if gaps or gaps_avg or All_avg:
         gap_up_indices = df[df['Gap_Up'] == 1].index.tolist() if 'Gap_Up' in df.columns else []
@@ -142,8 +156,8 @@ def calculate_avwap_channel(df,
                        gaps_params.get('max_aVWAPs'))
 
     if OB or OB_avg or All_avg:
-        OB_bull_indices = df[df['OB'] == 1].index.tolist() if 'OB' in df.columns else []
-        OB_bear_indices = df[df['OB'] == -1].index.tolist() if 'OB' in df.columns else []
+        OB_bull_indices = df[df['OB'] == 1].index.tolist() if ('OB' in df.columns and OB_params.get('include_bullish', True)) else []
+        OB_bear_indices = df[df['OB'] == -1].index.tolist() if ('OB' in df.columns and OB_params.get('include_bearish', True)) else []
         
         process_anchors(OB_bull_indices, 'aVWAP_OB_bull', OB_aVWAPs, 
                        OB_params.get('max_aVWAPs'))
@@ -192,7 +206,16 @@ def calculate_avwap_channel(df,
     if gaps and gaps_aVWAPs:
         result_dict.update({col: df[col] for col in gaps_aVWAPs})
     if OB and OB_aVWAPs:
-        result_dict.update({col: df[col] for col in OB_aVWAPs})
+        # Only include bullish OB aVWAPs if requested
+        if OB_params.get('include_bullish', True):
+            bull_cols = [col for col in OB_aVWAPs if col.startswith('aVWAP_OB_bull')]
+            result_dict.update({col: df[col] for col in bull_cols})
+        
+        # Only include bearish OB aVWAPs if requested
+        if OB_params.get('include_bearish', True):
+            bear_cols = [col for col in OB_aVWAPs if col.startswith('aVWAP_OB_bear')]
+            result_dict.update({col: df[col] for col in bear_cols})
+        
         if keep_OB_column:
             result_dict.update({
                 'OB': df['OB'],

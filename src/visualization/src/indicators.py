@@ -248,7 +248,7 @@ def _aVWAP_visualization(subchart, df):
         subchart.create_line(
             price_line=False,
             price_label=False,
-            color=colors['teal'],
+            color=colors['aqua'],
             width=1
         ).set(df[['date', col]].rename(columns={col: 'value'}))
 
@@ -257,7 +257,7 @@ def _aVWAP_visualization(subchart, df):
         subchart.create_line(
             price_line=False,
             price_label=False,
-            color=colors['red'],
+            color=colors['red_dark'],
             width=1
         ).set(df[['date', col]].rename(columns={col: 'value'}))
     
