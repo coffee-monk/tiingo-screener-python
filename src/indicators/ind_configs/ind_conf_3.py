@@ -17,15 +17,15 @@ indicators = {  # liquidity levels
 
         'daily': [
             'aVWAP',
-            # 'candle_colors',
-            # 'liquidity',
-            # 'StDev',
+            'candle_colors',
+            'liquidity',
+            'StDev',
             'FVG',
-            # 'BoS_CHoCH',
-            # 'QQEMOD',
-            # 'banker_RSI',
-            # 'TTM_squeeze',
-            # 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+            'BoS_CHoCH',
+            'QQEMOD',
+            'banker_RSI',
+            'TTM_squeeze',
+            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
         '4hour': [
