@@ -124,7 +124,12 @@ params = {
                 'peaks_valleys_params': {'periods': 10, 'max_aVWAPs': None},
                 'OB': True,
                 'OB_avg': False,
-                'OB_params': {'periods': 4, 'max_aVWAPs': None},
+                'OB_params': {
+                              'periods': 4, 
+                              'max_aVWAPs': None,
+                              'include_bullish': True,
+                              'include_bearish': True
+                             },
                 'gaps': False,
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 8},
@@ -192,7 +197,12 @@ params = {
                 'peaks_valleys_params': {'periods': 30, 'max_aVWAPs': None},
                 'OB': True,
                 'OB_avg': False,
-                'OB_params': {'periods': 20, 'max_aVWAPs': None},
+                'OB_params': {
+                              'periods': 20, 
+                              'max_aVWAPs': None,
+                              'include_bullish': True,
+                              'include_bearish': True
+                             },
                 'gaps': False,
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 20},
@@ -261,7 +271,12 @@ params = {
                 'peaks_valleys_params': {'periods': 30, 'max_aVWAPs': None},
                 'OB': True,
                 'OB_avg': False,
-                'OB_params': {'periods': 10, 'max_aVWAPs': None},
+                'OB_params': {
+                              'periods': 10, 
+                              'max_aVWAPs': None,
+                              'include_bullish': True,
+                              'include_bearish': True
+                             },
                 'gaps': False,
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 20},
@@ -330,7 +345,12 @@ params = {
                 'peaks_valleys_params': {'periods': 30, 'max_aVWAPs': None},
                 'OB': True,
                 'OB_avg': False,
-                'OB_params': {'periods': 10, 'max_aVWAPs': None},
+                'OB_params': {
+                              'periods': 10, 
+                              'max_aVWAPs': None,
+                              'include_bullish': True,
+                              'include_bearish': True
+                             },
                 'gaps': False,
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 20},
@@ -399,6 +419,12 @@ params = {
                 'peaks_valleys_params': {'periods': 50, 'max_aVWAPs': None},
                 'OB': True,
                 'OB_avg': False,
+                'OB_params': {
+                              'periods': 10, 
+                              'max_aVWAPs': None,
+                              'include_bullish': True,
+                              'include_bearish': True
+                             },
                 'OB_params': {'periods': 10, 'max_aVWAPs': None},
                 'gaps': False,
                 'gaps_avg': False,
