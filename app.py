@@ -57,7 +57,11 @@ def vis(scan_file=None, ticker=None):
         dm.list_scans()
         return
 
-    subcharts(scan_file=scan_path)
+    subcharts(
+              scan_file=scan_path,
+              show_volume=False,
+              show_banker_RSI=False
+             )
 
 # FETCH TICKERS -------------------------------------------
 
