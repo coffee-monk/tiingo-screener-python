@@ -1,6 +1,6 @@
 # ind_conf_0
 
-indicators = {  # aVWAP_channel = False
+indicators = {  # List of available indicator configurations
 
         'weekly': [
             'aVWAP', 
@@ -125,7 +125,7 @@ params = {
                 'OB': True,
                 'OB_avg': False,
                 'OB_params': {
-                              'periods': 4, 
+                              'periods': 6, 
                               'max_aVWAPs': None,
                               'include_bullish': True,
                               'include_bearish': True
@@ -138,7 +138,7 @@ params = {
                 'keep_OB_column': False,
                 'aVWAP_channel': False,
             },
-            'OB': {'periods': 4},
+            'OB': {'periods': 6},
             'FVG': {
                 'max_mitigated': 10, 
                 'max_unmitigated': 10, 
@@ -165,7 +165,7 @@ params = {
             'supertrend': {'period': 20, 'multiplier': 3},
             'TTM_squeeze': {
                 'bb_length': 20, 'bb_std_dev': 2.0,
-                'kc_length': 20, 'kc_mult': 1.5, 'use_true_range': True
+                'kc_length': 20, 'kc_mult': 2.0, 'use_true_range': True
             },
             'divergence_OBV':    {'period': 26, 'lookback': 26},
             'divergence_Volume': {'period': 26, 'lookback': 26},
@@ -194,7 +194,7 @@ params = {
                 'peaks_valleys_avg': True,
                 'peaks_avg': True,
                 'valleys_avg': True,
-                'peaks_valleys_params': {'periods': 30, 'max_aVWAPs': None},
+                'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
                 'OB': True,
                 'OB_avg': False,
                 'OB_params': {
@@ -205,7 +205,7 @@ params = {
                              },
                 'gaps': False,
                 'gaps_avg': False,
-                'gaps_params': {'max_aVWAPs': 20},
+                'gaps_params': {'max_aVWAPs': 10},
                 'All_avg': False,
                 'avg_lookback': 20,
                 'keep_OB_column': False,
@@ -272,20 +272,20 @@ params = {
                 'OB': True,
                 'OB_avg': False,
                 'OB_params': {
-                              'periods': 10, 
+                              'periods': 30, 
                               'max_aVWAPs': None,
                               'include_bullish': True,
                               'include_bearish': True
                              },
                 'gaps': False,
                 'gaps_avg': False,
-                'gaps_params': {'max_aVWAPs': 20},
+                'gaps_params': {'max_aVWAPs': 10},
                 'All_avg': False,
                 'avg_lookback': 20,
                 'keep_OB_column': False,
                 'aVWAP_channel': False,
             },
-            'OB': {'periods': 16},
+            'OB': {'periods': 30},
             'FVG': {
                 'max_mitigated': 10, 
                 'max_unmitigated': 10, 
@@ -327,8 +327,8 @@ params = {
                 'custom_params': {
                     'StDev': {
                         'centreline': 'peaks_valleys_avg',
-                        'peaks_valleys_params': {'periods': 16, 'max_aVWAPs': None},
-                        'std_lookback': 16, 'avg_lookback': 16
+                        'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
+                        'std_lookback': 20, 'avg_lookback': 20
                     },
                     'QQEMOD': {
                         'rsi_period': 5, 'rsi_period2': 5, 'sf': 5, 'sf2': 4,
@@ -346,20 +346,20 @@ params = {
                 'OB': True,
                 'OB_avg': False,
                 'OB_params': {
-                              'periods': 10, 
+                              'periods': 25, 
                               'max_aVWAPs': None,
                               'include_bullish': True,
                               'include_bearish': True
                              },
                 'gaps': False,
                 'gaps_avg': False,
-                'gaps_params': {'max_aVWAPs': 20},
+                'gaps_params': {'max_aVWAPs': 10},
                 'All_avg': False,
-                'avg_lookback': 20,
+                'avg_lookback': 25,
                 'keep_OB_column': False,
                 'aVWAP_channel': False,
             },
-            'OB': {'periods': 16},
+            'OB': {'periods': 25},
             'FVG': {
                 'max_mitigated': 10, 
                 'max_unmitigated': 10, 
@@ -416,7 +416,7 @@ params = {
                 'peaks_valleys_avg': True,
                 'peaks_avg': True,
                 'valleys_avg': True,
-                'peaks_valleys_params': {'periods': 50, 'max_aVWAPs': None},
+                'peaks_valleys_params': {'periods': 30, 'max_aVWAPs': None},
                 'OB': True,
                 'OB_avg': False,
                 'OB_params': {

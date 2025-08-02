@@ -78,16 +78,19 @@ def fetch():
 def ind(ind_conf=None):
 
     match ind_conf:
+
         case 'ind_conf_1':
             run_indicators(indicators['weekly'], params['weekly'], "weekly")
             run_indicators(indicators['daily'],  params['daily'],  "daily")
             run_indicators(indicators['4hour'],  params['4hour'],  "4hour")
             run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
+
         case 'ind_conf_2':
             run_indicators(indicators['weekly_2'], params['weekly_2'], "weekly")
             run_indicators(indicators['daily_2'],  params['daily_2'],  "daily")
             run_indicators(indicators['4hour_2'],  params['4hour_2'],  "4hour")
             run_indicators(indicators['1hour_2'],  params['1hour_2'],  "1hour")
+
         case 'ind_conf_3':
             run_indicators(indicators['weekly_3'], params['weekly_3'], "weekly")
             run_indicators(indicators['daily_3'],  params['daily_3'],  "daily")
