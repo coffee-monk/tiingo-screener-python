@@ -80,10 +80,10 @@ def ind(ind_conf=None):
     match ind_conf:
 
         case 'ind_conf_1':
-            run_indicators(indicators['weekly'], params['weekly'], "weekly")
-            run_indicators(indicators['daily'],  params['daily'],  "daily")
-            run_indicators(indicators['4hour'],  params['4hour'],  "4hour")
-            run_indicators(indicators['1hour'],  params['1hour'],  "1hour")
+            run_indicators(indicators['weekly_1'], params['weekly_1'], "weekly")
+            run_indicators(indicators['daily_1'],  params['daily_1'],  "daily")
+            run_indicators(indicators['4hour_1'],  params['4hour_1'],  "4hour")
+            run_indicators(indicators['1hour_1'],  params['1hour_1'],  "1hour")
 
         case 'ind_conf_2':
             run_indicators(indicators['weekly_2'], params['weekly_2'], "weekly")
