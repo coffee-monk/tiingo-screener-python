@@ -96,13 +96,14 @@ def subcharts(
     # Configure each chart
     for i, (df, chart) in enumerate(zip(dfs, charts)):
         prepared_df, timeframe = prepare_dataframe(df, show_volume)
-        configure_base_chart(prepared_df, chart)
+        configure_base_chart(prepared_df, chart, show_volume, show_banker_RSI)
         add_ui_elements(
             chart, 
             charts, 
             df.attrs.get('ticker', ticker),
             timeframe,
-            show_volume
+            show_volume,
+            show_banker_RSI,
         )
         add_visualizations(chart, prepared_df, show_banker_RSI)
         chart.set(prepared_df)

@@ -57,9 +57,10 @@ def prepare_dataframe(df, show_volume, padding_ratio=0.25):
         df = df.drop(columns=['volume'])
     return df, timeframe
 
-def configure_base_chart(df, chart):
+def configure_base_chart(df, chart, show_volume=False, show_banker_RSI=False):
     colors = get_color_palette()
-    scale_margin_bottom = 0.2 if ('volume' in df.columns and 'banker_RSI' in df.columns) else 0.15 if 'volume' in df.columns else 0.1 if 'banker_RSI' in df.columns else 0.05
+    scale_margin_bottom = 0.2 if show_banker_RSI and show_volume else 0.15 if show_volume else 0.1 if show_banker_RSI else 0.05
+    # scale_margin_bottom = 0.2 if ('volume' in df.columns and 'banker_RSI' in df.columns) else 0.15 if 'volume' in df.columns else 0.1 if 'banker_RSI' in df.columns else 0.05
     chart.fit()
     chart.candle_style(
         up_color=colors['teal'], 
@@ -72,8 +73,12 @@ def configure_base_chart(df, chart):
     chart.grid(False, False)
     chart.price_line(True, False)
     chart.price_scale(scale_margin_top=0.05, scale_margin_bottom=scale_margin_bottom)
-    chart.volume_config(scale_margin_bottom=0.0, scale_margin_top=0.9,
-                       up_color=colors['orange_volume'], down_color=colors['orange_volume'])
+    chart.volume_config(
+                        scale_margin_top=0.9,
+                        scale_margin_bottom=0.0, 
+                        up_color=colors['orange_volume'], 
+                        down_color=colors['orange_volume']
+                       )
 
 def get_charts(df_list):
     num_charts = len(df_list)
@@ -82,24 +87,35 @@ def get_charts(df_list):
     
     if num_charts == 1:
         main_chart = Chart(inner_width=1.0, inner_height=1.0, maximize=True)
-        charts = [main_chart]
+        charts = [
+                  main_chart
+                 ]
     elif num_charts == 2:
         main_chart = Chart(inner_width=0.5, inner_height=1.0, maximize=True)
-        charts = [main_chart, main_chart.create_subchart(width=0.5, height=1.0, position='right')]
+        charts = [
+                  main_chart, 
+                  main_chart.create_subchart(width=0.5, height=1.0, position='right')
+                 ]
     elif num_charts == 3:
         main_chart = Chart(inner_width=1.0, inner_height=0.5, maximize=True)
-        charts = [main_chart, main_chart.create_subchart(width=0.5, height=0.5, position='left'),
-                 main_chart.create_subchart(width=0.5, height=0.5, position='right')]
+        charts = [
+                  main_chart, 
+                  main_chart.create_subchart(width=0.5, height=0.5, position='left'),
+                  main_chart.create_subchart(width=0.5, height=0.5, position='right')
+                 ]
     elif num_charts == 4:
         main_chart = Chart(inner_width=0.5, inner_height=0.5, maximize=True)
-        charts = [main_chart, main_chart.create_subchart(width=0.5, height=0.5, position='left'),
-                 main_chart.create_subchart(width=0.5, height=0.5, position='left'),
-                 main_chart.create_subchart(width=0.5, height=0.5, position='right')]
+        charts = [
+                  main_chart, 
+                  main_chart.create_subchart(width=0.5, height=0.5, position='left'),
+                  main_chart.create_subchart(width=0.5, height=0.5, position='left'),
+                  main_chart.create_subchart(width=0.5, height=0.5, position='right')
+                 ]
     return main_chart, charts
 
 KEY_MAPPINGS = {'-':0,'=':1,'[':2,']':3}
 
-def add_ui_elements(chart, charts, ticker, timeframe, show_volume=False):
+def add_ui_elements(chart, charts, ticker, timeframe, show_volume=False, show_banker_RSI=False):
     try:
         if chart.topbar is not None:
            chart.topbar['ticker'].set(ticker)
@@ -112,21 +128,21 @@ def add_ui_elements(chart, charts, ticker, timeframe, show_volume=False):
             chart.topbar.button('max', 'FULLSCREEN', align='left', separator=True, 
                                func=lambda c=chart: _maximize_minimize_button(c, charts))
         
+        chart.events.search += _on_search
         chart.hotkey(None, ' ', lambda key=' ': _maximize_minimize_hotkey(charts, key))
         chart.hotkey('ctrl', 'c', lambda: sys.exit(1))
-        chart.events.search += _on_search
         chart.hotkey(None, str(1+i), lambda key=str(1+i): _maximize_minimize_hotkey(charts, key))
-        chart.hotkey(None, str(i+6), lambda key=i: _load_timeframe_csv(charts, key, show_volume))
-        if i == 0: chart.hotkey(None, '-', lambda key='-': _load_ticker_csv(charts, key, show_volume))
-        if i == 1: chart.hotkey(None, '=', lambda key='=': _load_ticker_csv(charts, key, show_volume))
-        if i == 2: chart.hotkey(None, '[', lambda key='[': _load_ticker_csv(charts, key, show_volume))
-        if i == 3: chart.hotkey(None, ']', lambda key=']': _load_ticker_csv(charts, key, show_volume))
+        chart.hotkey(None, str(i+6), lambda key=i: _load_timeframe_csv(charts, key, show_volume, show_banker_RSI))
+        if i == 0: chart.hotkey(None, '-', lambda key='-': _load_ticker_csv(charts, key, show_volume, show_banker_RSI))
+        if i == 1: chart.hotkey(None, '=', lambda key='=': _load_ticker_csv(charts, key, show_volume, show_banker_RSI))
+        if i == 2: chart.hotkey(None, '[', lambda key='[': _load_ticker_csv(charts, key, show_volume, show_banker_RSI))
+        if i == 3: chart.hotkey(None, ']', lambda key=']': _load_ticker_csv(charts, key, show_volume, show_banker_RSI))
         if i == 0: chart.hotkey(None, '_', lambda key='_': _take_screenshot(charts, key))
         if i == 1: chart.hotkey(None, '+', lambda key='+': _take_screenshot(charts, key))
         if i == 2: chart.hotkey(None, '{', lambda key='{': _take_screenshot(charts, key))
         if i == 3: chart.hotkey(None, '}', lambda key='}': _take_screenshot(charts, key))
 
-def _load_ticker_csv(charts, key, show_volume=False):
+def _load_ticker_csv(charts, key, show_volume=False, show_banker_RSI=False):
     """Automatically uses scan file if available, otherwise falls back to indicators"""
     from src.visualization.subcharts import CURRENT_SCAN_FILE
     
@@ -190,8 +206,8 @@ def _load_ticker_csv(charts, key, show_volume=False):
         for line in chart.lines(): line.set(pd.DataFrame())
         chart.clear_markers()
         prepared_df, _ = prepare_dataframe(df, show_volume)
-        configure_base_chart(prepared_df, chart)
-        add_ui_elements(chart, charts, next_ticker, timeframe, show_volume)
+        configure_base_chart(prepared_df, chart, show_volume, show_banker_RSI)
+        add_ui_elements(chart, charts, next_ticker, timeframe, show_volume, show_banker_RSI)
         add_visualizations(chart, prepared_df, False)
         chart.set(prepared_df)
         chart.fit()
@@ -275,7 +291,7 @@ def _on_search(chart, input_ticker):
     except Exception as e:
         print(f"Error during search: {e}")
 
-def _load_timeframe_csv(charts, key, show_volume=False):
+def _load_timeframe_csv(charts, key, show_volume=False, show_banker_RSI=False):
     chart = charts[int(key)-6]
     ticker = chart.topbar['ticker'].value
     current_timeframe = chart.topbar['timeframe'].value
@@ -306,8 +322,8 @@ def _load_timeframe_csv(charts, key, show_volume=False):
     lines = chart.lines()
     for line in lines: line.set(pd.DataFrame())
     chart.clear_markers()
-    configure_base_chart(df, chart)
-    add_ui_elements(chart, [chart], ticker, next_timeframe, show_volume)
+    configure_base_chart(df, chart, show_volume, show_banker_RSI)
+    add_ui_elements(chart, [chart], ticker, next_timeframe, show_volume, show_banker_RSI)
     add_visualizations(chart, df, False)
     chart.set(df)
     chart.fit()
