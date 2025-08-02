@@ -69,6 +69,17 @@ class DataManager:
         self.clear_buffer(self.scanner_dir, "scan_results_*.csv")
         print("✨ All buffers cleared (versions preserved)")
 
+    def format_duration(self, seconds):
+        """Convert seconds to human-readable string (hours, minutes, seconds)"""
+        if seconds < 60:
+            return f"{seconds:.2f} seconds"
+        elif seconds < 3600:
+            minutes = seconds / 60
+            return f"{minutes:.2f} minutes"
+        else:
+            hours = seconds / 3600
+            return f"{hours:.2f} hours"
+
     # Version Management --------------------------------
 
     def list_versions(self, 
