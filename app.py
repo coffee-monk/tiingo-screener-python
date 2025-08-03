@@ -126,21 +126,21 @@ def full_run(fetch, ind, scan) -> None:
     dm.delete_all_versions(dm.indicators_dir)
     dm.delete_all_versions(dm.scanner_dir)
 
-    # fetch()
+    fetch()
 
     # INDICATORS
 
-    # ind('ind_conf_1')
-    # dm.save_indicators('ind_conf_1')
-    # dm.clear_buffer(dm.indicators_dir)
-    #
-    # ind('ind_conf_2')
-    # dm.save_indicators('ind_conf_2')
-    # dm.clear_buffer(dm.indicators_dir)
-    #
-    # ind('ind_conf_3')
-    # dm.save_indicators('ind_conf_3')
-    # dm.clear_buffer(dm.indicators_dir)
+    ind('ind_conf_1')
+    dm.save_indicators('ind_conf_1')
+    dm.clear_buffer(dm.indicators_dir)
+    
+    ind('ind_conf_2')
+    dm.save_indicators('ind_conf_2')
+    dm.clear_buffer(dm.indicators_dir)
+    
+    ind('ind_conf_3')
+    dm.save_indicators('ind_conf_3')
+    dm.clear_buffer(dm.indicators_dir)
 
     # SCANNER
 
