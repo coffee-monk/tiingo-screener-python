@@ -332,4 +332,5 @@ params = {
             'divergence_Fisher': {'period': 128, 'lookback': 80},
             'divergence_Vortex': {'period': 128, 'lookback': 80}
         }
+
 }

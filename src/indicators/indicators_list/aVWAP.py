@@ -11,47 +11,26 @@ def calculate_avwap_channel(df,
                            gaps_avg=False,
                            OB=False,
                            OB_avg=False,
+                           BoS_CHoCH=False,
+                           BoS_CHoCH_avg=False,
                            All_avg=False,
                            peaks_valleys_params=None,
                            gaps_params=None,
                            OB_params=None,
-                           avg_lookback=1,
+                           BoS_CHoCH_params=None,
+                           avg_lookback=25,
                            keep_OB_column=False,
                            aVWAP_channel=False):
     """
     Calculate anchored VWAP channels from market structure points.
-    
-    Parameters:
-    -----------
-    df : pd.DataFrame
-        OHLCV data with columns: ['Open', 'High', 'Low', 'Close', 'Volume']
-    
-    Main toggles (bool):
-        peaks_valleys, gaps, OB - Calculate aVWAPs from these anchors
-        *_avg - Calculate rolling averages of respective aVWAPs
-        All_avg - Average of all aVWAP types
-    
-    Parameters dicts:
-        peaks_valleys_params: {'periods': 25, 'max_aVWAPs': None}
-        gaps_params: {'max_aVWAPs': None}
-        OB_params: {'periods': 25, 'max_aVWAPs': None, 
-                   'include_bullish': True, 'include_bearish': True}
-    
-    Other params:
-        avg_lookback: Number of aVWAPs to average (default 1)
-        keep_OB_column: Keep raw OB data if True
-        aVWAP_channel: Use only extreme peaks/valleys if True
-    
-    Returns:
-    --------
-    dict of pd.Series with keys:
-        Individual aVWAPs: 'aVWAP_peak_[idx]', 'aVWAP_valley_[idx]', 
-                         'Gap_Up_aVWAP_[idx]', 'aVWAP_OB_bull_[idx]', etc.
-        Averages: 'Peaks_Valleys_avg', 'Gaps_avg', 'OB_avg', etc.
-    
-    Example:
-        calculate_avwap_channel(df, peaks_valleys=True, OB=True,
-                              OB_params={'include_bearish': False})
+
+    New Parameters:
+        BoS_CHoCH: Calculate aVWAPs from BoS/CHoCH ranges
+        BoS_CHoCH_avg: Calculate rolling average of BoS/CHoCH aVWAPs
+        BoS_CHoCH_params: {
+            'swing_length': 25,
+            'max_aVWAPs': None
+        }
     """
     # Set default parameters if not provided
     if peaks_valleys_params is None:
@@ -65,6 +44,11 @@ def calculate_avwap_channel(df,
             'include_bullish': True,
             'include_bearish': True
         }
+    if BoS_CHoCH_params is None:
+        BoS_CHoCH_params = {
+            'swing_length': 25,
+            'max_aVWAPs': None
+        }
 
     # Get indicators based on input parameters
     aVWAP_anchors = []
@@ -74,6 +58,8 @@ def calculate_avwap_channel(df,
         aVWAP_anchors.append('gaps')
     if OB or OB_avg or All_avg: 
         aVWAP_anchors.append('OB')
+    if BoS_CHoCH or BoS_CHoCH_avg or All_avg:
+        aVWAP_anchors.append('BoS_CHoCH')
 
     if not aVWAP_anchors:
         return {}
@@ -85,6 +71,8 @@ def calculate_avwap_channel(df,
         params['gaps'] = {}
     if OB or OB_avg or All_avg: 
         params['OB'] = {'periods': OB_params['periods']}
+    if BoS_CHoCH or BoS_CHoCH_avg or All_avg:
+        params['BoS_CHoCH'] = {'swing_length': BoS_CHoCH_params['swing_length']}
 
     df = get_indicators(df, aVWAP_anchors, params)
     df = df.reset_index()
@@ -96,6 +84,7 @@ def calculate_avwap_channel(df,
     valleys_only_aVWAPs = {}
     gaps_aVWAPs = {}
     OB_aVWAPs = {}
+    BoS_CHoCH_aVWAPs = {}
 
     # Track extreme points for channel calculation
     highest_peak_idx = None
@@ -133,7 +122,6 @@ def calculate_avwap_channel(df,
         
         peaks_valleys_aVWAPs = {**peaks_only_aVWAPs, **valleys_only_aVWAPs}
 
-        # Calculate peaks_valleys_avg (new logic)
         if peaks_valleys_avg and peaks_valleys_aVWAPs:
             if aVWAP_channel:
                 if highest_peak_idx is not None and lowest_valley_idx is not None:
@@ -145,7 +133,7 @@ def calculate_avwap_channel(df,
             else:
                 df['Peaks_Valleys_avg'] = calculate_rolling_aVWAP_avg(df, peaks_valleys_aVWAPs, avg_lookback)
 
-    # Process gaps and OB anchors
+    # Process gaps
     if gaps or gaps_avg or All_avg:
         gap_up_indices = df[df['Gap_Up'] == 1].index.tolist() if 'Gap_Up' in df.columns else []
         gap_down_indices = df[df['Gap_Down'] == 1].index.tolist() if 'Gap_Down' in df.columns else []
@@ -155,21 +143,18 @@ def calculate_avwap_channel(df,
         process_anchors(gap_down_indices, 'Gap_Down_aVWAP', gaps_aVWAPs, 
                        gaps_params.get('max_aVWAPs'))
 
+    # Process OBs
     if OB or OB_avg or All_avg:
         OB_bull_indices = []
         OB_bear_indices = []
         
         if 'OB' in df.columns:
             if aVWAP_channel:
-                # For bullish OBs - only include if after lowest valley
                 if lowest_valley_idx is not None:
                     OB_bull_indices = df[(df['OB'] == 1) & (df.index >= lowest_valley_idx)].index.tolist()
-                
-                # For bearish OBs - only include if after highest peak
                 if highest_peak_idx is not None:
                     OB_bear_indices = df[(df['OB'] == -1) & (df.index >= highest_peak_idx)].index.tolist()
             else:
-                # Original behavior when not in channel mode
                 OB_bull_indices = df[df['OB'] == 1].index.tolist() if OB_params.get('include_bullish', True) else []
                 OB_bear_indices = df[df['OB'] == -1].index.tolist() if OB_params.get('include_bearish', True) else []
         
@@ -178,14 +163,50 @@ def calculate_avwap_channel(df,
         process_anchors(OB_bear_indices, 'aVWAP_OB_bear', OB_aVWAPs, 
                        OB_params.get('max_aVWAPs'))
 
-    all_aVWAPs = {**peaks_valleys_aVWAPs, **gaps_aVWAPs, **OB_aVWAPs}
+    # Process BoS/CHoCH ranges
+    if BoS_CHoCH or BoS_CHoCH_avg or All_avg:
+        def process_BoS_CHoCH_range(signal_idx, break_idx, signal_type):
+            """Calculate VWAP from extreme point in signal→break range"""
+            if pd.isna(break_idx) or break_idx <= signal_idx:
+                return None
+                
+            range_df = df.iloc[signal_idx:break_idx+1]
+            
+            if signal_type == 'bullish':
+                # Find lowest low in range for bullish signals
+                extreme_idx = range_df['Low'].idxmin()
+            else:  # bearish
+                # Find highest high in range for bearish signals
+                extreme_idx = range_df['High'].idxmax()
+            
+            return calculate_avwap(df, extreme_idx)
+
+        # Process bullish signals (BoS=1 or CHoCH=1)
+        bullish_signals = df[(df['BoS'] == 1) | (df['CHoCH'] == 1)].index
+        for idx in bullish_signals:
+            break_idx = int(df.loc[idx, 'BoS_CHoCH_Break_Index']) if not pd.isna(df.loc[idx, 'BoS_CHoCH_Break_Index']) else None
+            if break_idx:
+                vwap = process_BoS_CHoCH_range(idx, break_idx, 'bullish')
+                if vwap is not None:
+                    BoS_CHoCH_aVWAPs[f'aVWAP_BoS_CHoCH_bull_{idx}'] = vwap
+        
+        # Process bearish signals (BoS=-1 or CHoCH=-1)
+        bearish_signals = df[(df['BoS'] == -1) | (df['CHoCH'] == -1)].index
+        for idx in bearish_signals:
+            break_idx = int(df.loc[idx, 'BoS_CHoCH_Break_Index']) if not pd.isna(df.loc[idx, 'BoS_CHoCH_Break_Index']) else None
+            if break_idx:
+                vwap = process_BoS_CHoCH_range(idx, break_idx, 'bearish')
+                if vwap is not None:
+                    BoS_CHoCH_aVWAPs[f'aVWAP_BoS_CHoCH_bear_{idx}'] = vwap
+
+    all_aVWAPs = {**peaks_valleys_aVWAPs, **gaps_aVWAPs, **OB_aVWAPs, **BoS_CHoCH_aVWAPs}
 
     if not all_aVWAPs: 
         return {}
 
     df = pd.concat([df, pd.DataFrame(all_aVWAPs)], axis=1)
 
-    # Calculate other averages
+    # Calculate averages
     if peaks_avg and peaks_only_aVWAPs:
         df['Peaks_avg'] = calculate_rolling_aVWAP_avg(df, peaks_only_aVWAPs, avg_lookback)
     
@@ -198,6 +219,9 @@ def calculate_avwap_channel(df,
     if OB_avg and OB_aVWAPs:                       
         df['OB_avg'] = calculate_rolling_aVWAP_avg(df, OB_aVWAPs, avg_lookback)
 
+    if BoS_CHoCH_avg and BoS_CHoCH_aVWAPs:
+        df['BoS_CHoCH_avg'] = calculate_rolling_aVWAP_avg(df, BoS_CHoCH_aVWAPs, avg_lookback)
+
     if All_avg and all_aVWAPs:
         df['All_avg'] = calculate_rolling_aVWAP_avg(df, all_aVWAPs, avg_lookback)
 
@@ -209,6 +233,8 @@ def calculate_avwap_channel(df,
         cols_to_drop.extend(['Gap_Up', 'Gap_Down'])
     if not keep_OB_column:
         cols_to_drop.extend(['OB', 'OB_High', 'OB_Low', 'OB_Mitigated_Index'])
+    if BoS_CHoCH or BoS_CHoCH_avg:
+        cols_to_drop.extend(['BoS', 'CHoCH', 'BoS_CHoCH_Price', 'BoS_CHoCH_Break_Index'])
 
     df = df.drop(columns=[col for col in cols_to_drop if col in df.columns])
     df.set_index('date', inplace=True)
@@ -220,23 +246,25 @@ def calculate_avwap_channel(df,
     if gaps and gaps_aVWAPs:
         result_dict.update({col: df[col] for col in gaps_aVWAPs})
     if OB and OB_aVWAPs:
-        # Only include bullish OB aVWAPs if requested
         if OB_params.get('include_bullish', True):
             bull_cols = [col for col in OB_aVWAPs if col.startswith('aVWAP_OB_bull')]
             result_dict.update({col: df[col] for col in bull_cols})
-        
-        # Only include bearish OB aVWAPs if requested
         if OB_params.get('include_bearish', True):
             bear_cols = [col for col in OB_aVWAPs if col.startswith('aVWAP_OB_bear')]
             result_dict.update({col: df[col] for col in bear_cols})
+    if BoS_CHoCH and BoS_CHoCH_aVWAPs:
+        bull_cols = [col for col in BoS_CHoCH_aVWAPs if col.startswith('aVWAP_BoS_CHoCH_bull')]
+        result_dict.update({col: df[col] for col in bull_cols})
+        bear_cols = [col for col in BoS_CHoCH_aVWAPs if col.startswith('aVWAP_BoS_CHoCH_bear')]
+        result_dict.update({col: df[col] for col in bear_cols})
         
-        if keep_OB_column:
-            result_dict.update({
-                'OB': df['OB'],
-                'OB_High': df['OB_High'],
-                'OB_Low': df['OB_Low'],
-                'OB_Mitigated_Index': df['OB_Mitigated_Index']
-            })
+    if keep_OB_column:
+        result_dict.update({
+            'OB': df['OB'],
+            'OB_High': df['OB_High'],
+            'OB_Low': df['OB_Low'],
+            'OB_Mitigated_Index': df['OB_Mitigated_Index']
+        })
 
     # Add averages
     avg_columns = [
@@ -245,6 +273,7 @@ def calculate_avwap_channel(df,
         ('Valleys_avg', valleys_avg),
         ('Gaps_avg', gaps_avg),
         ('OB_avg', OB_avg),
+        ('BoS_CHoCH_avg', BoS_CHoCH_avg),
         ('All_avg', All_avg)
     ]
     
@@ -279,5 +308,3 @@ def calculate_rolling_aVWAP_avg(df, aVWAP_dict, lookback=None):
         if len(valid_vals) > 0:
             avg_values.loc[idx] = valid_vals.mean()
     return avg_values
-
-

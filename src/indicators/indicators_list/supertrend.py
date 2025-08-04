@@ -1,13 +1,13 @@
 import pandas as pd
 import numpy as np
 
-def calculate_supertrend(df, period=14, multiplier=3, **params):
+def calculate_supertrend(df, periods=14, multiplier=3, **params):
     """
     Calculate Supertrend indicator with both upper and lower bands.
     
     Parameters:
         df (pd.DataFrame): DataFrame with OHLC price data
-        period (int): ATR period (default: 10)
+        periods (int): ATR periods (default: 10)
         multiplier (float): ATR multiplier (default: 3)
         **params: Additional parameters
         
@@ -23,7 +23,7 @@ def calculate_supertrend(df, period=14, multiplier=3, **params):
     high_close = np.abs(df['High'] - df['Close'].shift())
     low_close = np.abs(df['Low'] - df['Close'].shift())
     tr = pd.concat([high_low, high_close, low_close], axis=1).max(axis=1)
-    atr = tr.rolling(window=period).mean().fillna(0)
+    atr = tr.rolling(window=periods).mean().fillna(0)
     
     # Calculate basic bands
     hl2 = (df['High'] + df['Low']) / 2

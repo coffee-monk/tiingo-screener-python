@@ -70,7 +70,6 @@ indicators = {  # liquidity levels
 
 params = {
 
-
         'weekly': {
             'candle_colors': {
                 'indicator_color': 'QQEMOD',
@@ -95,16 +94,19 @@ params = {
                 'peaks_valleys_params': {'periods': 8, 'max_aVWAPs': None},
                 'OB': True,
                 'OB_avg': False,
-                'OB_params': {'periods': 6, 'max_aVWAPs': None},
+                'OB_params': {'periods': 8, 'max_aVWAPs': None},
                 'gaps': True,
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 8},
+                'BoS_CHoCH': False,
+                'BoS_CHoCH_avg': False,
+                'BoS_CHoCH_params': {'swing_length': 8, 'max_aVWAPs': None},
                 'All_avg': False,
-                'avg_lookback': 8,
+                'avg_lookback': 10,
                 'keep_OB_column': False,
                 'aVWAP_channel': False,
             },
-            'OB': {'periods': 6},
+            'OB': {'periods': 8},
             'FVG': {
                 'max_mitigated': 10, 
                 'max_unmitigated': 10, 
@@ -123,7 +125,7 @@ params = {
             },
             'SMA': {'periods': [50, 200]},
             'liquidity': {'swing_length': 4, 'range_percent': 0.1},
-            'supertrend': {'period': 20, 'multiplier': 3},
+            'supertrend': {'periods': 20, 'multiplier': 3},
             'TTM_squeeze': {
                 'bb_length': 20, 'bb_std_dev': 2.0,
                 'kc_length': 20, 'kc_mult': 2.0, 'use_true_range': True
@@ -133,6 +135,7 @@ params = {
             'divergence_Fisher': {'period': 26, 'lookback': 26},
             'divergence_Vortex': {'period': 26, 'lookback': 26}
         },
+
 
         'daily': {
             'candle_colors': {
@@ -162,6 +165,9 @@ params = {
                 'gaps': True,
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 10},
+                'BoS_CHoCH': False,
+                'BoS_CHoCH_avg': False,
+                'BoS_CHoCH_params': {'swing_length': 20, 'max_aVWAPs': None},
                 'All_avg': False,
                 'avg_lookback': 20,
                 'keep_OB_column': False,
@@ -185,7 +191,7 @@ params = {
             },
             'SMA': {'periods': [200]},
             'liquidity': {'swing_length': 20, 'range_percent': 0.1},
-            'supertrend': {'period': 14, 'multiplier': 3},
+            'supertrend': {'periods': 14, 'multiplier': 3},
             'TTM_squeeze': {
                 'bb_length': 18, 'bb_std_dev': 1.9,
                 'kc_length': 18, 'kc_mult': 1.7, 'use_true_range': True
@@ -225,6 +231,9 @@ params = {
                 'gaps': True,
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 10},
+                'BoS_CHoCH': False,
+                'BoS_CHoCH_avg': False,
+                'BoS_CHoCH_params': {'swing_length': 10, 'max_aVWAPs': None},
                 'All_avg': False,
                 'avg_lookback': 20,
                 'keep_OB_column': False,
@@ -248,7 +257,7 @@ params = {
             },
             'SMA': {'periods': [50, 200]},
             'liquidity': {'swing_length': 64, 'range_percent': 0.1},
-            'supertrend': {'period': 12, 'multiplier': 2.5},
+            'supertrend': {'periods': 12, 'multiplier': 2.5},
             'TTM_squeeze': {
                 'bb_length': 14, 'bb_std_dev': 1.8,
                 'kc_length': 14, 'kc_mult': 1.3, 'use_true_range': True
@@ -288,6 +297,9 @@ params = {
                 'gaps': True,
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 10},
+                'BoS_CHoCH': False,
+                'BoS_CHoCH_avg': False,
+                'BoS_CHoCH_params': {'swing_length': 30, 'max_aVWAPs': None},
                 'All_avg': False,
                 'avg_lookback': 25,
                 'keep_OB_column': False,
@@ -301,8 +313,8 @@ params = {
             'BoS_CHoCH': {'swing_length': 30},
             'StDev': {
                 'centreline': 'peaks_valleys_avg',
-                'peaks_valleys_params': {'periods': 16, 'max_aVWAPs': None},
-                'std_lookback': 16, 'avg_lookback': 16
+                'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
+                'std_lookback': 20, 'avg_lookback': 20
             },
             'QQEMOD': {
                 'rsi_period': 5, 'rsi_period2': 5, 'sf': 5, 'sf2': 4,
@@ -311,7 +323,7 @@ params = {
             },
             'SMA': {'periods': [50, 200]},
             'liquidity': {'swing_length': 64, 'range_percent': 0.1},
-            'supertrend': {'period': 12, 'multiplier': 2.5},
+            'supertrend': {'periods': 12, 'multiplier': 2.5},
             'TTM_squeeze': {
                 'bb_length': 14, 'bb_std_dev': 1.8,
                 'kc_length': 14, 'kc_mult': 1.3, 'use_true_range': True
@@ -351,6 +363,9 @@ params = {
                 'gaps': True,
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 10},
+                'BoS_CHoCH': False,
+                'BoS_CHoCH_avg': False,
+                'BoS_CHoCH_params': {'swing_length': 30, 'max_aVWAPs': None},
                 'All_avg': False,
                 'avg_lookback': 30,
                 'keep_OB_column': False,
@@ -374,7 +389,7 @@ params = {
             },
             'SMA': {'periods': [50, 100]},
             'liquidity': {'swing_length': 40, 'range_percent': 0.1},
-            'supertrend': {'period': 10, 'multiplier': 2.5},
+            'supertrend': {'periods': 10, 'multiplier': 2.5},
             'TTM_squeeze': {
                 'bb_length': 12, 'bb_std_dev': 1.6,
                 'kc_length': 12, 'kc_mult': 1.2, 'use_true_range': True
@@ -384,4 +399,5 @@ params = {
             'divergence_Fisher': {'period': 128, 'lookback': 80},
             'divergence_Vortex': {'period': 128, 'lookback': 80}
         }
+
 }

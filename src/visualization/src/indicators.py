@@ -260,6 +260,24 @@ def _aVWAP_visualization(subchart, df):
             color=colors['red_dark'],
             width=1
         ).set(df[['date', col]].rename(columns={col: 'value'}))
+
+    BoS_CHoCH_bear_cols = [col for col in df.columns if col.startswith('aVWAP_BoS_CHoCH_bear_')]
+    for col in BoS_CHoCH_bear_cols:
+        subchart.create_line(
+            price_line=False,
+            price_label=False,
+            color=colors['red'],
+            width=1
+        ).set(df[['date', col]].rename(columns={col: 'value'}))
+
+    BoS_CHoCH_bull_cols = [col for col in df.columns if col.startswith('aVWAP_BoS_CHoCH_bull_')]
+    for col in BoS_CHoCH_bull_cols:
+        subchart.create_line(
+            price_line=False,
+            price_label=False,
+            color=colors['teal'],
+            width=1
+        ).set(df[['date', col]].rename(columns={col: 'value'}))
     
     # Average aVWAPs (Gaps, Peaks/Valleys, OBs)
 
@@ -301,9 +319,18 @@ def _aVWAP_visualization(subchart, df):
             price_line=False,
             price_label=False,
             color=colors['orange_aVWAP'],
-            width=3,
+            width=4,
             style='dotted',
         ).set(df[['date', 'Gaps_avg']].rename(columns={'Gaps_avg': 'value'}))
+
+    if 'BoS_CHoCH_avg' in df.columns:
+        subchart.create_line(
+            price_line=False,
+            price_label=False,
+            color=colors['orange_aVWAP'],
+            width=3,
+            style='large_dashed',
+        ).set(df[['date', 'BoS_CHoCH_avg']].rename(columns={'BoS_CHoCH_avg': 'value'}))
 
     if 'All_avg' in df.columns:
         subchart.create_line(

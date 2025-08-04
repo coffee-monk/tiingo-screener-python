@@ -81,10 +81,10 @@ params = {
                 'peaks_valleys_avg': False,
                 'peaks_avg': True,
                 'valleys_avg': True,
-                'peaks_valleys_params': {'periods': 10, 'max_aVWAPs': None},
+                'peaks_valleys_params': {'periods': 8, 'max_aVWAPs': None},
                 'OB': True,
                 'OB_avg': False,
-                'OB_params': {'periods': 6, 'max_aVWAPs': None},
+                'OB_params': {'periods': 8, 'max_aVWAPs': None},
                 'gaps': False,
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 8},
@@ -93,7 +93,7 @@ params = {
                 'keep_OB_column': False,
                 'aVWAP_channel': True,
             },
-            'OB': {'periods': 6},
+            'OB': {'periods': 8},
             'StDev': {
                 'centreline': 'peaks_valleys_avg',
                 'peaks_valleys_params': {'periods': 8, 'max_aVWAPs': None},
@@ -173,9 +173,9 @@ params = {
                 'indicator_color': 'QQEMOD',
                 'custom_params': {
                     'StDev': {
-                        'std_lookback': 16, 'avg_lookback': 20,
                         'centreline': 'peaks_valleys_avg',
-                        'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None}
+                        'peaks_valleys_params': {'periods': 16, 'max_aVWAPs': None},
+                        'std_lookback': 16, 'avg_lookback': 16
                     },
                     'QQEMOD': {
                         'rsi_period': 5, 'rsi_period2': 5, 'sf': 5, 'sf2': 4,
@@ -286,7 +286,7 @@ params = {
                         'std_lookback': 20, 'avg_lookback': 20
                     },
                     'QQEMOD': {
-                        'rsi_period': 5, 'rsi_period2': 5, 'sf': 5, 'sf2': 4,
+                        'rsi_period': 4, 'rsi_period2': 4, 'sf': 3, 'sf2': 3,
                         'qqe_factor': 2.0, 'qqe_factor2': 1.0, 'threshold': 1.5,
                         'bb_length': 30, 'bb_multi': 0.25
                     }
