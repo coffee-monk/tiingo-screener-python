@@ -150,7 +150,7 @@ params = {
             },
             'aVWAP': {
                 'peaks_valleys': False,
-                'peaks_valleys_avg': False,
+                'peaks_valleys_avg': True,
                 'peaks_avg': False,
                 'valleys_avg': False,
                 'peaks_valleys_params': {'periods': 20, 'max_aVWAPs': None},
@@ -161,7 +161,7 @@ params = {
                 'gaps_avg': False,
                 'gaps_params': {'max_aVWAPs': 10},
                 'BoS_CHoCH': True,
-                'BoS_CHoCH_avg': True,
+                'BoS_CHoCH_avg': False,
                 'BoS_CHoCH_params': {'swing_length': 20, 'max_aVWAPs': None},
                 'All_avg': False,
                 'avg_lookback': 20,
