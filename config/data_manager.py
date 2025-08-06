@@ -45,12 +45,12 @@ class DataManager:
         self.clear_buffer(buffer_dir, pattern)
         for f in version_dir.glob(pattern):
             shutil.copy2(f, buffer_dir)
-        print(f"🔄 Loaded version '{version_name}'")
+        print(f"  🔄 Loaded version '{version_name}\n'")
 
     def clear_buffer(self, buffer_dir: Path, pattern: str = "*.csv") -> None:
         """Clear buffer files matching pattern without counting"""
         [f.unlink() for f in buffer_dir.glob(pattern) if f.is_file()]
-        print("🧹 Cleared buffer files")
+        print("\n  🧹 Cleared buffer files")
 
     # Specialized Operations -----------------------------
 
