@@ -34,7 +34,7 @@ class DataManager:
         for f in buffer_dir.glob(pattern):
             if f.is_file():
                 shutil.copy2(f, version_dir)
-        print(f"💾 Saved version '{version_name}'")
+        print(f"  💾 Saved version '{version_name}'")
 
     def load_version(self, buffer_dir: Path, version_name: str, pattern: str = "*.csv") -> None:
         """Load version files into buffer"""
@@ -50,7 +50,7 @@ class DataManager:
     def clear_buffer(self, buffer_dir: Path, pattern: str = "*.csv") -> None:
         """Clear buffer files matching pattern without counting"""
         [f.unlink() for f in buffer_dir.glob(pattern) if f.is_file()]
-        print("\n  🧹 Cleared buffer files")
+        print("\n  🧹 Cleared buffer files\n")
 
     # Specialized Operations -----------------------------
 
@@ -67,7 +67,7 @@ class DataManager:
         self.clear_buffer(self.tickers_dir)
         self.clear_buffer(self.indicators_dir)
         self.clear_buffer(self.scanner_dir, "scan_results_*.csv")
-        print("✨ All buffers cleared (versions preserved)")
+        print("  ✨ All buffers cleared (versions preserved)")
 
     def format_duration(self, seconds):
         """Convert seconds to human-readable string (hours, minutes, seconds)"""
@@ -92,7 +92,7 @@ class DataManager:
         
         versions = sorted([d.name for d in buffer_dir.iterdir() if d.is_dir()], reverse=True)
         
-        print(f"\n📚 {version_type} ({len(versions)}):")
+        print(f"\n  📚 {version_type} ({len(versions)}):")
         for i, version in enumerate(versions[:limit]):
             print(f"  {i+1}. {version}")
         if len(versions) > limit:
@@ -107,7 +107,7 @@ class DataManager:
             raise FileNotFoundError(f"Version '{version_name}' not found")
         
         shutil.rmtree(version_dir)
-        print(f"🗑️ Deleted version '{version_name}'")
+        print(f"  🗑️ Deleted version '{version_name}'")
 
     def delete_all_versions(self, buffer_dir: Path, confirm: bool = True) -> int:
         """Delete all versions, returns count deleted"""
@@ -124,7 +124,7 @@ class DataManager:
                 return 0
         
         for v in versions: shutil.rmtree(v)
-        print(f"🔥 Deleted {len(versions)} versions")
+        print(f"  🔥 Deleted {len(versions)} versions")
         return len(versions)
 
     def list_files(self, directory: Union[Path, str], pattern: str = "*", 

@@ -394,106 +394,267 @@ def _SMA_visualization(subchart, df):
 # Divergences -----------------------------------------------------------------
 
 
+# def _combined_divergence_visualization(subchart, df):
+#     """Combined visualization for all divergence types in one marker pass"""
+#     # Define all divergence types with their config
+#     divergence_types = [
+#         {
+#             'name': 'RSI',
+#             'bull_cols': ['RSI_Regular_Bullish', 'RSI_Hidden_Bullish'],
+#             'bear_cols': ['RSI_Regular_Bearish', 'RSI_Hidden_Bearish'],
+#             'bull_shape': 'square', # arrow_up
+#             'bear_shape': 'square', # arrow_down
+#             'bull_color': colors['teal'],
+#             'bear_color': colors['red']
+#         },
+#         {
+#             'name': 'Stochastic',
+#             'bull_cols': ['Stochastic_Regular_Bullish', 'Stochastic_Hidden_Bullish'],
+#             'bear_cols': ['Stochastic_Regular_Bearish', 'Stochastic_Hidden_Bearish'],
+#             'bull_shape': 'square', # arrow_up
+#             'bear_shape': 'square', # arrow_down
+#             'bull_color': colors['teal'],
+#             'bear_color': colors['red']
+#         },
+#         {
+#             'name': 'MFI',
+#             'bull_cols': ['MFI_Regular_Bullish', 'MFI_Hidden_Bullish'],
+#             'bear_cols': ['MFI_Regular_Bearish', 'MFI_Hidden_Bearish'],
+#             'bull_shape': 'square',
+#             'bear_shape': 'square',
+#             'bull_color': colors['teal'],
+#             'bear_color': colors['red']
+#         },
+#         {
+#             'name': 'Fractal',
+#             'bull_cols': ['Fractal_Bullish'],
+#             'bear_cols': ['Fractal_Bearish'],
+#             'bull_shape': 'square',
+#             'bear_shape': 'square',
+#             'bull_color': colors['teal'],
+#             'bear_color': colors['red']
+#         },
+#         {
+#             'name': 'MACD',
+#             'bull_cols': ['MACD_Regular_Bullish', 'MACD_Hidden_Bullish'],
+#             'bear_cols': ['MACD_Regular_Bearish', 'MACD_Hidden_Bearish'],
+#             'bull_shape': 'square',
+#             'bear_shape': 'square',
+#             'bull_color': colors['teal'],
+#             'bear_color': colors['red']
+#         },
+#         {
+#             'name': 'OBV',
+#             'bull_cols': ['OBV_Regular_Bullish', 'OBV_Hidden_Bullish'],
+#             'bear_cols': ['OBV_Regular_Bearish', 'OBV_Hidden_Bearish'],
+#             'bull_shape': 'square',
+#             'bear_shape': 'square',
+#             'bull_color': colors['teal'],
+#             'bear_color': colors['red']
+#         },
+#         {
+#             'name': 'Fisher',
+#             'bull_cols': ['Fisher_Regular_Bullish', 'Fisher_Hidden_Bullish'],
+#             'bear_cols': ['Fisher_Regular_Bearish', 'Fisher_Hidden_Bearish'],
+#             'bull_shape': 'square',
+#             'bear_shape': 'square',
+#             'bull_color': colors['teal'],
+#             'bear_color': colors['red']
+#         },
+#         {
+#             'name': 'Vortex',
+#             'bull_cols': ['VI_Regular_Bullish', 'VI_Hidden_Bullish'],
+#             'bear_cols': ['VI_Regular_Bearish', 'VI_Hidden_Bearish'],
+#             'bull_shape': 'square',
+#             'bear_shape': 'square',
+#             'bull_color': colors['teal'],
+#             'bear_color': colors['red']
+#         },
+#         {
+#             'name': 'Momentum',
+#             'bull_cols': ['Momo_Regular_Bullish', 'Momo_Hidden_Bullish'],
+#             'bear_cols': ['Momo_Regular_Bearish', 'Momo_Hidden_Bearish'],
+#             'bull_shape': 'square',
+#             'bear_shape': 'square',
+#             'bull_color': colors['teal'],
+#             'bear_color': colors['red']
+#         },
+#         {
+#             'name': 'Volume',
+#             'bull_cols': ['Vol_Regular_Bullish', 'Vol_Hidden_Bullish'],
+#             'bear_cols': ['Vol_Regular_Bearish', 'Vol_Hidden_Bearish'],
+#             'bull_shape': 'square',
+#             'bear_shape': 'square',
+#             'bull_color': colors['teal'],
+#             'bear_color': colors['red']
+#         },
+#         {
+#             'name': 'ATR',
+#             'bull_cols': ['ATR_Regular_Bullish', 'ATR_Hidden_Bullish'],
+#             'bear_cols': ['ATR_Regular_Bearish', 'ATR_Hidden_Bearish'],
+#             'bull_shape': 'square',
+#             'bear_shape': 'square',
+#             'bull_color': colors['teal'],
+#             'bear_color': colors['red']
+#         }
+#     ]
+#
+#     markers = []
+#    
+#     for div in divergence_types:
+#         # Check if required columns exist
+#         required_cols = div['bull_cols'] + div['bear_cols'] + ['date']
+#         if not all(col in df.columns for col in required_cols):
+#             continue
+#        
+#         # Process bullish signals
+#         bull_mask = df[div['bull_cols']].any(axis=1)
+#         for _, row in df[bull_mask].iterrows():
+#             markers.append({
+#                 'time': row['date'],
+#                 'position': 'below',
+#                 'shape': div['bull_shape'],
+#                 'color': div['bull_color'],
+#                 'text': ''
+#             })
+#        
+#         # Process bearish signals
+#         bear_mask = df[div['bear_cols']].any(axis=1)
+#         for _, row in df[bear_mask].iterrows():
+#             markers.append({
+#                 'time': row['date'],
+#                 'position': 'above',
+#                 'shape': div['bear_shape'],
+#                 'color': div['bear_color'],
+#                 'text': ''
+#             })
+#    
+#     # Add all markers in one pass (sorted chronologically)
+#     if markers:
+#         subchart.marker_list(sorted(markers, key=lambda x: x['time']))
+
+
+
+
 def _combined_divergence_visualization(subchart, df):
-    """Combined visualization for all divergence types in one marker pass"""
+    """Combined visualization for all divergence types with shape differentiation"""
     # Define all divergence types with their config
     divergence_types = [
         {
             'name': 'RSI',
-            'bull_cols': ['RSI_Regular_Bullish', 'RSI_Hidden_Bullish'],
-            'bear_cols': ['RSI_Regular_Bearish', 'RSI_Hidden_Bearish'],
-            'bull_shape': 'square', # arrow_up
-            'bear_shape': 'square', # arrow_down
+            'regular_bull_col': 'RSI_Regular_Bullish',
+            'hidden_bull_col': 'RSI_Hidden_Bullish',
+            'regular_bear_col': 'RSI_Regular_Bearish',
+            'hidden_bear_col': 'RSI_Hidden_Bearish',
+            'regular_shape': 'square',
+            'hidden_shape': 'circle',
             'bull_color': colors['teal'],
             'bear_color': colors['red']
         },
         {
             'name': 'Stochastic',
-            'bull_cols': ['Stochastic_Regular_Bullish', 'Stochastic_Hidden_Bullish'],
-            'bear_cols': ['Stochastic_Regular_Bearish', 'Stochastic_Hidden_Bearish'],
-            'bull_shape': 'square', # arrow_up
-            'bear_shape': 'square', # arrow_down
+            'regular_bull_col': 'Stochastic_Regular_Bullish',
+            'hidden_bull_col': 'Stochastic_Hidden_Bullish',
+            'regular_bear_col': 'Stochastic_Regular_Bearish',
+            'hidden_bear_col': 'Stochastic_Hidden_Bearish',
+            'regular_shape': 'square',
+            'hidden_shape': 'circle',
             'bull_color': colors['teal'],
             'bear_color': colors['red']
         },
         {
             'name': 'MFI',
-            'bull_cols': ['MFI_Regular_Bullish', 'MFI_Hidden_Bullish'],
-            'bear_cols': ['MFI_Regular_Bearish', 'MFI_Hidden_Bearish'],
-            'bull_shape': 'square',
-            'bear_shape': 'square',
+            'regular_bull_col': 'MFI_Regular_Bullish',
+            'hidden_bull_col': 'MFI_Hidden_Bullish',
+            'regular_bear_col': 'MFI_Regular_Bearish',
+            'hidden_bear_col': 'MFI_Hidden_Bearish',
+            'regular_shape': 'square',
+            'hidden_shape': 'circle',
             'bull_color': colors['teal'],
             'bear_color': colors['red']
         },
         {
             'name': 'Fractal',
-            'bull_cols': ['Fractal_Bullish'],
-            'bear_cols': ['Fractal_Bearish'],
-            'bull_shape': 'square',
-            'bear_shape': 'square',
+            'regular_bull_col': 'Fractal_Bullish',
+            'regular_bear_col': 'Fractal_Bearish',
+            'regular_shape': 'square',
             'bull_color': colors['teal'],
             'bear_color': colors['red']
         },
         {
             'name': 'MACD',
-            'bull_cols': ['MACD_Regular_Bullish', 'MACD_Hidden_Bullish'],
-            'bear_cols': ['MACD_Regular_Bearish', 'MACD_Hidden_Bearish'],
-            'bull_shape': 'square',
-            'bear_shape': 'square',
+            'regular_bull_col': 'MACD_Regular_Bullish',
+            'hidden_bull_col': 'MACD_Hidden_Bullish',
+            'regular_bear_col': 'MACD_Regular_Bearish',
+            'hidden_bear_col': 'MACD_Hidden_Bearish',
+            'regular_shape': 'square',
+            'hidden_shape': 'circle',
             'bull_color': colors['teal'],
             'bear_color': colors['red']
         },
         {
             'name': 'OBV',
-            'bull_cols': ['OBV_Regular_Bullish', 'OBV_Hidden_Bullish'],
-            'bear_cols': ['OBV_Regular_Bearish', 'OBV_Hidden_Bearish'],
-            'bull_shape': 'square',
-            'bear_shape': 'square',
+            'regular_bull_col': 'OBV_Regular_Bullish',
+            'hidden_bull_col': 'OBV_Hidden_Bullish',
+            'regular_bear_col': 'OBV_Regular_Bearish',
+            'hidden_bear_col': 'OBV_Hidden_Bearish',
+            'regular_shape': 'square',
+            'hidden_shape': 'circle',
             'bull_color': colors['teal'],
             'bear_color': colors['red']
         },
         {
             'name': 'Fisher',
-            'bull_cols': ['Fisher_Regular_Bullish', 'Fisher_Hidden_Bullish'],
-            'bear_cols': ['Fisher_Regular_Bearish', 'Fisher_Hidden_Bearish'],
-            'bull_shape': 'square',
-            'bear_shape': 'square',
+            'regular_bull_col': 'Fisher_Regular_Bullish',
+            'hidden_bull_col': 'Fisher_Hidden_Bullish',
+            'regular_bear_col': 'Fisher_Regular_Bearish',
+            'hidden_bear_col': 'Fisher_Hidden_Bearish',
+            'regular_shape': 'square',
+            'hidden_shape': 'circle',
             'bull_color': colors['teal'],
             'bear_color': colors['red']
         },
         {
             'name': 'Vortex',
-            'bull_cols': ['VI_Regular_Bullish', 'VI_Hidden_Bullish'],
-            'bear_cols': ['VI_Regular_Bearish', 'VI_Hidden_Bearish'],
-            'bull_shape': 'square',
-            'bear_shape': 'square',
+            'regular_bull_col': 'VI_Regular_Bullish',
+            'hidden_bull_col': 'VI_Hidden_Bullish',
+            'regular_bear_col': 'VI_Regular_Bearish',
+            'hidden_bear_col': 'VI_Hidden_Bearish',
+            'regular_shape': 'square',
+            'hidden_shape': 'circle',
             'bull_color': colors['teal'],
             'bear_color': colors['red']
         },
         {
             'name': 'Momentum',
-            'bull_cols': ['Momo_Regular_Bullish', 'Momo_Hidden_Bullish'],
-            'bear_cols': ['Momo_Regular_Bearish', 'Momo_Hidden_Bearish'],
-            'bull_shape': 'square',
-            'bear_shape': 'square',
+            'regular_bull_col': 'Momo_Regular_Bullish',
+            'hidden_bull_col': 'Momo_Hidden_Bullish',
+            'regular_bear_col': 'Momo_Regular_Bearish',
+            'hidden_bear_col': 'Momo_Hidden_Bearish',
+            'regular_shape': 'square',
+            'hidden_shape': 'circle',
             'bull_color': colors['teal'],
             'bear_color': colors['red']
         },
         {
             'name': 'Volume',
-            'bull_cols': ['Vol_Regular_Bullish', 'Vol_Hidden_Bullish'],
-            'bear_cols': ['Vol_Regular_Bearish', 'Vol_Hidden_Bearish'],
-            'bull_shape': 'square',
-            'bear_shape': 'square',
+            'regular_bull_col': 'Vol_Regular_Bullish',
+            'hidden_bull_col': 'Vol_Hidden_Bullish',
+            'regular_bear_col': 'Vol_Regular_Bearish',
+            'hidden_bear_col': 'Vol_Hidden_Bearish',
+            'regular_shape': 'square',
+            'hidden_shape': 'circle',
             'bull_color': colors['teal'],
             'bear_color': colors['red']
         },
         {
             'name': 'ATR',
-            'bull_cols': ['ATR_Regular_Bullish', 'ATR_Hidden_Bullish'],
-            'bear_cols': ['ATR_Regular_Bearish', 'ATR_Hidden_Bearish'],
-            'bull_shape': 'square',
-            'bear_shape': 'square',
+            'regular_bull_col': 'ATR_Regular_Bullish',
+            'hidden_bull_col': 'ATR_Hidden_Bullish',
+            'regular_bear_col': 'ATR_Regular_Bearish',
+            'hidden_bear_col': 'ATR_Hidden_Bearish',
+            'regular_shape': 'square',
+            'hidden_shape': 'circle',
             'bull_color': colors['teal'],
             'bear_color': colors['red']
         }
@@ -502,32 +663,53 @@ def _combined_divergence_visualization(subchart, df):
     markers = []
     
     for div in divergence_types:
-        # Check if required columns exist
-        required_cols = div['bull_cols'] + div['bear_cols'] + ['date']
-        if not all(col in df.columns for col in required_cols):
-            continue
+        # Process regular bullish signals
+        if 'regular_bull_col' in div and div['regular_bull_col'] in df.columns:
+            reg_bull_mask = df[div['regular_bull_col']].fillna(False).astype(bool)
+            for _, row in df[reg_bull_mask].iterrows():
+                markers.append({
+                    'time': row['date'],
+                    'position': 'below',
+                    'shape': div['regular_shape'],
+                    'color': div['bull_color'],
+                    'text': ''
+                })
         
-        # Process bullish signals
-        bull_mask = df[div['bull_cols']].any(axis=1)
-        for _, row in df[bull_mask].iterrows():
-            markers.append({
-                'time': row['date'],
-                'position': 'below',
-                'shape': div['bull_shape'],
-                'color': div['bull_color'],
-                'text': ''
-            })
+        # Process hidden bullish signals
+        if 'hidden_bull_col' in div and div['hidden_bull_col'] in df.columns:
+            hid_bull_mask = df[div['hidden_bull_col']].fillna(False).astype(bool)
+            for _, row in df[hid_bull_mask].iterrows():
+                markers.append({
+                    'time': row['date'],
+                    'position': 'below',
+                    'shape': div['hidden_shape'],
+                    'color': div['bull_color'],
+                    'text': ''
+                })
         
-        # Process bearish signals
-        bear_mask = df[div['bear_cols']].any(axis=1)
-        for _, row in df[bear_mask].iterrows():
-            markers.append({
-                'time': row['date'],
-                'position': 'above',
-                'shape': div['bear_shape'],
-                'color': div['bear_color'],
-                'text': ''
-            })
+        # Process regular bearish signals
+        if 'regular_bear_col' in div and div['regular_bear_col'] in df.columns:
+            reg_bear_mask = df[div['regular_bear_col']].fillna(False).astype(bool)
+            for _, row in df[reg_bear_mask].iterrows():
+                markers.append({
+                    'time': row['date'],
+                    'position': 'above',
+                    'shape': div['regular_shape'],
+                    'color': div['bear_color'],
+                    'text': ''
+                })
+        
+        # Process hidden bearish signals
+        if 'hidden_bear_col' in div and div['hidden_bear_col'] in df.columns:
+            hid_bear_mask = df[div['hidden_bear_col']].fillna(False).astype(bool)
+            for _, row in df[hid_bear_mask].iterrows():
+                markers.append({
+                    'time': row['date'],
+                    'position': 'above',
+                    'shape': div['hidden_shape'],
+                    'color': div['bear_color'],
+                    'text': ''
+                })
     
     # Add all markers in one pass (sorted chronologically)
     if markers:
