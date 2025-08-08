@@ -42,8 +42,6 @@ def vis(scan_file=None, ticker=None):
         print(df2.columns)
         print(df2.head())
         print(df2.tail(200))
-        
-
 
         subcharts(
                   # [df1, df2, df3, df4],
@@ -104,9 +102,15 @@ def ind(ind_conf=None):
             run_indicators(indicators['4hour_3'],  params['4hour_3'],  "4hour")
             run_indicators(indicators['1hour_3'],  params['1hour_3'],  "1hour")
 
+        case 'ind_conf_4':
+            # run_indicators(indicators['weekly_4'], params['weekly_4'], "weekly")
+            run_indicators(indicators['daily_4'],  params['daily_4'],  "daily")
+            # run_indicators(indicators['4hour_4'],  params['4hour_4'],  "4hour")
+            # run_indicators(indicators['1hour_4'],  params['1hour_4'],  "1hour")
+
 # SCANNER -------------------------------------------------
 
-def scan(scan_list=scan_lists['scan_list_1']):
+def scan(scan_list=scan_lists['scan_list_3']):
 
     scans = scan_list
 

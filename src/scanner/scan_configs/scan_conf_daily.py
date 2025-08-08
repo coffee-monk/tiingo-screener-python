@@ -483,4 +483,15 @@ scan_conf = {
         }
     },
 
+    'd_OscVol': {
+        'criteria': {
+            'daily': ['oscillation_volatility'],
+        },
+        'params': {
+            'oscillation_volatility': {
+                'daily': {'min_cross_count': 0, 'min_avg_deviation': 0.0, 'min_oscillation_score': 0.0},
+            }
+        }
+    },
+
 }

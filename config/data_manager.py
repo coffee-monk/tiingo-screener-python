@@ -150,7 +150,7 @@ class DataManager:
         # Take first N files in alphabetical order
         scans_to_show = all_scans[:limit]
         
-        print(f"\n  Scans in buffer (Total: {total_scans}, Showing first {limit}):\n")
+        print(f"\n  Scans in buffer (Total: {total_scans}, Showing first {limit}):")
         for i, scan in enumerate(scans_to_show, 1):
             print(f"  {i}. {scan.name}")
         if total_scans > limit:
@@ -165,7 +165,7 @@ class DataManager:
         # Take first N files in alphabetical order
         indicators_to_show = all_indicators[:limit]
         
-        print(f"\n  Indicators in buffer (Total: {total_indicators}, Showing first {limit}):\n")
+        print(f"\n  Indicators in buffer (Total: {total_indicators}, Showing first {limit}):")
         for i, indicator in enumerate(indicators_to_show, 1):
             print(f"  {i}. {indicator.name}")
         if total_indicators > limit:

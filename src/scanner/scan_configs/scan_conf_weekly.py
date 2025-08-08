@@ -144,4 +144,15 @@ scan_conf = {
         },
     },
 
+    'w_OscVol': {
+        'criteria': {
+            'weekly': ['oscillation_volatility'],
+        },
+        'params': {
+            'oscillation_volatility': {
+                'weekly': {'cross_count': 2, 'avg_deviation': 0.5, 'oscillation_score': 0.0},
+            }
+        }
+    },
+
 }
