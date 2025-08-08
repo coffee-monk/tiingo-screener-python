@@ -74,6 +74,11 @@ def calculate_avwap_channel(df,
     if BoS_CHoCH or BoS_CHoCH_avg or All_avg:
         params['BoS_CHoCH'] = {'swing_length': BoS_CHoCH_params['swing_length']}
 
+    # print('\n')
+    # print(aVWAP_anchors)
+    # print(params)
+    # print('\n')
+
     df = get_indicators(df, aVWAP_anchors, params)
     df = df.reset_index()
     df['date'] = pd.to_datetime(df['date'])
