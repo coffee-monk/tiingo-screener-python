@@ -53,7 +53,6 @@ def calculate_oscillation_volatility(
             
     except Exception as e:
         # If MA calculation fails completely, return default results
-        print(f"Warning: MA calculation issue - {str(e)}")
         return results
 
     # Calculate price std with robust handling

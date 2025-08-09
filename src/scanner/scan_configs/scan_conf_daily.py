@@ -489,7 +489,7 @@ scan_conf = {
         },
         'params': {
             'oscillation_volatility': {
-                'daily': {'min_cross_count': 0, 'min_avg_deviation': 0.0, 'min_oscillation_score': 0.0},
+                'daily': {'cross_count': 6, 'avg_deviation': 0.5, 'oscillation_score': 0.0},
             }
         }
     },

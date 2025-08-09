@@ -120,7 +120,7 @@ scan_lists = {
 
     'scan_list_3': [
 
-        'w_OscVol',
+        'd_OscVol',
 
     ]
 
