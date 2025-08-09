@@ -3,51 +3,51 @@
 indicators = {  # liquidity levels
 
         'weekly': [
-            'aVWAP',
-            'candle_colors',
-            'StDev',
+            # 'aVWAP',
+            # 'candle_colors',
+            # 'StDev',
             'oscillation_volatility',
-            'BoS_CHoCH',
-            'QQEMOD',
-            'banker_RSI',
-            'TTM_squeeze',
-            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+            # 'BoS_CHoCH',
+            # 'QQEMOD',
+            # 'banker_RSI',
+            # 'TTM_squeeze',
+            # 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
         'daily': [
-            'aVWAP',
-            'candle_colors',
-            'StDev',
+            # 'aVWAP',
+            # 'candle_colors',
+            # 'StDev',
             'oscillation_volatility',
-            'BoS_CHoCH',
-            'QQEMOD',
-            'banker_RSI',
-            'TTM_squeeze',
-            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+            # 'BoS_CHoCH',
+            # 'QQEMOD',
+            # 'banker_RSI',
+            # 'TTM_squeeze',
+            # 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
         '4hour': [
-            'aVWAP', 
-            'candle_colors', 
-            'StDev', 
+            # 'aVWAP', 
+            # 'candle_colors', 
+            # 'StDev', 
             'oscillation_volatility',
-            'BoS_CHoCH',
-            'QQEMOD', 
-            'banker_RSI',
-            'TTM_squeeze', 
-            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+            # 'BoS_CHoCH',
+            # 'QQEMOD', 
+            # 'banker_RSI',
+            # 'TTM_squeeze', 
+            # 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
         '1hour': [
-            'aVWAP', 
-            'candle_colors', 
-            'StDev', 
+            # 'aVWAP', 
+            # 'candle_colors', 
+            # 'StDev', 
             'oscillation_volatility',
-            'BoS_CHoCH',
-            'QQEMOD', 
-            'banker_RSI',
-            'TTM_squeeze', 
-            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+            # 'BoS_CHoCH',
+            # 'QQEMOD', 
+            # 'banker_RSI',
+            # 'TTM_squeeze', 
+            # 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ],
 
         '5min': [

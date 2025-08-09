@@ -82,13 +82,13 @@ def subcharts(
     if df_list is not None:
         dfs = df_list
         CURRENT_SCAN_FILE = None
-        print("📊 Using manually provided DataFrame(s)")
+        print("\n  📊 Using manually provided DataFrame(s)")
     
     else:
         # Mode 2: Scan File Specified
         if scan_file:
             scan_path = Path(scan_file) if isinstance(scan_file, Path) else SCANNER_DIR / scan_file
-            print(f"📊 Loading scan: {scan_path.name}")
+            print(f"\n  📊 Loading scan: {scan_path.name}\n")
             
             scan_df = _load_scan_data(scan_path)
             first_valid = scan_df.iloc[0]

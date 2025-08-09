@@ -213,4 +213,15 @@ scan_conf = {
         }
     },
 
+    'h_OscVol': {
+        'criteria': {
+            '1hour': ['oscillation_volatility'],
+        },
+        'params': {
+            'oscillation_volatility': {
+                '1hour': {'cross_count': 1, 'avg_deviation': 0.0, 'oscillation_score': 3.0},
+            }
+        }
+    },
+
 }

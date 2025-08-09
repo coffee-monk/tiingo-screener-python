@@ -202,5 +202,16 @@ scan_conf = {
         }
     },
 
+    '4h_OscVol': {
+        'criteria': {
+            '4hour': ['oscillation_volatility'],
+        },
+        'params': {
+            'oscillation_volatility': {
+                '4hour': {'cross_count': 1, 'avg_deviation': 0.0, 'oscillation_score': 3.0},
+            }
+        }
+    },
+
 }
 

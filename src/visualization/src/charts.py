@@ -212,7 +212,7 @@ def _load_ticker_csv(charts, key, show_volume=False, show_banker_RSI=False):
         chart.set(prepared_df)
         chart.fit()
         
-        print(f"Loaded {next_ticker} ({timeframe}) from {indicator_file.name}")
+        print(f"  Loaded {next_ticker} ({timeframe}) from {indicator_file.name}")
 
     except Exception as e:
         print(f"Error during ticker cycling: {str(e)}")

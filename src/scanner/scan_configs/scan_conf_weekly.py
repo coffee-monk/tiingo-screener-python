@@ -150,7 +150,7 @@ scan_conf = {
         },
         'params': {
             'oscillation_volatility': {
-                'weekly': {'cross_count': 2, 'avg_deviation': 0.5, 'oscillation_score': 0.0},
+                'weekly': {'cross_count': 1, 'avg_deviation': 0.0, 'oscillation_score': 3.0},
             }
         }
     },

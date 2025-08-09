@@ -8,7 +8,7 @@ def calculate_oscillation_volatility(
     peaks_valleys_params={'periods': 20, 'max_aVWAPs': None},
     avg_lookback=20,
     include_ma_output=True,
-    min_cross_std=0.2,
+    min_cross_std=0.1,
     **params
 ):
     """
