@@ -1,4 +1,4 @@
-Symbol,Name,Last Sale,Net Change,% Change,Market Cap,Country,IPO Year,Volume,Sector,Industry
+Ticker,Name,Last Sale,Net Change,% Change,Market Cap,Country,IPO Year,Volume,Sector,Industry
 AAL,American Airlines Group Inc. Common Stock,$9.32,0.01,0.107%,6128604424.00,United States,,102486905,Consumer Discretionary,Air Freight/Delivery Services
 AAOI,Applied Optoelectronics Inc. Common Stock,$11.66,0.71,6.484%,578936280.00,United States,2013,4696278,Technology,Semiconductors
 AAON,AAON Inc. Common Stock,$82.06,2.16,2.703%,6695873535.00,United States,,926541,Industrials,Industrial Machinery/Components
