@@ -67,10 +67,10 @@ def vis(scan_file=None, ticker=None):
 
 def fetch():
 
-    # fetch_tickers(['weekly'], api_key=API_KEY)
+    fetch_tickers(['weekly'], api_key=API_KEY)
     fetch_tickers(['daily'],  api_key=API_KEY)
-    # fetch_tickers(['4hour'],  api_key=API_KEY)
-    # fetch_tickers(['1hour'],  api_key=API_KEY)
+    fetch_tickers(['4hour'],  api_key=API_KEY)
+    fetch_tickers(['1hour'],  api_key=API_KEY)
     # fetch_tickers(['5min'],   api_key=API_KEY)
 
 # INDICATORS ----------------------------------------------

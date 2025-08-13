@@ -254,7 +254,7 @@ class DataManager:
     def clear_buffer(self, buffer_dir: Path, pattern: str = "*.csv") -> None:
         """Clear buffer files matching pattern without counting"""
         [f.unlink() for f in buffer_dir.glob(pattern) if f.is_file()]
-        print("\n  🧹 Cleared buffer files\n")
+        print("  🧹 Cleared buffer files\n")
 
     # Specialized Operations -----------------------------
 
@@ -272,10 +272,11 @@ class DataManager:
 
     def clear_all_buffers(self) -> None:
         """Clear all working directories while preserving versions"""
+        print()
         self.clear_buffer(self.tickers_dir)
         self.clear_buffer(self.indicators_dir)
         self.clear_buffer(self.scanner_dir, "scan_results_*.csv")
-        print("  ✨ All buffers cleared (versions preserved)")
+        print("\n  ✨ All buffers cleared (versions preserved)")
 
     def format_duration(self, seconds):
         """Convert seconds to human-readable string (hours, minutes, seconds)"""
@@ -322,13 +323,13 @@ class DataManager:
         """Delete all versions, returns count deleted"""
         versions = [d for d in buffer_dir.iterdir() if d.is_dir()]
         if not versions:
-            print("No versions to delete")
+            print("  No versions to delete")
             return 0
             
         if confirm:
-            print(f"⚠️ This will delete {len(versions)} versions:")
+            print(f"  ⚠️ This will delete {len(versions)} versions:")
             for v in versions: print(f"  - {v.name}")
-            if input("Type 'DELETE' to confirm: ").upper() != "DELETE":
+            if input("\n  Type 'DELETE' to confirm: ").upper() != "DELETE":
                 print("Operation cancelled")
                 return 0
         
