@@ -19,4 +19,4 @@ SCREENSHOTS_DIR = PROJECT_ROOT / "data" / "screenshots"
 # List Directories
 
 # TSX, QQQ, NASDAQ
-TICKERS_LIST    = PROJECT_ROOT / 'src/fetch_data/ticker_lists/QQQ.csv'
+TICKERS_LIST    = PROJECT_ROOT / 'src/fetch_data/ticker_lists/TSX.csv'
