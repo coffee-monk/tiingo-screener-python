@@ -448,6 +448,32 @@ scan_conf = {
         }
     },
 
+    'd_OBSupport_4h_OBSupport': {
+        'criteria': {
+            'daily': ['OB'],
+            '4hour': ['OB']
+        },
+        'params': {
+            'OB': {
+                'daily': {'mode': 'support'},
+                '4hour': {'mode': 'support'}
+            },
+        }
+    },
+
+    'd_OBResistance_4h_OBResistance': {
+        'criteria': {
+            'daily': ['OB'],
+            '4hour': ['OB']
+        },
+        'params': {
+            'OB': {
+                'daily': {'mode': 'resistance'},
+                '4hour': {'mode': 'resistance'}
+            },
+        }
+    },
+
     'd_SMA_h_SMA': {
         'criteria': {
             'daily': ['SMA'],

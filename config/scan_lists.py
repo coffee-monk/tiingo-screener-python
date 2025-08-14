@@ -130,11 +130,16 @@ scan_lists = {
     'scan_list_4': [
 
         'd_OBSupport_h_OBSupport',
+        'd_OBSupport_4h_OBSupport',
+        '4h_OBSupport_h_OBSupport',
         'd_OBResistance_h_OBResistance',
-        'h_OBResistance',
-        'h_OBSupport',
-        'd_OBResistance',
-        'd_OBSupport',
+        'd_OBResistance_4h_OBResistance',
+        '4h_OBResistance_h_OBResistance',
+
+        # 'h_OBResistance',
+        # 'h_OBSupport',
+        # 'd_OBResistance',
+        # 'd_OBSupport',
 
     ]
 

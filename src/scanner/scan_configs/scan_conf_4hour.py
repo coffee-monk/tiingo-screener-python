@@ -213,5 +213,31 @@ scan_conf = {
         }
     },
 
+    '4h_OBSupport_h_OBSupport': {
+        'criteria': {
+            '4hour': ['OB'],
+            '1hour': ['OB']
+        },
+        'params': {
+            'OB': {
+                '4hour': {'mode': 'support'},
+                '1hour': {'mode': 'support'}
+            },
+        }
+    },
+
+    '4h_OBResistance_h_OBResistance': {
+        'criteria': {
+            '4hour': ['OB'],
+            '1hour': ['OB']
+        },
+        'params': {
+            'OB': {
+                '4hour': {'mode': 'resistance'},
+                '1hour': {'mode': 'resistance'}
+            },
+        }
+    },
+
 }
 
