@@ -125,6 +125,17 @@ scan_lists = {
         '4h_OscVol',
         'h_OscVol',
 
+    ],
+
+    'scan_list_4': [
+
+        'd_OBSupport_h_OBSupport',
+        'd_OBResistance_h_OBResistance',
+        'h_OBResistance',
+        'h_OBSupport',
+        'd_OBResistance',
+        'd_OBSupport',
+
     ]
 
 }

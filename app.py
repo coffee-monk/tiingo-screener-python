@@ -28,22 +28,22 @@ def vis(scan_file=None, ticker=None):
         if not ticker: ticker = 'BTCUSD'
 
         # df1 = fetch_ticker(timeframe='w',  ticker=ticker, api_key=API_KEY)
-        df2 = fetch_ticker(timeframe='d',  ticker=ticker, api_key=API_KEY)
+        # df2 = fetch_ticker(timeframe='d',  ticker=ticker, api_key=API_KEY)
         # df3 = fetch_ticker(timeframe='4h', ticker=ticker, api_key=API_KEY)
-        # df4 = fetch_ticker(timeframe='h',  ticker=ticker, api_key=API_KEY)
+        df4 = fetch_ticker(timeframe='h',  ticker=ticker, api_key=API_KEY)
         # df5 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
         # df1 = get_indicators(df1, indicators['weekly_2'], params['weekly_2'])
-        df2 = get_indicators(df2, indicators['daily_2'],  params['daily_2'])
+        # df2 = get_indicators(df2, indicators['daily_2'],  params['daily_2'])
         # df3 = get_indicators(df3, indicators['4hour_2'],  params['4hour_2'])
-        # df4 = get_indicators(df4, indicators['1hour_2'],  params['1hour_2'])
+        df4 = get_indicators(df4, indicators['1hour_2'],  params['1hour_2'])
         # df5 = get_indicators(df5, indicators['5min'], params['5min'])
 
         subcharts(
-                  [df2],
+              [df4],
                   ticker=ticker,
                   show_volume=False,
-                  show_banker_RSI=False
+                  show_banker_RSI=True
                  )
         return
 
@@ -105,9 +105,9 @@ def ind(ind_conf=None):
 
 # SCANNER -------------------------------------------------
 
-def scan(scan_list=scan_lists['scan_list_3']):
+def scan(scan_list='scan_list_2'):
 
-    scans = scan_list
+    scans = scan_lists[scan_list]
 
     for scan in scans:
         kwargs = {

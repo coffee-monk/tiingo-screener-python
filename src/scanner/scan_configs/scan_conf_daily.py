@@ -429,8 +429,8 @@ scan_conf = {
         },
         'params': {
             'OB': {
-                'daily': {'mode': 'support', 'atr_threshold_multiplier': 1.5},
-                '1hour': {'mode': 'support', 'atr_threshold_multiplier': 1.5}
+                'daily': {'mode': 'support'},
+                '1hour': {'mode': 'support'}
             },
         }
     },
@@ -442,8 +442,8 @@ scan_conf = {
         },
         'params': {
             'OB': {
-                'daily': {'mode': 'resistance', 'atr_threshold_multiplier': 1.5},
-                '1hour': {'mode': 'resistance', 'atr_threshold_multiplier': 1.5}
+                'daily': {'mode': 'resistance'},
+                '1hour': {'mode': 'resistance'}
             },
         }
     },
