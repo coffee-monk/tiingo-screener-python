@@ -520,4 +520,48 @@ scan_conf = {
         }
     },
 
+    'd_BoSBullish': {
+        'criteria': {
+            'daily': ['BoS_CHoCH'],
+        },
+        'params': {
+            'BoS_CHoCH': {
+                'daily': {'mode': 'BoS_bullish'},
+            }
+        }
+    },
+
+    'd_BoSBearish': {
+        'criteria': {
+            'daily': ['BoS_CHoCH'],
+        },
+        'params': {
+            'BoS_CHoCH': {
+                'daily': {'mode': 'BoS_bearish'},
+            }
+        }
+    },
+
+    'd_CHoCHBullish': {
+        'criteria': {
+            'daily': ['BoS_CHoCH'],
+        },
+        'params': {
+            'BoS_CHoCH': {
+                'daily': {'mode': 'CHoCH_bullish'},
+            }
+        }
+    },
+
+    'd_CHoCHBearish': {
+        'criteria': {
+            'daily': ['BoS_CHoCH'],
+        },
+        'params': {
+            'BoS_CHoCH': {
+                'daily': {'mode': 'CHoCH_bearish'},
+            }
+        }
+    },
+
 }

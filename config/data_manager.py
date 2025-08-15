@@ -112,7 +112,7 @@ class DataManager:
             raise FileNotFoundError(f"Version '{version_name}' not found")
         
         shutil.rmtree(version_dir)
-        print(f"  🗑️ Deleted version '{version_name}'")
+        print(f"\n  🗑️ Deleted version '{version_name}'\n")
 
     def delete_all_versions(self, buffer_dir: Path, confirm: bool = True) -> int:
         """Delete all versions, returns count deleted"""

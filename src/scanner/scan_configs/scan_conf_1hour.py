@@ -224,4 +224,15 @@ scan_conf = {
         }
     },
 
+    'h_CHoCHBullish': {
+        'criteria': {
+            '1hour': ['BoS_CHoCH'],
+        },
+        'params': {
+            'BoS_CHoCH': {
+                '1hour': {'mode': 'CHoCH_bullish'},
+            }
+        }
+    },
+
 }

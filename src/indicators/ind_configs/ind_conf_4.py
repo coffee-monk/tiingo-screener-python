@@ -3,11 +3,11 @@
 indicators = {  # liquidity levels
 
         'weekly': [
-            # 'aVWAP',
+            'aVWAP',
             # 'candle_colors',
             # 'StDev',
             'oscillation_volatility',
-            # 'BoS_CHoCH',
+            'BoS_CHoCH',
             # 'QQEMOD',
             # 'banker_RSI',
             # 'TTM_squeeze',
@@ -15,11 +15,11 @@ indicators = {  # liquidity levels
         ],
 
         'daily': [
-            # 'aVWAP',
-            # 'candle_colors',
+            'aVWAP',
+            'candle_colors',
             # 'StDev',
             'oscillation_volatility',
-            # 'BoS_CHoCH',
+            'BoS_CHoCH',
             # 'QQEMOD',
             # 'banker_RSI',
             # 'TTM_squeeze',
@@ -27,11 +27,11 @@ indicators = {  # liquidity levels
         ],
 
         '4hour': [
-            # 'aVWAP', 
-            # 'candle_colors', 
+            'aVWAP', 
+            'candle_colors', 
             # 'StDev', 
             'oscillation_volatility',
-            # 'BoS_CHoCH',
+            'BoS_CHoCH',
             # 'QQEMOD', 
             # 'banker_RSI',
             # 'TTM_squeeze', 
@@ -39,11 +39,11 @@ indicators = {  # liquidity levels
         ],
 
         '1hour': [
-            # 'aVWAP', 
-            # 'candle_colors', 
+            'aVWAP', 
+            'candle_colors', 
             # 'StDev', 
             'oscillation_volatility',
-            # 'BoS_CHoCH',
+            'BoS_CHoCH',
             # 'QQEMOD', 
             # 'banker_RSI',
             # 'TTM_squeeze', 
@@ -53,13 +53,13 @@ indicators = {  # liquidity levels
         '5min': [
             'aVWAP', 
             'candle_colors', 
-            'StDev', 
+            # 'StDev', 
             'oscillation_volatility',
             'BoS_CHoCH',
-            'QQEMOD', 
-            'banker_RSI',
-            'TTM_squeeze', 
-            'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
+            # 'QQEMOD', 
+            # 'banker_RSI',
+            # 'TTM_squeeze', 
+            # 'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ]
 }
 

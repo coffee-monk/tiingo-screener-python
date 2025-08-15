@@ -129,12 +129,17 @@ scan_lists = {
 
     'scan_list_4': [
 
-        'd_OBSupport_h_OBSupport',
-        'd_OBSupport_4h_OBSupport',
-        '4h_OBSupport_h_OBSupport',
-        'd_OBResistance_h_OBResistance',
-        'd_OBResistance_4h_OBResistance',
-        '4h_OBResistance_h_OBResistance',
+        # 'd_OBSupport_h_OBSupport',
+        # 'd_OBSupport_4h_OBSupport',
+        # '4h_OBSupport_h_OBSupport',
+        # 'd_OBResistance_h_OBResistance',
+        # 'd_OBResistance_4h_OBResistance',
+        # '4h_OBResistance_h_OBResistance',
+
+        'd_CHoCHBullish',
+        'd_CHoCHBearish',
+        'd_BoSBullish',
+        'd_BoSBearish',
 
         # 'h_OBResistance',
         # 'h_OBSupport',

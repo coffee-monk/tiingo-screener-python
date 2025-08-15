@@ -1,6 +1,6 @@
 import pandas as pd
 from pathlib import Path
-from src.visualization.src.indicators import add_visualizations
+from src.visualization.src.indicator_visualizations import add_visualizations
 from config.settings import SCANNER_DIR, INDICATORS_DIR
 from src.visualization.src.charts import (
     get_charts,

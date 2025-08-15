@@ -6,7 +6,7 @@ from pathlib import Path
 from datetime import datetime
 from lightweight_charts import Chart
 from src.visualization.src.color_palette import get_color_palette
-from src.visualization.src.indicators import add_visualizations
+from src.visualization.src.indicator_visualizations import add_visualizations
 from config.settings import INDICATORS_DIR
 
 def prepare_dataframe(df, show_volume, padding_ratio=0.25):
