@@ -16,34 +16,15 @@ def run_scanner(criteria='banker_RSI', criteria_params=None, logic='AND', api_ke
         api_key: Optional Tiingo API key
         criteria_params: Dict of parameter dicts for criteria functions
         scan_name: Optional custom name suffix for output file
-
-    Syntax Examples:
-        run_scanner('TTM_squeeze')
-        run_scanner(['QQEMOD_overbought', 'StDev'])
-        run_scanner(
-                    criteria={ 
-                     # 'weekly': ['TTM_squeeze'], 
-                     'daily':  ['StDev'],
-                     # '1hour': ['OB_support'], 
-                     # '5min': ['SMA_above'], 
-                    }, 
-                    logic='AND',
-                    criteria_params={
-                        'StDev': {
-                            'daily': {
-                                'threshold': 2,
-                                'mode': 'overbought'
-                                }
-                            }
-                        }
-                   )
     """
     print('\n=== SCANNER ===\n')
     print(f"Scan: {scan_name}\n")
     print(f"Input directory: {INDICATORS_DIR}")
     print(f"Output directory: {SCANNER_DIR}\n")
 
-    # Initialize empty params if none provided
+    print(criteria)
+    print(criteria_params)
+
     if criteria_params is None:
         criteria_params = {}
 
@@ -60,7 +41,6 @@ def _simple_scan(criteria, api_key=None, criteria_params=None, scan_name=None):
     if not criteria_func:
         return pd.DataFrame()
 
-    # Get parameters for this criteria if they exist
     params = criteria_params.get(criteria, {})
 
     all_results = []
@@ -68,11 +48,9 @@ def _simple_scan(criteria, api_key=None, criteria_params=None, scan_name=None):
         ticker, timeframe = _parse_filename(file)
         df = _load_indicator_file(INDICATORS_DIR / file)
         
-        # Pass parameters to criteria function if it accepts them
         try:
             results = criteria_func(df, **params)
         except TypeError:
-            # Fallback to no parameters if function doesn't accept them
             results = criteria_func(df)
       
         if not results.empty:
@@ -93,25 +71,27 @@ def _multi_criteria_scan(criteria_list, api_key=None, criteria_params=None, scan
         ticker, timeframe = _parse_filename(file)
         df = _load_indicator_file(INDICATORS_DIR / file)
         
-        # Check ALL criteria pass for this stock
         passed = True
         criteria_data = {}
         
         for criteria_func in criteria_funcs:
-            # Get parameters for this criteria if they exist
             func_name = criteria_func.__name__
             params = criteria_params.get(func_name, {})
             
             try:
                 result = criteria_func(df, **params)
             except TypeError:
-                # Fallback to no parameters if function doesn't accept them
                 result = criteria_func(df)
                 
             if result.empty:
                 passed = False
                 break
-            criteria_data[func_name] = result.iloc[-1].to_dict()
+                
+            # Only store passing criteria data
+            last_result = result.iloc[-1]
+            for col in last_result.index:
+                if col not in ['date', 'Ticker', 'Timeframe', 'Close']:
+                    criteria_data[f"{func_name}_{col}"] = last_result[col]
         
         if passed:
             result_row = {
@@ -127,7 +107,10 @@ def _multi_criteria_scan(criteria_list, api_key=None, criteria_params=None, scan
 
 def _advanced_scan(timeframe_criteria, logic='AND', api_key=None, criteria_params=None, scan_name=None):
     """Enhanced timeframe scanner with parameter support"""
-    # Validate and load criteria functions
+
+    print(timeframe_criteria)
+    print(criteria_params)
+
     timeframe_configs = {}
     for timeframe, criteria_spec in timeframe_criteria.items():
         if isinstance(criteria_spec, (list, tuple)):
@@ -140,7 +123,6 @@ def _advanced_scan(timeframe_criteria, logic='AND', api_key=None, criteria_param
             return pd.DataFrame()
         timeframe_configs[timeframe] = funcs
 
-    # Group files by ticker
     ticker_files = {}
     for file in _get_data_files():
         ticker, timeframe = _parse_filename(file)
@@ -152,7 +134,6 @@ def _advanced_scan(timeframe_criteria, logic='AND', api_key=None, criteria_param
         timeframe_results = {}
         missing_timeframes = []
 
-        # Check for missing timeframes
         for timeframe in timeframe_configs.keys():
             if timeframe not in files:
                 missing_timeframes.append(timeframe)
@@ -161,28 +142,23 @@ def _advanced_scan(timeframe_criteria, logic='AND', api_key=None, criteria_param
             print(f"Skipping {ticker}: Missing timeframes {missing_timeframes}")
             continue
 
-        # Check criteria for each timeframe
         for timeframe, criteria_funcs in timeframe_configs.items():
             df = _load_indicator_file(INDICATORS_DIR / files[timeframe])
             
             passed_all = True
             for criteria_func in criteria_funcs:
-                # Get parameters for this criteria if they exist
                 func_name = criteria_func.__name__
                 
-                # Check for timeframe-specific parameters first
                 timeframe_params = {}
                 if func_name in criteria_params:
                     if timeframe in criteria_params[func_name]:
                         timeframe_params = criteria_params[func_name][timeframe]
                     elif isinstance(criteria_params[func_name], dict):
-                        # Use general params if no timeframe-specific ones exist
                         timeframe_params = criteria_params[func_name]
                 
                 try:
                     results = criteria_func(df, **timeframe_params)
                 except TypeError:
-                    # Fallback to no parameters if function doesn't accept them
                     results = criteria_func(df)
                     
                 if results.empty:
@@ -191,22 +167,18 @@ def _advanced_scan(timeframe_criteria, logic='AND', api_key=None, criteria_param
             
             timeframe_signals[timeframe] = passed_all
             if passed_all:
-                # Take the most recent data point
                 last_row = df.iloc[[-1]].copy()
                 last_row['Ticker'] = ticker
                 last_row['Timeframe'] = timeframe
                 timeframe_results[timeframe] = last_row
 
-        # Apply logic between timeframes
         if logic == 'AND' and all(timeframe_signals.values()):
             combined = pd.concat(timeframe_results.values())
             all_results.append(combined)
                 
         elif logic == 'OR' and any(timeframe_signals.values()):
-            # Combine all passing timeframes
             combined = pd.concat([timeframe_results[tf] for tf in timeframe_signals if timeframe_signals[tf]])
             
-            # Create single result row with all passing timeframes noted
             result_row = {
                 'date': combined.iloc[0]['date'],
                 'Ticker': ticker,
@@ -214,7 +186,6 @@ def _advanced_scan(timeframe_criteria, logic='AND', api_key=None, criteria_param
                 'Close': combined.iloc[0]['Close']
             }
             
-            # Add criteria data from all passing timeframes
             for tf, passed in timeframe_signals.items():
                 if passed:
                     for col in timeframe_results[tf].columns:
@@ -250,13 +221,11 @@ def _process_results(results, scan_type, api_key=None, scan_name=None):
         print(f"\nResults: {scan_type} found no setups\n")
         return pd.DataFrame()
     
-    # Reset index to get date as column if it's in index
     if isinstance(final_results.index, pd.DatetimeIndex):
         final_results = final_results.reset_index()
         if 'index' in final_results.columns:
             final_results = final_results.rename(columns={'index': 'date'})
     
-    # Prepare all columns at once
     columns_to_keep = {
         'date': final_results['date'],
         'Ticker': final_results['Ticker'],
@@ -264,14 +233,12 @@ def _process_results(results, scan_type, api_key=None, scan_name=None):
         'Close': final_results['Close']
     }
     
-    # Add criteria-specific columns in one operation
     extra_cols = {
         col: final_results[col] 
         for col in final_results.columns 
         if col not in ['date', 'Ticker', 'Timeframe', 'Close']
     }
     
-    # Combine all columns at once
     minimal_results = pd.DataFrame({**columns_to_keep, **extra_cols})
     
     if api_key:
@@ -334,7 +301,6 @@ def _attach_fundamentals_to_scanner(scanner_df, api_key):
             print(f"Error fetching {ticker}: {str(e)}")
             continue
 
-    # Apply all formatting in one operation
     formatted_data = {}
     for metric, config in format_config.items():
         values = scanner_df['Ticker'].map(lambda x: fundamentals.get(x, {}).get(metric))

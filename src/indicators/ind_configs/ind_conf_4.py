@@ -4,8 +4,8 @@ indicators = {  # liquidity levels
 
         'weekly': [
             'aVWAP',
-            # 'candle_colors',
-            # 'StDev',
+            'candle_colors',
+            'StDev',
             'oscillation_volatility',
             'BoS_CHoCH',
             # 'QQEMOD',
@@ -17,7 +17,7 @@ indicators = {  # liquidity levels
         'daily': [
             'aVWAP',
             'candle_colors',
-            # 'StDev',
+            'StDev',
             'oscillation_volatility',
             'BoS_CHoCH',
             # 'QQEMOD',
@@ -29,7 +29,7 @@ indicators = {  # liquidity levels
         '4hour': [
             'aVWAP', 
             'candle_colors', 
-            # 'StDev', 
+            'StDev', 
             'oscillation_volatility',
             'BoS_CHoCH',
             # 'QQEMOD', 
@@ -41,7 +41,7 @@ indicators = {  # liquidity levels
         '1hour': [
             'aVWAP', 
             'candle_colors', 
-            # 'StDev', 
+            'StDev', 
             'oscillation_volatility',
             'BoS_CHoCH',
             # 'QQEMOD', 

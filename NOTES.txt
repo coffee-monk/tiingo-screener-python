@@ -38,6 +38,8 @@
 # HOW TO ADD CUSTOM INDICATOR PARAMS
 - add final indicator param version suffix to the end of filename, ie ticker_time_timestamp_ind1
 
-
+- determine an important market structure event  
+  - plant aVWAP
+  - look for mean reversions from StDev
 
 

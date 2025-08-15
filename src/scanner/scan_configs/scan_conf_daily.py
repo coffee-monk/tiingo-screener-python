@@ -417,7 +417,7 @@ scan_conf = {
                 'daily': {'mode': 'overbought', 'threshold': 2}
             },
             'OB': {
-                '1hour': {'mode': 'resistance', 'atr_threshold_multiplier': 1.0}
+                '1hour': {'mode': 'resistance'}
             },
         }
     },
@@ -444,6 +444,32 @@ scan_conf = {
             'OB': {
                 'daily': {'mode': 'resistance'},
                 '1hour': {'mode': 'resistance'}
+            },
+        }
+    },
+
+    'd_OBBullish_h_OBBullish': {
+        'criteria': {
+            'daily': ['OB'],
+            '1hour': ['OB']
+        },
+        'params': {
+            'OB': {
+                'daily': {'mode': 'bullish'},
+                '1hour': {'mode': 'bullish'}
+            },
+        }
+    },
+
+    'd_OBBearish_h_OBBearish': {
+        'criteria': {
+            'daily': ['OB'],
+            '1hour': ['OB']
+        },
+        'params': {
+            'OB': {
+                'daily': {'mode': 'bearish'},
+                '1hour': {'mode': 'bearish'}
             },
         }
     },
@@ -517,6 +543,34 @@ scan_conf = {
             'oscillation_volatility': {
                 'daily': {'cross_count': 1, 'avg_deviation': 0.0, 'oscillation_score': 3.0},
             }
+        }
+    },
+
+    'd_OscVol_StDevOverbought': {
+        'criteria': {
+            'daily': ['oscillation_volatility', 'StDev'],
+        },
+        'params': {
+            'oscillation_volatility': {
+                'daily': {'cross_count': 1, 'avg_deviation': 0.0, 'oscillation_score': 2.0},
+            },
+            'StDev': {
+                'daily': {'mode': 'overbought', 'threshold': 2}
+            },
+        }
+    },
+
+    'd_OscVol_StDevOversold': {
+        'criteria': {
+            'daily': ['oscillation_volatility', 'StDev'],
+        },
+        'params': {
+            'oscillation_volatility': {
+                'daily': {'cross_count': 1, 'avg_deviation': 0.0, 'oscillation_score': 2.0},
+            },
+            'StDev': {
+                'daily': {'mode': 'oversold', 'threshold': 2}
+            },
         }
     },
 
