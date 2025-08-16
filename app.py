@@ -1,5 +1,4 @@
 import os
-
 import time
 import argparse
 import pandas as pd
@@ -140,17 +139,13 @@ def full_run(fetch, ind, scan) -> None:
     ind('ind_conf_1')
     dm.save_indicators('ind_conf_1')
     dm.clear_buffer(dm.indicators_dir)
-
+    
     ind('ind_conf_2')
     dm.save_indicators('ind_conf_2')
     dm.clear_buffer(dm.indicators_dir)
-
+    
     ind('ind_conf_3')
     dm.save_indicators('ind_conf_3')
-    dm.clear_buffer(dm.indicators_dir)
-
-    ind('ind_conf_4')
-    dm.save_indicators('ind_conf_4')
     dm.clear_buffer(dm.indicators_dir)
 
     # SCANNER
