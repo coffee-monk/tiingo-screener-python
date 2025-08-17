@@ -42,4 +42,7 @@
   - plant aVWAP
   - look for mean reversions from StDev
 
-
+- CONFLUENCES!!!
+  - aVWAPChannelSupport + liquidity
+  - aVWAPChannelSupport + OBSupport
+  - aVWAPChannelSupport + aVWAPValleysavg

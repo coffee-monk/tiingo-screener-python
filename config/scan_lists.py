@@ -20,7 +20,7 @@ scan_lists = {
         'w_QQEMODBullishReversal',
         'w_QQEMODBearishReversal',
         'w_OBSupport',
-        'w_SMAAbove',
+        # 'w_SMAAbove',
         'w_bankerRSI',
 
         'd_aVWAPChannelOversold',
@@ -35,7 +35,7 @@ scan_lists = {
         'd_QQEMODOversold_OBSupport',
         'd_bankerRSI_QQEMODOversold',
         'd_aVWAPavg',
-        'd_SMA',
+        # 'd_SMA',
 
         '4h_aVWAPChannelOversold',
         '4h_aVWAPChannelOverbought',

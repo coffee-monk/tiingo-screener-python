@@ -30,7 +30,7 @@ scan_conf = {
         },
         'params': {
             'aVWAP_channel': {
-                'daily': {'mode': 'resistance', 'direction': 'within'}
+                'daily': {'mode': 'resistance', 'direction': 'within', 'distance_pct': 1.0}
             },
         }
     },
@@ -41,7 +41,7 @@ scan_conf = {
         },
         'params': {
             'aVWAP_channel': {
-                'daily': {'mode': 'support', 'direction': 'within'}
+                'daily': {'mode': 'support', 'direction': 'within', 'distance_pct': 1.0}
             },
         }
     },
