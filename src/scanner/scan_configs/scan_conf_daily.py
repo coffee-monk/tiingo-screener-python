@@ -46,6 +46,106 @@ scan_conf = {
         }
     },
 
+    'd_aVWAPChannelSupport_OBSupport': {
+        'criteria': {
+            'daily': ['aVWAP_channel', 'OB'],
+        },
+        'params': {
+            'aVWAP_channel': {
+                'daily': {'mode': 'support', 'distance_pct': 5.0}
+            },
+            'OB': {
+                'daily': {'mode': 'support'}
+            },
+        }
+    },
+
+    'd_aVWAPChannelResistance_OBResistance': {
+        'criteria': {
+            'daily': ['aVWAP_channel', 'OB'],
+        },
+        'params': {
+            'aVWAP_channel': {
+                'daily': {'mode': 'resistance', 'distance_pct': 5.0}
+            },
+            'OB': {
+                'daily': {'mode': 'resistance'}
+            },
+        }
+    },
+
+    'd_aVWAPChannelSupport_aVWAPPeaksavg': {
+        'criteria': {
+            'daily': ['aVWAP_channel', 'aVWAP_avg'],
+        },
+        'params': {
+            'aVWAP_channel': {
+                'daily': {'mode': 'support', 'direction': 'within', 'distance_pct': 1.0}
+            },
+            'aVWAP_avg': {
+                'daily': {
+                          'mode': 'peaks', 
+                          'direction': 'within', 
+                          'distance_pct': 0.5, 
+                         }
+            },
+        }
+    },
+
+    'd_aVWAPChannelSupport_aVWAPValleysavg': {
+        'criteria': {
+            'daily': ['aVWAP_channel', 'aVWAP_avg'],
+        },
+        'params': {
+            'aVWAP_channel': {
+                'daily': {'mode': 'support', 'direction': 'within', 'distance_pct': 1.0}
+            },
+            'aVWAP_avg': {
+                'daily': {
+                          'mode': 'valleys', 
+                          'direction': 'within', 
+                          'distance_pct': 0.5, 
+                         }
+            },
+        }
+    },
+
+    'd_aVWAPChannelResistance_aVWAPValleysavg': {
+        'criteria': {
+            'daily': ['aVWAP_channel', 'aVWAP_avg'],
+        },
+        'params': {
+            'aVWAP_channel': {
+                'daily': {'mode': 'resistance', 'direction': 'within', 'distance_pct': 1.0}
+            },
+            'aVWAP_avg': {
+                'daily': {
+                          'mode': 'valleys', 
+                          'direction': 'within', 
+                          'distance_pct': 1.0, 
+                         }
+            },
+        }
+    },
+
+    'd_aVWAPChannelResistance_aVWAPPeaksavg': {
+        'criteria': {
+            'daily': ['aVWAP_channel', 'aVWAP_avg'],
+        },
+        'params': {
+            'aVWAP_channel': {
+                'daily': {'mode': 'resistance', 'direction': 'within', 'distance_pct': 1.0}
+            },
+            'aVWAP_avg': {
+                'daily': {
+                          'mode': 'peaks', 
+                          'direction': 'within', 
+                          'distance_pct': 0.5, 
+                         }
+            },
+        }
+    },
+
     'd_aVWAPPeaksavg': {
         'criteria': {
             'daily': ['aVWAP_avg'],
@@ -180,6 +280,20 @@ scan_conf = {
             },
             'QQEMOD': {
                 'daily': {'mode': 'oversold'}
+            },
+        }
+    },
+
+    'd_QQEMODOverbought_OBResistance': {
+        'criteria': {
+            'daily': ['QQEMOD', 'OB'],
+        },
+        'params': {
+            'OB': {
+                'daily': {'mode': 'resistance'}
+            },
+            'QQEMOD': {
+                'daily': {'mode': 'overbought'}
             },
         }
     },
@@ -338,6 +452,24 @@ scan_conf = {
             },
             'OB': {
                 'daily': {'mode': 'bullish'},
+            },
+        }
+    },
+
+    'd_aVWAPavgAbove_OBBearish': {
+        'criteria': {
+            'daily': ['aVWAP_avg', 'OB'],
+        },
+        'params': {
+            'aVWAP_avg': {
+                'daily': {
+                          'direction': 'above',
+                          'distance_pct': 1.0, 
+                          'outside_range': True
+                },
+            },
+            'OB': {
+                'daily': {'mode': 'bearish'},
             },
         }
     },

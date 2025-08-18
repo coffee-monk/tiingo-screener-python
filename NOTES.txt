@@ -46,3 +46,4 @@
   - aVWAPChannelSupport + liquidity
   - aVWAPChannelSupport + OBSupport
   - aVWAPChannelSupport + aVWAPValleysavg
+  - prolonged high StDev + OBBearishaVWAP

@@ -46,6 +46,20 @@ scan_conf = {
         }
     },
 
+    'h_aVWAPChannelSupport_OBSupport': {
+        'criteria': {
+            '1hour': ['aVWAP_channel', 'OB'],
+        },
+        'params': {
+            'aVWAP_channel': {
+                '1hour': {'mode': 'support', 'distance_pct': 5.0}
+            },
+            'OB': {
+                '1hour': {'mode': 'support'}
+            },
+        }
+    },
+
     'h_aVWAPPeaksavg': {
         'criteria': {
             '1hour': ['aVWAP_avg'],
@@ -232,6 +246,78 @@ scan_conf = {
             'BoS_CHoCH': {
                 '1hour': {'mode': 'CHoCH_bullish'},
             }
+        }
+    },
+
+    'h_aVWAPChannelSupport_aVWAPPeaksavg': {
+        'criteria': {
+            '1hour': ['aVWAP_channel', 'aVWAP_avg'],
+        },
+        'params': {
+            'aVWAP_channel': {
+                '1hour': {'mode': 'support', 'direction': 'within', 'distance_pct': 1.0}
+            },
+            'aVWAP_avg': {
+                '1hour': {
+                          'mode': 'peaks', 
+                          'direction': 'within', 
+                          'distance_pct': 0.5, 
+                         }
+            },
+        }
+    },
+
+    'h_aVWAPChannelSupport_aVWAPValleysavg': {
+        'criteria': {
+            '1hour': ['aVWAP_channel', 'aVWAP_avg'],
+        },
+        'params': {
+            'aVWAP_channel': {
+                '1hour': {'mode': 'support', 'direction': 'within', 'distance_pct': 1.0}
+            },
+            'aVWAP_avg': {
+                '1hour': {
+                          'mode': 'valleys', 
+                          'direction': 'within', 
+                          'distance_pct': 0.5, 
+                         }
+            },
+        }
+    },
+
+    'h_aVWAPChannelResistance_aVWAPValleysavg': {
+        'criteria': {
+            '1hour': ['aVWAP_channel', 'aVWAP_avg'],
+        },
+        'params': {
+            'aVWAP_channel': {
+                '1hour': {'mode': 'resistance', 'direction': 'within', 'distance_pct': 1.0}
+            },
+            'aVWAP_avg': {
+                '1hour': {
+                          'mode': 'valleys', 
+                          'direction': 'within', 
+                          'distance_pct': 1.0, 
+                         }
+            },
+        }
+    },
+
+    'h_aVWAPChannelResistance_aVWAPPeaksavg': {
+        'criteria': {
+            '1hour': ['aVWAP_channel', 'aVWAP_avg'],
+        },
+        'params': {
+            'aVWAP_channel': {
+                '1hour': {'mode': 'resistance', 'direction': 'within', 'distance_pct': 1.0}
+            },
+            'aVWAP_avg': {
+                '1hour': {
+                          'mode': 'peaks', 
+                          'direction': 'within', 
+                          'distance_pct': 0.5, 
+                         }
+            },
         }
     },
 

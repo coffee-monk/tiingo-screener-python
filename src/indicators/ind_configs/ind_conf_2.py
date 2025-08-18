@@ -1,5 +1,5 @@
 # ind_conf_2
- 
+
 indicators = {  # aVWAP_channel = True
 
         'weekly': [
@@ -56,6 +56,7 @@ indicators = {  # aVWAP_channel = True
             'TTM_squeeze',
             'divergence_Vortex', 'divergence_Fisher', 'divergence_OBV', 'divergence_Volume'
         ]
+
 }
 
 params = {
