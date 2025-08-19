@@ -651,7 +651,7 @@ scan_conf = {
         },
         'params': {
             'OB_aVWAP': {
-                'daily': {'bullish': 'bullish', 'distance_pct': 1.0, 'direction': 'within'},
+                'daily': {'mode': 'bullish', 'distance_pct': 1.0, 'direction': 'within'},
             }
         }
     },
@@ -664,6 +664,62 @@ scan_conf = {
             'OB_aVWAP': {
                 'daily': {'mode': 'bearish', 'distance_pct': 1.0, 'direction': 'within'},
             }
+        }
+    },
+
+    'd_StDevOversold_OBBullishaVWAP': {
+        'criteria': {
+            'daily': ['StDev', 'OB_aVWAP'],
+        },
+        'params': {
+            'StDev': {
+                'daily': {'mode': 'oversold', 'threshold': 1.5},
+            },
+            'OB_aVWAP': {
+                'daily': {'mode': 'bullish', 'distance_pct': 1.0, 'direction': 'within'},
+            },
+        }
+    },
+
+    'd_StDevOverbought_OBBearishaVWAP': {
+        'criteria': {
+            'daily': ['StDev', 'OB_aVWAP'],
+        },
+        'params': {
+            'StDev': {
+                'daily': {'mode': 'overbought', 'threshold': 1.5},
+            },
+            'OB_aVWAP': {
+                'daily': {'mode': 'bearish', 'distance_pct': 1.0, 'direction': 'within'},
+            },
+        }
+    },
+
+    'd_StDevOversold_OBBearishaVWAP': {
+        'criteria': {
+            'daily': ['StDev', 'OB_aVWAP'],
+        },
+        'params': {
+            'StDev': {
+                'daily': {'mode': 'oversold', 'threshold': 1.5},
+            },
+            'OB_aVWAP': {
+                'daily': {'mode': 'bearish', 'distance_pct': 1.0, 'direction': 'within'},
+            },
+        }
+    },
+
+    'd_StDevOverbought_OBBullishaVWAP': {
+        'criteria': {
+            'daily': ['StDev', 'OB_aVWAP'],
+        },
+        'params': {
+            'StDev': {
+                'daily': {'mode': 'overbought', 'threshold': 1.5},
+            },
+            'OB_aVWAP': {
+                'daily': {'mode': 'bullish', 'distance_pct': 1.0, 'direction': 'within'},
+            },
         }
     },
 

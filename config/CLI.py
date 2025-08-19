@@ -10,6 +10,8 @@ def init_cli(vis, fetch, ind, scan, full_run):
     parser.add_argument('--vis', action='store_true', help='Launch visualization')
     parser.add_argument('--ticker', type=str, default=None, help='Specify ticker for visualization')
     parser.add_argument('--scan-file', type=str, default=None, help='Specify scan file')
+    parser.add_argument('--timeframe', type=str, default=None, help="Specify timeframe (eg '1hour')")
+    parser.add_argument('--ver', type=str, default=None, help='Specify ind version (eg 1, 2, 3, 4)')
 
     # Data processing
     parser.add_argument('--fetch', action='store_true', help='Fetch ticker data')
@@ -55,7 +57,7 @@ def init_cli(vis, fetch, ind, scan, full_run):
     args = parser.parse_args()
 
     # Execute commands
-    if args.vis: vis(ticker=args.ticker, scan_file=args.scan_file)
+    if args.vis: vis(ticker=args.ticker, scan_file=args.scan_file, timeframe=args.timeframe, version=args.ver)
     elif args.fetch: fetch()
     elif args.ind: ind(args.ind_conf)
     elif args.scan: scan(args.scan_list)  # Modified to pass scan_list parameter
@@ -104,6 +106,10 @@ def show_help() -> None:
   --scan                      Run scanner
   --scan-list VERSION         Specify scan list version (e.g., scan_list_1)
   --vis                       Launch visualization
+  --ticker TICKER             Specify ticker for visualization (e.g., MSFT)
+  --timeframe TIMEFRAME       Specify timeframe for visualization (e.g., d, w, 4h, h, 5min)
+  --ver VERSION               Specify indicator version for visualization (e.g., 1, 2, 3, 4)
+  --scan-file FILE            Specify scan file for visualization
   --full-run                  Standard pipeline (fetch + indicators + scan)
 
   DATA INSPECTION:

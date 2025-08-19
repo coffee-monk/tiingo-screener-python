@@ -13,26 +13,18 @@ scan_lists = {
         # --- Single-Timeframe Scans ---
 
         # 'd_StDevOversold_OBSupport',
-        # 'd_StDevOversold_OBSupport',
-        #
+        # 'd_StDevOverbought_OBResistance',
+
+        'd_StDevOversold_OBBullishaVWAP',
+        'd_StDevOversold_OBBearishaVWAP',
+        'd_StDevOverbought_OBBearishaVWAP',
+        'd_StDevOverbought_OBBullishaVWAP',
+
         # 'd_aVWAPChannelSupport_OBSupport',
         # 'd_aVWAPChannelResistance_OBResistance',
-
-        # 'd_aVWAPChannelSupport_aVWAPPeaksavg',
-        # 'd_aVWAPChannelSupport_aVWAPValleysavg',
-        # 'd_aVWAPChannelResistance_aVWAPPeaksavg',
-        # 'd_aVWAPChannelResistance_aVWAPValleysavg',
-
-        'h_aVWAPChannelSupport_aVWAPPeaksavg',
-        'h_aVWAPChannelSupport_aVWAPValleysavg',
-        'h_aVWAPChannelResistance_aVWAPPeaksavg',
-        'h_aVWAPChannelResistance_aVWAPValleysavg',
-
+        #
         # 'd_aVWAPavgBelow_OBBullish',
         # 'd_aVWAPavgAbove_OBBearish',
-        #
-        # 'd_QQEMODOversold_OBSupport',
-        # 'd_QQEMODOverbought_OBResistance',
         #
         # 'h_StDevOversold_OBSupport',
         # 'h_StDevOversold_OBSupport',

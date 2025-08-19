@@ -47,3 +47,5 @@
   - aVWAPChannelSupport + OBSupport
   - aVWAPChannelSupport + aVWAPValleysavg
   - prolonged high StDev + OBBearishaVWAP
+  - OBBullishaVWAP + aVWAPChannelSupport
+  - OBBearishaVWAP + aVWAPChannelResistance

@@ -21,33 +21,46 @@ API_KEY = '9807b06bf5b97a8b26f5ff14bff18ee992dfaa13'
 
 # VISUALIZATION ------------------------------------------
 
-def vis(scan_file=None, ticker=None):
+def vis(scan_file=None, ticker=None, timeframe=None, version=None):
 
     if not scan_file:
 
         if not ticker: ticker = 'BTCUSD'
 
+        if timeframe:
+
+            df = fetch_ticker(timeframe=timeframe, ticker=ticker, api_key=API_KEY)
+            ind_conf_ver = f"{timeframe}_{version}" if version else f"{timeframe}"
+            df = get_indicators(df, indicators[ind_conf_ver], params[ind_conf_ver])
+
+            subcharts(
+                      [df], 
+                      ticker=ticker, 
+                      show_volume=False, 
+                      show_banker_RSI=True
+                     )
+            return
+
         # df1 = fetch_ticker(timeframe='w',  ticker=ticker, api_key=API_KEY)
-        # df2 = fetch_ticker(timeframe='d',  ticker=ticker, api_key=API_KEY)
+        df2 = fetch_ticker(timeframe='d',  ticker=ticker, api_key=API_KEY)
         # df3 = fetch_ticker(timeframe='4h', ticker=ticker, api_key=API_KEY)
-        df4 = fetch_ticker(timeframe='h',  ticker=ticker, api_key=API_KEY)
+        # df4 = fetch_ticker(timeframe='h',  ticker=ticker, api_key=API_KEY)
         # df5 = fetch_ticker(timeframe='5min', ticker=ticker, api_key=API_KEY)
 
         # df1 = get_indicators(df1, indicators['weekly_2'], params['weekly_2'])
-        # df2 = get_indicators(df2, indicators['daily_2'],  params['daily_2'])
+        df2 = get_indicators(df2, indicators['daily_2'],  params['daily_2'])
         # df3 = get_indicators(df3, indicators['4hour_2'],  params['4hour_2'])
-        df4 = get_indicators(df4, indicators['1hour_2'],  params['1hour_2'])
+        # df4 = get_indicators(df4, indicators['1hour_2'],  params['1hour_2'])
         # df5 = get_indicators(df5, indicators['5min'], params['5min'])
 
         subcharts(
-              [df4],
+                  [df2],
                   ticker=ticker,
                   show_volume=False,
                   show_banker_RSI=True
                  )
         return
 
-    # If path doesn't exist, try prepending SCANNER_DIR
     scan_path = Path(scan_file)
     if not scan_path.exists():
         scan_path = SCANNER_DIR / scan_path.name
