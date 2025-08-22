@@ -49,3 +49,6 @@
   - prolonged high StDev + OBBearishaVWAP
   - OBBullishaVWAP + aVWAPChannelSupport
   - OBBearishaVWAP + aVWAPChannelResistance
+
+- aVWAP below aVWAP_Channel + compatible price action above OBBullishaVWAP OR OBBullishDivaVWAP
+- reverse logic for above aVWAP_Channel

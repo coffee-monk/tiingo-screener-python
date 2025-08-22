@@ -226,7 +226,7 @@ scan_conf = {
         },
         'params': {
             'StDev': {
-                'daily': {'threshold': 2, 'mode': 'overbought'}
+                'daily': {'threshold': 1.5, 'mode': 'oversold'}
             },
             'OB': {
                 'daily': {'mode': 'support'}
@@ -240,10 +240,38 @@ scan_conf = {
         },
         'params': {
             'StDev': {
-                'daily': {'threshold': 2, 'mode': 'overbought'}
+                'daily': {'threshold': 1.5, 'mode': 'overbought'}
             },
             'OB': {
                 'daily': {'mode': 'resistance'}
+            },
+        }
+    },
+
+    'd_StDevOversold_OBBullish': {
+        'criteria': {
+            'daily': ['StDev', 'OB'],
+        },
+        'params': {
+            'StDev': {
+                'daily': {'threshold': 1.5, 'mode': 'oversold'}
+            },
+            'OB': {
+                'daily': {'mode': 'bullish'}
+            },
+        }
+    },
+
+    'd_StDevOverbought_OBBearish': {
+        'criteria': {
+            'daily': ['StDev', 'OB'],
+        },
+        'params': {
+            'StDev': {
+                'daily': {'threshold': 1.5, 'mode': 'overbought'}
+            },
+            'OB': {
+                'daily': {'mode': 'bearish'}
             },
         }
     },
@@ -667,6 +695,42 @@ scan_conf = {
         }
     },
 
+    'd_aVWAPPeaksavg_OBBullishaVWAP': {
+        'criteria': {
+            'daily': ['aVWAP_avg', 'OB_aVWAP'],
+        },
+        'params': {
+            'aVWAP_avg': {
+                'daily': {
+                          'mode': 'peaks', 
+                          'direction': 'within', 
+                          'distance_pct': 0.5
+                },
+            },
+            'OB_aVWAP': {
+                'daily': {'mode': 'bullish', 'distance_pct': 1.0, 'direction': 'within'},
+            },
+        }
+    },
+
+    'd_aVWAPValleysavg_OBBearishaVWAP': {
+        'criteria': {
+            'daily': ['aVWAP_avg', 'OB_aVWAP'],
+        },
+        'params': {
+            'aVWAP_avg': {
+                'daily': {
+                          'mode': 'valleys', 
+                          'direction': 'within', 
+                          'distance_pct': 0.5
+                },
+            },
+            'OB_aVWAP': {
+                'daily': {'mode': 'bearish', 'distance_pct': 1.0, 'direction': 'within'},
+            },
+        }
+    },
+
     'd_StDevOversold_OBBullishaVWAP': {
         'criteria': {
             'daily': ['StDev', 'OB_aVWAP'],
@@ -803,6 +867,108 @@ scan_conf = {
             'BoS_CHoCH': {
                 'daily': {'mode': 'CHoCH_bearish'},
             }
+        }
+    },
+
+    'd_aVWAPChannelBelow_OBBullish': {
+        'criteria': {
+            'daily': ['aVWAP_channel', 'OB_aVWAP'],
+        },
+        'params': {
+            'aVWAP_channel': {
+                'daily': {
+                          'mode': 'support', 
+                          'direction': 'below', 
+                          'distance_pct': 0.1
+                },
+            },
+            'OB': {
+                'daily': {'mode': 'bullish'},
+            },
+        }
+    },
+
+    'd_aVWAPChannelAbove_OBBearish': {
+        'criteria': {
+            'daily': ['aVWAP_channel', 'OB'],
+        },
+        'params': {
+            'aVWAP_channel': {
+                'daily': {
+                          'mode': 'resistance', 
+                          'direction': 'above', 
+                          'distance_pct': 0.1
+                },
+            },
+            'OB': {
+                'daily': {'mode': 'bearish'},
+            },
+        }
+    },
+
+    'd_aVWAPChannelBelow_OBBullishaVWAP': {
+        'criteria': {
+            'daily': ['aVWAP_channel', 'OB'],
+        },
+        'params': {
+            'aVWAP_channel': {
+                'daily': {
+                          'mode': 'support', 
+                          'direction': 'below', 
+                          'distance_pct': 0.1
+                },
+            },
+            'OB_aVWAP': {
+                'daily': {'mode': 'bullish', 'distance_pct': 0.1, 'direction': 'above'},
+            },
+        }
+    },
+
+    'd_aVWAPChannelAbove_OBBearishaVWAP': {
+        'criteria': {
+            'daily': ['aVWAP_channel', 'OB_aVWAP'],
+        },
+        'params': {
+            'aVWAP_channel': {
+                'daily': {
+                          'mode': 'resistance', 
+                          'direction': 'above', 
+                          'distance_pct': 0.1
+                },
+            },
+            'OB_aVWAP': {
+                'daily': {'mode': 'bearish', 'distance_pct': 0.1, 'direction': 'below'},
+            },
+        }
+    },
+
+    'd_aVWAPChannelBelow': {
+        'criteria': {
+            'daily': ['aVWAP_channel'],
+        },
+        'params': {
+            'aVWAP_channel': {
+                'daily': {
+                          'mode': 'support', 
+                          'direction': 'below', 
+                          'distance_pct': 1.0
+                },
+            },
+        }
+    },
+
+    'd_aVWAPChannelAbove': {
+        'criteria': {
+            'daily': ['aVWAP_channel'],
+        },
+        'params': {
+            'aVWAP_channel': {
+                'daily': {
+                          'mode': 'resistance', 
+                          'direction': 'above', 
+                          'distance_pct': 1.0
+                },
+            },
         }
     },
 

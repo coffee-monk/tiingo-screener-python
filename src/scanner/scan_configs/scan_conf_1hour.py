@@ -96,6 +96,48 @@ scan_conf = {
         }
     },
 
+    'h_StDevOverbought_OBResistance': {
+        'criteria': {
+            '1hour': ['StDev', 'OB'],
+        },
+        'params': {
+            'StDev': {
+                '1hour': {'threshold': 2, 'mode': 'overbought'}
+            },
+            'OB': {
+                '1hour': {'mode': 'resistance'}
+            },
+        }
+    },
+
+    'h_StDevOversold_OBBullish': {
+        'criteria': {
+            '1hour': ['StDev', 'OB'],
+        },
+        'params': {
+            'StDev': {
+                '1hour': {'threshold': 2, 'mode': 'oversold'}
+            },
+            'OB': {
+                '1hour': {'mode': 'bullish'}
+            },
+        }
+    },
+
+    'h_StDevOverbought_OBBearish': {
+        'criteria': {
+            '1hour': ['StDev', 'OB'],
+        },
+        'params': {
+            'StDev': {
+                '1hour': {'threshold': 2, 'mode': 'overbought'}
+            },
+            'OB': {
+                '1hour': {'mode': 'bearish'}
+            },
+        }
+    },
+
     'h_OBSupport': {
         'criteria': {
             '1hour': ['OB'],
@@ -317,6 +359,42 @@ scan_conf = {
                           'direction': 'within', 
                           'distance_pct': 0.5, 
                          }
+            },
+        }
+    },
+
+    'h_aVWAPChannelBelow_OBBullishaVWAP': {
+        'criteria': {
+            '1hour': ['aVWAP_channel', 'OB_aVWAP'],
+        },
+        'params': {
+            'aVWAP_channel': {
+                '1hour': {
+                          'mode': 'support', 
+                          'direction': 'below', 
+                          'distance_pct': 0.5
+                },
+            },
+            'OB_aVWAP': {
+                '1hour': {'mode': 'bullish', 'distance_pct': None, 'direction': 'above'},
+            },
+        }
+    },
+
+    'h_aVWAPChannelAbove_OBBearishaVWAP': {
+        'criteria': {
+            '1hour': ['aVWAP_channel', 'OB_aVWAP'],
+        },
+        'params': {
+            'aVWAP_channel': {
+                '1hour': {
+                          'mode': 'resistance', 
+                          'direction': 'above', 
+                          'distance_pct': 0.5
+                },
+            },
+            'OB_aVWAP': {
+                '1hour': {'mode': 'bearish', 'distance_pct': None, 'direction': 'below'},
             },
         }
     },
