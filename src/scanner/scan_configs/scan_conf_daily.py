@@ -908,7 +908,7 @@ scan_conf = {
 
     'd_aVWAPChannelBelow_OBBullishaVWAP': {
         'criteria': {
-            'daily': ['aVWAP_channel', 'OB'],
+            'daily': ['aVWAP_channel', 'OB_aVWAP'],
         },
         'params': {
             'aVWAP_channel': {

@@ -9,7 +9,7 @@ def OB(
 ) -> pd.DataFrame:
     """
     Unified Order Block scanner with multiple detection modes.
-    
+
     Parameters:
         df: DataFrame containing:
             - 'OB' (-1=bearish, 0=neutral, 1=bullish)
@@ -33,6 +33,7 @@ def OB(
     Returns:
         Single-row DataFrame of matching OB, or empty if none found
     """
+
     if len(df) == 0:
         return pd.DataFrame()
 

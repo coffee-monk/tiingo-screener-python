@@ -33,6 +33,9 @@ def vis(scan_file=None, ticker=None, timeframe=None, version=None):
             ind_conf_ver = f"{timeframe}_{version}" if version else f"{timeframe}"
             df = get_indicators(df, indicators[ind_conf_ver], params[ind_conf_ver])
 
+            print(df.columns)
+            print(df.head())
+
             subcharts(
                       [df], 
                       ticker=ticker, 
