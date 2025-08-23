@@ -220,6 +220,38 @@ scan_conf = {
         }
     },
 
+    'd_OBOversold': {
+        'criteria': {
+            'daily': ['OB'],
+        },
+        'params': {
+            'OB': {
+                'daily': {
+                          'mode': 'bullish', 
+                          'stdev_mode': 'oversold', 
+                          'stdev_threshold': 1.5,
+                          'max_lookback': 15,
+                         }
+            },
+        }
+    },
+
+    'd_OBOverbought': {
+        'criteria': {
+            'daily': ['OB'],
+        },
+        'params': {
+            'OB': {
+                'daily': {
+                          'mode': 'bearish', 
+                          'stdev_mode': 'overbought', 
+                          'stdev_threshold': 1.5,
+                          'max_lookback': 25,
+                         }
+            },
+        }
+    },
+
     'd_StDevOversold_OBSupport': {
         'criteria': {
             'daily': ['StDev', 'OB'],
