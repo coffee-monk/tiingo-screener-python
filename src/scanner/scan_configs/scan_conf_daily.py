@@ -227,8 +227,8 @@ scan_conf = {
         'params': {
             'OB': {
                 'daily': {
-                          'mode': 'bullish', 
-                          'stdev_mode': 'oversold', 
+                          'mode': 'bullish',
+                          'stdev_mode': 'oversold',
                           'stdev_threshold': 1.5,
                           'max_lookback': 15,
                          }

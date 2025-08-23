@@ -29,8 +29,11 @@ scan_lists = {
         # 'd_aVWAPChannelBelow_OBBullishaVWAP',
         # 'd_aVWAPChannelAbove_OBBearishaVWAP',
 
-        'd_OBOversold',
-        'd_OBOverbought',
+        'd_CHoCHBearish',
+        'd_CHoCHBullish',
+
+        # 'd_OBOversold',
+        # 'd_OBOverbought',
 
         # --- 1hour ---
 
