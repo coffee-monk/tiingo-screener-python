@@ -4,9 +4,9 @@ cd /home/mjc/Desktop/Dev/tiingo-screener-python
 
 source venv/bin/activate
 
-# echo "DELETE" | python app.py --full-run
-
 touch "script_run_$(date +'%Y-%m-%d_%H-%M-%S').log"
+
+echo "DELETE" | python app.py --full-run
 
 git add .
 git commit -m "Auto-commit: Daily tickers/indicators for $(date +'%Y-%m-%d')"
