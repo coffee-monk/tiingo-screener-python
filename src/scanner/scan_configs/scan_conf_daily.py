@@ -330,6 +330,20 @@ scan_conf = {
         }
     },
 
+    'd_QQEMODOverbought_OBResistance': {
+        'criteria': {
+            'daily': ['QQEMOD', 'OB'],
+        },
+        'params': {
+            'OB': {
+                'daily': {'mode': 'resistance'}
+            },
+            'QQEMOD': {
+                'daily': {'mode': 'overbought'}
+            },
+        }
+    },
+
     'd_QQEMODOversold_OBSupport': {
         'criteria': {
             'daily': ['QQEMOD', 'OB'],
@@ -344,7 +358,7 @@ scan_conf = {
         }
     },
 
-    'd_QQEMODOverbought_OBResistance': {
+    'd_QQEMODOversold_OBResistance': {
         'criteria': {
             'daily': ['QQEMOD', 'OB'],
         },
@@ -353,7 +367,49 @@ scan_conf = {
                 'daily': {'mode': 'resistance'}
             },
             'QQEMOD': {
+                'daily': {'mode': 'oversold'}
+            },
+        }
+    },
+
+    'd_QQEMODOverbought_OBSupport': {
+        'criteria': {
+            'daily': ['QQEMOD', 'OB'],
+        },
+        'params': {
+            'OB': {
+                'daily': {'mode': 'support'}
+            },
+            'QQEMOD': {
                 'daily': {'mode': 'overbought'}
+            },
+        }
+    },
+
+    'd_QQEMODBullishReversal_OBResistance': {
+        'criteria': {
+            'daily': ['QQEMOD', 'OB'],
+        },
+        'params': {
+            'OB': {
+                'daily': {'mode': 'resistance'}
+            },
+            'QQEMOD': {
+                'daily': {'mode': 'bullish_reversal'}
+            },
+        }
+    },
+
+    'd_QQEMODBearishReversal_OBSupport': {
+        'criteria': {
+            'daily': ['QQEMOD', 'OB'],
+        },
+        'params': {
+            'OB': {
+                'daily': {'mode': 'support'}
+            },
+            'QQEMOD': {
+                'daily': {'mode': 'bearish_reversal'}
             },
         }
     },
@@ -614,6 +670,36 @@ scan_conf = {
         }
     },
 
+    'd_StDevOversold_4h_OBSupport': {
+        'criteria': {
+            'daily': ['StDev'],
+            '4hour': ['OB']
+        },
+        'params': {
+            'StDev': {
+                'daily': {'mode': 'oversold', 'threshold': 1.5}
+            },
+            'OB': {
+                '4hour': {'mode': 'support'}
+            },
+        }
+    },
+
+    'd_StDevOverbought_4h_OBResistance': {
+        'criteria': {
+            'daily': ['StDev'],
+            '4hour': ['OB']
+        },
+        'params': {
+            'StDev': {
+                'daily': {'mode': 'overbought', 'threshold': 1.5}
+            },
+            'OB': {
+                '4hour': {'mode': 'resistance'}
+            },
+        }
+    },
+
     'd_OBSupport_h_OBSupport': {
         'criteria': {
             'daily': ['OB'],
@@ -636,6 +722,32 @@ scan_conf = {
             'OB': {
                 'daily': {'mode': 'resistance'},
                 '1hour': {'mode': 'resistance'}
+            },
+        }
+    },
+
+    'd_OBSupport_4h_OBSupport': {
+        'criteria': {
+            'daily': ['OB'],
+            '4hour': ['OB']
+        },
+        'params': {
+            'OB': {
+                'daily': {'mode': 'support'},
+                '4hour': {'mode': 'support'}
+            },
+        }
+    },
+
+    'd_OBResistance_4h_OBResistance': {
+        'criteria': {
+            'daily': ['OB'],
+            '4hour': ['OB']
+        },
+        'params': {
+            'OB': {
+                'daily': {'mode': 'resistance'},
+                '4hour': {'mode': 'resistance'}
             },
         }
     },
@@ -898,6 +1010,36 @@ scan_conf = {
         'params': {
             'BoS_CHoCH': {
                 'daily': {'mode': 'CHoCH_bearish'},
+            }
+        }
+    },
+
+    'd_StDevOversold_h_CHoCHBullish': {
+        'criteria': {
+            'daily': ['StDev'],
+            '1hour': ['BoS_CHoCH'],
+        },
+        'params': {
+            'StDev': {
+                'daily': {'mode': 'oversold'},
+            },
+            'BoS_CHoCH': {
+                '1hour': {'mode': 'CHoCH_bullish'},
+            }
+        }
+    },
+
+    'd_StDevOverbought_h_CHoCHBearish': {
+        'criteria': {
+            'daily': ['StDev'],
+            '1hour': ['BoS_CHoCH'],
+        },
+        'params': {
+            'StDev': {
+                'daily': {'mode': 'overbought'},
+            },
+            'BoS_CHoCH': {
+                '1hour': {'mode': 'CHoCH_bearish'},
             }
         }
     },

@@ -10,6 +10,12 @@ scan_lists = {
         # 'd_OBSupport_h_OBSupport',
         # 'd_OBResistance_h_OBResistance',
 
+        # 'd_StDevOversold_4h_OBSupport',
+        # 'd_StDevOverbought_4h_OBResistance',
+        #
+        # 'd_OBSupport_4h_OBSupport',
+        # 'd_OBResistance_4h_OBResistance',
+
         # --- Single-Timeframe Scans ---
 
         # --- daily ---
@@ -29,11 +35,22 @@ scan_lists = {
         # 'd_aVWAPChannelBelow_OBBullishaVWAP',
         # 'd_aVWAPChannelAbove_OBBearishaVWAP',
 
-        'd_CHoCHBearish',
-        'd_CHoCHBullish',
-
         # 'd_OBOversold',
         # 'd_OBOverbought',
+
+        # 'd_CHoCHBearish',
+        # 'd_CHoCHBullish',
+        # '4h_CHoCHBearish',
+        # '4h_CHoCHBullish',
+
+        'd_QQEMODOversold_OBSupport',
+        'd_QQEMODOverbought_OBResistance',
+
+        'd_QQEMODBearishReversal_OBSupport',
+        'd_QQEMODBullishReversal_OBResistance',
+
+        'd_QQEMODOverbought_OBSupport',
+        'd_QQEMODOversold_OBResistance',
 
         # --- 1hour ---
 

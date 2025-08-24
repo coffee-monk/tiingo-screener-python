@@ -250,6 +250,16 @@ scan_conf = {
         }
     },
 
+    '4h_CHoCHBearish': {
+        'criteria': {
+            '4hour': ['BoS_CHoCH'],
+        },
+        'params': {
+            'BoS_CHoCH': {
+                '4hour': {'mode': 'CHoCH_bearish'},
+            }
+        }
+    },
 
 }
 
