@@ -12,4 +12,4 @@ git add .
 git commit -m "Auto-commit: Daily tickers/indicators for $(date +'%Y-%m-%d')"
 git push
 
-toucn "script_run_FINAL_$(date +'%Y-%m-%d_%H-%M-%S').log"
+touch "script_run_FINAL_$(date +'%Y-%m-%d_%H-%M-%S').log"
